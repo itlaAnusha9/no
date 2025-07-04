@@ -1,60 +1,7 @@
 
-// // Attendance.jsx
-// import React from 'react';
-// import { Card, ProgressBar, Badge } from 'react-bootstrap';
-// import '../App.css';
-
-// const Attendance = () => {
-//   const totalDays = 200;
-//   const presentDays = 170;
-//   const absentDays = totalDays - presentDays;
-//   const presentPercentage = Math.round((presentDays / totalDays) * 100);
-
-//   let status = '';
-//   let variant = '';
-//   if (presentPercentage >= 90) {
-//     status = 'Excellent';
-//     variant = 'success';
-//   } else if (presentPercentage >= 75) {
-//     status = 'Good';
-//     variant = 'warning';
-//   } else {
-//     status = 'Needs Attention';
-//     variant = 'danger';
-//   }
-
-//   return (
-//     <Card className="mb-3 attendance-card shadow transition-hover fade-in">
-//       <Card.Body>
-//         <Card.Title className="dashboard-title">Attendance</Card.Title>
-//         <p><strong>Total Working Days:</strong> {totalDays}</p>
-//         <p><strong>Present Days:</strong> {presentDays}</p>
-//         <p><strong>Absent Days:</strong> {absentDays}</p>
-//         <ProgressBar
-//           now={presentPercentage}
-//           label={`${presentPercentage}%`}
-//           variant={variant}
-//           striped
-//           animated
-//         />
-//         <p className="mt-3">
-//           <strong>Status:</strong>{' '}
-//           <Badge bg={variant} className="px-3 py-2">{status}</Badge>
-//         </p>
-//       </Card.Body>
-//     </Card>
-//   );
-// };
-
-// export default Attendance;
-
-
 
 import React from 'react';
 import { Card, ProgressBar, Badge } from 'react-bootstrap';
-// import './modules/parent/styles.css';
-import './styles.css';
-
 
 const Attendance = () => {
   const totalDays = 200;
@@ -79,62 +26,99 @@ const Attendance = () => {
     statusEmoji = '⚠️';
   }
 
+  const themeColors = {
+    primary: '#2D5D7B',
+    highlight: '#A62D69',
+    success: '#28a745',
+    warning: '#FFA500',
+    danger: '#dc3545',
+    text: '#222831',
+    bg: '#F4F8FB',
+    goodBg: 'linear-gradient(135deg, rgba(0, 150, 255, 0.15) 0%, rgba(100, 200, 255, 0.25) 100%)',
+    goodBorder: '#0096FF'
+  };
+
   return (
-    <Card className="mb-3 fade-in shadow-lg" style={{
+    <Card className="mb-4" style={{
+      backgroundColor: themeColors.bg,
+      border: 'none',
+      borderRadius: '12px',
+      boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
       transition: 'all 0.3s ease',
-      borderLeft: `5px solid var(--${variant})`
+      animation: 'fadeIn 0.5s ease-in'
     }}>
-      <Card.Body className="p-4">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <Card.Title className="dashboard-title m-0" style={{
+      <Card.Body style={{ padding: '1.5rem' }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1.5rem'
+        }}>
+          <Card.Title style={{
             fontSize: '1.5rem',
-            fontWeight: 'bold',
-            color: 'var(--accent)'
+            fontWeight: '600',
+            color: themeColors.primary,
+            margin: 0,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
           }}>
-            📊 Attendance Summary
+            <span style={{
+              fontSize: '1.8rem',
+              animation: 'float 3s ease-in-out infinite'
+            }}>📊</span>
+            Attendance Summary
           </Card.Title>
-          <div className="attendance-percentage" style={{
+          <div style={{
             fontSize: '2rem',
-            fontWeight: 'bold',
-            color: `var(--${variant})`,
+            fontWeight: '700',
+            color: variant === 'success' ? themeColors.primary :
+              variant === 'warning' ? themeColors.warning :
+                themeColors.highlight,
             animation: 'pulse 2s infinite'
           }}>
             {presentPercentage}%
           </div>
         </div>
 
-        <div className="row mb-4">
-          <div className="col-md-4">
-            <div className="stat-card p-3 rounded" style={{
-              backgroundColor: 'rgba(45, 93, 123, 0.1)',
-              transition: 'all 0.3s ease'
-            }}>
-              <div className="text-muted">Total Days</div>
-              <div className="h4 font-weight-bold" style={{ color: 'var(--accent)' }}>{totalDays}</div>
-            </div>
+        <div className="row" style={{ marginBottom: '1.5rem', gap: '1rem' }}>
+          <div className="col-md" style={{
+            padding: '1rem',
+            borderRadius: '10px',
+            backgroundColor: 'rgba(45, 93, 123, 0.08)'
+          }}>
+            <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Total Days</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.primary }}>{totalDays}</div>
           </div>
-          <div className="col-md-4">
-            <div className="stat-card p-3 rounded" style={{
-              backgroundColor: 'rgba(40, 167, 69, 0.1)',
-              transition: 'all 0.3s ease'
-            }}>
-              <div className="text-muted">Present</div>
-              <div className="h4 font-weight-bold text-success">{presentDays}</div>
-            </div>
+
+          <div className="col-md" style={{
+            padding: '1rem',
+            borderRadius: '10px',
+            backgroundColor: 'rgba(40, 167, 69, 0.08)'
+          }}>
+            <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Present</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.success }}>{presentDays}</div>
           </div>
-          <div className="col-md-4">
-            <div className="stat-card p-3 rounded" style={{
-              backgroundColor: 'rgba(220, 53, 69, 0.1)',
-              transition: 'all 0.3s ease'
-            }}>
-              <div className="text-muted">Absent</div>
-              <div className="h4 font-weight-bold text-danger">{absentDays}</div>
-            </div>
+
+          <div className="col-md" style={{
+            padding: '1rem',
+            borderRadius: '10px',
+            backgroundColor: 'rgba(220, 53, 69, 0.08)'
+          }}>
+            <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Absent</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.highlight }}>{absentDays}</div>
           </div>
         </div>
 
-        <div className="mb-4">
-          <div className="d-flex justify-content-between mb-2">
+        <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '0.5rem',
+            color: themeColors.text,
+            opacity: 0.8,
+            fontSize: '0.95rem'
+          }}>
             <span>Attendance Progress</span>
             <span>{presentDays}/{totalDays} days</span>
           </div>
@@ -145,25 +129,57 @@ const Attendance = () => {
             striped
             animated
             style={{
-              height: '1.5rem',
+              height: '1rem',
               borderRadius: '10px',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              overflow: 'hidden'
             }}
           />
         </div>
 
-        <div className="d-flex justify-content-between align-items-center p-3 rounded" style={{
-          backgroundColor: `var(--${variant}-light)`,
-          borderLeft: `4px solid var(--${variant})`,
-          animation: 'fadeIn 0.5s ease-out'
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '1rem 1.5rem',
+          borderRadius: '10px',
+          width: '100%',
+          background: variant === 'success' ? 'rgba(45, 93, 123, 0.2)' :
+            variant === 'warning' ? themeColors.goodBg :
+              'rgba(166, 45, 105, 0.2)',
+          borderLeft: `4px solid ${variant === 'success' ? themeColors.primary :
+            variant === 'warning' ? themeColors.goodBorder :
+              themeColors.highlight}`,
+          transition: 'all 0.3s ease',
+          boxShadow: variant === 'warning' ? '0 2px 8px rgba(0, 150, 255, 0.2)' : 'none'
         }}>
-          <div>
-            <strong>Status:</strong>
-            <span className="ml-2">{statusEmoji} {status}</span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontSize: '1rem',
+            fontWeight: '500',
+            color: themeColors.text
+          }}>
+            <span style={{ fontSize: '1.2rem' }}>{statusEmoji}</span>
+            <span>Status: <strong style={{
+              color: variant === 'warning' ? themeColors.goodBorder : 'inherit'
+            }}>{status}</strong></span>
           </div>
-          <Badge pill bg={variant} className="px-3 py-2" style={{
-            fontSize: '0.9rem',
-            animation: 'bounce 1s infinite alternate'
+          <Badge pill style={{
+            padding: '0.6rem 1.5rem',
+            minWidth: '100px',
+            fontSize: '1rem',
+            fontWeight: '700',
+            backgroundColor: variant === 'success' ? themeColors.primary :
+              variant === 'warning' ? themeColors.goodBorder :
+                themeColors.highlight,
+            color: 'white',
+            animation: 'bounce 1s infinite alternate',
+            textShadow: '0 1px 2px rgba(0,0,0,0.2)',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            border: variant === 'warning' ? '1px solid rgba(255,255,255,0.3)' : 'none',
+            textAlign: 'center'
           }}>
             {status.toUpperCase()}
           </Badge>

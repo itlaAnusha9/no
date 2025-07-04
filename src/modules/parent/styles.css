@@ -315,13 +315,7 @@ a:hover {
   100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
 }
  
-/* Hover effects */
-/* .progress-ring:hover .progress-ring-circle {
-  borderTopColor: #A62D69;
-  borderRightColor: #A62D69;
- 
-  transition: border-color 0.3s ease;
-} */
+
  
 /* Subject card hover effect */
 .subject-card:hover {
