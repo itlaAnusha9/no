@@ -299,6 +299,14 @@ const Learn = () => {
 
   return (
     <div className="learn-container">
+      {/* Mobile Navigation Overlay */}
+      {mobileNavOpen && (
+        <div
+          className="mobile-nav-overlay"
+          onClick={() => setMobileNavOpen(false)}
+        />
+      )}
+
       {/* Mobile Navigation Toggle */}
       <button 
         className="mobile-nav-toggle" 

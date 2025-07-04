@@ -16,6 +16,8 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   position: relative;
   overflow: hidden;
+    padding-top: 90px; /* Adjust this value to match your navbar height */
+
 }
 
 /* Animated Background Elements */
