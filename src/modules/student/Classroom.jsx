@@ -47,7 +47,7 @@ const Classroom = () => {
       time: "10:00 AM",
       duration: "60 mins",
       teacher: "Mr. Sharma",
-      thumbnail: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      thumbnail: "https://images.piclumen.com/normal/20250703/14/3d18435936754863905d5b8f7a555802.webp",
       joinLink: "https://meet.google.com",
       description: "Learn the basics of algebraic expressions, equations, and inequalities. We'll cover variables, coefficients, and how to solve linear equations."
     },
@@ -58,7 +58,7 @@ const Classroom = () => {
       time: "02:00 PM",
       duration: "45 mins",
       teacher: "Dr. Patel",
-      thumbnail: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      thumbnail: "https://images.piclumen.com/normal/20250703/14/2607f3b3022b4749a9d03ff7a1e37a01.webp",
       joinLink: "https://meet.google.com",
       description: "Explore different types of chemical reactions including synthesis, decomposition, and combustion reactions with live demonstrations."
     },
@@ -69,7 +69,7 @@ const Classroom = () => {
       time: "11:30 AM",
       duration: "50 mins",
       teacher: "Ms. Gupta",
-      thumbnail: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      thumbnail: "https://images.piclumen.com/normal/20250703/14/b77e7b452de649ceae536d4f8cebf88a.webp",
       joinLink: "https://meet.google.com",
       description: "Discussion on Shakespeare's sonnets with focus on themes of love and time. Bring your annotated copies for group analysis."
     },
@@ -80,7 +80,7 @@ const Classroom = () => {
       time: "09:00 AM",
       duration: "55 mins",
       teacher: "Mr. Kapoor",
-      thumbnail: "https://images.unsplash.com/photo-1580015915217-697d9b4075a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      thumbnail: "https://images.piclumen.com/normal/20250703/14/93139ac6d7444c51ac2e0a4e2e07a649.webp",
       joinLink: "https://meet.google.com",
       description: "Introduction to geometric shapes, angles, and properties. Hands-on activities with protractors and compasses."
     }
@@ -94,7 +94,7 @@ const Classroom = () => {
       duration: "55 mins",
       views: 124,
       teacher: "Mr. Sharma",
-      thumbnail: "https://images.unsplash.com/photo-1568659358810-bdbdb4decb5c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      thumbnail: "https://images.piclumen.com/normal/20250703/14/8e43e79accb6473eb1c0ca39c53fb3ac.webp",
       videoLink: "https://www.youtube.com/embed/dQw4w9WgXcQ",
       description: "Comprehensive lesson on trigonometric ratios (sine, cosine, tangent) and their applications in right-angled triangles."
     },
@@ -105,7 +105,7 @@ const Classroom = () => {
       duration: "48 mins",
       views: 89,
       teacher: "Dr. Singh",
-      thumbnail: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      thumbnail: "https://images.piclumen.com/normal/20250703/14/2b039c67468245a6b873cd3071541f7d.webp",
       videoLink: "https://www.youtube.com/embed/dQw4w9WgXcQ",
       description: "Understanding Newton's laws of motion with real-world examples and problem-solving techniques."
     },
@@ -116,7 +116,7 @@ const Classroom = () => {
       duration: "40 mins",
       views: 156,
       teacher: "Ms. Kapoor",
-      thumbnail: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      thumbnail: "https://images.piclumen.com/normal/20250703/14/94bdd38e2b7b47ca9d6ed21784b8483c.webp",
       videoLink: "https://www.youtube.com/embed/dQw4w9WgXcQ",
       description: "Detailed analysis of the Indian independence movement focusing on key events from 1857 to 1947."
     },
@@ -127,7 +127,7 @@ const Classroom = () => {
       duration: "52 mins",
       views: 78,
       teacher: "Dr. Reddy",
-      thumbnail: "https://images.unsplash.com/photo-1591955506264-3f5a6834570a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+      thumbnail: "https://images.piclumen.com/normal/20250703/14/cd8054afdcbb4773bafc46800c08f9ac.webp",
       videoLink: "https://www.youtube.com/embed/dQw4w9WgXcQ",
       description: "In-depth look at cell organelles, their functions, and differences between plant and animal cells."
     }

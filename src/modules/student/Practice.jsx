@@ -655,7 +655,7 @@ const Practice = () => {
             <div className="results-grid">
               {recentResults.map((result, index) => (
                 <div key={index} className="result-card">
-                  <div className="result-rank">#{index + 1}</div>
+                  {/* <div className="result-rank">#{index + 1}</div> */}
                   <div className="result-avatar">{result.avatar}</div>
                   <div className="result-info">
                     <div className="result-name">{result.name}</div>
@@ -674,7 +674,7 @@ const Practice = () => {
           </section>
 
           {/* CTA Section */}
-          <section className="cta-section">
+          {/* <section className="cta-section">
             <div className="cta-content">
               <h2>Ready to Test Your Knowledge?</h2>
               <p>Join thousands of students who have improved their scores with our mock tests</p>
@@ -700,7 +700,7 @@ const Practice = () => {
               <div className="decoration-circle"></div>
               <div className="decoration-circle"></div>
             </div>
-          </section>
+          </section> */}
         </>
       ) : (
         <div className="test-taking-container">

@@ -4,24 +4,27 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
+// ...existing code...
 import './Home1.css';
 
 const Home1 = () => {
+    const navigate = useNavigate();
   const [currentCourse, setCurrentCourse] = useState('Mathematics Class 10');
   const [upcomingEvents, setUpcomingEvents] = useState([
-    { id: 1, title: 'Science Workshop', date: 'Oct 15, 2023', time: '3:00 PM', type: 'workshop', image: 'https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80' },
-    { id: 2, title: 'Career Guidance Session', date: 'Oct 18, 2023', time: '4:30 PM', type: 'seminar', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80' },
-    { id: 3, title: 'Math Olympiad', date: 'Oct 22, 2023', time: '10:00 AM', type: 'competition', image: 'https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80' },
-    { id: 4, title: 'Literature Seminar', date: 'Oct 25, 2023', time: '2:00 PM', type: 'workshop', image: 'https://images.unsplash.com/photo-1677442135136-760c813a743c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80' }
+    { id: 1, title: 'Science Workshop', date: 'Oct 15, 2023', time: '3:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/ffc10f2a812e42cd8b702a792725b8d9.webp' },
+    { id: 2, title: 'Career Guidance', date: 'Oct 18, 2023', time: '4:30 PM', type: 'seminar', image: 'https://images.piclumen.com/normal/20250703/14/b3c0f0ee7c854054ae648a59a82a9c9a.webp' },
+    { id: 3, title: 'Math Olympiad', date: 'Oct 22, 2023', time: '10:00 AM', type: 'competition', image: 'https://images.piclumen.com/normal/20250703/14/7c8ecbde0fd3415f848ba00176cd3b25.webp' },
+    { id: 4, title: 'Literature Seminar', date: 'Oct 25, 2023', time: '2:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/08ea6901b2ad491595bc36c122451693.webp' }
   ]);
 
   const [allCourses, setAllCourses] = useState([
-    { id: 1, title: 'Mathematics Grade 9', progress: 65, category: 'Mathematics', image: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80' },
-    { id: 2, title: 'Physics Grade 11', progress: 45, category: 'Science', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80' },
-    { id: 3, title: 'English Literature Grade 10', progress: 70, category: 'Languages', image: 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80' },
-    { id: 4, title: 'History Grade 8', progress: 30, category: 'Social Studies', image: 'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80' },
-    { id: 5, title: 'Chemistry Grade 12', progress: 25, category: 'Science', image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80' },
-    { id: 6, title: 'Computer Science Grade 11', progress: 80, category: 'Technology', image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80' }
+    { id: 1, title: 'Mathematics Grade 9', progress: 65, category: 'Mathematics', image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
+    { id: 2, title: 'Physics Grade 11', progress: 45, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
+    { id: 3, title: 'English Literature Grade 10', progress: 70, category: 'Languages', image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
+    { id: 4, title: 'History Grade 8', progress: 30, category: 'Social Studies', image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
+    { id: 5, title: 'Chemistry Grade 12', progress: 25, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
+    { id: 6, title: 'Computer Science Grade 11', progress: 80, category: 'Technology', image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
   ]);
 
   const [activeTab, setActiveTab] = useState('all');
@@ -213,16 +216,21 @@ const Home1 = () => {
                 whileTap={{ scale: 0.95 }}
                 animate={controls}
               >
-                <Link to="/courses" className="btn btn-primary">
-                  <motion.span 
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.8 }}
-                  >
-                    Continue Learning
-                  </motion.span>
-                </Link>
-              </motion.div>
+              <button
+              className="btn btn-primary"
+              onClick={() => navigate('/classroom')}
+            >
+                <motion.span 
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.8 }}
+                  onClick={() => navigate('/classroom')}
+                  style={{ display: "inline-block" }}
+                >
+                  Continue Learning
+                </motion.span>
+              </button>
+            </motion.div>
             </motion.div>
             
             <motion.div 
@@ -302,15 +310,30 @@ const Home1 = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, type: 'spring' }}
               >
-                <div className="course-header">
-                  <h3>{currentCourse}</h3>
-                  <motion.span 
-                    className="badge"
-                    animate={pulseAnimation}
-                  >
-                    Active
-                  </motion.span>
-                </div>
+                <div
+  className="course-header"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    overflow: "visible"
+  }}
+>
+  <h3 style={{ margin: 0 }}>{currentCourse}</h3>
+  <motion.span
+    className="badge"
+    animate={pulseAnimation}
+    style={{
+      fontSize: "1rem",
+      padding: "0.3em 1.1em",
+      lineHeight: "1.5",
+      alignSelf: "flex-start",
+      whiteSpace: "nowrap"
+    }}
+  >
+    Active
+  </motion.span>
+</div>
                 <div className="course-meta">
                   <span><i className="fas fa-chalkboard-teacher"></i> Instructor: Mrs. Smith</span>
                   <span><i className="fas fa-calendar-alt"></i> Started: Sep 5, 2023</span>
@@ -336,19 +359,21 @@ const Home1 = () => {
                 </div>
                 <div className="course-actions mt-4">
                   <motion.button 
-                    className="btn btn-primary"
-                    whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(166, 45, 105, 0.4)" }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Continue Learning
-                  </motion.button>
+  className="btn btn-primary"
+  whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(166, 45, 105, 0.4)" }}
+  whileTap={{ scale: 0.98 }}
+  onClick={() => navigate('/classroom')}
+>
+  Continue Learning
+</motion.button>
                   <motion.button 
-                    className="btn btn-outline"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    View Syllabus
-                  </motion.button>
+                  className="btn btn-outline"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => navigate('/learn')}
+                >
+                  View Syllabus
+                </motion.button>
                 </div>
                 <div className="course-highlights mt-4">
                   <h5>Current Topics</h5>
@@ -382,32 +407,30 @@ const Home1 = () => {
                 transition={{ delay: 0.4, type: 'spring' }}
               >
                 <h4>Your Learning Stats</h4>
-                <div className="stats-grid">
-                  {[
-                    { value: 8, label: 'Active Courses', icon: 'book' },
-                    { value: 24, label: 'Hours This Week', icon: 'clock' },
-                    { value: 92, label: 'Average Grade', icon: 'chart-line' },
-                    { value: 15, label: 'Assignments Due', icon: 'tasks' }
-                  ].map((stat, index) => (
-                    <motion.div 
-                      className="stat-item"
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5 + index * 0.15 }}
-                      whileHover={{ y: -5 }}
-                    >
-                      <div className="stat-icon">
-                        <motion.i 
-                          className={`fas fa-${stat.icon}`}
-                          whileHover={{ scale: 1.2 }}
-                        ></motion.i>
-                      </div>
-                      <div className="stat-value">{stat.value}</div>
-                      <div className="stat-label">{stat.label}</div>
-                    </motion.div>
-                  ))}
-                </div>
+                <div className="stats-bargraph">
+  {[
+    { value: 8, label: 'Active Courses', icon: 'book', max: 10, color: '#2D5D7B' },
+    { value: 24, label: 'Hours This Week', icon: 'clock', max: 40, color: '#A62D69' },
+    { value: 92, label: 'Average Grade', icon: 'chart-line', max: 100, color: '#F9A826' },
+    { value: 15, label: 'Assignments Due', icon: 'tasks', max: 20, color: '#009688' }
+  ].map((stat, index) => (
+    <div className="bargraph-item" key={index}>
+      <div className="bargraph-label">
+        <i className={`fas fa-${stat.icon}`}></i> {stat.label}
+        <span className="bargraph-value">{stat.value}{stat.label === 'Average Grade' ? '%' : ''}</span>
+      </div>
+      <div className="bargraph-bar-bg">
+        <div
+          className="bargraph-bar-fill"
+          style={{
+            width: `${(stat.value / stat.max) * 100}%`,
+            background: stat.color
+          }}
+        ></div>
+      </div>
+    </div>
+  ))}
+</div>
                 <motion.div 
                   className="achievement-badge mt-4"
                   initial={{ scale: 0 }}
@@ -430,7 +453,7 @@ const Home1 = () => {
           <div className="section-header">
             <h2>Your Courses</h2>
             <div className="tabs">
-              {['all', 'Mathematics', 'Science', 'Languages', 'Social Studies'].map((tab) => (
+              {['All', 'Mathematics', 'Science', 'Languages', 'Social Studies'].map((tab) => (
                 <motion.button 
                   key={tab}
                   className={activeTab === tab.toLowerCase() ? 'active' : ''}
@@ -473,6 +496,7 @@ const Home1 = () => {
                           className="btn btn-primary"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
+                          onClick={() => navigate('/learn')}
                         >
                           Continue Learning
                         </motion.button>
@@ -499,12 +523,13 @@ const Home1 = () => {
                       <span><i className="fas fa-clock"></i> 10 Hours</span>
                     </div>
                     <motion.button 
-                      className="btn btn-primary w-100 mt-3"
-                      whileHover={{ scale: 1.02, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Continue
-                    </motion.button>
+                    className="btn btn-primary w-100 mt-3"
+                    whileHover={{ scale: 1.02, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => navigate('/learn')}
+                  >
+                    Continue
+                  </motion.button>
                   </div>
                 </motion.div>
               </div>
@@ -517,7 +542,7 @@ const Home1 = () => {
           variants={itemVariants}
         >
           <div className="section-header">
-            <h2>Upcoming School Events</h2>
+            <h2>Upcoming Events</h2>
             <Link to="/events" className="view-all">View Calendar</Link>
           </div>
           
@@ -558,13 +583,19 @@ const Home1 = () => {
                       Join us for an exciting {event.type} on {event.date} at {event.time}
                     </p>
                     <div className="event-footer">
-                      <motion.button 
-                        className="btn btn-primary"
-                        whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Register Now
-                      </motion.button>
+                    <motion.button 
+                    className="btn btn-primary"
+                    whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{
+                      fontSize: "0.95rem",
+                      padding: "0.35em 1.1em",
+                      minWidth: "unset"
+                    }}
+                    onClick={() => navigate('/mentorship')}
+                  >
+                    Register Now
+                  </motion.button>
                       <div className="event-reminder">
                         <i className="far fa-bell"></i> Set Reminder
                       </div>

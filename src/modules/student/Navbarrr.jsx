@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-// import './module/student/Navbarrr.css';
-// import '../../module/student/Navbarrr.css';
+import { FaUserCircle } from 'react-icons/fa';
 import './Navbarrr.css';
 
-
- 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState('');
+  const [avatarOpen, setAvatarOpen] = useState(false);
   const location = useLocation();
- 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -20,12 +19,17 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
- 
+
   useEffect(() => {
     setActiveLink(location.pathname);
     setIsOpen(false);
+    setAvatarOpen(false);
   }, [location.pathname]);
- 
+
+  const handleLogout = () => {
+    navigate('/');
+  };
+
   const navLinks = [
     { path: '/student/dashboard', name: 'Home' },
     { path: '/learn', name: 'Learn' },
@@ -34,7 +38,7 @@ const Navbar = () => {
     { path: '/career', name: 'Career' },
     { path: '/mentorship', name: 'Mentorship' },
   ];
- 
+
   return (
     <motion.nav
       className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}
@@ -44,10 +48,12 @@ const Navbar = () => {
     >
       <div className="navbar-container">
         <div className="navbar-brand">
-          <span className="brand-part-1">Edu</span>
-          <span className="brand-part-2">Sphere</span>
+          <Link to="/student/dashboard" className="navbar-logo-link" style={{ textDecoration: "none", color: "inherit" }}>
+            <span className="brand-part-1">Edu</span>
+            <span className="brand-part-2">Sphere</span>
+          </Link>
         </div>
- 
+
         <div className="navbar-desktop-links">
           <ul>
             {navLinks.map((link) => (
@@ -60,17 +66,29 @@ const Navbar = () => {
             ))}
           </ul>
         </div>
- 
-        <button
-          className={`navbar-toggler ${isOpen ? 'open' : ''}`}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span className="toggler-line"></span>
-          <span className="toggler-line"></span>
-          <span className="toggler-line"></span>
-        </button>
+
+        {/* Avatar and Toggle aligned fully to right */}
+        <div className="navbar-end">
+          <div className="navbar-avatar-container" onClick={() => setAvatarOpen(!avatarOpen)}>
+            <FaUserCircle size={30} className="navbar-avatar-icon" />
+            {avatarOpen && (
+              <div className="avatar-dropdown">
+                <button onClick={handleLogout} className="logout-button">Logout</button>
+              </div>
+            )}
+          </div>
+
+          <button
+            className={`navbar-toggler ${isOpen ? 'open' : ''}`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span className="toggler-line"></span>
+            <span className="toggler-line"></span>
+            <span className="toggler-line"></span>
+          </button>
+        </div>
       </div>
- 
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -88,6 +106,9 @@ const Navbar = () => {
                   </Link>
                 </li>
               ))}
+              <li>
+                <button onClick={handleLogout} className="logout-button-mobile">Logout</button>
+              </li>
             </ul>
           </motion.div>
         )}
@@ -95,7 +116,5 @@ const Navbar = () => {
     </motion.nav>
   );
 };
- 
+
 export default Navbar;
- 
- 
