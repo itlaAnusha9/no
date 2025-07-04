@@ -1,0 +1,164 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ 
+/* Fixed Navbar */
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+  background-color: #ffffff;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+ 
+.navbar-scrolled {
+  padding: 0.5rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+ 
+.navbar-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+ 
+/* Brand */
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+ 
+.brand-part-1 {
+  color: #2D5D7B;
+}
+ 
+.brand-part-2 {
+  color: #3a0ca3;
+}
+ 
+/* Desktop Nav */
+.navbar-desktop-links {
+  display: flex;
+}
+ 
+.navbar-desktop-links ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+ 
+.nav-item {
+  position: relative;
+}
+ 
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 1.1rem;
+  position: relative;
+}
+ 
+.nav-link:hover {
+  color: #3a0ca3;
+}
+ 
+.nav-item.active .nav-link {
+  color: #3a0ca3;
+  font-weight: 600;
+}
+ 
+.nav-link-underline {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: #f72585;
+  transition: width 0.3s ease;
+}
+ 
+.nav-link:hover .nav-link-underline,
+.nav-item.active .nav-link-underline {
+  width: 100%;
+}
+ 
+/* Hamburger */
+.navbar-toggler {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+ 
+.toggler-line {
+  height: 3px;
+  width: 100%;
+  background-color: #3a0ca3;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+ 
+/* Mobile Menu */
+.navbar-mobile-menu {
+  background-color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 1.2rem 2rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+ 
+.navbar-mobile-menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+ 
+.navbar-mobile-menu .nav-link {
+  font-size: 1.1rem;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+ 
+.navbar-mobile-menu .nav-item.active .nav-link {
+  color: #3a0ca3;
+  font-weight: 600;
+}
+ 
+/* Responsive */
+@media (max-width: 992px) {
+  .navbar-desktop-links {
+    display: none;
+  }
+ 
+  .navbar-toggler {
+    display: flex;
+  }
+}
+ 
+/* Optional: reduce padding on mobile */
+@media (max-width: 576px) {
+  .navbar-container {
+    padding: 0.5rem 1rem;
+  }
+ 
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+}
