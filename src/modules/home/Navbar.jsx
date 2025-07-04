@@ -38,7 +38,7 @@ function Navbar() {
     <motion.nav
       className="navbar navbar-expand-md shadow-sm sticky-top"
       style={{
-        background: 'linear-gradient(90deg, rgba(244,248,251,0.95), rgba(255,255,255,0.75))',
+        background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgb(255, 255, 255))',
         backdropFilter: 'blur(12px)',
         borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
         zIndex: 10,

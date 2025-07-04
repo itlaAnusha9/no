@@ -156,7 +156,6 @@
 // export default Contact;
 
 
-
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -193,6 +192,7 @@ function Contact() {
     backgroundSize: '400% 400%',
     animation: 'gradientMove 10s ease infinite',
     minHeight: '100vh',
+    paddingTop: '80px' // Added this single line to fix overlap
   };
 
   const glassCardStyle = {
