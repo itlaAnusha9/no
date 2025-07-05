@@ -9,6 +9,9 @@ import './career.css';
 
 
 const Career = () => {
+  useEffect(() => {
+    document.title = "Career | NOVYA - Your Smart Learning Platform";
+  }, []);
   const [selectedGrade, setSelectedGrade] = useState('8');
   const [activeTab, setActiveTab] = useState('trending');
   const [animatedStats, setAnimatedStats] = useState({
