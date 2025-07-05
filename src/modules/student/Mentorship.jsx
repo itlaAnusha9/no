@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect} from 'react';
 import emailjs from '@emailjs/browser';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -17,6 +17,9 @@ import { GiTeacher } from 'react-icons/gi';
 // import '../../module/student/Mentorship.css';
 import './Mentorship.css';
 const Mentorship = () => {
+  useEffect(() => {
+    document.title = "Mentor-Ship | NOVYA - Your Smart Learning Platform";
+  }, []);
   const form = useRef();
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);

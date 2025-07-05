@@ -18,7 +18,7 @@ import FreeDemo from './modules/home/FreeDemo';
 import ProfilePage from './modules/home/ProfilePage';
 import FloatingChatBot from './modules/home/FloatingChatBot';
 import AIDemo from './modules/home/AIDemo';
-
+ 
 // Auth Modules
 import Login from './modules/login/Login';
 import Signup from './modules/login/Signup';
@@ -135,6 +135,8 @@ function App() {
         <Route path="/mentorship" element={
           <ProtectedRoute><RoleRoute requiredRole="student"><Mentorship /></RoleRoute></ProtectedRoute>
         } />
+
+
 
         {/* Parent Routes */}
         <Route path="/parent/dashboard" element={

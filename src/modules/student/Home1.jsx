@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import './Home1.css';
 
 const Home1 = () => {
+  useEffect(() => {
+    document.title = "Student-Dashboard | NOVYA - Your Smart Learning Platform";
+  }, []);
     const navigate = useNavigate();
   const [currentCourse, setCurrentCourse] = useState('Mathematics Class 10');
   const [upcomingEvents, setUpcomingEvents] = useState([
