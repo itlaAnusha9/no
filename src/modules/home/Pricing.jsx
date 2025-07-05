@@ -434,6 +434,10 @@ const temptingQuotes = [
 ];
 
 function Pricing() {
+  useEffect(() => {
+    document.title = "Pricing|Prime Minds - Your Smart Learning Platform";
+  }, []);
+  
   const navigate = useNavigate();
   const [currentQuote, setCurrentQuote] = useState(0);
   const isMobile = window.innerWidth <= 768;
@@ -454,9 +458,57 @@ function Pricing() {
     return () => clearInterval(id);
   }, []);
 
-  const handleBuyAll = () => {
-    // Razorpay or other payment logic
-    alert('Payment flow initiated!');
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleBuyAll = async () => {
+    const res = await loadRazorpayScript();
+    if (!res) {
+      alert('Razorpay SDK failed to load. Check your internet connection.');
+      return;
+    }
+
+    // In a real app, you would get these details from your backend
+    const options = {
+      key: 'rzp_test_X0ttERlr0afucZ', // Replace with your actual Razorpay key
+      amount: 360000, // 3600 INR in paise
+      currency: 'INR',
+      name: 'Prime Minds Learning Platform',
+      description: 'Yearly Super Saver Plan',
+      image: 'https://example.com/your_logo.png', // Add your logo URL
+      order_id: '', // You would get this from your backend
+      handler: function(response) {
+        alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+        // Here you would typically verify the payment on your backend
+        // and then provide access to the user
+      },
+      prefill: {
+        name: 'Customer Name', // You can get this from user input
+        email: 'customer@example.com',
+        contact: '9999999999'
+      },
+      notes: {
+        address: 'Customer address' // Optional
+      },
+      theme: {
+        color: '#A62D69'
+      }
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+    
+    rzp.on('payment.failed', function(response) {
+      alert(`Payment failed! Error: ${response.error.description}`);
+      console.error(response.error);
+    });
   };
 
   const plans = [{
@@ -495,7 +547,7 @@ function Pricing() {
               paddingTop: NAVBAR_HEIGHT / 2,
               marginTop: -NAVBAR_HEIGHT / 2
             }} className="fw-bold display-5 mb-3">
-              School Subjects You’ll Get Access To (7th–12th Grade)
+              You'll Get Access To (7th–12th Grade)
             </h2>
             <p className="lead" style={{ color: '#5A6A7D' }}>
               All included in one affordable yearly membership
@@ -519,14 +571,12 @@ function Pricing() {
                   {plans[0].features.map((f, idx) => <li key={idx}>✓ {f}</li>)}
                 </ul>
                 <button onClick={handleBuyAll} className="btn btn-lg w-100 py-3 fw-bold"
-                        // style={{ background: 'linear-gradient(135deg,#A62D69,#D43D8B)', color: '#fff', borderRadius: '8px', boxShadow: '0 4px 15px rgba(166,45,105,0.4)' }}>
                         style={{ 
-  background: 'linear-gradient(135deg, #2D5D7B, #A62D69)', 
-  // background: 'linear-gradient(135deg, #2D5D7B, #A62D69, #D43D8B)',
-  color: '#fff', 
-  borderRadius: '8px', 
-  boxShadow: '0 4px 15px rgba(166,45,105,0.4)'
-}}>
+                          background: 'linear-gradient(135deg, #2D5D7B, #A62D69)', 
+                          color: '#fff', 
+                          borderRadius: '8px', 
+                          boxShadow: '0 4px 15px rgba(166,45,105,0.4)'
+                        }}>
                   GET ALL SUBJECTS NOW – ₹3,600/YEAR
                 </button>
                 <div className="mt-3 small text-muted"> · ✅ One‑time payment</div>
@@ -617,7 +667,6 @@ function Pricing() {
             </div>
             <p className="small text-muted mt-3">Secure payment via UPI/Cards/NetBanking</p>
           </div>
-
         </div>
       </section>
     </div>

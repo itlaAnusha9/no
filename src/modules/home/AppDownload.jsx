@@ -9,6 +9,10 @@ import { SiPwa } from 'react-icons/si';
 const NAVBAR_HEIGHT = 60;
 
 function AppDownload() {
+   useEffect(() => {
+    document.title = "App Download";
+  }, []);
+ 
   const controls = useAnimation();
 
   useEffect(() => {

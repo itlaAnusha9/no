@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   FaBookOpen,
@@ -36,6 +37,9 @@ const steps = [
 ];
  
 export default function MiniRoadmap() {
+   useEffect(() => {
+        document.title = "Roadmap|Prime Minds - Your Smart Learning Platform";
+      }, []);
   return (
     <section
       style={{

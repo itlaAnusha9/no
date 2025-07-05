@@ -68,14 +68,18 @@
 
 
 // CourseDetail.js
-import React from 'react';
+
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.min.css';
 
 const NAVBAR_HEIGHT = 60; // Must match your fixed navbar height
 
 const CourseDetail = () => {
+  useEffect(() => {
+      document.title = "Course Details|Prime Minds - Your Smart Learning Platform";
+    }, []);
   const { state: course } = useLocation();
   const navigate = useNavigate();
 

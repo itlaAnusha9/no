@@ -4,6 +4,9 @@ import { Clock, Award, BookOpen, Target, ChevronRight, Play, Users, TrendingUp, 
 // import '../../module/student/practice.css';
 import './practice.css';
 const Practice = () => {
+  useEffect(() => {
+      document.title = "Mock-Tests | NOVYA - Your Smart Learning Platform";
+    }, []);
   const [selectedGrade, setSelectedGrade] = useState('8');
   const [selectedSubject, setSelectedSubject] = useState('mathematics');
   const [activeFilter, setActiveFilter] = useState('all');

@@ -3,6 +3,9 @@ import { jsPDF } from "jspdf";
 // import "../../module/student/learn.css";
 import './learn.css';
 const Learn = () => {
+  useEffect(() => {
+      document.title = "Learning-Dashboard | NOVYA - Your Smart Learning Platform";
+    }, []);
   const subjects = {
     Mathematics: {
       icon: "📐",

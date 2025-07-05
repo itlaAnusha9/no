@@ -11,6 +11,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const Classroom = () => {
+  useEffect(() => {
+      document.title = "Classroom | NOVYA - Your Smart Learning Platform";
+    }, []);
   const [activeTab, setActiveTab] = useState('upcoming');
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);

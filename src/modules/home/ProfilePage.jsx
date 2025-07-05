@@ -5,6 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { FaChevronRight, FaUser, FaHeart, FaUserShield, FaMapMarkerAlt, FaGraduationCap, FaShoppingCart, FaCog, FaMoon, FaSun } from 'react-icons/fa';
 
 const ProfilePage = () => {
+   useEffect(() => {
+      document.title = "Profile page|Prime Minds - Your Smart Learning Platform";
+    }, []);
   const [activeTab, setActiveTab] = useState('personal');
   const [formData, setFormData] = useState({
     firstName: '',

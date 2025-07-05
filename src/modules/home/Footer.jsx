@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Footer() {
+   useEffect(() => {
+      document.title = "Footer|Prime Minds - Your Smart Learning Platform";
+    }, []);
   const [showScroll, setShowScroll] = useState(false);
 
   // Show button when user scrolls down
