@@ -10,7 +10,7 @@ const NAVBAR_HEIGHT = 60;
 
 function AppDownload() {
    useEffect(() => {
-    document.title = "App Download";
+    document.title = "Home|NOVYA - Your Smart Learning Platform";
   }, []);
  
   const controls = useAnimation();
