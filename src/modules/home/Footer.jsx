@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Footer() {
    useEffect(() => {
-      document.title = "Footer|Prime Minds - Your Smart Learning Platform";
+      document.title = "Home|NOVYA - Your Smart Learning Platform";
     }, []);
   const [showScroll, setShowScroll] = useState(false);
 
