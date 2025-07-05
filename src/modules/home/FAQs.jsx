@@ -210,7 +210,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function FAQs() {
    useEffect(() => {
-        document.title = "FAQs|Prime Minds - Your Smart Learning Platform";
+        document.title = "FAQs|NOVYA - Your Smart Learning Platform";
       }, []);
   const [openIndex, setOpenIndex] = useState(null);
   const [userQuestion, setUserQuestion] = useState('');

@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Contact() {
       useEffect(() => {
-    document.title = "Contact Us|Prime Minds - Your Smart Learning Platform";
+    document.title = "Contact Us|NOVYA - Your Smart Learning Platform";
   }, []);
   
   const [formData, setFormData] = useState({

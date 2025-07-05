@@ -193,7 +193,7 @@ import heroImage from './assets/hero.webp';
 
 function HeroSection() {
    useEffect(() => {
-      document.title = "Home|Prime Minds - Your Smart Learning Platform";
+      document.title = "Home|NOVYA - Your Smart Learning Platform";
     }, []);
   return (
     <Box

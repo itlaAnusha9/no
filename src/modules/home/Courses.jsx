@@ -8,7 +8,7 @@ const NAVBAR_HEIGHT = '80px';
 
 function Courses() {
    useEffect(() => {
-        document.title = "Courses|Prime Minds - Your Smart Learning Platform";
+        document.title = "Courses|NOVYA - Your Smart Learning Platform";
       }, []);
 
   const navigate = useNavigate();

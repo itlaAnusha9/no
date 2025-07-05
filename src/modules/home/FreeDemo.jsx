@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function FreeDemo() {
    useEffect(() => {
-      document.title = "Free demo|Prime Minds - Your Smart Learning Platform";
+      document.title = "Free demo|NOVYA - Your Smart Learning Platform";
     }, []);
   return (
     <div className="container-fluid p-0" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', overflow: 'hidden' }}>

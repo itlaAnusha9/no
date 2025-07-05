@@ -6,7 +6,7 @@ import { FaChevronRight, FaUser, FaHeart, FaUserShield, FaMapMarkerAlt, FaGradua
 
 const ProfilePage = () => {
    useEffect(() => {
-      document.title = "Profile page|Prime Minds - Your Smart Learning Platform";
+      document.title = "Profile page|NOVYA - Your Smart Learning Platform";
     }, []);
   const [activeTab, setActiveTab] = useState('personal');
   const [formData, setFormData] = useState({

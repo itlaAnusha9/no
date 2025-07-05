@@ -6,7 +6,7 @@ import { FaQuoteLeft, FaStar } from 'react-icons/fa';
 
 function Testimonials() {
    useEffect(() => {
-        document.title = "Testimonials|Prime Minds - Your Smart Learning Platform";
+        document.title = "Testimonials|NOVYA - Your Smart Learning Platform";
       }, []);
   const testimonials = [
     {

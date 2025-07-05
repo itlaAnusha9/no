@@ -145,7 +145,7 @@ import car from './assets/car-image.webp';
 
 function MissionVision() {
    useEffect(() => {
-        document.title = "Features|Prime Minds - Your Smart Learning Platform";
+        document.title = "Features|NOVYA - Your Smart Learning Platform";
       }, []);
   return (
     <section style={{ backgroundColor: '#f8f9fa' }}>

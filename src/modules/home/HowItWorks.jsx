@@ -38,7 +38,7 @@ const steps = [
  
 export default function MiniRoadmap() {
    useEffect(() => {
-        document.title = "Roadmap|Prime Minds - Your Smart Learning Platform";
+        document.title = "Roadmap|NOVYA - Your Smart Learning Platform";
       }, []);
   return (
     <section

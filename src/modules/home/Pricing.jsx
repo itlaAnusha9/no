@@ -435,7 +435,7 @@ const temptingQuotes = [
 
 function Pricing() {
   useEffect(() => {
-    document.title = "Pricing|Prime Minds - Your Smart Learning Platform";
+    document.title = "Pricing|NOVYA - Your Smart Learning Platform";
   }, []);
   
   const navigate = useNavigate();

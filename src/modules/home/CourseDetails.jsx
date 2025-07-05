@@ -78,7 +78,7 @@ const NAVBAR_HEIGHT = 60; // Must match your fixed navbar height
 
 const CourseDetail = () => {
   useEffect(() => {
-      document.title = "Course Details|Prime Minds - Your Smart Learning Platform";
+      document.title = "Course Details|NOVYA - Your Smart Learning Platform";
     }, []);
   const { state: course } = useLocation();
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import AIDemo from './AIDemo'; // your full existing AIDemo component
  
 function FloatingChatBot() {
    useEffect(() => {
-        document.title = "Chat bot|Prime Minds - Your Smart Learning Platform";
+        document.title = "Chat bot|NOVYA - Your Smart Learning Platform";
       }, []);
   const [isOpen, setIsOpen] = useState(false);
  
