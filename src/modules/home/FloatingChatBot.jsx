@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AIDemo from './AIDemo'; // your full existing AIDemo component
  
 function FloatingChatBot() {
+   useEffect(() => {
+        document.title = "Chat bot|Prime Minds - Your Smart Learning Platform";
+      }, []);
   const [isOpen, setIsOpen] = useState(false);
  
   return (

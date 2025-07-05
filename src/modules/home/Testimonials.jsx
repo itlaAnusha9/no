@@ -1,9 +1,13 @@
 import React from 'react';
+import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion } from 'framer-motion';
 import { FaQuoteLeft, FaStar } from 'react-icons/fa';
 
 function Testimonials() {
+   useEffect(() => {
+        document.title = "Testimonials|Prime Minds - Your Smart Learning Platform";
+      }, []);
   const testimonials = [
     {
       name: 'Sai chandra, Class 10',

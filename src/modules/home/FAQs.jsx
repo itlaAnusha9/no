@@ -203,12 +203,15 @@
     
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function FAQs() {
+   useEffect(() => {
+        document.title = "FAQs|Prime Minds - Your Smart Learning Platform";
+      }, []);
   const [openIndex, setOpenIndex] = useState(null);
   const [userQuestion, setUserQuestion] = useState('');
   const [faqs, setFaqs] = useState([

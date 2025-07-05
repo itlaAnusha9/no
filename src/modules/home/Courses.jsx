@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -6,6 +7,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const NAVBAR_HEIGHT = '80px';
 
 function Courses() {
+   useEffect(() => {
+        document.title = "Courses|Prime Minds - Your Smart Learning Platform";
+      }, []);
+
   const navigate = useNavigate();
   const handleExploreClick = () => {
     localStorage.setItem('scrollToCourses', 'true');

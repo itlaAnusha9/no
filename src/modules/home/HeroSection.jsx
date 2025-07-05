@@ -187,10 +187,14 @@
 
 
 import React from 'react';
+import { useEffect } from 'react';
 import { Box } from '@mui/material';
 import heroImage from './assets/hero.webp';
 
 function HeroSection() {
+   useEffect(() => {
+      document.title = "Home|Prime Minds - Your Smart Learning Platform";
+    }, []);
   return (
     <Box
       sx={{

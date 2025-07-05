@@ -132,7 +132,7 @@
 
 
 
-import React from 'react';
+import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion } from 'framer-motion';
 import missionImage from './assets/mission-image.webp';
@@ -144,6 +144,9 @@ import car from './assets/car-image.webp';
 
 
 function MissionVision() {
+   useEffect(() => {
+        document.title = "Features|Prime Minds - Your Smart Learning Platform";
+      }, []);
   return (
     <section style={{ backgroundColor: '#f8f9fa' }}>
       {/* First Section - Mission & Vision */}
