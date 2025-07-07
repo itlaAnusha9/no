@@ -139,22 +139,34 @@ const ParentDashboard = () => {
   textShadow: '1px 1px 3px rgba(0,0,0,0.1)',
   marginBottom: '1rem',
   display: 'flex',
+  flexDirection: 'column', // stack vertically
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '16px'
+  gap: '8px'
 }}>
-  <img
-    src={novyaLogo}
-    alt="NOVYA Logo"
-    style={{ height: '100px', width: 'auto', maxWidth: '60px', objectFit: 'contain', display: 'inline-block', verticalAlign: 'middle' }}
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+    <img
+      src={novyaLogo}
+      alt="NOVYA Logo"
+      style={{ height: '44px', width: 'auto', maxWidth: '60px', objectFit: 'contain', display: 'inline-block', verticalAlign: 'middle' }}
+    />
+    <span style={{ 
+      background: 'linear-gradient(45deg, #2D5D7B, #A62D69)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent'
+    }}>
+      Welcome to Parent Portal
+    </span>
+  </div>
+  <div
+    style={{
+      width: '220px',
+      height: '5px',
+      borderRadius: '3px',
+      marginTop: '8px',
+      background: 'linear-gradient(90deg, #2D5D7B, #A62D69)'
+    }}
   />
-  <span style={{ 
-    background: 'linear-gradient(45deg, #2D5D7B, #A62D69)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent'
-  }}>
-    Welcome to Parent Portal
-  </span>
 </h2>
 
           <p style={{
