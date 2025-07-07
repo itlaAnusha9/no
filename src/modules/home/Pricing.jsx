@@ -209,7 +209,7 @@ function Pricing() {
                         <div className="d-flex justify-content-between align-items-center">
                           <span className="text-decoration-line-through text-muted small">{c.originalPrice}</span>
                           <span className="badge bg-success"
-                                style={{ width: 'auto', minWidth: '57px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
+                                style={{ width: '57px', minWidth: '57px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
                             Included
                           </span>
                         </div>
@@ -240,7 +240,7 @@ function Pricing() {
                               <div className="d-flex justify-content-between align-items-center">
                                 <span className="text-decoration-line-through text-muted small">{c.originalPrice}</span>
                                 <span className="badge bg-success small"
-                                      style={{ width: 'auto', minWidth: '57px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
+                                      style={{ width: '57px', minWidth: '57px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
                                   Included
                                 </span>
                               </div>
