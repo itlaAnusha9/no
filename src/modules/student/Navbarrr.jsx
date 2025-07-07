@@ -56,6 +56,7 @@ const Navbar = () => {
               style={{ height: '50px', width: 'auto', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
             />
           </Link>
+          
         </div>
 
         <div className="navbar-desktop-links">
