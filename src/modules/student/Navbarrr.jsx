@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaUserCircle } from 'react-icons/fa';
 import './Navbarrr.css';
-
+import novyaLogo from '../home/assets/NOVYA LOGO.png';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -48,11 +48,14 @@ const Navbar = () => {
     >
       <div className="navbar-container">
         <div className="navbar-brand">
-          <Link to="/student/dashboard" className="navbar-logo-link" style={{ textDecoration: "none", color: "inherit" }}>
-            <span className="brand-part-1">Edu</span>
-            <span className="brand-part-2">Sphere</span>
-          </Link>
-        </div>
+  <Link to="/student/dashboard" className="navbar-logo-link" style={{ textDecoration: "none", color: "inherit" }}>
+    <img
+      src={novyaLogo}
+      alt="NOVYA Logo"
+      style={{ height: '50px', width: 'auto', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
+    />
+  </Link>
+</div>
 
         <div className="navbar-desktop-links">
           <ul>

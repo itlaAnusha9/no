@@ -112,7 +112,7 @@ export default function MiniRoadmap() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="text-center mt-3"
         >
-          <button
+          {/* <button
             className="btn btn-lg px-4 py-2 fw-bold"
             style={{
               background: 'linear-gradient(135deg, #2D5D7B 0%, #3a7ca5 100%)',
@@ -122,7 +122,7 @@ export default function MiniRoadmap() {
             }}
           >
             Start Now
-          </button>
+          </button> */}
         </motion.div>
       </div>
     </section>

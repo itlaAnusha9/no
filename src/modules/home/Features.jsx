@@ -1,136 +1,3 @@
-// import React from 'react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { motion } from 'framer-motion';
-// import { FaRobot, FaChartLine, FaBrain, FaGraduationCap, FaLanguage, FaMagic } from 'react-icons/fa';
-
-// function Features() {
-//   const features = [
-//     { icon: <FaRobot />, title: 'AI Tutor Available 24x7', desc: 'Ask doubts anytime, get instant answers.' },
-//     { icon: <FaChartLine />, title: 'Personalized Dashboard', desc: 'See your progress and strengths.' },
-//     { icon: <FaBrain />, title: 'Adaptive Quizzes', desc: 'Quizzes that match your learning speed.' },
-//     { icon: <FaGraduationCap />, title: 'Courses for 8th to PG', desc: 'From NCERT to certification programs.' },
-//     { icon: <FaLanguage />, title: 'Multilingual Support', desc: 'Learn in English or your regional language.' },
-//     { icon: <FaMagic />, title: 'AI Feedback Engine', desc: 'Get suggestions on how to improve.' }
-//   ];
-
-//   const gradientColors = [
-//     'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-//     'linear-gradient(135deg, #ff6a00 0%, #ee0979 100%)',
-//     'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-//     'linear-gradient(135deg, #f7971e 0%, #ffd200 100%)',
-//     'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)',
-//     'linear-gradient(135deg, #f953c6 0%, #b91d73 100%)'
-//   ];
-
-//   return (
-//     <section
-//       className="features-section py-5 position-relative"
-//       style={{
-//         overflow: 'hidden',
-//         backgroundColor: '#f0f9ff',
-//         zIndex: 1,
-//       }}
-//     >
-//       {/* Scrolling background */}
-//       <div
-//         className="scrolling-bg"
-//         style={{
-//           backgroundImage:
-//             'url(https://images.unsplash.com/photo-1573497491208-6b1acb260507?auto=format&fit=crop&w=1600&q=80)',
-//           backgroundSize: 'cover',
-//           backgroundRepeat: 'repeat-x',
-//           backgroundPosition: 'center',
-//           position: 'absolute',
-//           top: 0,
-//           left: 0,
-//           width: '200%',
-//           height: '100%',
-//           animation: 'scrollBg 60s linear infinite',
-//           opacity: 0.1,
-//           zIndex: 0,
-//         }}
-//       ></div>
-
-//       <div className="container position-relative" style={{ zIndex: 2 }}>
-//         <motion.h2
-//           initial={{ opacity: 0, y: 30 }}
-//           whileInView={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.8 }}
-//           className="text-center fw-bold mb-5 section-title"
-//           style={{
-//             color: '#2D5D7B',
-//             fontSize: '2.2rem',
-//           }}
-//         >
-//           What We Offer
-//         </motion.h2>
-
-//         <div className="row g-4">
-//           {features.map((feature, idx) => (
-//             <motion.div
-//               key={idx}
-//               className="col-12 col-md-6 col-lg-4"
-//               initial={{ opacity: 0, y: 30 }}
-//               whileInView={{ opacity: 1, y: 0 }}
-//               transition={{ duration: 0.6, delay: idx * 0.1 }}
-//             >
-//               <div
-//                 className="feature-card p-4 h-100 text-white text-center"
-//                 style={{
-//                   borderRadius: '16px',
-//                   background: gradientColors[idx % gradientColors.length],
-//                   boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-//                   position: 'relative',
-//                   overflow: 'hidden',
-//                   backdropFilter: 'blur(10px)',
-//                   WebkitBackdropFilter: 'blur(10px)',
-//                   border: '1px solid rgba(255, 255, 255, 0.3)',
-//                   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-//                 }}
-//                 onMouseEnter={(e) => {
-//                   e.currentTarget.style.transform = 'translateY(-5px)';
-//                   e.currentTarget.style.boxShadow = '0 20px 50px rgba(0,0,0,0.4)';
-//                 }}
-//                 onMouseLeave={(e) => {
-//                   e.currentTarget.style.transform = 'translateY(0)';
-//                   e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
-//                 }}
-//               >
-//                 <motion.div
-//                   className="icon-box mb-3"
-//                   animate={{ y: [0, -8, 0] }}
-//                   transition={{ repeat: Infinity, duration: 2 }}
-//                   style={{
-//                     fontSize: '2rem',
-//                   }}
-//                 >
-//                   {feature.icon}
-//                 </motion.div>
-//                 {/* 🔽 Subtitles styled to white */}
-//                 <h5 className="fw-semibold mb-2" style={{ color: '#ffffff' }}>{feature.title}</h5>
-//                 <p className="mb-0" style={{ color: '#ffffff' }}>{feature.desc}</p>
-//               </div>
-//             </motion.div>
-//           ))}
-//         </div>
-//       </div>
-
-//       {/* CSS Animation Keyframes */}
-//       <style>
-//         {`
-//           @keyframes scrollBg {
-//             0% { transform: translateX(0); }
-//             100% { transform: translateX(-50%); }
-//           }
-//         `}
-//       </style>
-//     </section>
-//   );
-// }
-
-// export default Features;
-
-
 
 import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -175,8 +42,9 @@ function MissionVision() {
                 color: '#333',
                 marginBottom: 0
               }}>
-                Vedha is committed to revolutionizing education by providing personalised, AI-driven learning experiences that adapt to each subject's needs. We aim to empower learners with innovative tools and resources, fostering success and lifelong growth.
-              </p>
+To democratize access to highly personalized and effective education by leveraging artificial intelligence, empowering every learner to achieve their full potential. 
+
+ To be the leading global EdTech platform where AI-driven adaptive learning transforms individual academic and professional journeys, fostering a generation of curious, capable, and confident learners.               </p>
             </motion.div>
           </div>
         </div>
@@ -247,8 +115,13 @@ function MissionVision() {
                   marginBottom: '2rem'
                 }}
               >
-                Vedha's AI engine dynamically adjusts the curriculum based on each student's performance, ensuring optimal learning. We identify knowledge gaps and provide targeted support, fostering a deeper understanding and greater academic success. Our platform adapts to individual learning styles, making education more effective and engaging.
-              </motion.p>
+Traditional learning often follows a one-size-fits-all approach, but we know every student learns differently. Novya's core strength lies in its adaptive learning engine, meticulously designed to understand and respond to your individual needs. 
+
+Personalized Pace: Our AI identifies your optimal learning speed, ensuring you're never overwhelmed or bored. 
+
+ Novya adapts to your preferred learning style, making complex topics intuitive and engaging. 
+
+</motion.p>
 
               <div className="row">
                 <div className="col-md-6 mb-3 mb-md-0">
@@ -337,7 +210,7 @@ function MissionVision() {
                   marginBottom: '1.5rem'
                 }}
               >
-                Dive into <span style={{ fontStyle: 'italic' }}>Engaging</span> and <span style={{ fontStyle: 'italic' }}>Adaptive</span> Learning Modules with Vedha
+                Dive into <span style={{ fontStyle: 'italic' }}>Engaging</span> and <span style={{ fontStyle: 'italic' }}>Adaptive</span> Learning Modules with NOVYA
               </motion.h1>
 
               <motion.p
@@ -351,8 +224,7 @@ function MissionVision() {
                   marginBottom: '2rem'
                 }}
               >
-                Our interactive modules are designed to captivate students and foster a deeper understanding of the subject matter. With Vedha, learning becomes an exciting adventure, tailored to each student's unique learning style and pace, ensuring effective knowledge acquisition and retention.
-              </motion.p>
+              Learning with Novya isn't just about absorbing information; it's about active engagement and deep understanding. Our AI-powered modules are designed to keep you challenged and motivated.               </motion.p>
 
               <motion.ul
                 initial={{ opacity: 0 }}
@@ -365,10 +237,9 @@ function MissionVision() {
                   color: '#333'
                 }}
               >
-                <li className="mb-2"><strong>Personalized Content:</strong> Modules adapt to individual learning styles.</li>
-                <li className="mb-2"><strong>Interactive Simulations:</strong> Engage with real-world scenarios.</li>
-                <li className="mb-2"><strong>Gamified Learning:</strong> Earn rewards and track progress.</li>
-                <li><strong>Real-time Feedback:</strong> Immediate insights for improvement.</li>
+                <li className="mb-2"><strong>Personalized Content:</strong> As you progress, Novya's AI curates your next steps, suggesting relevant topics, advanced challenges, or remedial exercises to ensure a solid foundation. </li>
+                <li className="mb-2"><strong>Interactive Simulations:</strong> Experience dynamic lessons filled with interactive quizzes, simulations, and problem-solving scenarios that reinforce learning in a practical way. </li>
+                <li><strong>Real-time Feedback:</strong> Receive instant, actionable feedback that explains why an answer is right or wrong, guiding you toward mastery without frustration. </li>
               </motion.ul>
             </div>
           </div>
@@ -411,7 +282,7 @@ function MissionVision() {
                   marginBottom: '1.5rem'
                 }}
               >
-                Dive into <span style={{ fontStyle: 'italic' }}>Engaging</span> and <span style={{ fontStyle: 'italic' }}>Adaptive</span> Learning Modules with Vedha
+                Unlock Your <span style={{ fontStyle: 'italic' }}>Potential</span> and <span style={{ fontStyle: 'italic' }}>with </span>NOVYA Resources
               </motion.h1>
 
               <motion.p
@@ -425,8 +296,7 @@ function MissionVision() {
                   marginBottom: '2rem'
                 }}
               >
-                Our interactive modules are designed to captivate students and foster a deeper understanding of the subject matter. With Vedha, learning becomes an exciting adventure, tailored to each student's unique learning style and pace, ensuring effective knowledge acquisition and retention.
-              </motion.p>
+Novya provides you with more than just courses; we give you the tools and insights to take control of your learning journey and truly unlock your potential.               </motion.p>
 
               <motion.ul
                 initial={{ opacity: 0 }}
@@ -439,10 +309,10 @@ function MissionVision() {
                   color: '#333'
                 }}
               >
-                <li className="mb-2"><strong>Personalized Content:</strong> Modules adapt to individual learning styles.</li>
-                <li className="mb-2"><strong>Interactive Simulations:</strong> Engage with real-world scenarios.</li>
-                <li className="mb-2"><strong>Gamified Learning:</strong> Earn rewards and track progress.</li>
-                <li><strong>Real-time Feedback:</strong> Immediate insights for improvement.</li>
+                <li className="mb-2"><strong>Personalized Progress Reports:</strong>Gain clear, insightful overviews of your performance, highlighting your strengths, areas for improvement, and overall progress. </li>
+                <li className="mb-2"><strong>Performance Analytics:</strong> Understand your learning habits and identify patterns that contribute to your success, empowering you to optimize your study strategies. </li>
+                <li className="mb-2"><strong>Enhanced Learning Efficiency:</strong> Earn rewards and track progress.</li>
+                <li><strong>Real-time Feedback:</strong>  With data-driven insights, Novya helps you focus your efforts where they matter most, leading to more efficient learning and faster skill acquisition.</li>
               </motion.ul>
             </div>
           </div>
@@ -482,7 +352,7 @@ function MissionVision() {
               className="fw-bold"
               style={{ color: '#2D5D7B', fontSize: '2.5rem' }}
             >
-              Our Mission & Vision
+              Data-Driven Insights
             </motion.h1>
           </div>
           <div className="col-md-8">
@@ -497,8 +367,7 @@ function MissionVision() {
                 color: '#333',
                 marginBottom: 0
               }}>
-                Vedha is committed to revolutionizing education by providing personalised, AI-driven learning experiences that adapt to each subject's needs. We aim to empower learners with innovative tools and resources, fostering success and lifelong growth.
-              </p>
+Our AI offers smart recommendations for additional resources, practice problems, or related topics to deepen your understanding and broaden your skills.               </p>
             </motion.div>
           </div>
         </div>
