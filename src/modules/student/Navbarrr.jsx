@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaUserCircle } from 'react-icons/fa';
 import './Navbarrr.css';
 import novyaLogo from '../home/assets/NOVYA LOGO.png';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -48,14 +49,14 @@ const Navbar = () => {
     >
       <div className="navbar-container">
         <div className="navbar-brand">
-  <Link to="/student/dashboard" className="navbar-logo-link" style={{ textDecoration: "none", color: "inherit" }}>
-    <img
-      src={novyaLogo}
-      alt="NOVYA Logo"
-      style={{ height: '50px', width: 'auto', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
-    />
-  </Link>
-</div>
+          <Link to="/student/dashboard" className="navbar-logo-link" style={{ textDecoration: "none", color: "inherit" }}>
+            <img
+              src={novyaLogo}
+              alt="NOVYA Logo"
+              style={{ height: '50px', width: 'auto', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
+            />
+          </Link>
+        </div>
 
         <div className="navbar-desktop-links">
           <ul>
@@ -70,7 +71,6 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Avatar and Toggle aligned fully to right */}
         <div className="navbar-end">
           <div className="navbar-avatar-container" onClick={() => setAvatarOpen(!avatarOpen)}>
             <FaUserCircle size={30} className="navbar-avatar-icon" />
@@ -96,9 +96,9 @@ const Navbar = () => {
         {isOpen && (
           <motion.div
             className="navbar-mobile-menu"
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3 }}
           >
             <ul>

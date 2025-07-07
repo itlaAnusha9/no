@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import { FaChevronRight, FaUser, FaHeart, FaUserShield, FaMapMarkerAlt, FaGraduationCap, FaShoppingCart, FaCog, FaMoon, FaSun } from 'react-icons/fa';
 

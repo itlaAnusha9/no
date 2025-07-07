@@ -17,6 +17,8 @@
   position: relative;
   overflow: hidden;
     padding-top: 90px; /* Adjust this value to match your navbar height */
+      margin-top: 80px; /* Adjust to match your navbar height */
+
 
 }
 
@@ -729,5 +731,10 @@
   
   .btn-shimmer {
     display: none;
+  }
+}
+@media (max-width: 700px) {
+  .mentorship-container {
+    margin-top: 90px; /* Or your mobile navbar height */
   }
 }

@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1rem;
 }
 .home-container {
-  margin-top: 64px; /* Adjust this value to match your navbar height */
+  margin-top: 80px; /* Adjust this value to match your navbar height */
 }
 h1 {
   font-size: 3.5rem;

@@ -1122,7 +1122,11 @@ body {
   .video-details {
     padding: 15px;
   }
+  .classroom-container {
+    margin-top: 80px; /* or your mobile navbar height */
+  }
 }
+
 
 @media (max-width: 576px) {
   .tips-grid, .resources-grid, .assignment-stats {
