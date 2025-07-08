@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Award, BookOpen, Target, ChevronRight, Play, Users, TrendingUp, Star, X, Check, Flag, ArrowLeft } from 'lucide-react';
+import { Clock,  BookOpen, Target, ChevronRight, Play, Users,  Star, X, Check, Flag, ArrowLeft } from 'lucide-react';
 // import './module/student/practice.css';
 // import '../../module/student/practice.css';
 import './practice.css';

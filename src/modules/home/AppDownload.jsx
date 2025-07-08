@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion, useAnimation } from 'framer-motion';
-import { FaRocket, FaMobileAlt, FaSyncAlt, FaCloudDownloadAlt, FaStar } from 'react-icons/fa';
-import { RiFlutterFill } from 'react-icons/ri';
-import { SiPwa } from 'react-icons/si';
+import { FaStar } from 'react-icons/fa';
+// import { RiFlutterFill } from 'react-icons/ri';
+// import { SiPwa } from 'react-icons/si';
 
 const NAVBAR_HEIGHT = 60;
 
