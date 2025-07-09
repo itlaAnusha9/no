@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Footer() {
-   useEffect(() => {
-      document.title = "Home|NOVYA - Your Smart Learning Platform";
-    }, []);
+  useEffect(() => {
+    document.title = "Home | NOVYA - Your Smart Learning Platform";
+  }, []);
+
   const [showScroll, setShowScroll] = useState(false);
 
-  // Show button when user scrolls down
   useEffect(() => {
     const handleScroll = () => {
       setShowScroll(window.scrollY > 200);
@@ -26,7 +26,7 @@ function Footer() {
         <div className="row">
           {/* Branding */}
           <div className="col-md-4 mb-4">
-            <h5 className="fw-bold" style={{ color: '#F4F8FB' }}>LMS AI / Edvia © 2025</h5>
+            <h5 className="fw-bold" style={{ color: '#F4F8FB' }}>NOVYA</h5>
             <p style={{ fontSize: '0.9rem', color: '#ccc' }}>
               Empowering learners with personalized AI education, anytime, anywhere.
             </p>
@@ -36,10 +36,10 @@ function Footer() {
           <div className="col-md-4 mb-4">
             <h6 className="fw-semibold mb-3" style={{ color: '#A62D69' }}>Quick Links</h6>
             <ul className="list-unstyled">
-              <li><a href="#" className="text-decoration-none text-light d-block mb-1">About</a></li>
-              <li><a href="#" className="text-decoration-none text-light d-block mb-1">Terms & Conditions</a></li>
-              <li><a href="#" className="text-decoration-none text-light d-block mb-1">Privacy Policy</a></li>
-              <li><a href="#" className="text-decoration-none text-light d-block">Careers</a></li>
+              <li><a href="/about" className="text-decoration-none text-light d-block mb-1">About</a></li>
+              <li><a href="/terms" className="text-decoration-none text-light d-block mb-1">Terms & Conditions</a></li>
+              <li><a href="/privacy" className="text-decoration-none text-light d-block mb-1">Privacy Policy</a></li>
+              <li><a href="/careers" className="text-decoration-none text-light d-block">Careers</a></li>
             </ul>
           </div>
 
@@ -49,14 +49,14 @@ function Footer() {
             <p className="mb-2">
               📧 Email:{' '}
               <a href="mailto:support@lmsai.com" className="text-decoration-none" style={{ color: '#2D5D7B' }}>
-                support@lmsai.com
+                support@novya.com
               </a>
             </p>
             <p>
               🌐 Follow us:
-              <a href="#" className="text-decoration-none ms-2 me-2" style={{ color: '#2D5D7B' }}>YouTube</a>
-              <a href="#" className="text-decoration-none me-2" style={{ color: '#2D5D7B' }}>LinkedIn</a>
-              <a href="#" className="text-decoration-none" style={{ color: '#2D5D7B' }}>Instagram</a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-decoration-none ms-2 me-2" style={{ color: '#2D5D7B' }}>YouTube</a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-decoration-none me-2" style={{ color: '#2D5D7B' }}>LinkedIn</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-decoration-none" style={{ color: '#2D5D7B' }}>Instagram</a>
             </p>
           </div>
         </div>

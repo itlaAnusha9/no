@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 
 function FreeDemo() {
-   useEffect(() => {
-      document.title = "Free demo|NOVYA - Your Smart Learning Platform";
-    }, []);
+  useEffect(() => {
+    document.title = "Free demo | NOVYA - Your Smart Learning Platform";
+  }, []);
+
   return (
     <div className="container-fluid p-0" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', overflow: 'hidden' }}>
       {/* Hero Section */}
       <div className="row g-0 align-items-center position-relative flex-column flex-lg-row" style={{ minHeight: 'calc(100vh - 80px)' }}>
-        
+
         {/* Magic Sparkles */}
         <motion.div
           className="position-absolute top-0 start-0 w-100 h-100"
@@ -90,8 +90,8 @@ function FreeDemo() {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              height: '400px',           // for small screen
-              minHeight: '100%',         // for lg+
+              height: '400px',
+              minHeight: '100%',
             }}
           />
         </div>
