@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { 
   ArrowUpRight, BarChart2, BookOpen, Briefcase, Clock, Compass, 
-  Globe, GraduationCap, LayoutGrid, PieChart, Rocket, Search, 
-  Shield, Star, Target, TrendingUp, Users, Zap, X, ChevronDown,
-  Bookmark, Award, Code, Music, Palette, Mic, Activity, Smile
+  Globe, GraduationCap, Rocket,  
+  Star, Target, TrendingUp, Users, Zap, X, ChevronDown,
+  Bookmark, Award, Code, Music, Palette, Mic, Activity
 } from 'lucide-react';
 import './career.css';
-
 
 const Career = () => {
   useEffect(() => {
     document.title = "Career | NOVYA - Your Smart Learning Platform";
   }, []);
-  const [selectedGrade, setSelectedGrade] = useState('8');
-  const [activeTab, setActiveTab] = useState('trending');
+  
   const [animatedStats, setAnimatedStats] = useState({
     students: 0,
     successRate: 0,
@@ -49,15 +47,6 @@ const Career = () => {
       setHeroAnimation(true);
     }, 500);
   }, []);
-
-  const grades = [
-    { value: '7', label: 'Grade 7', color: '#FF6B6B' },
-    { value: '8', label: 'Grade 8', color: '#4ECDC4' },
-    { value: '9', label: 'Grade 9', color: '#45B7D1' },
-    { value: '10', label: 'Grade 10', color: '#96CEB4' },
-    { value: '11', label: 'Grade 11', color: '#FFEAA7' },
-    { value: '12', label: 'Grade 12', color: '#DDA0DD' }
-  ];
 
   const performanceMetrics = [
     {
@@ -627,17 +616,6 @@ const Career = () => {
       )}
     </div>
   );
-};
-
-// Helper functions
-const getRandomColor = () => {
-  const colors = [
-    '#667eea', '#764ba2', '#f093fb', '#f5576c', 
-    '#4facfe', '#00f2fe', '#43e97b', '#38f9d7',
-    '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
-    '#FFEAA7', '#DDA0DD'
-  ];
-  return colors[Math.floor(Math.random() * colors.length)];
 };
 
 const getMetricColor = (value, max) => {
