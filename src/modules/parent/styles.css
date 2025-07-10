@@ -118,7 +118,6 @@ body {
   background-color: #fdf7fa;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
 }
-* Icon and label vertical spacing */
 .dashboard-card .card-title span:first-child {
   margin-bottom: 4px;
 }

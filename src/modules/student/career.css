@@ -568,7 +568,6 @@
 .metric-info {
   display: flex;
   justify-content: space-between;
-  grid-column: 1 / -1;
 }
 
 .metric-name {

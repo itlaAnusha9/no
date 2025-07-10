@@ -181,9 +181,7 @@
   position: relative;
 }
 
-.form-group.full-width {
-  grid-column: 1 / -1;
-}
+
 
 .form-label {
   display: flex;
