@@ -138,7 +138,7 @@ const Chatbox = () => {
     const inputLower = userInput.toLowerCase();
     
     // Check for exact matches first
-    for (const [category, data] of Object.entries(knowledgeBase)) {
+    for (const [data] of Object.entries(knowledgeBase)) {
       if (data.patterns.some(pattern => inputLower.includes(pattern))) {
         const responses = data.responses;
         return responses[Math.floor(Math.random() * responses.length)];
