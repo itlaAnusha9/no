@@ -48,16 +48,49 @@ const Navbar = () => {
       transition={{ duration: 0.6 }}
     >
       <div className="navbar-container">
-        <div className="navbar-brand">
-          <Link to="/student/dashboard" className="navbar-logo-link" style={{ textDecoration: "none", color: "inherit" }}>
-            <img
-              src={novyaLogo}
-              alt="NOVYA Logo"
-              style={{ height: '50px', width: 'auto', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
-            />
-          </Link>
-          
-        </div>
+        <div className="navbar-brand" style={{ display: 'flex', alignItems: 'center' }}>
+  <Link
+    to="/student/dashboard"
+    className="navbar-logo-link"
+    style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}
+  >
+    <img
+      src={novyaLogo}
+      alt="NOVYA Logo"
+      style={{
+        height: '50px',
+        width: 'auto',
+        maxWidth: '160px',
+        objectFit: 'contain',
+        display: 'block',
+      }}
+    />
+    <motion.span
+      style={{
+        background: 'linear-gradient(90deg, #2D5D7B 0%, #4a8db7 25%, #FF6B6B 50%, #FFD166 75%, #2D5D7B 100%)',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        color: 'transparent',
+        fontWeight: '800',
+        fontSize: '1.8rem',
+        marginLeft: '12px',
+        letterSpacing: '1px',
+        fontFamily: "'Poppins', sans-serif",
+        backgroundSize: '200% auto',
+        animation: 'gradientText 3s ease infinite',
+      }}
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.2, duration: 0.5 }}
+      whileHover={{
+        backgroundPosition: 'right center',
+        transition: { duration: 1.5 },
+      }}
+    >
+      NOVYA
+    </motion.span>
+  </Link>
+</div>
 
         <div className="navbar-desktop-links">
           <ul>
