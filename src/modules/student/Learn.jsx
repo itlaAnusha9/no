@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { jsPDF } from "jspdf";
-// import "../../module/student/learn.css";
 import './learn.css';
+
 const Learn = () => {
   useEffect(() => {
-      document.title = "Learning-Dashboard | NOVYA - Your Smart Learning Platform";
-    }, []);
+    document.title = "Learning-Dashboard | NOVYA - Your Smart Learning Platform";
+  }, []);
+  
   const subjects = {
     Mathematics: {
       icon: "📐",
       color: "#4CAF50",
       chapters: {
-        "7th Grade": ["Integers", "Fractions", "Decimals", "Basic Geometry","Algebra"],
+        "7th Grade": ["Integers", "Fractions and Decimals", "Data Handling", "Basic Geometry","Algebra"],
         "8th Grade": ["Rational Numbers", "Linear Equations", "Algebra Basics", "Geometry Introduction"],
         "9th Grade": ["Quadratic Equations", "Trigonometry", "Coordinate Geometry", "Statistics"],
         "10th Grade": ["Polynomials", "Probability", "Circles", "Surface Areas"],
@@ -151,10 +152,60 @@ const Learn = () => {
         "12th Grade": ["Sports Management", "Sports Technology", "Sports Marketing", "Professional Sports"]
       },
     }
-    // ... (other subjects remain the same)
   };
 
   const chapterContent = {
+    "Integers": {
+      content: ["This chapter content is loaded directly from Google Drive"],
+      examples: [],
+      difficulty: "Easy",
+      timeToRead: "15 min",
+      recordings: [
+        { title: "Introduction to Integers", url: "https://www.youtube.com/embed/d3AQICu8_OQ" }
+      ],
+      googleDocId: "1GEjkBoDErMfziQs91TDuuVBPrFTaZ1xZ",
+      quiz: [
+        {
+          question: "Which of the following is an integer?",
+          options: ["1.5", "2/3", "3", "π"],
+          answer: 2
+        }
+      ]
+    },
+    "Fractions and Decimals": {
+      content: ["This chapter content is loaded directly from Google Drive"],
+      examples: [],
+      difficulty: "Medium",
+      timeToRead: "20 min",
+      recordings: [
+        { title: "Understanding Fractions and Decimals", url: "https://www.youtube.com/embed/d3AQICu8_OQ" }
+      ],
+      googleDocId: "1RksdRX9kNNe0HlOmYfjtKQZpwwHtQ5Kx",
+      quiz: [
+        {
+          question: "What is 1/2 as a decimal?",
+          options: ["0.2", "0.5", "0.25", "0.75"],
+          answer: 1
+        }
+      ]
+    },
+    "Data Handling": {
+      content: ["This chapter content is loaded directly from Google Drive"],
+      examples: [],
+      difficulty: "Medium",
+      timeToRead: "25 min",
+      recordings: [
+        { title: "Introduction to Data Handling", url: "https://www.youtube.com/embed/d3AQICu8_OQ" }
+      ],
+      googleDocId: "1SGO9MH8yZ7YrPbeQBoASzY53mxbmmHL5",
+      quiz: [
+        {
+          question: "Which of the following is a method of data representation?",
+          options: ["Bar graph", "Multiplication", "Division", "Addition"],
+          answer: 0
+        }
+      ]
+    },
     "Rational Numbers": {
       content: ["This chapter content is loaded directly from Google Drive"],
       examples: [],
@@ -254,7 +305,7 @@ const Learn = () => {
   };
 
   const generatePdf = () => {
-    if (selectedChapter === "Rational Numbers" && chapterContent[selectedChapter]?.googleDocId) {
+    if (chapterContent[selectedChapter]?.googleDocId) {
       window.open(`https://docs.google.com/document/d/${chapterContent[selectedChapter].googleDocId}/export?format=pdf`, '_blank');
       return;
     }
@@ -432,7 +483,7 @@ const Learn = () => {
             <div className="tab-content">
               {activeTab === "content" && (
                 <div className="content-section">
-                  {selectedChapter === "Rational Numbers" && chapterContent[selectedChapter]?.googleDocId ? (
+                  {chapterContent[selectedChapter]?.googleDocId ? (
                     <div className="drive-content">
                       <div className="embed-container">
                         <iframe

@@ -1,12 +1,11 @@
-
-
-
 // Pricing.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-bootstrap';
 import { motion } from 'framer-motion';
+import { ToastContainer, toast } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const NAVBAR_HEIGHT = 60; // Adjust to your fixed navbar height
 
@@ -28,12 +27,14 @@ const temptingQuotes = [
   "💡 Limited seats available - Don't miss your chance to excel!",
   "🎓 Join 25,000+ students who transformed their academic journey",
   "⭐ Our students average 1.5 grade points higher after 6 months",
-  "🔥 Last chance to enroll at this price - Offer ends soon!",
   "📈 85% of our students report feeling more confident in exams",
   "✨ Exclusive content you won't find anywhere else",
   "🏆 Top-performing students in your school use our platform",
-  "⏳ Only 3 days left to enroll at this special price",
-  "📚 Get access to all subjects for less than ₹10/day"
+  "📚 Get access to all subjects in one comprehensive package",
+  "🔥 Special launch pricing coming soon - Stay tuned!",
+  "💫 We're finalizing the best value for your education",
+  "⏳ Pricing details will be announced shortly",
+  "🎯 Affordable excellence is our commitment to you"
 ];
 
 function Pricing() {
@@ -61,73 +62,43 @@ function Pricing() {
     return () => clearInterval(id);
   }, []);
 
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
-
-  const handleBuyAll = async () => {
-    const res = await loadRazorpayScript();
-    if (!res) {
-      alert('Razorpay SDK failed to load. Check your internet connection.');
-      return;
-    }
-
-    // In a real app, you would get these details from your backend
-    const options = {
-      key: 'rzp_test_X0ttERlr0afucZ', // Replace with your actual Razorpay key
-      amount: 360000, // 3600 INR in paise
-      currency: 'INR',
-      name: 'Prime Minds Learning Platform',
-      description: 'Yearly Super Saver Plan',
-      image: 'https://example.com/your_logo.png', // Add your logo URL
-      order_id: '', // You would get this from your backend
-      handler: function(response) {
-        alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-        // Here you would typically verify the payment on your backend
-        // and then provide access to the user
-      },
-      prefill: {
-        name: 'Customer Name', // You can get this from user input
-        email: 'customer@example.com',
-        contact: '9999999999'
-      },
-      notes: {
-        address: 'Customer address' // Optional
-      },
-      theme: {
-        color: '#A62D69'
+  const handleNotifyMe = () => {
+    toast.success(
+      <div>
+        <h6 className="fw-bold mb-2">Thank you for your interest!</h6>
+        <p className="mb-0">We'll notify you as soon as our pricing is finalized.</p>
+      </div>, 
+      {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        style: {
+          borderRadius: '12px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+        }
       }
-    };
-
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-    
-    rzp.on('payment.failed', function(response) {
-      alert(`Payment failed! Error: ${response.error.description}`);
-      console.error(response.error);
-    });
+    );
   };
 
   const plans = [{
-    name: 'YEARLY SUPER SAVER',
-    price: '₹3,600/year',
-    perDay: 'Only ₹10/day',
+    name: 'COMPREHENSIVE YEARLY PLAN',
+    price: 'Coming Soon',
+    perDay: 'Best value pricing',
     features: [
-      'Access to ALL subjects below',
+      'Access to All subjects below',
       'Certifications included',
       '24/7 Mentor Support',
       'Downloadable resources',
       'Progress tracking',
       'New materials added regularly'
     ],
-    badge: 'LIMITED TIME OFFER!',
-    saving: 'Save 70%'
+    badge: 'PRICING TO BE ANNOUNCED!',
+    saving: 'Best Value'
   }];
 
   // Build courses array from images
@@ -136,12 +107,13 @@ function Pricing() {
     instructor: ['CBSE','NCERT','State Board','CBSE','NCERT','CBSE','NCERT','State Board','CBSE','NCERT'][i] + ' Curriculum',
     rating: (4.5 + (i % 5) * 0.1).toFixed(1),
     students: `${10000 + i * 1000}`,
-    originalPrice: `₹${10000 + i * 2000}`,
+    originalPrice: `Price TBD`,
     image: img
   }));
 
   return (
     <div style={{ paddingTop: NAVBAR_HEIGHT }}>
+      <ToastContainer />
       <section className="py-5" style={{ backgroundColor: '#f5f7fa' }}>
         <div className="container">
           <div className="text-center mb-5" style={{ position: 'relative', top: -NAVBAR_HEIGHT / 2 }}>
@@ -153,7 +125,7 @@ function Pricing() {
               You'll Get Access To (Starts from 7th Grade)
             </h2>
             <p className="lead" style={{ color: '#5A6A7D' }}>
-              All included in one affordable yearly membership
+              All included in one affordable yearly membership - Pricing to be announced soon!
             </p>
           </div>
 
@@ -173,16 +145,16 @@ function Pricing() {
                 <ul className="list-unstyled text-start mb-4">
                   {plans[0].features.map((f, idx) => <li key={idx}>✓ {f}</li>)}
                 </ul>
-                <button onClick={handleBuyAll} className="btn btn-lg w-100 py-3 fw-bold"
+                <button onClick={handleNotifyMe} className="btn btn-lg w-100 py-3 fw-bold"
                         style={{ 
                           background: 'linear-gradient(135deg, #2D5D7B, #A62D69)', 
                           color: '#fff', 
                           borderRadius: '8px', 
                           boxShadow: '0 4px 15px rgba(166,45,105,0.4)'
                         }}>
-                  GET ALL SUBJECTS NOW – ₹3,600/YEAR
+                  NOTIFY ME WHEN PRICING IS AVAILABLE
                 </button>
-                <div className="mt-3 small text-muted"> · ✅ One‑time payment</div>
+                <div className="mt-3 small text-muted">✅ We're working on the best pricing for you!</div>
               </div>
             </div>
           </div>
@@ -207,10 +179,10 @@ function Pricing() {
                           <span className="ms-2 small text-muted">({c.students})</span>
                         </div>
                         <div className="d-flex justify-content-between align-items-center">
-                          <span className="text-decoration-line-through text-muted small">{c.originalPrice}</span>
-                          <span className="badge bg-success"
-                                style={{ width: '57px', minWidth: '57px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
-                            Included
+                          <span className="text-muted small">{c.originalPrice}</span>
+                          <span className="badge bg-primary"
+                                style={{ width: '70px', minWidth: '70px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
+                            Coming Soon
                           </span>
                         </div>
                       </div>
@@ -238,10 +210,10 @@ function Pricing() {
                                 <span className="ms-1 small text-muted" style={{ fontSize: '0.7rem' }}>({c.students})</span>
                               </div>
                               <div className="d-flex justify-content-between align-items-center">
-                                <span className="text-decoration-line-through text-muted small">{c.originalPrice}</span>
-                                <span className="badge bg-success small"
-                                      style={{ width: '57px', minWidth: '57px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
-                                  Included
+                                <span className="text-muted small">{c.originalPrice}</span>
+                                <span className="badge bg-primary small"
+                                      style={{ width: '70px', minWidth: '70px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
+                                  Coming Soon
                                 </span>
                               </div>
                             </div>
@@ -264,11 +236,11 @@ function Pricing() {
             <div className="d-flex justify-content-center gap-3 mt-4">
               <button className="btn fw-bold py-3 px-4"
                       style={{ background: 'linear-gradient(135deg,#2D5D7B,#3a7ca5)', color: '#fff', borderRadius: '8px', boxShadow: '0 4px 15px rgba(45,93,123,0.4)' }}
-                      onClick={handleBuyAll}>
-                YES, I WANT ACCESS!
+                      onClick={handleNotifyMe}>
+                NOTIFY ME ABOUT PRICING!
               </button>
             </div>
-            <p className="small text-muted mt-3">Secure payment via UPI/Cards/NetBanking</p>
+            <p className="small text-muted mt-3">We're finalizing the most affordable pricing for students</p>
           </div>
         </div>
       </section>

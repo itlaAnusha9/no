@@ -79,7 +79,7 @@ const ParentDashboard = () => {
         {/* Avatar + Logout */}
         <div className="d-flex flex-column align-items-center mt-3 mb-4">
           <img
-            src="/images/parent2.webp"
+            src="https://images.piclumen.com/normal/20250704/16/13fadf469fdc447d83cb8e406887126f.webp"
             alt="Parent"
             style={{
               width: '100px',
