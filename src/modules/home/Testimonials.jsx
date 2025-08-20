@@ -10,7 +10,7 @@ function Testimonials() {
       }, []);
   const testimonials = [
     {
-      name: 'Sai chandra, Class 10',
+      name: 'Tulasi, Class 10',
       role: 'CBSE Topper 2023',
       quote: 'I improved from 50% to 85% using LMS AI’s personalized feedback system. The AI tutor identified my weak areas instantly!',
       rating: 5,
@@ -24,7 +24,7 @@ function Testimonials() {
       avatar: 'https://randomuser.me/api/portraits/men/32.jpg'
     },
     {
-      name: 'Dr. Priya Nair',
+      name: 'Dr. Harini',
       role: 'Parent & Educator',
       quote: 'The progress tracking dashboard helped me monitor my child\'s improvement week-by-week. Better than any tuition center!',
       rating: 4,
@@ -119,22 +119,29 @@ function Testimonials() {
                   }}
                 >
                   <div className="d-flex align-items-center mb-3">
-                    <img 
-                      src={t.avatar} 
-                      alt={t.name} 
-                      style={{
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                        border: '3px solid rgba(30, 136, 229, 0.2)'
-                      }}
-                    />
-                    <div className="ms-3">
-                      <h5 className="mb-0 fw-bold" style={{ color: '#2D5D7B' }}>{t.name}</h5>
-                      <small className="text-muted">{t.role}</small>
-                    </div>
-                  </div>
+  <div 
+    style={{
+      width: '60px',
+      height: '60px',
+      borderRadius: '50%',
+      background: '#1e88e5',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#fff',
+      fontWeight: 'bold',
+      fontSize: '1.2rem',
+      border: '3px solid rgba(30, 136, 229, 0.2)'
+    }}
+  >
+    {t.name.charAt(0)}
+  </div>
+  <div className="ms-3">
+    <h5 className="mb-0 fw-bold" style={{ color: '#2D5D7B' }}>{t.name}</h5>
+    <small className="text-muted">{t.role}</small>
+  </div>
+</div>
+
                   
                   <StarRating rating={t.rating} />
                   

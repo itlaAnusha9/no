@@ -1,11 +1,18 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // added for navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion } from 'framer-motion';
 
 function FreeDemo() {
+  const navigate = useNavigate(); // initialize navigate
+
   useEffect(() => {
     document.title = "Free demo | NOVYA - Your Smart Learning Platform";
   }, []);
+
+  const handleBookDemo = () => {
+    navigate('/contact'); // redirect to contact page
+  };
 
   return (
     <div className="container-fluid p-0" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', overflow: 'hidden' }}>
@@ -65,6 +72,7 @@ function FreeDemo() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={handleBookDemo} // redirect added
               className="btn btn-lg px-5 py-3 fw-bold"
               style={{
                 background: 'linear-gradient(135deg, #2D5D7B, #3a7ca5)',

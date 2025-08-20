@@ -10,16 +10,16 @@ import 'react-toastify/dist/ReactToastify.css';
 const NAVBAR_HEIGHT = 60; // Adjust to your fixed navbar height
 
 const courseImages = [
-  'https://www.shutterstock.com/image-vector/math-background-260nw-628074927.jpg',
-  'https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148499325.jpg',
-  'https://img.freepik.com/free-vector/hand-drawn-social-science-background_23-2149323752.jpg',
-  'https://img.freepik.com/free-vector/hand-painted-watercolor-english-background_23-2149430414.jpg',
-  'https://img.freepik.com/free-vector/hand-drawn-hindi-background_23-2149430416.jpg',
-  'https://img.freepik.com/free-vector/hand-drawn-physics-background_23-2149323754.jpg',
-  'https://img.freepik.com/free-vector/hand-drawn-chemistry-background_23-2149323755.jpg',
-  'https://img.freepik.com/free-vector/hand-drawn-biology-background_23-2149323753.jpg',
-  'https://img.freepik.com/free-vector/hand-drawn-computer-science-background_23-2149323756.jpg',
-  'https://img.freepik.com/free-vector/hand-drawn-geography-background_23-2149323757.jpg'
+  'https://images.piclumen.com/normal/20250711/18/3dff9880364d457981a702c574f1c7b3.webp',
+  'https://images.piclumen.com/normal/20250711/19/8cf4f2439f074fb7ad5f5444d2bcacda.webp',
+  'https://images.piclumen.com/normal/20250711/19/6f78c58db77d40b9b1f28d5041add78d.webp',
+  'https://images.piclumen.com/normal/20250711/19/11427e802c8b41eaa440cfc27f27eac9.webp',
+  'https://images.piclumen.com/normal/20250711/19/d02f9d494e5c4ac28293ceff66d2e153.webp',
+  'https://images.piclumen.com/normal/20250711/19/b0e120c1c93f4f99bb7850c5508ac108.webp',
+  'https://images.piclumen.com/normal/20250711/19/7288b04dca9545db8578703b6bfe5aba.webp',
+  'https://images.piclumen.com/normal/20250711/19/f1cb0a43e28c418bae87af593c3ec35b.webp',
+  'https://images.piclumen.com/normal/20250711/19/b821e8e8cffe4c84a7b8fc89338dfad2.webp',
+  'https://images.piclumen.com/normal/20250711/19/19535289cb2c42f285d03c080d3bd00b.webp'
 ];
 
 const temptingQuotes = [
