@@ -30,11 +30,11 @@ const ClassSevenInterface = () => {
       { number: 5, title: 'PHYSICAL AND CHEMICAL CHANGES' },
     ],
     English: [
-      { number: 1, title: 'Three Questions' },
-      { number: 2, title: 'A Gift of Chappals' },
-      { number: 3, title: 'Heat' },
-      { number: 4, title: 'Nutrition in Animals' },
-      { number: 5, title: 'Heat' },
+      { number: 1, title: 'LEARNING TOGETHER' },
+      { number: 2, title: 'WIT AND HUMOUR' },
+      { number: 3, title: 'DREAMS AND DISCOVERIES' },
+      { number: 4, title: 'TRAVEL AND ADVENTURE' },
+      { number: 5, title: 'BRAVE HEARTS' },
     ],
     Social: [
       { number: 1, title: 'TRACE CHANGES' },
@@ -44,11 +44,11 @@ const ClassSevenInterface = () => {
       { number: 5, title: 'RULERS' },
     ],
     Computer: [
-      { number: 1, title: 'Introduction to Computers' },
-      { number: 2, title: 'Computer Hardware and Software' },
-      { number: 3, title: 'Heat' },
-      { number: 4, title: 'Nutrition in Animals' },
-      { number: 5, title: 'Heat' },
+      { number: 1, title: 'MICROSOFT WORD' },
+      { number: 2, title: 'TEXT EDITING' },
+      { number: 3, title: 'MS WORD PICTURES' },
+      { number: 4, title: 'MS WORD SMART ART' },
+      { number: 5, title: 'SMART ART EDITING' },
     ],
   };
 

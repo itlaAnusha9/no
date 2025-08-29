@@ -1,15 +1,13 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaUser, FaSignOutAlt, FaCog, FaBars, FaTimes } from 'react-icons/fa';
 import novyaLogo from './assets/NOVYA LOGO.png';
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation(); // Add this to track route changes
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
@@ -31,19 +29,59 @@ function Navbar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Enhanced useEffect to check login status
   useEffect(() => {
-    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const userData = JSON.parse(localStorage.getItem('user'));
-    setIsLoggedIn(loggedIn);
-    setUser(userData);
-    setActiveLink(window.location.pathname);
-  }, []);
+    const checkLoginStatus = () => {
+      const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const userData = localStorage.getItem('user');
+      
+      console.log('Checking login status:', { loggedIn, userData }); // Debug log
+      
+      setIsLoggedIn(loggedIn);
+      setUser(userData ? JSON.parse(userData) : null);
+      setActiveLink(window.location.pathname);
+    };
+
+    // Check on mount
+    checkLoginStatus();
+
+    // Listen for storage changes (when user logs in/out in another tab)
+    window.addEventListener('storage', checkLoginStatus);
+    
+    // Custom event listener for login/logout events within the same tab
+    window.addEventListener('loginStatusChanged', checkLoginStatus);
+
+    return () => {
+      window.removeEventListener('storage', checkLoginStatus);
+      window.removeEventListener('loginStatusChanged', checkLoginStatus);
+    };
+  }, [location.pathname]); // Also run when route changes
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showProfileDropdown && !event.target.closest('.position-relative')) {
+        setShowProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showProfileDropdown]);
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('user');
+    localStorage.removeItem('userToken'); // Also remove token if it exists
+    localStorage.removeItem('userRole'); // Also remove role if it exists
+    
     setIsLoggedIn(false);
     setUser(null);
+    setShowProfileDropdown(false);
+    
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new Event('loginStatusChanged'));
+    
     navigate('/login');
   };
 
@@ -99,7 +137,7 @@ function Navbar() {
             </motion.button>
           )}
           
-          {/* <motion.div
+          <motion.div
             className="fw-bold fs-3 d-flex align-items-center"
             whileHover={{ scale: window.innerWidth > 992 ? 1.05 : 1 }}
             whileTap={{ scale: 0.95 }}
@@ -110,55 +148,32 @@ function Navbar() {
                 alt="NOVYA Logo"
                 style={{ height: '60px', width: 'auto', maxWidth: '180px', objectFit: 'contain', display: 'block' }}
               />
-              <span style={{ 
-                color: '#2D5D7B', 
-                fontWeight: 'bold', 
-                fontSize: '1.5rem',
-                marginLeft: '10px'
-              }}>
+              <motion.span
+                style={{
+                  background: 'linear-gradient(90deg, #2D5D7B 0%, #4a8db7 25%, #FF6B6B 50%, #FFD166 75%, #2D5D7B 100%)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  color: 'transparent',
+                  fontWeight: '800',
+                  fontSize: '1.8rem',
+                  marginLeft: '12px',
+                  letterSpacing: '1px',
+                  fontFamily: "'Poppins', sans-serif",
+                  backgroundSize: '200% auto',
+                  animation: 'gradientText 3s ease infinite'
+                }}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                whileHover={{
+                  backgroundPosition: 'right center',
+                  transition: { duration: 1.5 }
+                }}
+              >
                 NOVYA
-              </span>
+              </motion.span>
             </Link>
-          </motion.div> */}
-
-
-          <motion.div
-  className="fw-bold fs-3 d-flex align-items-center"
-  whileHover={{ scale: window.innerWidth > 992 ? 1.05 : 1 }}
-  whileTap={{ scale: 0.95 }}
->
-  <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-    <img
-      src={novyaLogo}
-      alt="NOVYA Logo"
-      style={{ height: '60px', width: 'auto', maxWidth: '180px', objectFit: 'contain', display: 'block' }}
-    />
-    <motion.span
-      style={{
-        background: 'linear-gradient(90deg, #2D5D7B 0%, #4a8db7 25%, #FF6B6B 50%, #FFD166 75%, #2D5D7B 100%)',
-        WebkitBackgroundClip: 'text',
-        backgroundClip: 'text',
-        color: 'transparent',
-        fontWeight: '800',
-        fontSize: '1.8rem',
-        marginLeft: '12px',
-        letterSpacing: '1px',
-        fontFamily: "'Poppins', sans-serif",
-        backgroundSize: '200% auto',
-        animation: 'gradientText 3s ease infinite'
-      }}
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.2, duration: 0.5 }}
-      whileHover={{
-        backgroundPosition: 'right center',
-        transition: { duration: 1.5 }
-      }}
-    >
-      NOVYA
-    </motion.span>
-  </Link>
-</motion.div>
+          </motion.div>
         </div>
 
         {/* Desktop Nav Links */}
@@ -213,10 +228,22 @@ function Navbar() {
           </motion.ul>
         )}
 
-        {/* Right Side Buttons */}
-        <div className="d-flex align-items-center">
-          {/* Profile */}
-          {isLoggedIn && user && (
+        {/* Right Side Buttons - Fixed positioning */}
+        <div className="d-flex align-items-center" style={{ minHeight: '44px' }}>
+          {/* Debug info - remove in production */}
+          {process.env.NODE_ENV === 'development' && (
+            <small style={{ 
+              marginRight: '10px', 
+              fontSize: '10px', 
+              color: '#666',
+              display: windowWidth > 1200 ? 'block' : 'none'
+            }}>
+              {isLoggedIn ? 'Logged In' : 'Not Logged In'}
+            </small>
+          )}
+
+          {/* Profile Section - Only show when logged in */}
+          {isLoggedIn && user ? (
             <motion.div
               className="position-relative"
               onClick={() => setShowProfileDropdown(!showProfileDropdown)}
@@ -229,7 +256,8 @@ function Navbar() {
                   background: '#f7f9fb',
                   borderRadius: '50px',
                   padding: windowWidth > 576 ? '0.5rem 1rem' : '0.5rem',
-                  position: 'relative'
+                  position: 'relative',
+                  cursor: 'pointer'
                 }}
               >
                 <img
@@ -258,89 +286,94 @@ function Navbar() {
                 />
               </motion.div>
 
-              {showProfileDropdown && (
-                <motion.div
-                  className="dropdown-menu show p-0 shadow-lg"
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    minWidth: '200px',
-                    borderRadius: '15px',
-                    border: 'none',
-                    backgroundColor: 'white',
-                    display: 'block',
-                    overflow: 'hidden'
-                  }}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Link
-                    to="/profile"
-                    className="dropdown-item px-3 py-2 d-flex align-items-center position-relative"
-                    style={{ color: '#222831', fontSize: '0.9rem' }}
+              <AnimatePresence>
+                {showProfileDropdown && (
+                  <motion.div
+                    className="dropdown-menu show p-0 shadow-lg"
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      top: '100%',
+                      marginTop: '5px',
+                      minWidth: '200px',
+                      borderRadius: '15px',
+                      border: 'none',
+                      backgroundColor: 'white',
+                      display: 'block',
+                      overflow: 'hidden',
+                      zIndex: 9999
+                    }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <FaUser className="me-2" /> My Profile
-                    <motion.span
-                      style={{
-                        position: 'absolute',
-                        bottom: '0',
-                        left: '0',
-                        width: '0%',
-                        height: '2px',
-                        background: '#ff3d3d',
-                      }}
-                      whileHover={{ width: '100%' }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </Link>
-                  <Link
-                    to="/settings"
-                    className="dropdown-item px-3 py-2 d-flex align-items-center position-relative"
-                    style={{ color: '#222831', fontSize: '0.9rem' }}
-                  >
-                    <FaCog className="me-2" /> Settings
-                    <motion.span
-                      style={{
-                        position: 'absolute',
-                        bottom: '0',
-                        left: '0',
-                        width: '0%',
-                        height: '2px',
-                        background: '#ff3d3d',
-                      }}
-                      whileHover={{ width: '100%' }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </Link>
-                  <div
-                    className="dropdown-item px-3 py-2 d-flex align-items-center position-relative"
-                    style={{ color: '#dc3545', fontSize: '0.9rem', cursor: 'pointer' }}
-                    onClick={handleLogout}
-                  >
-                    <FaSignOutAlt className="me-2" /> Logout
-                    <motion.span
-                      style={{
-                        position: 'absolute',
-                        bottom: '0',
-                        left: '0',
-                        width: '0%',
-                        height: '2px',
-                        background: '#ff3d3d',
-                      }}
-                      whileHover={{ width: '100%' }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </div>
-                </motion.div>
-              )}
+                    <Link
+                      to="/profile"
+                      className="dropdown-item px-3 py-2 d-flex align-items-center position-relative"
+                      style={{ color: '#222831', fontSize: '0.9rem' }}
+                      onClick={() => setShowProfileDropdown(false)}
+                    >
+                      <FaUser className="me-2" /> My Profile
+                      <motion.span
+                        style={{
+                          position: 'absolute',
+                          bottom: '0',
+                          left: '0',
+                          width: '0%',
+                          height: '2px',
+                          background: '#ff3d3d',
+                        }}
+                        whileHover={{ width: '100%' }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </Link>
+                    <Link
+                      to="/settings"
+                      className="dropdown-item px-3 py-2 d-flex align-items-center position-relative"
+                      style={{ color: '#222831', fontSize: '0.9rem' }}
+                      onClick={() => setShowProfileDropdown(false)}
+                    >
+                      <FaCog className="me-2" /> Settings
+                      <motion.span
+                        style={{
+                          position: 'absolute',
+                          bottom: '0',
+                          left: '0',
+                          width: '0%',
+                          height: '2px',
+                          background: '#ff3d3d',
+                        }}
+                        whileHover={{ width: '100%' }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </Link>
+                    <div
+                      className="dropdown-item px-3 py-2 d-flex align-items-center position-relative"
+                      style={{ color: '#dc3545', fontSize: '0.9rem', cursor: 'pointer' }}
+                      onClick={handleLogout}
+                    >
+                      <FaSignOutAlt className="me-2" /> Logout
+                      <motion.span
+                        style={{
+                          position: 'absolute',
+                          bottom: '0',
+                          left: '0',
+                          width: '0%',
+                          height: '2px',
+                          background: '#ff3d3d',
+                        }}
+                        whileHover={{ width: '100%' }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
-          )}
-
-          {/* Login/Register */}
-          {!isLoggedIn && (
+          ) : (
+            /* Login/Register Button - Only show when NOT logged in */
             <motion.button
               onClick={() => navigate('/login')}
               className="btn position-relative"
@@ -357,9 +390,9 @@ function Navbar() {
                 padding: windowWidth > 576 ? '10px 24px' : '8px 16px',
                 fontSize: windowWidth > 576 ? '1rem' : '0.9rem',
                 boxShadow: '0 4px 14px rgba(0,0,0,0.1)',
-                marginLeft: '1rem',
                 border: 'none',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                whiteSpace: 'nowrap'
               }}
             >
               {windowWidth > 576 ? 'Login / Register' : 'Login'}
@@ -424,11 +457,46 @@ function Navbar() {
                     </Link>
                   </motion.li>
                 ))}
+                
+                {/* Mobile Login Button - show only when not logged in */}
+                {!isLoggedIn && (
+                  <motion.li className="mt-3">
+                    <button
+                      onClick={() => {
+                        navigate('/login');
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="btn w-100"
+                      style={{
+                        backgroundColor: '#2D5D7B',
+                        color: '#fff',
+                        borderRadius: '25px',
+                        fontWeight: '600',
+                        padding: '10px',
+                        border: 'none'
+                      }}
+                    >
+                      Login / Register
+                    </button>
+                  </motion.li>
+                )}
               </ul>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.nav>
+
+      {/* Add CSS for gradient animation */}
+      <style jsx>{`
+        @keyframes gradientText {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+      `}</style>
     </div>
   );
 }

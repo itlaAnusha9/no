@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaChevronDown } from 'react-icons/fa';
 import './Navbarrr.css';
 import novyaLogo from '../home/assets/NOVYA LOGO.png';
 
@@ -10,6 +10,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState('');
   const [avatarOpen, setAvatarOpen] = useState(false);
+  const [learnDropdownOpen, setLearnDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const Navbar = () => {
     setActiveLink(location.pathname);
     setIsOpen(false);
     setAvatarOpen(false);
+    setLearnDropdownOpen(false);
   }, [location.pathname]);
 
   const handleLogout = () => {
@@ -33,8 +35,16 @@ const Navbar = () => {
 
   const navLinks = [
     { path: '/student/dashboard', name: 'Home' },
-    { path: '/learn', name: 'Learn' },
-    { path: '/classroom', name: 'Classroom' },
+    { 
+      path: '/learn', 
+      name: 'Learn',
+      hasDropdown: true,
+      dropdownItems: [
+        { path: '/learn/quizzes', name: 'Quizzes' },
+        { path: '/learn/pdfs', name: "PDF's" },
+        { path: '/learn/recordings', name: 'Recordings' }
+      ]
+    },
     { path: '/practice', name: 'Practice' },
     { path: '/career', name: 'Career' },
     { path: '/mentorship', name: 'Mentorship' },
@@ -49,57 +59,104 @@ const Navbar = () => {
     >
       <div className="navbar-container">
         <div className="navbar-brand" style={{ display: 'flex', alignItems: 'center' }}>
-  <Link
-    to="/student/dashboard"
-    className="navbar-logo-link"
-    style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}
-  >
-    <img
-      src={novyaLogo}
-      alt="NOVYA Logo"
-      style={{
-        height: '50px',
-        width: 'auto',
-        maxWidth: '160px',
-        objectFit: 'contain',
-        display: 'block',
-      }}
-    />
-    <motion.span
-      style={{
-        background: 'linear-gradient(90deg, #2D5D7B 0%, #4a8db7 25%, #FF6B6B 50%, #FFD166 75%, #2D5D7B 100%)',
-        WebkitBackgroundClip: 'text',
-        backgroundClip: 'text',
-        color: 'transparent',
-        fontWeight: '800',
-        fontSize: '1.8rem',
-        marginLeft: '12px',
-        letterSpacing: '1px',
-        fontFamily: "'Poppins', sans-serif",
-        backgroundSize: '200% auto',
-        animation: 'gradientText 3s ease infinite',
-      }}
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.2, duration: 0.5 }}
-      whileHover={{
-        backgroundPosition: 'right center',
-        transition: { duration: 1.5 },
-      }}
-    >
-      NOVYA
-    </motion.span>
-  </Link>
-</div>
+          <Link
+            to="/student/dashboard"
+            className="navbar-logo-link"
+            style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}
+          >
+            <img
+              src={novyaLogo}
+              alt="NOVYA Logo"
+              style={{
+                height: '50px',
+                width: 'auto',
+                maxWidth: '160px',
+                objectFit: 'contain',
+                display: 'block',
+              }}
+            />
+            <motion.span
+              style={{
+                background: 'linear-gradient(90deg, #2D5D7B 0%, #4a8db7 25%, #FF6B6B 50%, #FFD166 75%, #2D5D7B 100%)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                color: 'transparent',
+                fontWeight: '800',
+                fontSize: '1.8rem',
+                marginLeft: '12px',
+                letterSpacing: '1px',
+                fontFamily: "'Poppins', sans-serif",
+                backgroundSize: '200% auto',
+                animation: 'gradientText 3s ease infinite',
+              }}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              whileHover={{
+                backgroundPosition: 'right center',
+                transition: { duration: 1.5 },
+              }}
+            >
+              NOVYA
+            </motion.span>
+          </Link>
+        </div>
 
         <div className="navbar-desktop-links">
           <ul>
             {navLinks.map((link) => (
-              <li key={link.path} className={`nav-item ${activeLink === link.path ? 'active' : ''}`}>
-                <Link to={link.path} className="nav-link">
-                  {link.name}
-                  <span className="nav-link-underline" />
-                </Link>
+              <li 
+                key={link.path} 
+                className={`nav-item ${activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''} ${link.hasDropdown ? 'has-dropdown' : ''}`}
+                onMouseEnter={() => link.hasDropdown && setLearnDropdownOpen(true)}
+                onMouseLeave={() => link.hasDropdown && setLearnDropdownOpen(false)}
+              >
+                {link.hasDropdown ? (
+                  <div className="nav-link-wrapper">
+                    <Link to={link.path} className="nav-link">
+                      {link.name}
+                      <FaChevronDown 
+                        size={10} 
+                        style={{ 
+                          marginLeft: '5px', 
+                          transform: learnDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                          transition: 'transform 0.3s ease'
+                        }} 
+                      />
+                      <span className="nav-link-underline" />
+                    </Link>
+                    <AnimatePresence>
+                      {learnDropdownOpen && (
+                        <motion.div
+                          className="nav-dropdown"
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ul>
+                            {link.dropdownItems.map((dropdownItem) => (
+                              <li key={dropdownItem.path}>
+                                <Link 
+                                  to={dropdownItem.path} 
+                                  className="dropdown-link"
+                                  onClick={() => setLearnDropdownOpen(false)}
+                                >
+                                  {dropdownItem.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link to={link.path} className="nav-link">
+                    {link.name}
+                    <span className="nav-link-underline" />
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -137,10 +194,58 @@ const Navbar = () => {
           >
             <ul>
               {navLinks.map((link) => (
-                <li key={link.path} className={`nav-item ${activeLink === link.path ? 'active' : ''}`}>
-                  <Link to={link.path} className="nav-link" onClick={() => setIsOpen(false)}>
-                    {link.name}
-                  </Link>
+                <li key={link.path} className={`nav-item ${activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''}`}>
+                  {link.hasDropdown ? (
+                    <div className="mobile-dropdown-container">
+                      <Link 
+                        to={link.path} 
+                        className="nav-link" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setLearnDropdownOpen(!learnDropdownOpen);
+                        }}
+                      >
+                        {link.name}
+                        <FaChevronDown 
+                          size={10} 
+                          style={{ 
+                            marginLeft: '5px', 
+                            transform: learnDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                            transition: 'transform 0.3s ease'
+                          }} 
+                        />
+                      </Link>
+                      <AnimatePresence>
+                        {learnDropdownOpen && (
+                          <motion.div
+                            className="mobile-dropdown"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            {link.dropdownItems.map((dropdownItem) => (
+                              <Link 
+                                key={dropdownItem.path}
+                                to={dropdownItem.path} 
+                                className="mobile-dropdown-link"
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  setLearnDropdownOpen(false);
+                                }}
+                              >
+                                {dropdownItem.name}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Link to={link.path} className="nav-link" onClick={() => setIsOpen(false)}>
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
               ))}
               <li>
