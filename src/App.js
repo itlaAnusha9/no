@@ -40,14 +40,14 @@ import PDFs from './modules/student/PDFs';
 import Recordings from './modules/student/Recordings';
 
 // Parent Modules
-import ParentDashboard from './modules/parent/ParentDashboard';
-import Attendance from './modules/parent/Attendance';
-import ChildProfile from './modules/parent/ChildProfile';
-import Fees from './modules/parent/Fees';
-import HomeWork from './modules/parent/HomeWork';
-import MockTestReports from './modules/parent/MockTestReports';
-import Progress from './modules/parent/Progress';
-import StudyPlanner from './modules/parent/StudyPlanner';
+import ParentDashboard from './modules/parent/ParentDashboard.jsx';
+import Attendance from './modules/parent/Attendance.jsx';
+import ChildProfile from './modules/parent/ChildProfile.jsx';
+import Fees from './modules/parent/Fees.jsx';
+import HomeWork from './modules/parent/HomeWork.jsx';
+import MockTestReports from './modules/parent/MockTestReports.jsx';
+import Progress from './modules/parent/Progress.jsx';
+import StudyPlanner from './modules/parent/StudyPlanner.jsx';
 
 import './modules/parent/styles.css';
 
@@ -123,6 +123,8 @@ function App() {
         <Route path="/student/dashboard" element={
           <ProtectedRoute><RoleRoute requiredRole="student"><Home1 /></RoleRoute></ProtectedRoute>
         } />
+
+        {/* ✅ Classroom root (Learn.jsx) */}
         <Route path="/learn" element={
           <ProtectedRoute><RoleRoute requiredRole="student"><Learn /></RoleRoute></ProtectedRoute>
         } />
@@ -139,7 +141,7 @@ function App() {
           <ProtectedRoute><RoleRoute requiredRole="student"><Mentorship /></RoleRoute></ProtectedRoute>
         } />
 
-        {/* ✅ New Learn subpages */}
+        {/* ✅ Classroom subpages */}
         <Route path="/learn/quizzes" element={
           <ProtectedRoute><RoleRoute requiredRole="student"><Quizzes /></RoleRoute></ProtectedRoute>
         } />

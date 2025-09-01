@@ -10,7 +10,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState('');
   const [avatarOpen, setAvatarOpen] = useState(false);
-  const [learnDropdownOpen, setLearnDropdownOpen] = useState(false);
+  const [classDropdownOpen, setClassDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,23 +26,25 @@ const Navbar = () => {
     setActiveLink(location.pathname);
     setIsOpen(false);
     setAvatarOpen(false);
-    setLearnDropdownOpen(false);
+    setClassDropdownOpen(false);
   }, [location.pathname]);
 
   const handleLogout = () => {
     navigate('/');
   };
 
+  // ✅ Updated paths to match App.js
   const navLinks = [
     { path: '/student/dashboard', name: 'Home' },
     { 
       path: '/learn', 
-      name: 'Learn',
+      name: 'Class Room',
       hasDropdown: true,
       dropdownItems: [
-        { path: '/learn/quizzes', name: 'Quizzes' },
+        { path: '/learn', name: 'Learn' },
         { path: '/learn/pdfs', name: "PDF's" },
-        { path: '/learn/recordings', name: 'Recordings' }
+        { path: '/learn/recordings', name: 'Recordings' },
+        { path: '/learn/quizzes', name: 'Quizzes' }
       ]
     },
     { path: '/practice', name: 'Practice' },
@@ -58,6 +60,7 @@ const Navbar = () => {
       transition={{ duration: 0.6 }}
     >
       <div className="navbar-container">
+        {/* Logo Section */}
         <div className="navbar-brand" style={{ display: 'flex', alignItems: 'center' }}>
           <Link
             to="/student/dashboard"
@@ -102,14 +105,15 @@ const Navbar = () => {
           </Link>
         </div>
 
+        {/* Desktop Links */}
         <div className="navbar-desktop-links">
           <ul>
             {navLinks.map((link) => (
               <li 
                 key={link.path} 
                 className={`nav-item ${activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''} ${link.hasDropdown ? 'has-dropdown' : ''}`}
-                onMouseEnter={() => link.hasDropdown && setLearnDropdownOpen(true)}
-                onMouseLeave={() => link.hasDropdown && setLearnDropdownOpen(false)}
+                onMouseEnter={() => link.hasDropdown && setClassDropdownOpen(true)}
+                onMouseLeave={() => link.hasDropdown && setClassDropdownOpen(false)}
               >
                 {link.hasDropdown ? (
                   <div className="nav-link-wrapper">
@@ -119,14 +123,14 @@ const Navbar = () => {
                         size={10} 
                         style={{ 
                           marginLeft: '5px', 
-                          transform: learnDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                          transform: classDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                           transition: 'transform 0.3s ease'
                         }} 
                       />
                       <span className="nav-link-underline" />
                     </Link>
                     <AnimatePresence>
-                      {learnDropdownOpen && (
+                      {classDropdownOpen && (
                         <motion.div
                           className="nav-dropdown"
                           initial={{ opacity: 0, y: -10 }}
@@ -140,7 +144,6 @@ const Navbar = () => {
                                 <Link 
                                   to={dropdownItem.path} 
                                   className="dropdown-link"
-                                  onClick={() => setLearnDropdownOpen(false)}
                                 >
                                   {dropdownItem.name}
                                 </Link>
@@ -162,6 +165,7 @@ const Navbar = () => {
           </ul>
         </div>
 
+        {/* Avatar + Toggler */}
         <div className="navbar-end">
           <div className="navbar-avatar-container" onClick={() => setAvatarOpen(!avatarOpen)}>
             <FaUserCircle size={30} className="navbar-avatar-icon" />
@@ -183,6 +187,7 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -202,7 +207,7 @@ const Navbar = () => {
                         className="nav-link" 
                         onClick={(e) => {
                           e.preventDefault();
-                          setLearnDropdownOpen(!learnDropdownOpen);
+                          setClassDropdownOpen(!classDropdownOpen);
                         }}
                       >
                         {link.name}
@@ -210,13 +215,13 @@ const Navbar = () => {
                           size={10} 
                           style={{ 
                             marginLeft: '5px', 
-                            transform: learnDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                            transform: classDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                             transition: 'transform 0.3s ease'
                           }} 
                         />
                       </Link>
                       <AnimatePresence>
-                        {learnDropdownOpen && (
+                        {classDropdownOpen && (
                           <motion.div
                             className="mobile-dropdown"
                             initial={{ opacity: 0, height: 0 }}
@@ -231,7 +236,7 @@ const Navbar = () => {
                                 className="mobile-dropdown-link"
                                 onClick={() => {
                                   setIsOpen(false);
-                                  setLearnDropdownOpen(false);
+                                  setClassDropdownOpen(false);
                                 }}
                               >
                                 {dropdownItem.name}

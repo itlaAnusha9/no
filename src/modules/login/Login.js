@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Toast, ToastContainer } from 'react-bootstrap';
@@ -11,18 +10,32 @@ import { IoMdSchool } from 'react-icons/io';
 const LoginPage = () => {
   const [activeTab, setActiveTab] = useState('student');
   const [formData, setFormData] = useState({
-    student: { username: '', password: '' },
-    parent: { username: '', password: '' }
+    student: { studentid: '', password: '' },
+    parent: { parentid: '', password: '' }
   });
   const [errors, setErrors] = useState({
-    student: { username: '', password: '' },
-    parent: { username: '', password: '' }
+    student: { studentid: '', password: '' },
+    parent: { parentid: '', password: '' }
   });
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastBg, setToastBg] = useState('success');
   const [isLoading, setIsLoading] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const navigate = useNavigate();
+
+  // Define your dynamic credentials here
+  const VALID_CREDENTIALS = {
+    student: {
+      studentid: 'student123',
+      password: 'studentpass'
+    },
+    parent: {
+      parentid: 'parent456',
+      password: 'parentpass'
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,27 +46,38 @@ const LoginPage = () => {
         [name]: value,
       },
     }));
-    if (errors[activeTab][name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [activeTab]: {
-          ...prev[activeTab],
-          [name]: '',
-        },
-      }));
-    }
+    // Safely clear the specific error for the changed field
+    setErrors((prevErrors) => {
+      const tabErrors = prevErrors[activeTab] ? { ...prevErrors[activeTab] } : {};
+      if (tabErrors.hasOwnProperty(name)) {
+        tabErrors[name] = '';
+      }
+      return {
+        ...prevErrors,
+        [activeTab]: tabErrors,
+      };
+    });
   };
 
   const validateForm = () => {
     let valid = true;
     const current = formData[activeTab];
-    const newErrors = { username: '', password: '' };
+    let newErrors = {};
 
-    if (!current.username.trim()) {
-      newErrors.username = 'Username is required';
+    const idField = activeTab === 'student' ? 'studentid' : 'parentid';
+    const idName = activeTab === 'student' ? 'Student ID' : 'Parent ID';
+
+    if (activeTab === 'student') {
+      newErrors = { studentid: '', password: '' };
+    } else {
+      newErrors = { parentid: '', password: '' };
+    }
+
+    if (!current[idField] || !current[idField].trim()) {
+      newErrors[idField] = `${idName} is required`;
       valid = false;
-    } else if (current.username.length < 4) {
-      newErrors.username = 'Username must be at least 4 characters';
+    } else if (current[idField].length < 4) {
+      newErrors[idField] = `${idName} must be at least 4 characters`;
       valid = false;
     }
 
@@ -78,22 +102,39 @@ const LoginPage = () => {
     if (validateForm()) {
       setIsLoading(true);
       
-      // Simulate API call
+      // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1500));
+
+      const idField = activeTab === 'student' ? 'studentid' : 'parentid';
+      const enteredId = formData[activeTab][idField];
+      const enteredPassword = formData[activeTab].password;
+
+      // Check against predefined valid credentials
+      if (enteredId === VALID_CREDENTIALS[activeTab][idField] && 
+          enteredPassword === VALID_CREDENTIALS[activeTab].password) {
+        // Successful login
+        localStorage.setItem('userRole', activeTab);
+        localStorage.setItem('userToken', 'dummy-token'); // Replace with actual token from API
+
+        setToastMessage(`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} login successful!`);
+        setToastBg('success');
+        setShowToast(true);
+
+        setTimeout(() => {
+          if (activeTab === 'student') {
+            navigate('/student/dashboard');
+          } else {
+            navigate('/parent/dashboard');
+          }
+        }, 2000);
+      } else {
+        // Failed login
+        setToastMessage('Invalid credentials. Please try again.');
+        setToastBg('danger');
+        setShowToast(true);
+      }
       
-      localStorage.setItem('userRole', activeTab);
-      localStorage.setItem('userToken', 'dummy-token');
-
-      setShowToast(true);
       setIsLoading(false);
-
-      setTimeout(() => {
-        if (activeTab === 'student') {
-          navigate('/student/dashboard');
-        } else {
-          navigate('/parent/dashboard');
-        }
-      }, 2000);
     }
   };
 
@@ -178,13 +219,13 @@ const LoginPage = () => {
           show={showToast}
           delay={2000}
           autohide
-          bg="success"
+          bg={toastBg} // Dynamic background based on success/failure
         >
           <Toast.Header closeButton={true}>
-            <strong className="me-auto">Login Success</strong>
+            <strong className="me-auto">{toastBg === 'success' ? 'Login Success' : 'Login Failed'}</strong>
           </Toast.Header>
           <Toast.Body className="text-white">
-            {`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} login successful!`}
+            {toastMessage}
           </Toast.Body>
         </Toast>
       </ToastContainer>
@@ -361,21 +402,21 @@ const LoginPage = () => {
 
                       <motion.form variants={containerVariants} onSubmit={handleSubmit}>
                         <motion.div variants={itemVariants} className="mb-3">
-                          <label htmlFor="username" className="form-label fw-medium" style={{ color: '#374151' }}>
-                            Username
+                          <label htmlFor={activeTab === 'student' ? 'studentid' : 'parentid'} className="form-label fw-medium" style={{ color: '#374151' }}>
+                            {activeTab === 'student' ? 'Student ID' : 'Parent ID'} {/* Dynamic label */}
                           </label>
                           <div className="input-group">
                             <span className="input-group-text" style={{ background: '#f3f4f6' }}>
-                              <FaUserGraduate />
+                              {activeTab === 'student' ? <FaUserGraduate /> : <FaUserTie />} {/* Dynamic icon */}
                             </span>
                             <input
                               type="text"
-                              className={`form-control ${errors[activeTab].username ? 'is-invalid' : ''}`}
-                              id="username"
-                              name="username"
-                              value={formData[activeTab].username}
+                              className={`form-control ${errors[activeTab][activeTab === 'student' ? 'studentid' : 'parentid'] ? 'is-invalid' : ''}`}
+                              id={activeTab === 'student' ? 'studentid' : 'parentid'}
+                              name={activeTab === 'student' ? 'studentid' : 'parentid'} 
+                              value={formData[activeTab][activeTab === 'student' ? 'studentid' : 'parentid']} 
                               onChange={handleChange}
-                              placeholder={`Enter ${activeTab} username`}
+                              placeholder={`Enter ${activeTab === 'student' ? 'Student ID' : 'Parent ID'}`} 
                               style={{ 
                                 borderRadius: '0 8px 8px 0', 
                                 padding: '12px 15px',
@@ -384,7 +425,7 @@ const LoginPage = () => {
                               }}
                             />
                           </div>
-                          {errors[activeTab].username && <div className="invalid-feedback d-block">{errors[activeTab].username}</div>}
+                          {errors[activeTab][activeTab === 'student' ? 'studentid' : 'parentid'] && <div className="invalid-feedback d-block">{errors[activeTab][activeTab === 'student' ? 'studentid' : 'parentid']}</div>} {/* Dynamic error message */}
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="mb-4">

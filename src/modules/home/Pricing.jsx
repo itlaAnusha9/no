@@ -1,3 +1,6 @@
+
+
+ 
 // Pricing.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,9 +9,9 @@ import { motion } from 'framer-motion';
 import { ToastContainer, toast } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-
+ 
 const NAVBAR_HEIGHT = 60; // Adjust to your fixed navbar height
-
+ 
 const courseImages = [
   'https://images.piclumen.com/normal/20250711/18/3dff9880364d457981a702c574f1c7b3.webp',
   'https://images.piclumen.com/normal/20250711/19/8cf4f2439f074fb7ad5f5444d2bcacda.webp',
@@ -21,7 +24,7 @@ const courseImages = [
   'https://images.piclumen.com/normal/20250711/19/b821e8e8cffe4c84a7b8fc89338dfad2.webp',
   'https://images.piclumen.com/normal/20250711/19/19535289cb2c42f285d03c080d3bd00b.webp'
 ];
-
+ 
 const temptingQuotes = [
   "🚀 92% of students saw grade improvements within 3 months!",
   "💡 Limited seats available - Don't miss your chance to excel!",
@@ -36,17 +39,17 @@ const temptingQuotes = [
   "⏳ Pricing details will be announced shortly",
   "🎯 Affordable excellence is our commitment to you"
 ];
-
+ 
 function Pricing() {
   useEffect(() => {
     document.title = "Pricing|NOVYA - Your Smart Learning Platform";
   }, []);
-  
+ 
   const navigate = useNavigate();
   const [currentQuote, setCurrentQuote] = useState(0);
   const isMobile = window.innerWidth <= 768;
   const isTablet = window.innerWidth <= 992;
-
+ 
   useEffect(() => {
     window.scrollTo(0, 0);
     const scrollToCourses = localStorage.getItem('scrollToCourses');
@@ -61,13 +64,13 @@ function Pricing() {
     }, 5000);
     return () => clearInterval(id);
   }, []);
-
+ 
   const handleNotifyMe = () => {
     toast.success(
       <div>
         <h6 className="fw-bold mb-2">Thank you for your interest!</h6>
         <p className="mb-0">We'll notify you as soon as our pricing is finalized.</p>
-      </div>, 
+      </div>,
       {
         position: "top-center",
         autoClose: 5000,
@@ -84,7 +87,7 @@ function Pricing() {
       }
     );
   };
-
+ 
   const plans = [{
     name: 'COMPREHENSIVE YEARLY PLAN',
     price: 'Coming Soon',
@@ -100,8 +103,7 @@ function Pricing() {
     badge: 'PRICING TO BE ANNOUNCED!',
     saving: 'Best Value'
   }];
-
-  // Build courses array from images
+ 
   const courses = courseImages.map((img, i) => ({
     title: ['Mathematics','Science','Social Studies','English','Hindi','Physics','Chemistry','Biology','Computer Science','Geography'][i],
     instructor: ['CBSE','NCERT','State Board','CBSE','NCERT','CBSE','NCERT','State Board','CBSE','NCERT'][i] + ' Curriculum',
@@ -110,7 +112,7 @@ function Pricing() {
     originalPrice: `Price TBD`,
     image: img
   }));
-
+ 
   return (
     <div style={{ paddingTop: NAVBAR_HEIGHT }}>
       <ToastContainer />
@@ -128,12 +130,22 @@ function Pricing() {
               All included in one affordable yearly membership - Pricing to be announced soon!
             </p>
           </div>
-
+ 
           <div className="row justify-content-center mb-5">
             <div className="col-lg-8">
-              <div className="p-4 rounded-4 position-relative border border-3 border-warning text-center"
-                   style={{ background: 'linear-gradient(135deg,#fff,#f8f9fa)', boxShadow: '0 10px 30px rgba(166,45,105,0.15)' }}>
-                <span className="position-absolute top-0 start-50 translate-middle badge bg-warning">
+              <div className="p-4 rounded-4 position-relative border border-3 text-center"
+                   style={{
+                     background: 'linear-gradient(135deg,#fff,#f8f9fa)',
+                     boxShadow: '0 10px 30px rgba(166,45,105,0.15)',
+                     borderColor: '#2D5D7B'
+                   }}>
+                <span className="position-absolute top-0 start-50 translate-middle badge"
+                      style={{
+                        backgroundColor: 'rgba(45,93,123,0.1)',
+                        color: '#2D5D7B',
+                        fontWeight: '600',
+                        fontSize: '0.9rem'
+                      }}>
                   {plans[0].badge}
                 </span>
                 <h3 className="fw-bold mt-3 mb-3" style={{ color: '#2D5D7B' }}>{plans[0].name}</h3>
@@ -146,10 +158,10 @@ function Pricing() {
                   {plans[0].features.map((f, idx) => <li key={idx}>✓ {f}</li>)}
                 </ul>
                 <button onClick={handleNotifyMe} className="btn btn-lg w-100 py-3 fw-bold"
-                        style={{ 
-                          background: 'linear-gradient(135deg, #2D5D7B, #A62D69)', 
-                          color: '#fff', 
-                          borderRadius: '8px', 
+                        style={{
+                          background: 'linear-gradient(135deg, #2D5D7B, #A62D69)',
+                          color: '#fff',
+                          borderRadius: '8px',
                           boxShadow: '0 4px 15px rgba(166,45,105,0.4)'
                         }}>
                   NOTIFY ME WHEN PRICING IS AVAILABLE
@@ -158,7 +170,7 @@ function Pricing() {
               </div>
             </div>
           </div>
-
+ 
           <div id="courses-section">
             {!(isMobile || isTablet) ? (
               <div className="row g-4 mb-5">
@@ -178,10 +190,14 @@ function Pricing() {
                           <div className="text-warning small">{[...Array(5)].map((_, i) => <span key={i}>★</span>)}</div>
                           <span className="ms-2 small text-muted">({c.students})</span>
                         </div>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <span className="text-muted small">{c.originalPrice}</span>
-                          <span className="badge bg-primary"
-                                style={{ width: '70px', minWidth: '70px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
+                        <div>
+                          <span className="badge w-100"
+                                style={{
+                                  backgroundColor: 'rgba(45,93,123,0.1)',
+                                  color: '#2D5D7B',
+                                  fontWeight: '600',
+                                  padding: '0.5em 0.75em'
+                                }}>
                             Coming Soon
                           </span>
                         </div>
@@ -209,10 +225,14 @@ function Pricing() {
                                 <div className="text-warning small">{[...Array(5)].map((_, k) => <span key={k}>★</span>)}</div>
                                 <span className="ms-1 small text-muted" style={{ fontSize: '0.7rem' }}>({c.students})</span>
                               </div>
-                              <div className="d-flex justify-content-between align-items-center">
-                                <span className="text-muted small">{c.originalPrice}</span>
-                                <span className="badge bg-primary small"
-                                      style={{ width: '70px', minWidth: '70px', padding: '0.25em 0.5em', display: 'inline-block', textAlign: 'center' }}>
+                              <div>
+                                <span className="badge w-100"
+                                      style={{
+                                        backgroundColor: 'rgba(45,93,123,0.1)',
+                                        color: '#2D5D7B',
+                                        fontWeight: '600',
+                                        padding: '0.5em 0.75em'
+                                      }}>
                                   Coming Soon
                                 </span>
                               </div>
@@ -226,7 +246,7 @@ function Pricing() {
               </Carousel>
             )}
           </div>
-
+ 
           <div className="text-center mt-5 pt-4">
             <div className="p-4 rounded-4 d-inline-block" style={{ backgroundColor: 'rgba(45,93,123,0.1)', border: '2px dashed #2D5D7B', minHeight: '150px', maxWidth: '600px' }}>
               <motion.div key={currentQuote} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} style={{ color: '#2D5D7B', fontSize: '1.2rem', fontWeight: 600 }}>
@@ -247,5 +267,7 @@ function Pricing() {
     </div>
   );
 }
-
+ 
 export default Pricing;
+ 
+ 

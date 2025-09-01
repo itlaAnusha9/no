@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
@@ -220,23 +219,9 @@ const Home1 = () => {
               >
                 <button
                   className="btn btn-primary"
-                  onClick={() => navigate('/classroom')}
+                  onClick={() => navigate('/learn')}
                 >
                   Continue Learning
-                </button>
-              </motion.div>
-              
-              {/* View Profile Button - Added Profile Functionality */}
-              <motion.div 
-                whileHover={{ scale: 1.05 }} 
-                whileTap={{ scale: 0.95 }}
-                animate={controls}
-              >
-                <button
-                  className="btn btn-outline"
-                  onClick={() => navigate('/profile')}
-                >
-                  View Profile
                 </button>
               </motion.div>
             </motion.div>
@@ -287,7 +272,6 @@ const Home1 = () => {
         </div>
       </motion.section>
 
-      {/* Rest of your existing code remains unchanged */}
       <motion.main 
         className="main-content container py-5"
         variants={containerVariants}
@@ -308,7 +292,6 @@ const Home1 = () => {
             >
               Your Current Course
             </motion.h2>
-            <Link to="/courses" className="view-all">View All</Link>
           </div>
           
           <div className="row g-4">
@@ -366,24 +349,6 @@ const Home1 = () => {
                     <span>65% Complete</span>
                     <span>13/20 Lessons</span>
                   </div>
-                </div>
-                <div className="course-actions mt-4">
-                  <motion.button 
-                    className="btn btn-primary"
-                    whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(166, 45, 105, 0.4)" }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate('/classroom')}
-                  >
-                    Continue Learning
-                  </motion.button>
-                  <motion.button 
-                    className="btn btn-outline"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate('/learn')}
-                  >
-                    View Syllabus
-                  </motion.button>
                 </div>
                 <div className="course-highlights mt-4">
                   <h5>Current Topics</h5>
@@ -553,7 +518,6 @@ const Home1 = () => {
         >
           <div className="section-header">
             <h2>Upcoming Events</h2>
-            <Link to="/events" className="view-all">View Calendar</Link>
           </div>
           
           <div className="row g-4">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+ 
 function FAQs() {
    useEffect(() => {
         document.title = "FAQs|NOVYA - Your Smart Learning Platform";
@@ -11,15 +11,15 @@ function FAQs() {
   const [userQuestion, setUserQuestion] = useState('');
   const [faqs, setFaqs] = useState([
     {
-      question: 'What is LMS AI and how does it work?',
-      answer: 'LMS AI combines video lessons with an AI tutor that helps students clear doubts instantly and track progress effectively.'
+      question: 'What is Novya AI and how does it work?',
+      answer: 'Novya AI combines video lessons with an AI tutor that helps students clear doubts instantly and track progress effectively.'
     },
     {
       question: 'Is this platform suitable for CBSE students?',
       answer: 'Yes, we support CBSE and state syllabus from Grade 6 to 12 with subject-wise smart learning tools.'
     },
     {
-      question: 'Can I use LMS AI on my phone?',
+      question: 'Can I use Novya AI on my phone?',
       answer: 'Yes! It is fully responsive and works on mobiles, tablets, and desktops with internet access.'
     },
     {
@@ -31,17 +31,17 @@ function FAQs() {
       answer: 'Yes, we offer a 7-day free trial with no payment required upfront.'
     }
   ]);
-
+ 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-
+ 
   const handleAskQuestion = () => {
     if (!userQuestion.trim()) {
       toast.error('Please type your question first!');
       return;
     }
-
+ 
     setFaqs(prev => [
       { question: userQuestion, answer: "Thanks! Our team will add a detailed answer shortly." },
       ...prev
@@ -49,16 +49,16 @@ function FAQs() {
     setUserQuestion('');
     toast.success('Your question was submitted!');
   };
-
+ 
   return (
     <div className="faqs-container" style={{ paddingTop: '80px' }}>
       <section className="py-5" style={{ background: 'linear-gradient(135deg, #F4F8FB, #E9F7FF)' }}>
         <div className="container">
           <div className="text-center mb-5">
             <h2 className="fw-bold" style={{ color: '#2D5D7B' }}>❓ Frequently Asked Questions</h2>
-            <p className="text-muted">Find answers or ask your own question about LMS AI.</p>
+            <p className="text-muted">Find answers or ask your own question about Novya AI.</p>
           </div>
-
+ 
           {/* Ask a Question Box */}
           <div className="row justify-content-center mb-5">
             <div className="col-md-10 col-lg-8">
@@ -86,7 +86,7 @@ function FAQs() {
               </div>
             </div>
           </div>
-
+ 
           {/* FAQs Accordion */}
           <div className="accordion" id="faqAccordion">
             {faqs.map((faq, index) => (
@@ -121,5 +121,6 @@ function FAQs() {
     </div>
   );
 }
-
+ 
 export default FAQs;
+ 

@@ -1,634 +1,149 @@
-
-// import React, { useState } from "react";
-
-// function ChildProfile() {
-//   const [child, setChild] = useState({
-//     name: "",
-//     class: "",
-//     gender: "",
-//     dob: "",
-//     contact: "",
-//     email: "",
-//     guardian: "",
-//     address: "",
-//   });
-
-//   const [isEditing, setIsEditing] = useState(true);
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setChild((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     setIsEditing(false);
-//   };
-
-//   // Styles
-//   const styles = {
-//     container: {
-//       maxWidth: "900px",
-//       margin: "0 auto",
-//       padding: "2rem",
-//       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-//     },
-//     title: {
-//       textAlign: "center",
-//       color: "#333",
-//       marginBottom: "2rem",
-//       fontSize: "2rem",
-//     },
-//     accent: {
-//       color: "#2D5D7B",
-//     },
-//     form: {
-//       background: "#fff",
-//       padding: "2rem",
-//       borderRadius: "8px",
-//       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-//     },
-//     section: {
-//       marginBottom: "2rem",
-//     },
-//     sectionTitle: {
-//       color: "#2D5D7B",
-//       marginBottom: "1rem",
-//       paddingBottom: "0.5rem",
-//       borderBottom: "1px solid #eee",
-//     },
-//     formGrid: {
-//       display: "grid",
-//       gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-//       gap: "1.5rem",
-//     },
-//     formGroup: {
-//       marginBottom: "1rem",
-//     },
-//     label: {
-//       display: "block",
-//       marginBottom: "0.5rem",
-//       color: "#555",
-//       fontWeight: "500",
-//     },
-//     input: {
-//       width: "100%",
-//       padding: "0.75rem",
-//       border: "1px solid #ddd",
-//       borderRadius: "4px",
-//       fontSize: "1rem",
-//       transition: "border-color 0.3s",
-//     },
-//     inputFocus: {
-//       outline: "none",
-//       borderColor: "#2D5D7B",
-//     },
-//     actions: {
-//       textAlign: "center",
-//       marginTop: "2rem",
-//     },
-//     button: {
-//       backgroundColor: "#2D5D7B",
-//       color: "white",
-//       border: "none",
-//       padding: "0.75rem 2rem",
-//       fontSize: "1rem",
-//       borderRadius: "4px",
-//       cursor: "pointer",
-//       transition: "background-color 0.3s",
-//     },
-//     buttonHover: {
-//       backgroundColor: "#1a3a52",
-//     },
-//     profileView: {
-//       background: "#fff",
-//       padding: "2rem",
-//       borderRadius: "8px",
-//       boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-//     },
-//     profileSections: {
-//       display: "grid",
-//       gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-//       gap: "2rem",
-//     },
-//     infoItem: {
-//       marginBottom: "1rem",
-//       paddingBottom: "1rem",
-//       borderBottom: "1px solid #f5f5f5",
-//     },
-//     infoLabel: {
-//       fontWeight: "600",
-//       color: "#555",
-//       marginRight: "0.5rem",
-//     },
-//     infoValue: {
-//       color: "#333",
-//     },
-//     highlight: {
-//       color: "#2D5D7B",
-//       fontWeight: "500",
-//     },
-//   };
-
-//   return (
-//     <div style={styles.container}>
-//       <h2 style={styles.title}>
-//         Child <span style={styles.accent}>Profile</span>
-//       </h2>
-
-//       {isEditing ? (
-//         <form onSubmit={handleSubmit} style={styles.form}>
-//           <div style={styles.section}>
-//             <h3 style={styles.sectionTitle}>Personal Information</h3>
-//             <div style={styles.formGrid}>
-//               <div style={styles.formGroup}>
-//                 <label style={styles.label}>Full Name</label>
-//                 <input
-//                   type="text"
-//                   name="name"
-//                   value={child.name}
-//                   onChange={handleChange}
-//                   required
-//                   style={styles.input}
-//                 />
-//               </div>
-//               <div style={styles.formGroup}>
-//                 <label style={styles.label}>Class</label>
-//                 <input
-//                   type="text"
-//                   name="class"
-//                   value={child.class}
-//                   onChange={handleChange}
-//                   required
-//                   style={styles.input}
-//                 />
-//               </div>
-//               <div style={styles.formGroup}>
-//                 <label style={styles.label}>Gender</label>
-//                 <select
-//                   name="gender"
-//                   value={child.gender}
-//                   onChange={handleChange}
-//                   required
-//                   style={styles.input}
-//                 >
-//                   <option value="">Select Gender</option>
-//                   <option value="Male">Male</option>
-//                   <option value="Female">Female</option>
-//                   <option value="Other">Other</option>
-//                 </select>
-//               </div>
-//               <div style={styles.formGroup}>
-//                 <label style={styles.label}>Date of Birth</label>
-//                 <input
-//                   type="date"
-//                   name="dob"
-//                   value={child.dob}
-//                   onChange={handleChange}
-//                   required
-//                   style={styles.input}
-//                 />
-//               </div>
-//             </div>
-//           </div>
-
-//           <div style={styles.section}>
-//             <h3 style={styles.sectionTitle}>Contact Information</h3>
-//             <div style={styles.formGrid}>
-//               <div style={styles.formGroup}>
-//                 <label style={styles.label}>Contact Number</label>
-//                 <input
-//                   type="tel"
-//                   name="contact"
-//                   value={child.contact}
-//                   onChange={handleChange}
-//                   required
-//                   style={styles.input}
-//                 />
-//               </div>
-//               <div style={styles.formGroup}>
-//                 <label style={styles.label}>Email</label>
-//                 <input
-//                   type="email"
-//                   name="email"
-//                   value={child.email}
-//                   onChange={handleChange}
-//                   required
-//                   style={styles.input}
-//                 />
-//               </div>
-//               <div style={styles.formGroup}>
-//                 <label style={styles.label}>Parent/Guardian</label>
-//                 <input
-//                   type="text"
-//                   name="guardian"
-//                   value={child.guardian}
-//                   onChange={handleChange}
-//                   required
-//                   style={styles.input}
-//                 />
-//               </div>
-//               <div style={styles.formGroup}>
-//                 <label style={styles.label}>Address</label>
-//                 <input
-//                   type="text"
-//                   name="address"
-//                   value={child.address}
-//                   onChange={handleChange}
-//                   required
-//                   style={styles.input}
-//                 />
-//               </div>
-//             </div>
-//           </div>
-
-//           <div style={styles.actions}>
-//             <button type="submit" style={styles.button}>
-//               Save Profile
-//             </button>
-//           </div>
-//         </form>
-//       ) : (
-//         <div style={styles.profileView}>
-//           <div style={styles.profileSections}>
-//             <div>
-//               <h3 style={styles.sectionTitle}>Personal Information</h3>
-//               <div style={styles.infoItem}>
-//                 <span style={styles.infoLabel}>Name:</span>
-//                 <span style={styles.infoValue}>{child.name}</span>
-//               </div>
-//               <div style={styles.infoItem}>
-//                 <span style={styles.infoLabel}>Class:</span>
-//                 <span style={styles.infoValue}>{child.class}</span>
-//               </div>
-//               <div style={styles.infoItem}>
-//                 <span style={styles.infoLabel}>Gender:</span>
-//                 <span style={styles.infoValue}>{child.gender}</span>
-//               </div>
-//               <div style={styles.infoItem}>
-//                 <span style={styles.infoLabel}>Date of Birth:</span>
-//                 <span style={styles.infoValue}>{child.dob}</span>
-//               </div>
-//             </div>
-
-//             <div>
-//               <h3 style={styles.sectionTitle}>Contact Information</h3>
-//               <div style={styles.infoItem}>
-//                 <span style={styles.infoLabel}>Contact No:</span>
-//                 <span style={{ ...styles.infoValue, ...styles.highlight }}>{child.contact}</span>
-//               </div>
-//               <div style={styles.infoItem}>
-//                 <span style={styles.infoLabel}>Email:</span>
-//                 <span style={{ ...styles.infoValue, ...styles.highlight }}>{child.email}</span>
-//               </div>
-//               <div style={styles.infoItem}>
-//                 <span style={styles.infoLabel}>Parent/Guardian:</span>
-//                 <span style={styles.infoValue}>{child.guardian}</span>
-//               </div>
-//               <div style={styles.infoItem}>
-//                 <span style={styles.infoLabel}>Address:</span>
-//                 <span style={styles.infoValue}>{child.address}</span>
-//               </div>
-//             </div>
-//           </div>
-
-//           <div style={styles.actions}>
-//             <button
-//               onClick={() => setIsEditing(true)}
-//               style={styles.button}
-//             >
-//               Edit Profile
-//             </button>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default ChildProfile;
-
-import React, { useState } from "react";
-
-function ChildProfile() {
-  const [child, setChild] = useState({
-    name: "",
-    class: "",
-    gender: "",
-    dob: "",
-    contact: "",
-    email: "",
-    guardian: "",
-    address: "",
-  });
-
-  const [isEditing, setIsEditing] = useState(true);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setChild((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+import React from "react";
+import { FaPhone, FaEnvelope, FaHome, FaUser, FaBookOpen, FaStar } from "react-icons/fa";
+ 
+const ChildProfile = () => {
+  const child = {
+    name: "Arjun Ramesh",
+    class: "7th Grade",
+    gender: "Male",
+    dob: "2011-08-12",
+    subjects: ["Mathematics", "Science", "English", "Telugu", "Social Studies"],
+    teacher: "Mrs. Lakshmi",
+    progress: "Excellent",
+    guardian: "Ramesh Kumar",
+    contact: "+91 9876543210",
+    email: "ramesh.kumar@example.com",
+    address: "45, MG Road, Visakhapatanam, Andhra Pradesh",
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsEditing(false);
-  };
-
-  const styles = {
-    container: {
-      maxWidth: "900px",
-      margin: "0 auto",
-      padding: "2rem",
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    },
-    title: {
-      textAlign: "center",
-      color: "#333",
-      marginBottom: "2rem",
-      fontSize: "2rem",
-    },
-    accent: {
-      color: "#2D5D7B",
-    },
-    form: {
-      background: "#fff",
-      padding: "2rem",
-      borderRadius: "8px",
-      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-    },
-    section: {
-      marginBottom: "2rem",
-    },
-    sectionTitle: {
-      color: "#2D5D7B",
-      marginBottom: "1rem",
-      paddingBottom: "0.5rem",
-      borderBottom: "1px solid #eee",
-      fontSize: "1.2rem",
-    },
-    formGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-      gap: "1.5rem",
-    },
-    formGroup: {
-      display: "flex",
-      flexDirection: "column",
-    },
-    label: {
-      marginBottom: "0.5rem",
-      color: "#555",
-      fontWeight: "500",
-      fontSize: "0.95rem",
-    },
-    input: {
-      width: "100%",
-      padding: "0.75rem",
-      border: "1px solid #ddd",
-      borderRadius: "4px",
-      fontSize: "1rem",
-      transition: "border-color 0.3s",
-    },
-    actions: {
-      textAlign: "center",
-      marginTop: "2rem",
-    },
-    button: {
-      backgroundColor: "#2D5D7B",
-      color: "white",
-      border: "none",
-      padding: "0.75rem 2rem",
-      fontSize: "1rem",
-      borderRadius: "4px",
-      cursor: "pointer",
-      transition: "background-color 0.3s",
-    },
-    profileView: {
-      background: "#fff",
-      padding: "2rem",
-      borderRadius: "8px",
-      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-    },
-    profileSections: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-      gap: "2rem",
-    },
-    infoItem: {
-      marginBottom: "1rem",
-      paddingBottom: "1rem",
-      borderBottom: "1px solid #f5f5f5",
-    },
-    infoLabel: {
-      fontWeight: "600",
-      color: "#555",
-      marginRight: "0.5rem",
-    },
-    infoValue: {
-      color: "#333",
-    },
-    highlight: {
-      color: "#2D5D7B",
-      fontWeight: "500",
-    },
-
-    // Responsive styles
-    '@media only screen and (max-width: 600px)': {
-      container: {
-        padding: "1rem",
-      },
-      form: {
-        padding: "1.5rem",
-      },
-      profileView: {
-        padding: "1.5rem",
-      },
-      title: {
-        fontSize: "1.5rem",
-      },
-      sectionTitle: {
-        fontSize: "1rem",
-      },
-    },
-  };
-
+ 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>
-        Child <span style={styles.accent}>Profile</span>
-      </h2>
-
-      {isEditing ? (
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>Personal Information</h3>
-            <div style={styles.formGrid}>
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Full Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={child.name}
-                  onChange={handleChange}
-                  required
-                  style={styles.input}
-                />
+    <div style={{ minHeight: "100vh", backgroundColor:    ' #e9eaf0ff ', padding: "2rem 1rem" }}>
+      <style>
+        {`
+          * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+ 
+          .container { max-width: 900px; margin: 0 auto; }
+ 
+          .page-title { text-align: center; color: #2d3748; font-size: 2rem; font-weight: 600; margin-bottom: 2rem; }
+ 
+          .profile-card { background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); overflow: hidden; border: 1px solid #e2e8f0; }
+ 
+          .profile-header { background: linear-gradient(90deg, #a3cef1, #e0f0ff); color: #1a202c; padding: 2rem; text-align: center; }
+ 
+          .profile-header .student-class { color: #000; } /* make 7th Grade black */
+ 
+          .student-name { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+          .student-class { font-size: 1.1rem; opacity: 0.9; }
+ 
+          .profile-content { padding: 2rem; }
+          .info-section { margin-bottom: 2rem; }
+          .section-title { display: flex; align-items: center; font-size: 1.2rem; font-weight: 600; color: #2d3748; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e2e8f0; }
+          .section-icon { background: #4299e1; color: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; font-size: 0.9rem; }
+ 
+          .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+          .info-item { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; }
+          .info-item:last-child { border-bottom: none; }
+          .info-label { font-weight: 500; color: #4a5568; }
+          .info-value { color: #2d3748; text-align: right; }
+ 
+          .subjects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; }
+          .subject-badge { background: #edf2f7; color: #2D5D7B; padding: 0.75rem; border-radius: 8px; text-align: center; font-weight: 500; border: 1px solid #e2e8f0; transition: all 0.2s ease; }
+          .subject-badge:hover { background: #e2e8f0; transform: translateY(-1px); }
+ 
+          .contact-item { display: flex; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; }
+          .contact-item:last-child { border-bottom: none; }
+          .contact-icon { color: #4299e1; margin-right: 1rem; width: 16px; }
+ 
+          .progress-badge { display: inline-flex; align-items: center; background: #48bb78; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 500; font-size: 0.9rem; }
+          .progress-icon { margin-right: 0.5rem; font-size: 0.8rem; }
+ 
+          @media (max-width: 768px) {
+            .info-grid { grid-template-columns: 1fr; }
+            .subjects-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+            .profile-content { padding: 1.5rem; }
+            .page-title { font-size: 1.5rem; }
+          }
+        `}
+      </style>
+ 
+      <div className="container">
+        <h1 className="page-title">Student Profile</h1>
+        <div className="profile-card">
+          <div className="profile-header">
+            <h2 className="student-name">{child.name}</h2>
+            <p className="student-class">{child.class}</p>
+          </div>
+ 
+          <div className="profile-content">
+            <div className="info-grid">
+              <div className="info-section">
+                <h3 className="section-title">
+                  <div className="section-icon"><FaUser /></div>
+                  Personal Information
+                </h3>
+                <div className="info-item">
+                  <span className="info-label">Gender</span>
+                  <span className="info-value">{child.gender}</span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Date of Birth</span>
+                  <span className="info-value">{new Date(child.dob).toLocaleDateString('en-IN')}</span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Class Teacher</span>
+                  <span className="info-value">{child.teacher}</span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Progress</span>
+                  <span className="info-value">
+                    <span className="progress-badge">
+                      <FaStar className="progress-icon" />
+                      {child.progress}
+                    </span>
+                  </span>
+                </div>
               </div>
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Class</label>
-                <input
-                  type="text"
-                  name="class"
-                  value={child.class}
-                  onChange={handleChange}
-                  required
-                  style={styles.input}
-                />
-              </div>
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Gender</label>
-                <select
-                  name="gender"
-                  value={child.gender}
-                  onChange={handleChange}
-                  required
-                  style={styles.input}
-                >
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Date of Birth</label>
-                <input
-                  type="date"
-                  name="dob"
-                  value={child.dob}
-                  onChange={handleChange}
-                  required
-                  style={styles.input}
-                />
+ 
+              <div className="info-section">
+                <h3 className="section-title">
+                  <div className="section-icon"><FaHome /></div>
+                  Guardian & Contact
+                </h3>
+                <div className="info-item">
+                  <span className="info-label">Guardian</span>
+                  <span className="info-value">{child.guardian}</span>
+                </div>
+                <div className="contact-item">
+                  <FaPhone className="contact-icon" />
+                  <span>{child.contact}</span>
+                </div>
+                <div className="contact-item">
+                  <FaEnvelope className="contact-icon" />
+                  <span>{child.email}</span>
+                </div>
+                <div className="contact-item">
+                  <FaHome className="contact-icon" />
+                  <span>{child.address}</span>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>Contact Information</h3>
-            <div style={styles.formGrid}>
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Contact Number</label>
-                <input
-                  type="tel"
-                  name="contact"
-                  value={child.contact}
-                  onChange={handleChange}
-                  required
-                  style={styles.input}
-                />
-              </div>
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={child.email}
-                  onChange={handleChange}
-                  required
-                  style={styles.input}
-                />
-              </div>
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Parent/Guardian</label>
-                <input
-                  type="text"
-                  name="guardian"
-                  value={child.guardian}
-                  onChange={handleChange}
-                  required
-                  style={styles.input}
-                />
-              </div>
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Address</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={child.address}
-                  onChange={handleChange}
-                  required
-                  style={styles.input}
-                />
+ 
+            <div className="info-section">
+              <h3 className="section-title">
+                <div className="section-icon"><FaBookOpen /></div>
+                Subjects
+              </h3>
+              <div className="subjects-grid">
+                {child.subjects.map((subject, index) => (
+                  <div key={index} className="subject-badge">{subject}</div>
+                ))}
               </div>
             </div>
-          </div>
-
-          <div style={styles.actions}>
-            <button type="submit" style={styles.button}>
-              Save Profile
-            </button>
-          </div>
-        </form>
-      ) : (
-        <div style={styles.profileView}>
-          <div style={styles.profileSections}>
-            <div>
-              <h3 style={styles.sectionTitle}>Personal Information</h3>
-              <div style={styles.infoItem}>
-                <span style={styles.infoLabel}>Name:</span>
-                <span style={styles.infoValue}>{child.name}</span>
-              </div>
-              <div style={styles.infoItem}>
-                <span style={styles.infoLabel}>Class:</span>
-                <span style={styles.infoValue}>{child.class}</span>
-              </div>
-              <div style={styles.infoItem}>
-                <span style={styles.infoLabel}>Gender:</span>
-                <span style={styles.infoValue}>{child.gender}</span>
-              </div>
-              <div style={styles.infoItem}>
-                <span style={styles.infoLabel}>Date of Birth:</span>
-                <span style={styles.infoValue}>{child.dob}</span>
-              </div>
-            </div>
-
-            <div>
-              <h3 style={styles.sectionTitle}>Contact Information</h3>
-              <div style={styles.infoItem}>
-                <span style={styles.infoLabel}>Contact No:</span>
-                <span style={{ ...styles.infoValue, ...styles.highlight }}>{child.contact}</span>
-              </div>
-              <div style={styles.infoItem}>
-                <span style={styles.infoLabel}>Email:</span>
-                <span style={{ ...styles.infoValue, ...styles.highlight }}>{child.email}</span>
-              </div>
-              <div style={styles.infoItem}>
-                <span style={styles.infoLabel}>Parent/Guardian:</span>
-                <span style={styles.infoValue}>{child.guardian}</span>
-              </div>
-              <div style={styles.infoItem}>
-                <span style={styles.infoLabel}>Address:</span>
-                <span style={styles.infoValue}>{child.address}</span>
-              </div>
-            </div>
-          </div>
-
-          <div style={styles.actions}>
-            <button onClick={() => setIsEditing(true)} style={styles.button}>
-              Edit Profile
-            </button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
-}
-
+};
+ 
 export default ChildProfile;

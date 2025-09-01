@@ -1,447 +1,510 @@
+import React, { useState, useEffect } from "react";
 
-// import React from 'react';
-// import { Card, ProgressBar, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Badge, Button, ProgressBar } from "react-bootstrap";
 
-// const Attendance = () => {
-//   const totalDays = 200;
-//   const presentDays = 170;
-//   const absentDays = totalDays - presentDays;
-//   const presentPercentage = Math.round((presentDays / totalDays) * 100);
+// Theme colors
 
-//   let status = '';
-//   let variant = '';
-//   let statusEmoji = '';
-//   if (presentPercentage >= 90) {
-//     status = 'Excellent';
-//     variant = 'success';
-//     statusEmoji = '🎯';
-//   } else if (presentPercentage >= 75) {
-//     status = 'Good';
-//     variant = 'warning';
-//     statusEmoji = '👍';
-//   } else {
-//     status = 'Needs Attention';
-//     variant = 'danger';
-//     statusEmoji = '⚠️';
-//   }
+const themeColors = {
 
-//   const themeColors = {
-//     primary: '#2D5D7B',
-//     highlight: '#A62D69',
-//     success: '#28a745',
-//     warning: '#FFA500',
-//     danger: '#dc3545',
-//     text: '#222831',
-//     bg: '#F4F8FB',
-//     goodBg: 'linear-gradient(135deg, rgba(0, 150, 255, 0.15) 0%, rgba(100, 200, 255, 0.25) 100%)',
-//     goodBorder: '#0096FF'
-//   };
+  primary: "#2D5D7B",
 
-//   return (
-//     <Card className="mb-4" style={{
-//       backgroundColor: themeColors.bg,
-//       border: 'none',
-//       borderRadius: '12px',
-//       boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-//       transition: 'all 0.3s ease',
-//       animation: 'fadeIn 0.5s ease-in'
-//     }}>
-//       <Card.Body style={{ padding: '1.5rem' }}>
-//         <div style={{
-//           display: 'flex',
-//           justifyContent: 'space-between',
-//           alignItems: 'center',
-//           marginBottom: '1.5rem'
-//         }}>
-//           <Card.Title style={{
-//             fontSize: '1.5rem',
-//             fontWeight: '600',
-//             color: themeColors.primary,
-//             margin: 0,
-//             display: 'flex',
-//             alignItems: 'center',
-//             gap: '0.5rem'
-//           }}>
-//             <span style={{
-//               fontSize: '1.8rem',
-//               animation: 'float 3s ease-in-out infinite'
-//             }}>📊</span>
-//             Attendance Summary
-//           </Card.Title>
-//           <div style={{
-//             fontSize: '2rem',
-//             fontWeight: '700',
-//             color: variant === 'success' ? themeColors.primary :
-//               variant === 'warning' ? themeColors.warning :
-//                 themeColors.highlight,
-//             animation: 'pulse 2s infinite'
-//           }}>
-//             {presentPercentage}%
-//           </div>
-//         </div>
+  success: "#28a745",
 
-//         <div className="row" style={{ marginBottom: '1.5rem', gap: '1rem' }}>
-//           <div className="col-md" style={{
-//             padding: '1rem',
-//             borderRadius: '10px',
-//             backgroundColor: 'rgba(45, 93, 123, 0.08)'
-//           }}>
-//             <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Total Days</div>
-//             <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.primary }}>{totalDays}</div>
-//           </div>
+  danger: "#FF245F",
 
-//           <div className="col-md" style={{
-//             padding: '1rem',
-//             borderRadius: '10px',
-//             backgroundColor: 'rgba(40, 167, 69, 0.08)'
-//           }}>
-//             <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Present</div>
-//             <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.success }}>{presentDays}</div>
-//           </div>
+  secondary: "#6c757d",
 
-//           <div className="col-md" style={{
-//             padding: '1rem',
-//             borderRadius: '10px',
-//             backgroundColor: 'rgba(220, 53, 69, 0.08)'
-//           }}>
-//             <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Absent</div>
-//             <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.highlight }}>{absentDays}</div>
-//           </div>
-//         </div>
+  text: "#333",
 
-//         <div style={{ marginBottom: '1.5rem' }}>
-//           <div style={{
-//             display: 'flex',
-//             justifyContent: 'space-between',
-//             marginBottom: '0.5rem',
-//             color: themeColors.text,
-//             opacity: 0.8,
-//             fontSize: '0.95rem'
-//           }}>
-//             <span>Attendance Progress</span>
-//             <span>{presentDays}/{totalDays} days</span>
-//           </div>
-//           <ProgressBar
-//             now={presentPercentage}
-//             label={`${presentPercentage}%`}
-//             variant={variant}
-//             striped
-//             animated
-//             style={{
-//               height: '1rem',
-//               borderRadius: '10px',
-//               boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-//               overflow: 'hidden'
-//             }}
-//           />
-//         </div>
+  pinkStart: "#FFB6C1",
 
-//         <div style={{
-//           display: 'flex',
-//           justifyContent: 'space-between',
-//           alignItems: 'center',
-//           padding: '1rem 1.5rem',
-//           borderRadius: '10px',
-//           width: '100%',
-//           background: variant === 'success' ? 'rgba(45, 93, 123, 0.2)' :
-//             variant === 'warning' ? themeColors.goodBg :
-//               'rgba(166, 45, 105, 0.2)',
-//           borderLeft: `4px solid ${variant === 'success' ? themeColors.primary :
-//             variant === 'warning' ? themeColors.goodBorder :
-//               themeColors.highlight}`,
-//           transition: 'all 0.3s ease',
-//           boxShadow: variant === 'warning' ? '0 2px 8px rgba(0, 150, 255, 0.2)' : 'none'
-//         }}>
-//           <div style={{
-//             display: 'flex',
-//             alignItems: 'center',
-//             gap: '0.5rem',
-//             fontSize: '1rem',
-//             fontWeight: '500',
-//             color: themeColors.text
-//           }}>
-//             <span style={{ fontSize: '1.2rem' }}>{statusEmoji}</span>
-//             <span>Status: <strong style={{
-//               color: variant === 'warning' ? themeColors.goodBorder : 'inherit'
-//             }}>{status}</strong></span>
-//           </div>
-//           <Badge pill style={{
-//             padding: '0.6rem 1.5rem',
-//             minWidth: '100px',
-//             fontSize: '1rem',
-//             fontWeight: '700',
-//             backgroundColor: variant === 'success' ? themeColors.primary :
-//               variant === 'warning' ? themeColors.goodBorder :
-//                 themeColors.highlight,
-//             color: 'white',
-//             animation: 'bounce 1s infinite alternate',
-//             textShadow: '0 1px 2px rgba(0,0,0,0.2)',
-//             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-//             border: variant === 'warning' ? '1px solid rgba(255,255,255,0.3)' : 'none',
-//             textAlign: 'center'
-//           }}>
-//             {status.toUpperCase()}
-//           </Badge>
-//         </div>
-//       </Card.Body>
-//     </Card>
-//   );
-// };
+  pinkEnd: "#FF1493",
 
-// export default Attendance;
+};
 
-import React from 'react';
-import { Card, ProgressBar, Badge, Container, Row, Col } from 'react-bootstrap';
+// Threshold for short hours
 
-const Attendance = () => {
-  const totalDays = 200;
-  const presentDays = 170;
-  const absentDays = totalDays - presentDays;
-  const presentPercentage = Math.round((presentDays / totalDays) * 100);
+const shortHoursThreshold = 2;
 
-  let status = '';
-  let variant = '';
-  let statusEmoji = '';
-  if (presentPercentage >= 90) {
-    status = 'Excellent';
-    variant = 'success';
-    statusEmoji = '🎯';
-  } else if (presentPercentage >= 75) {
-    status = 'Good';
-    variant = 'warning';
-    statusEmoji = '👍';
-  } else {
-    status = 'Needs Attention';
-    variant = 'danger';
-    statusEmoji = '⚠️';
+// Calculate hours between check-in and check-out
+
+const calculateHours = (checkIn, checkOut) => {
+
+  if (!checkIn || !checkOut) return 0;
+
+  const [h1, m1] = checkIn.split(":").map(Number);
+
+  const [h2, m2] = checkOut.split(":").map(Number);
+
+  const start = h1 + m1 / 60;
+
+  const end = h2 + m2 / 60;
+
+  return Math.max(0, end - start);
+
+};
+
+// Daily sessions data
+
+const dailySessions = [
+
+  { date: "2025-08-15", checkIn: "09:00", checkOut: "17:00", leave: false },
+
+  { date: "2025-08-16", checkIn: "10:00", checkOut: "11:30", leave: false },
+
+  { date: "2025-08-17", leave: true },
+
+  { date: "2025-08-18", checkIn: "09:15", checkOut: "13:15", leave: false },
+
+  { date: "2025-08-19", checkIn: "10:30", checkOut: "11:00", leave: false },
+
+  { date: "2025-08-20", checkIn: "09:00", checkOut: "15:00", leave: false },
+
+  { date: "2025-08-21", leave: true },
+
+  { date: "2025-08-22", checkIn: "08:45", checkOut: "14:00", leave: false },
+
+  { date: "2025-08-23", checkIn: "09:30", checkOut: "11:00", leave: false },
+
+  { date: "2025-08-24", leave: true },
+
+  { date: "2025-08-25", checkIn: "09:00", checkOut: "17:00", leave: false },
+
+  { date: "2025-08-26", checkIn: "10:00", checkOut: "11:30", leave: false },
+
+  { date: "2025-08-27", leave: true },
+
+  { date: "2025-08-28", checkIn: "09:15", checkOut: "13:15", leave: false },
+
+  { date: "2025-08-29", checkIn: "10:30", checkOut: "11:00", leave: false },
+
+];
+
+// Compute stats
+
+const totalHours = dailySessions.reduce(
+
+  (sum, s) => sum + (s.leave ? 0 : calculateHours(s.checkIn, s.checkOut)),
+
+  0
+
+);
+
+const stats = {
+
+  totalDays: dailySessions.length,
+
+  presentDays: dailySessions.filter((s) => !s.leave).length,
+
+  leaveDays: dailySessions.filter((s) => s.leave).length,
+
+  totalHours: totalHours,
+
+};
+
+// Weekly data
+
+const getWeeklyData = (sessions) => {
+
+  const weeks = [];
+
+  for (let i = 0; i < sessions.length; i += 7) {
+
+    const weekSessions = sessions.slice(i, i + 7);
+
+    const presentDays = weekSessions.filter((s) => !s.leave).length;
+
+    const leaveDays = weekSessions.filter((s) => s.leave).length;
+
+    const totalHours = weekSessions.reduce(
+
+      (sum, s) => sum + (s.leave ? 0 : calculateHours(s.checkIn, s.checkOut)),
+
+      0
+
+    );
+
+    weeks.push({ presentDays, leaveDays, totalHours });
+
   }
 
-  const themeColors = {
-    primary: '#2D5D7B',
-    highlight: '#A62D69',
-    success: '#28a745',
-    warning: '#FFA500',
-    danger: '#dc3545',
-    text: '#222831',
-    bg: '#F4F8FB',
-    goodBg: 'linear-gradient(135deg, rgba(0, 150, 255, 0.15) 0%, rgba(100, 200, 255, 0.25) 100%)',
-    goodBorder: '#0096FF'
-  };
+  return weeks;
+
+};
+
+const Attendance = () => {
+
+  const [view, setView] = useState("daily");
+
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const [attendancePercent, setAttendancePercent] = useState(0);
+
+  useEffect(() => {
+
+    // Animate progress bar fill
+
+    const percent = (stats.presentDays / stats.totalDays) * 100;
+
+    let progress = 0;
+
+    const interval = setInterval(() => {
+
+      progress += 1;
+
+      if (progress >= percent) {
+
+        progress = percent;
+
+        clearInterval(interval);
+
+      }
+
+      setAttendancePercent(progress);
+
+    }, 15);
+
+    return () => clearInterval(interval);
+
+  }, []);
+
+  const notifications = dailySessions
+
+    .map((s) => {
+
+      if (s.leave) return { date: s.date, leave: true };
+
+      const hours = calculateHours(s.checkIn, s.checkOut);
+
+      if (hours < shortHoursThreshold) return { date: s.date, leave: false };
+
+      return null;
+
+    })
+
+    .filter(Boolean);
+
+  const weeklyData = getWeeklyData(dailySessions);
 
   return (
-    <Card
-      className="mb-4"
-      style={{
-        backgroundColor: themeColors.bg,
-        border: 'none',
-        borderRadius: '12px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-        transition: 'all 0.3s ease',
-        animation: 'fadeIn 0.5s ease-in'
-      }}
-    >
-      <Card.Body style={{ padding: '1.5rem' }}>
-        <div
+<Container fluid className="p-3">
+
+      {/* Attendance Progress */}
+<Card
+
+        className="mb-3 p-3 text-center"
+
+        style={{
+
+          borderRadius: "15px",
+
+          boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+
+        }}
+>
+<h5 style={{ color: themeColors.pinkEnd, fontWeight: "600" }}>Attendance Progress</h5>
+<div
+
           style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '1.5rem'
+
+            height: "25px",
+
+            borderRadius: "12px",
+
+            backgroundColor: ' #e9eaf0ff ',
+
+            overflow: "hidden",
+
+            marginTop: "0.5rem",
+
           }}
-        >
-          <Card.Title
-            style={{
-              fontSize: '1.5rem',
-              fontWeight: '600',
-              color: themeColors.primary,
-              margin: 0,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-          >
-            <span
-              style={{
-                fontSize: '1.8rem',
-                animation: 'float 3s ease-in-out infinite'
-              }}
-            >
-              📊
-            </span>
-            Attendance Summary
-          </Card.Title>
-          <div
-            style={{
-              fontSize: '2rem',
-              fontWeight: '700',
-              color:
-                variant === 'success'
-                  ? themeColors.primary
-                  : variant === 'warning'
-                  ? themeColors.warning
-                  : themeColors.highlight,
-              animation: 'pulse 2s infinite'
-            }}
-          >
-            {presentPercentage}%
-          </div>
-        </div>
+>
+<div
 
-        <Container fluid style={{ padding: 0, marginBottom: '1.5rem' }}>
-          <Row className="g-3">
-            <Col xs={12} md>
-              <div
-                style={{
-                  padding: '1rem',
-                  borderRadius: '10px',
-                  backgroundColor: 'rgba(45, 93, 123, 0.08)'
-                }}
-              >
-                <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Total Days</div>
-                <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.primary }}>
-                  {totalDays}
-                </div>
-              </div>
-            </Col>
-            <Col xs={12} md>
-              <div
-                style={{
-                  padding: '1rem',
-                  borderRadius: '10px',
-                  backgroundColor: 'rgba(40, 167, 69, 0.08)'
-                }}
-              >
-                <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Present</div>
-                <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.success }}>
-                  {presentDays}
-                </div>
-              </div>
-            </Col>
-            <Col xs={12} md>
-              <div
-                style={{
-                  padding: '1rem',
-                  borderRadius: '10px',
-                  backgroundColor: 'rgba(220, 53, 69, 0.08)'
-                }}
-              >
-                <div style={{ color: themeColors.text, opacity: 0.8, fontSize: '0.9rem' }}>Absent</div>
-                <div style={{ fontSize: '1.5rem', fontWeight: '700', color: themeColors.highlight }}>
-                  {absentDays}
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
+            style={{
 
-        <div style={{ marginBottom: '1.5rem' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: '0.5rem',
-              color: themeColors.text,
-              opacity: 0.8,
-              fontSize: '0.95rem',
-              flexWrap: 'wrap'
-            }}
-          >
-            <span>Attendance Progress</span>
-            <span>
-              {presentDays}/{totalDays} days
-            </span>
-          </div>
-          <ProgressBar
-            now={presentPercentage}
-            label={`${presentPercentage}%`}
-            variant={variant}
-            striped
-            animated
-            style={{
-              height: '1rem',
-              borderRadius: '10px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-              overflow: 'hidden'
-            }}
-          />
-        </div>
+              width: `${attendancePercent}%`,
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            alignItems: 'flex-start',
-            padding: '1rem 1.5rem',
-            borderRadius: '10px',
-            background:
-              variant === 'success'
-                ? 'rgba(45, 93, 123, 0.2)'
-                : variant === 'warning'
-                ? themeColors.goodBg
-                : 'rgba(166, 45, 105, 0.2)',
-            borderLeft: `4px solid ${
-              variant === 'success'
-                ? themeColors.primary
-                : variant === 'warning'
-                ? themeColors.goodBorder
-                : themeColors.highlight
-            }`,
-            transition: 'all 0.3s ease',
-            boxShadow: variant === 'warning' ? '0 2px 8px rgba(0, 150, 255, 0.2)' : 'none'
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              fontSize: '1rem',
-              fontWeight: '500',
-              color: themeColors.text
+              height: "100%",
+
+              background: `linear-gradient(90deg, ${themeColors.pinkStart}, ${themeColors.pinkEnd})`,
+
+              display: "flex",
+
+              alignItems: "center",
+
+              justifyContent: "center",
+
+              color: "white",
+
+              fontWeight: "600",
+
+              transition: "width 1s ease-in-out",
+
+              borderRadius: "12px",
+
             }}
-          >
-            <span style={{ fontSize: '1.2rem' }}>{statusEmoji}</span>
-            <span>
-              Status:{' '}
-              <strong
+>
+
+            {attendancePercent.toFixed(1)}%
+</div>
+</div>
+</Card>
+
+      {/* Stats Cards */}
+<Row className="g-3 mb-3">
+<Col xs={12} md>
+<Card className="p-3 text-center" style={{ backgroundColor: "rgba(45, 93, 123, 0.08)" }}>
+<div>Total Days</div>
+<div style={{ fontSize: "1.5rem", fontWeight: "700", color: themeColors.primary }}>
+
+              {stats.totalDays}
+</div>
+</Card>
+</Col>
+<Col xs={12} md>
+<Card className="p-3 text-center" style={{ backgroundColor: "rgba(40, 167, 69, 0.08)" }}>
+<div>Logged In Days</div>
+<div style={{ fontSize: "1.5rem", fontWeight: "700", color: themeColors.success }}>
+
+              {stats.presentDays}
+</div>
+</Card>
+</Col>
+<Col xs={12} md>
+<Card className="p-3 text-center" style={{ backgroundColor: "rgba(255,36,95,0.08)" }}>
+<div>Leave Days</div>
+<div style={{ fontSize: "1.5rem", fontWeight: "700", color: themeColors.danger }}>
+
+              {stats.leaveDays}
+</div>
+</Card>
+</Col>
+<Col xs={12} md>
+<Card className="p-3 text-center" style={{ backgroundColor: "rgba(108,117,125,0.08)" }}>
+<div>Total Hours</div>
+<div style={{ fontSize: "1.5rem", fontWeight: "700", color: themeColors.primary }}>
+
+              {stats.totalHours.toFixed(1)} hrs
+</div>
+</Card>
+</Col>
+</Row>
+
+      {/* Toggle + Notifications */}
+<Row className="mb-3 d-flex justify-content-between align-items-center">
+<Col>
+<Button variant={view === "daily" ? "primary" : "outline-primary"} onClick={() => setView("daily")} className="me-2">
+
+            Daily Log
+</Button>
+<Button variant={view === "weekly" ? "primary" : "outline-primary"} onClick={() => setView("weekly")}>
+
+            Weekly Log
+</Button>
+</Col>
+
+        {/* Notification Bell */}
+<Col xs="auto">
+<div style={{ position: "relative", cursor: "pointer" }}>
+<span
+
+              onClick={() => setShowNotifications(!showNotifications)}
+
+              style={{ fontSize: "1.8rem", color: themeColors.danger }}
+>
+
+              🔔
+
+              {notifications.length > 0 && (
+<span
+
+                  style={{
+
+                    position: "absolute",
+
+                    top: "-5px",
+
+                    right: "-5px",
+
+                    backgroundColor: themeColors.danger,
+
+                    borderRadius: "50%",
+
+                    width: "18px",
+
+                    height: "18px",
+
+                    display: "flex",
+
+                    justifyContent: "center",
+
+                    alignItems: "center",
+
+                    color: "white",
+
+                    fontSize: "0.8rem",
+
+                  }}
+>
+
+                  {notifications.length}
+</span>
+
+              )}
+</span>
+
+            {showNotifications && notifications.length > 0 && (
+<Card
+
                 style={{
-                  color: variant === 'warning' ? themeColors.goodBorder : 'inherit'
+
+                  position: "absolute",
+
+                  top: "30px",
+
+                  right: "0",
+
+                  width: "250px",
+
+                  zIndex: 10,
+
+                  border: "1px solid #ff245f",
+
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+
                 }}
-              >
-                {status}
-              </strong>
-            </span>
-          </div>
-          <Badge
-            pill
-            style={{
-              padding: '0.6rem 1.5rem',
-              minWidth: '100px',
-              fontSize: '1rem',
-              fontWeight: '700',
-              backgroundColor:
-                variant === 'success'
-                  ? themeColors.primary
-                  : variant === 'warning'
-                  ? themeColors.goodBorder
-                  : themeColors.highlight,
-              color: 'white',
-              animation: 'bounce 1s infinite alternate',
-              textShadow: '0 1px 2px rgba(0,0,0,0.2)',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-              border: variant === 'warning' ? '1px solid rgba(255,255,255,0.3)' : 'none',
-              textAlign: 'center'
-            }}
-          >
-            {status.toUpperCase()}
-          </Badge>
-        </div>
-      </Card.Body>
-    </Card>
+>
+<Card.Body style={{ padding: "0.5rem" }}>
+<strong>Notifications</strong>
+
+                  {notifications.map((s, idx) => (
+<div
+
+                      key={idx}
+
+                      style={{
+
+                        padding: "0.5rem",
+
+                        borderBottom: idx !== notifications.length - 1 ? "1px solid #eee" : "none",
+
+                        fontSize: "0.9rem",
+
+                        color: themeColors.text,
+
+                      }}
+>
+
+                      {s.leave ? `${s.date} - Leave` : `${s.date} - Short Hours`}
+</div>
+
+                  ))}
+</Card.Body>
+</Card>
+
+            )}
+</div>
+</Col>
+</Row>
+
+      {/* Daily Table */}
+
+      {view === "daily" && (
+<>
+<h5 style={{ color: themeColors.primary, marginTop: "1rem" }}>Daily Log</h5>
+<Table striped bordered hover responsive>
+<thead>
+<tr>
+<th>Date</th>
+<th>Check-In</th>
+<th>Check-Out</th>
+<th>Hours</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+
+              {dailySessions.map((s, idx) => {
+
+                const hours = s.leave ? 0 : calculateHours(s.checkIn, s.checkOut);
+
+                let badgeVariant = "secondary";
+
+                let statusText = "Short";
+
+                if (s.leave) {
+
+                  badgeVariant = "danger";
+
+                  statusText = "Leave";
+
+                } else if (hours >= shortHoursThreshold) {
+
+                  badgeVariant = "success";
+
+                  statusText = "Normal";
+
+                }
+
+                return (
+<tr key={idx}>
+<td>{s.date}</td>
+<td>{s.leave ? "-" : s.checkIn}</td>
+<td>{s.leave ? "-" : s.checkOut}</td>
+<td>{s.leave ? "-" : hours.toFixed(1)}</td>
+<td>
+<Badge bg={badgeVariant} style={{ color: "white" }}>
+
+                        {statusText}
+</Badge>
+</td>
+</tr>
+
+                );
+
+              })}
+</tbody>
+</Table>
+</>
+
+      )}
+
+      {/* Weekly Table */}
+
+      {view === "weekly" && (
+<>
+<h5 style={{ color: themeColors.primary, marginTop: "1rem" }}>Weekly Log</h5>
+<Table striped bordered hover responsive>
+<thead>
+<tr>
+<th>Week</th>
+<th>Days Present</th>
+<th>Days Leave</th>
+<th>Total Hours</th>
+</tr>
+</thead>
+<tbody>
+
+              {weeklyData.map((w, idx) => (
+<tr key={idx}>
+<td>Week {idx + 1}</td>
+<td>{w.presentDays}</td>
+<td>{w.leaveDays}</td>
+<td>{w.totalHours.toFixed(1)}</td>
+</tr>
+
+              ))}
+</tbody>
+</Table>
+</>
+
+      )}
+</Container>
+
   );
+
 };
 
 export default Attendance;
-
+ 
