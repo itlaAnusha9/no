@@ -42,7 +42,6 @@ const Navbar = () => {
       hasDropdown: true,
       dropdownItems: [
         { path: '/learn', name: 'Learn' },
-        { path: '/learn/pdfs', name: "PDF's" },
         { path: '/learn/recordings', name: 'Recordings' },
         { path: '/learn/quizzes', name: 'Quizzes' }
       ]

@@ -34,9 +34,8 @@ import Career from './modules/student/Career';
 import Mentorship from './modules/student/Mentorship';
 import Chatbox from './modules/student/Chatbox';
 
-// ✅ New student pages
+// ✅ Student pages (without PDFs)
 import Quizzes from './modules/student/Quizzes';
-import PDFs from './modules/student/PDFs';
 import Recordings from './modules/student/Recordings';
 
 // Parent Modules
@@ -141,12 +140,9 @@ function App() {
           <ProtectedRoute><RoleRoute requiredRole="student"><Mentorship /></RoleRoute></ProtectedRoute>
         } />
 
-        {/* ✅ Classroom subpages */}
+        {/* ✅ Classroom subpages (removed PDFs) */}
         <Route path="/learn/quizzes" element={
           <ProtectedRoute><RoleRoute requiredRole="student"><Quizzes /></RoleRoute></ProtectedRoute>
-        } />
-        <Route path="/learn/pdfs" element={
-          <ProtectedRoute><RoleRoute requiredRole="student"><PDFs /></RoleRoute></ProtectedRoute>
         } />
         <Route path="/learn/recordings" element={
           <ProtectedRoute><RoleRoute requiredRole="student"><Recordings /></RoleRoute></ProtectedRoute>
