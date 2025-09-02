@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Clock,  BookOpen, Target, ChevronRight, Play, Users,  Star, X, Check, Flag, ArrowLeft } from 'lucide-react';
-// import './module/student/practice.css';
-// import '../../module/student/practice.css';
+import React, { useState, useEffect,useCallback } from 'react';
+import { Clock,  BookOpen, Target, ChevronRight, Play, Users,  Star, X, Check, ArrowLeft } from 'lucide-react';
 import './practice.css';
 const Practice = () => {
   useEffect(() => {
@@ -391,36 +389,39 @@ const Practice = () => {
     }
   };
 
-  const submitTest = () => {
-    // Calculate score
-    let correctAnswers = 0;
-    currentTest.questionsData.forEach(question => {
-      if (selectedAnswers[question.id] === question.correctAnswer) {
-        correctAnswers++;
-      }
-    });
-    const calculatedScore = Math.round((correctAnswers / currentTest.questionsData.length) * 100);
-    setScore(calculatedScore);
-    setTestSubmitted(true);
-  };
+ const submitTest = useCallback(() => {
+  let correctAnswers = 0;
+  currentTest.questionsData.forEach(question => {
+    if (selectedAnswers[question.id] === question.correctAnswer) {
+      correctAnswers++;
+    }
+  });
+  const calculatedScore = Math.round(
+    (correctAnswers / currentTest.questionsData.length) * 100
+  );
+  setScore(calculatedScore);
+  setTestSubmitted(true);
+}, [currentTest, selectedAnswers]);
+
 
   // Timer effect
-  useEffect(() => {
-    if (!testStarted || testSubmitted) return;
+ useEffect(() => {
+  if (!testStarted || testSubmitted) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          submitTest();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+  const timer = setInterval(() => {
+    setTimeLeft(prev => {
+      if (prev <= 1) {
+        clearInterval(timer);
+        submitTest();
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
 
-    return () => clearInterval(timer);
-  }, [testStarted, testSubmitted]);
+  return () => clearInterval(timer);
+}, [testStarted, testSubmitted, submitTest]);  // ✅ now safe
+
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -740,10 +741,7 @@ const Practice = () => {
               <div className="question-container">
                 <div className="question-header">
                   <span className="question-number">Question {currentQuestionIndex + 1} of {currentTest.questionsData.length}</span>
-                  <button className="flag-question-btn">
-                    <Flag size={18} />
-                    Flag
-                  </button>
+                 
                 </div>
                 
                 <div className="question-text">{currentQuestion.question}</div>

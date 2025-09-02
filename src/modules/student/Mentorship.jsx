@@ -479,7 +479,6 @@ const Mentorship = () => {
             className="footer-note"
             variants={itemVariants}
           >
-            <p>We'll contact you within 24 hours to confirm your session details</p>
           </motion.div>
         </motion.div>
       </motion.div>

@@ -1,10 +1,8 @@
 
-
- 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
- 
+
 function Signup() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -14,29 +12,24 @@ function Signup() {
     email: "",
     role: "student",
     username: "",
-    studentId: "",
     password: "",
     confirmPassword: "",
   });
- 
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
- 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (form.password !== form.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    if (form.role === "parent" && !form.studentId.trim()) {
-      alert("Student ID is required for Parent role");
-      return;
-    }
     alert("Account created successfully!");
     navigate("/login");
   };
- 
+
   return (
     <div
       style={{
@@ -75,7 +68,7 @@ function Signup() {
           />
         ))}
       </svg>
- 
+
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -100,7 +93,7 @@ function Signup() {
         >
           Create Account
         </h4>
- 
+
         <form onSubmit={handleSubmit}>
           {/* First + Last Name */}
           <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
@@ -145,7 +138,7 @@ function Signup() {
               />
             </div>
           </div>
- 
+
           {/* Phone */}
           <label htmlFor="phone">Phone Number</label>
           <motion.input
@@ -166,7 +159,7 @@ function Signup() {
             whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
             required
           />
- 
+
           {/* Email */}
           <label htmlFor="email">Email</label>
           <motion.input
@@ -187,7 +180,7 @@ function Signup() {
             whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
             required
           />
- 
+
           {/* Role */}
           <label htmlFor="role">Role</label>
           <motion.select
@@ -208,33 +201,10 @@ function Signup() {
             <option value="student">Student</option>
             <option value="parent">Parent</option>
           </motion.select>
- 
-          {form.role === "parent" && (
-            <div style={{ marginBottom: "15px" }}>
-              <label htmlFor="studentId">Student ID (Required)</label>
-              <motion.input
-                id="studentId"
-                type="text"
-                name="studentId"
-                value={form.studentId}
-                onChange={handleChange}
-                placeholder="Enter Student ID"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  border: "1px solid #2D5D7B",
-                  marginTop: "5px",
-                }}
-                whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
-                required
-              />
-            </div>
-          )}
- 
+
           {/* Username */}
           <label htmlFor="username">
-            {form.role === "student" ? "Student ID" : "Parent ID"}
+            {form.role === "student" ? "Username" : "Username"}
           </label>
           <motion.input
             id="username"
@@ -242,11 +212,7 @@ function Signup() {
             name="username"
             value={form.username}
             onChange={handleChange}
-            placeholder={
-              form.role === "student"
-                ? "Create new Student ID"
-                : "Create new Parent ID"
-            }
+            placeholder="Create a username"
             style={{
               width: "100%",
               padding: "10px",
@@ -258,7 +224,7 @@ function Signup() {
             whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
             required
           />
- 
+
           {/* Password */}
           <label htmlFor="password">Password</label>
           <motion.input
@@ -279,7 +245,7 @@ function Signup() {
             whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
             required
           />
- 
+
           <label htmlFor="confirmPassword">Confirm Password</label>
           <motion.input
             id="confirmPassword"
@@ -299,7 +265,7 @@ function Signup() {
             whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
             required
           />
- 
+
           <motion.button
             type="submit"
             style={{
@@ -322,7 +288,5 @@ function Signup() {
     </div>
   );
 }
- 
+
 export default Signup;
- 
- 

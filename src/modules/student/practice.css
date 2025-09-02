@@ -1660,3 +1660,29 @@
     font-size: 1.1rem;
   }
 }
+
+
+
+.mock-test-card {
+    display: flex;
+    flex-direction: column;
+    /* This ensures the button is at the bottom of the card */
+    height: 100%;
+}
+
+.start-test-btn {
+    margin-top: auto;
+    /* !important is used as requested to ensure this style overrides any others. */
+    width: 100% !important;
+    padding: 12px !important;
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all var(--animation-speed) var(--smooth-timing) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+}

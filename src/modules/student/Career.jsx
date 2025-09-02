@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+
+
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   ArrowUpRight, BarChart2, BookOpen, Briefcase, Clock, Compass, 
   Globe, GraduationCap, Rocket,  
@@ -8,6 +12,8 @@ import {
 import './career.css';
 
 const Career = () => {
+  const navigate = useNavigate();
+  
   useEffect(() => {
     document.title = "Career | NOVYA - Your Smart Learning Platform";
   }, []);
@@ -20,8 +26,10 @@ const Career = () => {
   });
   const [showDetails, setShowDetails] = useState(null);
   const [heroAnimation, setHeroAnimation] = useState(false);
+  
+  const metricsRef = useRef(null);
+  const futureRef = useRef(null);
 
-  // Animate stats on component mount
   useEffect(() => {
     const animateValue = (start, end, duration, callback) => {
       let startTimestamp = null;
@@ -42,11 +50,22 @@ const Career = () => {
     animateValue(0, 350, 2200, (val) => setAnimatedStats(prev => ({...prev, careers: val})));
     animateValue(0, 2800, 2500, (val) => setAnimatedStats(prev => ({...prev, universities: val})));
 
-    // Trigger hero animation after a short delay
     setTimeout(() => {
       setHeroAnimation(true);
     }, 500);
   }, []);
+
+  const scrollToMetrics = () => {
+    metricsRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToFuture = () => {
+    futureRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const navigateToHome = () => {
+    navigate('/student/dashboard'); // Changed to the correct path
+  };
 
   const performanceMetrics = [
     {
@@ -245,7 +264,6 @@ const Career = () => {
 
   return (
     <div className="career-container">
-      {/* Animated Background Elements */}
       <div className="bg-elements">
         <div className="floating-shape shape-1"></div>
         <div className="floating-shape shape-2"></div>
@@ -265,8 +283,7 @@ const Career = () => {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="career-hero">
+      <section className="career-hero" ref={futureRef}>
         <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-title">
@@ -280,11 +297,11 @@ const Career = () => {
             </p>
             
             <div className={`hero-cta ${heroAnimation ? 'animate' : ''}`} style={{ animationDelay: '0.8s' }}>
-              <button className="cta-btn primary">
+              <button className="cta-btn primary" onClick={scrollToMetrics}>
                 <BarChart2 size={20} />
                 View Dashboard
               </button>
-              <button className="cta-btn secondary">
+              <button className="cta-btn secondary" onClick={navigateToHome}>
                 <Compass size={20} />
                 Explore Careers
               </button>
@@ -322,7 +339,6 @@ const Career = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
       <section className="stats-section">
         <div className="stats-container">
           <div className="stat-item">
@@ -356,8 +372,7 @@ const Career = () => {
         </div>
       </section>
 
-      {/* Performance Metrics */}
-      <section className="performance-section">
+      <section className="performance-section" ref={metricsRef}>
         <h2 className="section-title">Your Performance Metrics</h2>
         <p className="section-subtitle">
           Comprehensive analysis of your academic and personal development
@@ -411,7 +426,6 @@ const Career = () => {
         </div>
       </section>
 
-      {/* Performance Scale */}
       <section className="scale-section">
         <h2 className="section-title">Performance Scale</h2>
         <p className="section-subtitle">
@@ -471,7 +485,6 @@ const Career = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="career-cta">
         <div className="cta-content">
           <h2>Ready to Analyze Your Performance?</h2>
@@ -480,11 +493,11 @@ const Career = () => {
             with our comprehensive performance analysis.
           </p>
           <div className="cta-buttons">
-            <button className="cta-btn primary">
+            <button className="cta-btn primary" onClick={scrollToMetrics}>
               <BarChart2 size={20} />
               View Full Report
             </button>
-            <button className="cta-btn secondary">
+            <button className="cta-btn secondary" onClick={scrollToFuture}>
               <Compass size={20} />
               Get Improvement Plan
             </button>
@@ -492,7 +505,6 @@ const Career = () => {
         </div>
       </section>
 
-      {/* Details Modal */}
       {showDetails && (
         <div className="details-modal">
           <div className="modal-overlay" onClick={closeDetails}></div>

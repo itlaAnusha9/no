@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChildProfile from './ChildProfile';
@@ -7,14 +6,14 @@ import Progress from './Progress';
 import Homework from './HomeWork';
 import MockTestReports from './MockTestReports';
 import StudyPlanner from './StudyPlanner';
-import { Row, Col, Container } from 'react-bootstrap';
+
 import { Typewriter } from 'react-simple-typewriter';
 import { 
   FiLogOut,        
   FiBell,          
   FiSettings,
   FiSun,           
-  FiMoon, 
+ 
   FiGlobe,         
   FiTrendingUp,
   FiMenu,
@@ -43,9 +42,10 @@ const ParentDashboard = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [language, setLanguage] = useState('English');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mainContentRef = useRef(null);
   const navigate = useNavigate();
-
+const [showProfile, setShowProfile] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
     const username = localStorage.getItem('parentUsername') || localStorage.getItem('username') || 'Parent';
@@ -182,6 +182,15 @@ const ParentDashboard = () => {
     setShowSettings(false);
   };
 
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const handleSectionSelect = (sectionKey) => {
+    setSelectedSection(sectionKey);
+    setMobileMenuOpen(false); // Close mobile menu when selecting a section
+  };
+
   const renderSection = () => {
     switch (selectedSection) {
       case 'profile': return <ChildProfile />;
@@ -299,18 +308,27 @@ const ParentDashboard = () => {
 
   return (
     <div className={`parent-dashboard ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && <div className="mobile-overlay" onClick={() => setMobileMenuOpen(false)}></div>}
+      
       {/* Sidebar */}
-      <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+      <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo">
             <img src={novyaLogo} alt="NOVYA" />
             {!sidebarCollapsed && <span>NOVYA</span>}
           </div>
           <button 
-            className="sidebar-toggle"
+            className="sidebar-toggle desktop-only"
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
           >
             {sidebarCollapsed ? <FiMenu /> : <FiX />}
+          </button>
+          <button 
+            className="sidebar-toggle mobile-only"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <FiX />
           </button>
         </div>
 
@@ -321,7 +339,7 @@ const ParentDashboard = () => {
               <button
                 key={section.key}
                 className={`nav-item ${selectedSection === section.key ? 'active' : ''}`}
-                onClick={() => setSelectedSection(section.key)}
+                onClick={() => handleSectionSelect(section.key)}
                 title={sidebarCollapsed ? section.label : ''}
               >
                 <div className="nav-icon">
@@ -351,8 +369,16 @@ const ParentDashboard = () => {
         {/* Top Header */}
         <header className="top-header">
           <div className="header-left">
-            <h1>{selectedSection ? sections.find(s => s.key === selectedSection)?.label || 'Dashboard' : 'Dashboard'}</h1>
-            <p>{getGreeting()}! Track your child's learning journey</p>
+            <button 
+              className="mobile-menu-btn"
+              onClick={handleMobileMenuToggle}
+            >
+              <FiMenu />
+            </button>
+            <div className="header-title">
+              <h1>{selectedSection ? sections.find(s => s.key === selectedSection)?.label || 'Dashboard' : 'Dashboard'}</h1>
+              <p>{getGreeting()}! Track your child's learning journey</p>
+            </div>
           </div>
           
           <div className="header-right">
@@ -444,24 +470,7 @@ const ParentDashboard = () => {
                       </button>
                     </div>
                     
-                    <div className="settings-option">
-                      <div className="settings-label">
-                        <FiSun />
-                        <span>Theme</span>
-                      </div>
-                      <div className="theme-toggle">
-                        <span>Light</span>
-                        <label className="switch">
-                          <input 
-                            type="checkbox" 
-                            checked={darkMode}
-                            onChange={toggleTheme}
-                          />
-                          <span className="slider round"></span>
-                        </label>
-                        <span>Dark</span>
-                      </div>
-                    </div>
+                    
                     
                     <div className="settings-option">
                       <div className="settings-label">
@@ -475,12 +484,7 @@ const ParentDashboard = () => {
                         >
                           English
                         </button>
-                        <button 
-                          className={language === 'Spanish' ? 'active' : ''}
-                          onClick={() => changeLanguage('Spanish')}
-                        >
-                          Español
-                        </button>
+                      
                       </div>
                     </div>
                   </div>
@@ -488,17 +492,81 @@ const ParentDashboard = () => {
               </div>
               
               {/* User Profile */}
-              <div className="user-profile">
-                <img
-                  src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/d92aaad8-daf4-48e8-9313-bc4d45f82b91.png"
-                  alt="Parent"
-                  className="profile-avatar"
-                />
-                <div className="profile-info">
-                  <span className="profile-name">{parentName}</span>
-                  <span className="profile-role">Parent</span>
-                </div>
-              </div>
+              <div
+  className="user-profile"
+  style={{ cursor: "pointer" }}
+  onClick={() => setShowProfile(true)}
+>
+  <img
+    src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/d92aaad8-daf4-48e8-9313-bc4d45f82b91.png"
+    alt="Parent"
+    className="profile-avatar"
+  />
+  <div className="profile-info">
+    <span className="profile-name">{parentName}</span>
+    <span className="profile-role">Tulasi</span>
+  </div>
+</div>
+{showProfile && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      background: "rgba(0,0,0,0.3)",
+      zIndex: 2000,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }}
+    onClick={() => setShowProfile(false)}
+  >
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: "16px",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+        padding: "2rem",
+        minWidth: "300px",
+        maxWidth: "90vw",
+        position: "relative"
+      }}
+      onClick={e => e.stopPropagation()}
+    >
+      <button
+        style={{
+          position: "absolute",
+          top: 12,
+          right: 12,
+          background: "transparent",
+          border: "none",
+          fontSize: "1.5rem",
+          cursor: "pointer"
+        }}
+        onClick={() => setShowProfile(false)}
+        aria-label="Close"
+      >
+        ×
+      </button>
+      <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+        <img
+          src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/d92aaad8-daf4-48e8-9313-bc4d45f82b91.png"
+          alt="Parent"
+          style={{ width: 64, height: 64, borderRadius: "50%", marginBottom: "0.5rem" }}
+        />
+        <h3 style={{ margin: 0 }}>{parentName}</h3>
+        <span style={{ color: "#64748b", fontSize: "0.95rem" }}>Tulasi</span>
+      </div>
+      <div style={{ marginTop: "1rem" }}>
+        <p><strong>Email:</strong> tulasi.kumar@example.com</p>
+        <p><strong>Contact:</strong> +91 9876543210</p>
+        <p><strong>Address:</strong> 45, MG Road, Visakhapatanam, Andhra Pradesh</p>
+      </div>
+    </div>
+  </div>
+)}
             </div>
           </div>
         </header>
@@ -522,6 +590,24 @@ const ParentDashboard = () => {
         .parent-dashboard.dark-mode {
           background: #0f172a;
           color: #e2e8f0;
+        }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1040;
+          display: none;
+        }
+
+        @media (max-width: 768px) {
+          .mobile-overlay {
+            display: block;
+          }
         }
 
         /* Custom scrollbar styles */
@@ -566,7 +652,7 @@ const ParentDashboard = () => {
           transition: all 0.3s ease;
           position: fixed;
           height: 100vh;
-          z-index: 1000;
+          z-index: 1050;
           box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
         }
 
@@ -634,6 +720,25 @@ const ParentDashboard = () => {
 
         .dark-mode .sidebar-toggle:hover {
           background: #475569;
+        }
+
+        /* Desktop/Mobile Toggle Visibility */
+        .desktop-only {
+          display: flex;
+        }
+
+        .mobile-only {
+          display: none;
+        }
+
+        @media (max-width: 768px) {
+          .desktop-only {
+            display: none;
+          }
+          
+          .mobile-only {
+            display: flex;
+          }
         }
 
         .sidebar-nav {
@@ -738,6 +843,36 @@ const ParentDashboard = () => {
           margin-left: 70px;
         }
 
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+          background: #f1f5f9;
+          border: none;
+          width: 42px;
+          height: 42px;
+          border-radius: 10px;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          color: #1e293b;
+          font-size: 1.2rem;
+        }
+
+        .dark-mode .mobile-menu-btn {
+          background: #334155;
+          color: #e2e8f0;
+        }
+
+        .mobile-menu-btn:hover {
+          background: #e2e8f0;
+          transform: scale(1.05);
+        }
+
+        .dark-mode .mobile-menu-btn:hover {
+          background: #475569;
+        }
+
         /* Top Header */
         .top-header {
           background: #ffffff;
@@ -757,7 +892,13 @@ const ParentDashboard = () => {
           border-bottom: 1px solid #334155;
         }
 
-        .header-left h1 {
+        .header-left {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .header-title h1 {
           font-size: 1.75rem;
           font-weight: 800;
           margin: 0;
@@ -766,13 +907,13 @@ const ParentDashboard = () => {
           -webkit-text-fill-color: transparent;
         }
 
-        .header-left p {
+        .header-title p {
           font-size: 0.9rem;
           color: #64748b;
           margin: 0.25rem 0 0 0;
         }
 
-        .dark-mode .header-left p {
+        .dark-mode .header-title p {
           color: #94a3b8;
         }
 
@@ -1418,31 +1559,62 @@ const ParentDashboard = () => {
         }
 
         @media (max-width: 768px) {
+          /* Mobile Sidebar Styles */
           .sidebar {
-            position: fixed;
-            z-index: 1050;
-            height: 100vh;
             left: -280px;
             transition: left 0.3s ease;
           }
           
-          .sidebar.collapsed {
-            width: 280px;
+          .sidebar.mobile-open {
             left: 0;
           }
           
-          .sidebar.collapsed + .main-container {
-            margin-left: 280px;
+          .sidebar.collapsed {
+            width: 280px;
+            left: -280px;
           }
           
+          .sidebar.collapsed.mobile-open {
+            left: 0;
+          }
+          
+          /* Mobile Main Container */
           .main-container {
             margin-left: 0;
           }
           
-          .sidebar-toggle {
+          .sidebar.collapsed + .main-container {
+            margin-left: 0;
+          }
+          
+          /* Show Mobile Menu Button */
+          .mobile-menu-btn {
+            display: flex;
+          }
+          
+          /* Mobile Header Adjustments */
+          .top-header {
+            padding: 1rem;
+          }
+          
+          .header-right {
+            gap: 0.75rem;
+          }
+          
+          .time-display {
             display: none;
           }
           
+          .user-profile .profile-info {
+            display: none;
+          }
+          
+          .notification-dropdown, .settings-dropdown {
+            width: 280px;
+            right: -1rem;
+          }
+          
+          /* Mobile Dashboard Content */
           .dashboard-home {
             padding: 1rem;
           }
@@ -1451,30 +1623,144 @@ const ParentDashboard = () => {
             font-size: 2rem;
           }
           
-          .header-right {
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 1rem;
+          .typewriter-container {
+            font-size: 1rem;
           }
           
-          .time-display {
-            display: none;
+          .welcome-content {
+            padding: 1.5rem;
+            gap: 1.5rem;
+          }
+          
+          .stats-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .features-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .header-title h1 {
+            font-size: 1.5rem;
+          }
+          
+          .header-title p {
+            font-size: 0.8rem;
           }
         }
+
+        @media (max-width: 480px) {
+          .top-header {
+            padding: 0.75rem;
+          }
+          
+          .welcome-text h1 {
+            font-size: 1.75rem;
+          }
+          
+          .welcome-content {
+            padding: 1rem;
+          }
+          
+          .stat-card {
+            padding: 1rem;
+          }
+          
+          .feature-card {
+            padding: 1.5rem;
+          }
+          
+          .notification-dropdown, .settings-dropdown {
+            width: calc(100vw - 2rem);
+            left: 1rem;
+            right: 1rem;
+          }
+        }
+          /* Show nav labels on mobile even when collapsed */
+.sidebar .nav-content {
+  display: flex !important;
+}
+
+.sidebar.collapsed .nav-content {
+  display: flex !important;
+}
+  /* Mobile Dropdown Fixes - Add at end of CSS */
+@media (max-width: 768px) {
+  .notification-dropdown, .settings-dropdown {
+    position: fixed !important;
+    top: 70px !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    width: auto !important;
+    max-width: none !important;
+    margin-top: 0 !important;
+    z-index: 1100 !important;
+    transform: translateY(-10px) !important;
+    animation: slideDown 0.3s ease forwards !important;
+  }
+  
+  @keyframes slideDown {
+    to {
+      transform: translateY(0) !important;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-dropdown, .settings-dropdown {
+    left: 0.5rem !important;
+    right: 0.5rem !important;
+    top: 65px !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .dropdown-header h3 {
+    font-size: 1.1rem !important;
+  }
+  
+  .notification-item {
+    padding: 0.75rem 0 !important;
+  }
+  
+  .settings-option {
+    margin-bottom: 1.5rem !important;
+  }
+}
+  .dark-mode .sidebar {
+  color: white !important;
+}
+
+.dark-mode .nav-item {
+  color: white !important;
+}
+
+.dark-mode .nav-icon {
+  color: white !important;
+}
+
+.dark-mode .sidebar-logo {
+  color: white !important;
+}
+
+.dark-mode .sidebar-footer {
+  color: white !important;
+}
+
+.dark-mode .logout-btn {
+  color: white !important;
+}
+  .dark-mode .stats-section > h2 {
+  color: #0d0d0dff !important;
+}
+
+
+
       `}</style>
     </div>
   );
 };
 
 export default ParentDashboard;
-
-
-
-
-
-
-
-
 
 
 

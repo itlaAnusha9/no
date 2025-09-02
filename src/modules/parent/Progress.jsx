@@ -61,10 +61,7 @@ const Progress = () => {
         <div className="container-fluid p-4">
           <div className="d-flex justify-content-between align-items-center text-white mb-4">
             <h1 className="display-6 fw-bold mb-0 text-dark">Progress Dashboard</h1>
-            <div className="d-flex align-items-center bg-white bg-opacity-10 rounded-pill px-3 py-2">
-              <Calendar size={16} className="me-2" />
-              <span className="small text-grey">Week 12, 2024</span>
-            </div>
+            
           </div>
 
           <div className="row g-4 mb-4">
@@ -308,14 +305,9 @@ const Progress = () => {
                 <div className="flex-grow-1" >
                   <h6 className="fw-bold mb-2" style={{ color: '#f57c00' }}>Social Studies Needs Attention</h6>
                   <p className="mb-3 text-dark opacity-75">
-                    Your performance has dropped by 4%. Consider reviewing recent topics and completing practice exercises.
+                    Your child performance has dropped by 4%. Consider reviewing recent topics and completing practice exercises.
                   </p>
-                  <button
-                    className="btn btn-warning btn-sm fw-medium px-4"
-                    style={{ borderRadius: '25px' }}
-                  >
-                    Create Study Plan
-                  </button>
+               
                 </div>
               </div>
             </div>

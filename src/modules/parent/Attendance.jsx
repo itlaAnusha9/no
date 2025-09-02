@@ -307,52 +307,7 @@ const Attendance = () => {
         {/* Notification Bell */}
 <Col xs="auto">
 <div style={{ position: "relative", cursor: "pointer" }}>
-<span
 
-              onClick={() => setShowNotifications(!showNotifications)}
-
-              style={{ fontSize: "1.8rem", color: themeColors.danger }}
->
-
-              🔔
-
-              {notifications.length > 0 && (
-<span
-
-                  style={{
-
-                    position: "absolute",
-
-                    top: "-5px",
-
-                    right: "-5px",
-
-                    backgroundColor: themeColors.danger,
-
-                    borderRadius: "50%",
-
-                    width: "18px",
-
-                    height: "18px",
-
-                    display: "flex",
-
-                    justifyContent: "center",
-
-                    alignItems: "center",
-
-                    color: "white",
-
-                    fontSize: "0.8rem",
-
-                  }}
->
-
-                  {notifications.length}
-</span>
-
-              )}
-</span>
 
             {showNotifications && notifications.length > 0 && (
 <Card

@@ -513,13 +513,10 @@ const LessonPage = () => {
     }
     
   };
-
-  // Initialize chances from localStorage
   useEffect(() => {
     const today = new Date().toDateString();
     const storedDate = localStorage.getItem('lastAttemptDate');
     const storedChances = localStorage.getItem('remainingChances');
-    
     if (storedDate === today) {
       setRemainingChances(parseInt(storedChances) || 3);
     } else {
@@ -546,7 +543,7 @@ const LessonPage = () => {
   };
 
   const questions = quizQuestions[subject]?.[chapterNumber] || [];
-  
+
   const lessons = Object.keys(videos[subject] || {}).map((id) => ({
     id,
     title: videos[subject][id].title,
@@ -597,33 +594,23 @@ const LessonPage = () => {
   };
 
   const handleNextQuestion = () => {
-    // Add score for the current question if the answer is correct
     if (selectedAnswer === questions[currentQuestionIndex].correctAnswer) {
       setQuizScore(prevScore => prevScore + 1);
     }
-    
-    // Move to the next question if it's not the last one
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedAnswer(null);
     } else {
-      // This block runs when the quiz is finished
       setQuizCompleted(true);
-      
       const newChances = remainingChances - 1;
       setRemainingChances(newChances);
       localStorage.setItem('remainingChances', newChances.toString());
-      
-      // Calculate final score including the last question
       const finalScore = quizScore + (selectedAnswer === questions[currentQuestionIndex].correctAnswer ? 1 : 0);
       const isPassed = finalScore >= Math.ceil(questions.length * 0.8);
-
-      // *** KEY UPDATE HERE ***
-      // Update the checklist status automatically based on quiz results
       setChecklistStatus(prev => ({
         ...prev,
-        practiceAttempted: true, // Mark practice as attempted
-        quizPassed: isPassed      // Mark as passed only if score is >= 80%
+        practiceAttempted: true,
+        quizPassed: isPassed
       }));
     }
   };
@@ -642,437 +629,455 @@ const LessonPage = () => {
   };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
-      {/* Header */}
-      <div style={{ backgroundColor: 'white', padding: '100px 32px', borderBottom: '1px solid #e5e7eb',
-                    display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <ArrowLeft size={20} style={{ cursor: 'pointer', color: '#6b7280' }} onClick={handleGoBack} />
-        <h1 style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>
-          {subject} • {currentLesson.title}
-        </h1>
-      </div>
-
-      <div style={{ display: 'flex', gap: '24px', padding: '24px' }}>
-        {/* Left: Video + About + PDF + Checklist + Practice */}
-        <div style={{ flex: 2 }}>
-          <div style={{ marginBottom: '24px' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937' }}>
-              Video: {currentLesson.title}
-            </h2>
-            <video
-              ref={videoRef}
-              src={currentLesson.file}
-              controls
-              width="100%"
-              style={{ borderRadius: "8px", backgroundColor: "#000", marginTop: "12px" }}
-              onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
-              onEnded={handleVideoEnd}
-            />
-          </div>
-
-          <div style={{ backgroundColor: "white", padding: "16px", borderRadius: "8px", marginBottom: "20px", border: "1px solid #e5e7eb" }}>
-            <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "10px", color: "#1f2937" }}>📘 About</h3>
-            <p style={{ fontSize: "14px", color: "#4b5563", lineHeight: "1.6" }}>
-              {currentLesson.about || "No description available."}
-            </p>
-          </div>
-
-          {currentLesson.pdf && (
-            <div style={{ marginTop: "20px" }}>
-              {!showPdf && (
-                <button
-                  onClick={() => setShowPdf(true)}
-                  style={{
-                    backgroundColor: "#0f766e",
-                    color: "white",
-                    padding: "10px 16px",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontSize: "14px",
-                  }}
-                >
-                  📖 View Lesson PDF
-                </button>
-              )}
-
-              {showPdf && (
-                <div>
-                  <iframe
-                    id="lessonPdfFrame"
-                    src={`${currentLesson.pdf}#view=FitH&scrollbar=1&toolbar=0`}
-                    title="Lesson PDF"
+    <>
+      {/* Responsive styles */}
+      <style>
+      {`
+        .lesson-content {
+          display: flex;
+          gap: 24px;
+          padding: 24px;
+        }
+        .lesson-left {
+          flex: 2;
+          min-width: 0;
+        }
+        .lesson-right {
+          width: 320px;
+          min-width: 320px;
+        }
+        @media (max-width: 768px) {
+          .lesson-content {
+            flex-direction: column;
+            gap: 0;
+            padding: 12px;
+          }
+          .lesson-left,
+          .lesson-right {
+            width: 100%;
+            min-width: 0;
+          }
+          .lesson-right {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            min-width: 0;
+            margin-top: 20px;
+          }
+          .lesson-right > div {
+            width: 100%;
+          }
+        }
+      `}
+      </style>
+      <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+        {/* Header */}
+        <div style={{ backgroundColor: 'white', padding: '100px 32px', borderBottom: '1px solid #e5e7eb',
+                      display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <ArrowLeft size={20} style={{ cursor: 'pointer', color: '#6b7280' }} onClick={handleGoBack} />
+          <h1 style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>
+            {subject} • {currentLesson.title}
+          </h1>
+        </div>
+        <div className="lesson-content">
+          {/* Left section: video, about, PDF, checklist, practice */}
+          <div className="lesson-left">
+            <div style={{ marginBottom: '24px' }}>
+              <h2 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937' }}>
+                Video: {currentLesson.title}
+              </h2>
+              <video
+                ref={videoRef}
+                src={currentLesson.file}
+                controls
+                width="100%"
+                style={{ borderRadius: "8px", backgroundColor: "#000", marginTop: "12px" }}
+                onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
+                onEnded={handleVideoEnd}
+              />
+            </div>
+            <div style={{ backgroundColor: "white", padding: "16px", borderRadius: "8px", marginBottom: "20px", border: "1px solid #e5e7eb" }}>
+              <h3 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "10px", color: "#1f2937" }}>📘 About</h3>
+              <p style={{ fontSize: "14px", color: "#4b5563", lineHeight: "1.6" }}>
+                {currentLesson.about || "No description available."}
+              </p>
+            </div>
+            {currentLesson.pdf && (
+              <div style={{ marginTop: "20px" }}>
+                {!showPdf && (
+                  <button
+                    onClick={() => setShowPdf(true)}
                     style={{
-                      width: "100%",
-                      height: "80vh",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "8px",
-                      overflow: "auto",
+                      backgroundColor: "#0f766e",
+                      color: "white",
+                      padding: "10px 16px",
+                      border: "none",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      fontSize: "14px",
                     }}
-                  ></iframe>
-
-                  <div style={{ marginTop: "12px", display: "flex", gap: "10px" }}>
-                    <a
-                      href={currentLesson.pdf}
-                      download
+                  >
+                    📖 View Lesson PDF
+                  </button>
+                )}
+                {showPdf && (
+                  <div>
+                    <iframe
+                      id="lessonPdfFrame"
+                      src={`${currentLesson.pdf}#view=FitH&scrollbar=1&toolbar=0`}
+                      title="Lesson PDF"
                       style={{
-                        backgroundColor: "#0f766e",
-                        color: "white",
-                        textDecoration: "none",
-                        padding: "10px 16px",
-                        borderRadius: "6px",
-                        fontSize: "14px",
-                        cursor: "pointer",
+                        width: "100%",
+                        height: "80vh",
+                        border: "1px solid #e5e7eb",
+                        borderRadius: "8px",
+                        overflow: "auto",
+                      }}
+                    />
+                    <div style={{ marginTop: "12px", display: "flex", gap: "10px" }}>
+                      <a
+                        href={currentLesson.pdf}
+                        download
+                        style={{
+                          backgroundColor: "#0f766e",
+                          color: "white",
+                          textDecoration: "none",
+                          padding: "10px 16px",
+                          borderRadius: "6px",
+                          fontSize: "14px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        📥 Download Lesson PDF
+                      </a>
+                      <button
+                        onClick={() => setShowPdf(false)}
+                        style={{
+                          backgroundColor: "#dc2626",
+                          color: "white",
+                          padding: "10px 16px",
+                          border: "none",
+                          borderRadius: "6px",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                        }}
+                      >
+                        ❌ Close PDF
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: '24px', marginTop: "24px", flexWrap: 'wrap' }}>
+              <div style={{
+                flex: 1,
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                padding: '20px',
+                border: '1px solid #e5e7eb',
+                marginBottom: '20px'
+              }}>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <FileText size={20}/> Lesson Checklist
+                </h3>
+                {checklistItems.map((item) => (
+                  <div key={item.id} style={{ padding: '12px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '14px', color: '#4b5563' }}>{item.task}</span>
+                    <span style={{ 
+                      fontSize: '12px', 
+                      padding: '4px 8px', 
+                      borderRadius: '12px',
+                      background: item.status === "completed" ? "#10b981" : 
+                                 item.status === "in-progress" ? "#ec4899" : "#e5e7eb",
+                      color: item.status === "completed" || item.status === "in-progress" ? "white" : "#6b7280" 
+                    }}>
+                      {item.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div style={{
+                flex: 1,
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                padding: '20px',
+                border: '1px solid #e5e7eb',
+                marginBottom: '20px'
+              }}>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937', marginBottom: '16px' }}>
+                  Quick Practice
+                </h3>
+                <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <AlertCircle size={16} color="#f59e0b" />
+                  <span style={{ fontSize: '14px', color: '#f59e0b' }}>
+                    {remainingChances} {remainingChances === 1 ? 'chance' : 'chances'} remaining today
+                  </span>
+                </div>
+                {practiceQuestions.map((q) => (
+                  <div key={q.id} style={{ padding: '12px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '14px', color: '#4b5563' }}>{q.question}</span>
+                    <button 
+                      onClick={handleStartQuiz}
+                      disabled={remainingChances <= 0}
+                      style={{ 
+                        backgroundColor: remainingChances > 0 ? "#0f766e" : "#9ca3af", 
+                        color: "white", 
+                        border: "none", 
+                        borderRadius: "4px", 
+                        padding: "6px 12px",
+                        cursor: remainingChances > 0 ? "pointer" : "not-allowed",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px"
                       }}
                     >
-                      📥 Download Lesson PDF
-                    </a>
-                    <button
-                      onClick={() => setShowPdf(false)}
-                      style={{
-                        backgroundColor: "#dc2626",
-                        color: "white",
-                        padding: "10px 16px",
-                        border: "none",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        fontSize: "14px",
-                      }}
-                    >
-                      ❌ Close PDF
+                      <Play size={14} />
+                      {remainingChances > 0 ? "Start" : "No chances"}
                     </button>
                   </div>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
-          )}
-
-          {/* Checklist & Practice */}
-          <div style={{ display: 'flex', gap: '24px', marginTop: "24px" }}>
-            {/* Checklist */}
-            <div style={{ flex: 1, backgroundColor: 'white', borderRadius: '8px', padding: '20px', border: '1px solid #e5e7eb' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <FileText size={20}/> Lesson Checklist
+          </div>
+          {/* Right section: lesson outline and AI assistant (now appears below video on mobile) */}
+          <div className="lesson-right">
+            <div style={{ 
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+              padding: '20px',
+              marginBottom: '20px',
+              border: '1px solid #e5e7eb'
+            }}>
+              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <FileText size={20} />
+                Lesson Outline
               </h3>
-              {checklistItems.map((item) => (
-                <div key={item.id} style={{ padding: '12px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: '#4b5563' }}>{item.task}</span>
-                  <span style={{ 
-                    fontSize: '12px', 
-                    padding: '4px 8px', 
+              {lessons.map((lesson) => (
+                <div 
+                  key={lesson.id} 
+                  onClick={() => handleChapterClick(lesson.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '12px 0',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s',
+                    borderRadius: '6px',
+                    paddingLeft: '8px',
+                    margin: '0 -8px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f9fafb';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', flex: 1, gap: '12px' }}>
+                    {lesson.status === 'completed' && <CheckCircle size={20} style={{ color: '#10b981' }} />}
+                    {lesson.status === 'current' && (
+                      <div style={{
+                        width: '20px',
+                        height: '20px',
+                        backgroundColor: '#ec4899',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <div style={{
+                          width: '6px',
+                          height: '6px',
+                          backgroundColor: 'white',
+                          borderRadius: '50%'
+                        }} />
+                      </div>
+                    )}
+                    {lesson.status === 'next' && <ChevronRight size={20} style={{ color: '#6b7280' }} />}
+                    {lesson.status === 'locked' && <Lock size={16} style={{ color: '#d1d5db' }} />}
+                    <div style={{ flex: 1 }}>
+                      <span style={{ color: '#6b7280', fontSize: '12px', marginRight: '8px' }}>{lesson.id}.</span>
+                      <span style={{ color: lesson.status === 'locked' ? '#d1d5db' : '#4b5563', fontSize: '14px', fontWeight: lesson.status === 'current' ? '600' : '400' }}>
+                        {lesson.title}
+                      </span>
+                    </div>
+                  </div>
+                  <span style={{
+                    backgroundColor: 
+                      lesson.status === 'completed' ? '#d1fae5' :
+                      lesson.status === 'current' ? '#fce7f3' : 
+                      lesson.status === 'next' ? '#e0f2fe' : '#f3f4f6',
+                    color: 
+                      lesson.status === 'completed' ? '#10b981' :
+                      lesson.status === 'current' ? '#ec4899' :
+                      lesson.status === 'next' ? '#0284c7' : '#9ca3af',
+                    padding: '4px 8px',
                     borderRadius: '12px',
-                    background: item.status === "completed" ? "#10b981" : 
-                               item.status === "in-progress" ? "#ec4899" : "#e5e7eb",
-                    color: item.status === "completed" || item.status === "in-progress" ? "white" : "#6b7280" 
+                    fontSize: '10px',
+                    fontWeight: '500',
+                    textTransform: 'capitalize'
                   }}>
-                    {item.status}
+                    {lesson.status === 'completed' ? 'Completed' :
+                     lesson.status === 'current' ? 'Current' :
+                     lesson.status === 'next' ? 'Next' : 'Locked'}
                   </span>
                 </div>
               ))}
             </div>
-
-            {/* Practice */}
-            <div style={{ flex: 1, backgroundColor: 'white', borderRadius: '8px', padding: '20px', border: '1px solid #e5e7eb' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937', marginBottom: '16px' }}>
-                Quick Practice
-              </h3>
-              <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <AlertCircle size={16} color="#f59e0b" />
-                <span style={{ fontSize: '14px', color: '#f59e0b' }}>
-                  {remainingChances} {remainingChances === 1 ? 'chance' : 'chances'} remaining today
-                </span>
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+              padding: '20px',
+              border: '1px solid #e5e7eb'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#1f2937', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <MessageCircle size={18} style={{ color: '#ec4899' }} />
+                  AI Learning Assistant
+                </h3>
+                <button style={{ backgroundColor: '#f3f4f6', color: '#6b7280', border: 'none', padding: '6px 12px', borderRadius: '4px', fontSize: '12px', cursor: 'pointer' }}>
+                  Ask
+                </button>
               </div>
-              {practiceQuestions.map((q) => (
-                <div key={q.id} style={{ padding: '12px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: '#4b5563' }}>{q.question}</span>
-                  <button 
-                    onClick={handleStartQuiz}
-                    disabled={remainingChances <= 0}
-                    style={{ 
-                      backgroundColor: remainingChances > 0 ? "#0f766e" : "#9ca3af", 
-                      color: "white", 
-                      border: "none", 
-                      borderRadius: "4px", 
-                      padding: "6px 12px",
-                      cursor: remainingChances > 0 ? "pointer" : "not-allowed",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px"
-                    }}
-                  >
-                    <Play size={14} />
-                    {remainingChances > 0 ? "Start" : "No chances"}
-                  </button>
+              <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 12px 0' }}>
+                Need help? Ask about any step you're stuck on.
+              </p>
+              <div style={{ backgroundColor: '#fef3c7', border: '1px solid #f59e0b', borderRadius: '6px', padding: '12px', marginBottom: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                  <span style={{ fontSize: '16px' }}>💡</span>
+                  <span style={{ fontSize: '12px', fontWeight: '600', color: '#92400e' }}>Tip</span>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Lesson Outline + AI Assistant */}
-        <div style={{ width: '320px' }}>
-          {/* Lesson Outline */}
-          <div style={{ 
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            padding: '20px',
-            marginBottom: '20px',
-            border: '1px solid #e5e7eb'
-          }}>
-            <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <FileText size={20} />
-              Lesson Outline
-            </h3>
-            
-            {lessons.map((lesson) => (
-              <div 
-                key={lesson.id} 
-                onClick={() => handleChapterClick(lesson.id)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '12px 0',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.2s',
-                  borderRadius: '6px',
-                  paddingLeft: '8px',
-                  margin: '0 -8px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#f9fafb';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', flex: 1, gap: '12px' }}>
-                  {lesson.status === 'completed' && <CheckCircle size={20} style={{ color: '#10b981' }} />}
-                  {lesson.status === 'current' && (
-                    <div style={{
-                      width: '20px',
-                      height: '20px',
-                      backgroundColor: '#ec4899',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <div style={{
-                        width: '6px',
-                        height: '6px',
-                        backgroundColor: 'white',
-                        borderRadius: '50%'
-                      }} />
-                    </div>
-                  )}
-                  {lesson.status === 'next' && <ChevronRight size={20} style={{ color: '#6b7280' }} />}
-                  {lesson.status === 'locked' && <Lock size={16} style={{ color: '#d1d5db' }} />}
-                  
-                  <div style={{ flex: 1 }}>
-                    <span style={{ color: '#6b7280', fontSize: '12px', marginRight: '8px' }}>{lesson.id}.</span>
-                    <span style={{ color: lesson.status === 'locked' ? '#d1d5db' : '#4b5563', fontSize: '14px', fontWeight: lesson.status === 'current' ? '600' : '400' }}>
-                      {lesson.title}
-                    </span>
-                  </div>
-                </div>
-                
-                <span style={{
-                  backgroundColor: 
-                    lesson.status === 'completed' ? '#d1fae5' :
-                    lesson.status === 'current' ? '#fce7f3' : 
-                    lesson.status === 'next' ? '#e0f2fe' : '#f3f4f6',
-                  color: 
-                    lesson.status === 'completed' ? '#10b981' :
-                    lesson.status === 'current' ? '#ec4899' :
-                    lesson.status === 'next' ? '#0284c7' : '#9ca3af',
-                  padding: '4px 8px',
-                  borderRadius: '12px',
-                  fontSize: '10px',
-                  fontWeight: '500',
-                  textTransform: 'capitalize'
-                }}>
-                  {lesson.status === 'completed' ? 'Completed' :
-                   lesson.status === 'current' ? 'Current' :
-                   lesson.status === 'next' ? 'Next' : 'Locked'}
-                </span>
+                <p style={{ fontSize: '12px', color: '#92400e', margin: 0 }}>
+                  Try a practice question on factoring after the video.
+                </p>
               </div>
-            ))}
-          </div>
-          
-          {/* AI Learning Assistant */}
-          <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '20px', border: '1px solid #e5e7eb' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#1f2937', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <MessageCircle size={18} style={{ color: '#ec4899' }} />
-                AI Learning Assistant
-              </h3>
-              <button style={{ backgroundColor: '#f3f4f6', color: '#6b7280', border: 'none', padding: '6px 12px', borderRadius: '4px', fontSize: '12px', cursor: 'pointer' }}>
-                Ask
+              <textarea
+                placeholder="Type your question..."
+                style={{ width: '100%', height: '60px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '8px', fontSize: '14px', resize: 'none', marginBottom: '12px' }}
+              />
+              <button style={{ width: '100%', backgroundColor: '#0f766e', color: 'white', border: 'none', padding: '10px', borderRadius: '6px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
+                Send
               </button>
             </div>
-            
-            <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 12px 0' }}>
-              Need help? Ask about any step you're stuck on.
-            </p>
-            
-            <div style={{ backgroundColor: '#fef3c7', border: '1px solid #f59e0b', borderRadius: '6px', padding: '12px', marginBottom: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                <span style={{ fontSize: '16px' }}>💡</span>
-                <span style={{ fontSize: '12px', fontWeight: '600', color: '#92400e' }}>Tip</span>
-              </div>
-              <p style={{ fontSize: '12px', color: '#92400e', margin: 0 }}>
-                Try a practice question on factoring after the video.
-              </p>
-            </div>
-            
-            <textarea
-              placeholder="Type your question..."
-              style={{ width: '100%', height: '60px', border: '1px solid #d1d5db', borderRadius: '6px', padding: '8px', fontSize: '14px', resize: 'none', marginBottom: '12px' }}
-            />
-            
-            <button style={{ width: '100%', backgroundColor: '#0f766e', color: 'white', border: 'none', padding: '10px', borderRadius: '6px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
-              Send
-            </button>
           </div>
         </div>
-        
-      </div>
-
-      {/* Quiz Modal */}
-      {showQuiz && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000
-        }}>
+        {/* Quiz Modal */}
+        {showQuiz && (
           <div style={{
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            padding: '24px',
-            width: '90%',
-            maxWidth: '600px',
-            maxHeight: '90vh',
-            overflow: 'auto',
-            position: 'relative'
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
           }}>
-            <button 
-              onClick={handleCloseQuiz}
-              style={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              <X size={20} color="#6b7280" />
-            </button>
-
-            {!quizCompleted ? (
-              <>
-                <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '16px' }}>
-                  Question {currentQuestionIndex + 1} of {questions.length}
-                </h2>
-                
-                <p style={{ fontSize: '18px', marginBottom: '24px', fontWeight: '500' }}>
-                  {questions[currentQuestionIndex]?.question}
-                </p>
-                
-                <div style={{ marginBottom: '24px' }}>
-                  {questions[currentQuestionIndex]?.options.map((option, index) => (
-                    <div 
-                      key={index}
-                      onClick={() => handleAnswerSelect(index)}
-                      style={{
-                        padding: '12px 16px',
-                        border: `2px solid ${selectedAnswer === index ? '#0f766e' : '#e5e7eb'}`,
-                        borderRadius: '8px',
-                        marginBottom: '12px',
-                        cursor: 'pointer',
-                        backgroundColor: selectedAnswer === index ? '#f0fdfa' : 'white',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      {option}
-                    </div>
-                  ))}
-                </div>
-                
-                <button 
-                  onClick={handleNextQuestion}
-                  disabled={selectedAnswer === null}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    backgroundColor: selectedAnswer !== null ? '#0f766e' : '#9ca3af',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '6px',
-                    fontSize: '16px',
-                    fontWeight: '600',
-                    cursor: selectedAnswer !== null ? 'pointer' : 'not-allowed'
-                  }}
-                >
-                  {currentQuestionIndex === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
-                </button>
-              </>
-            ) : (
-              <>
-                <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '16px' }}>
-                  Quiz Completed!
-                </h2>
-                
-                <div style={{ 
-                  textAlign: 'center', 
-                  padding: '24px', 
-                  backgroundColor: '#f0fdfa', 
-                  borderRadius: '8px',
-                  marginBottom: '24px'
-                }}>
-                  <p style={{ fontSize: '18px', marginBottom: '8px' }}>
-                    Your score: {quizScore} out of {questions.length}
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              padding: '24px',
+              width: '90%',
+              maxWidth: '600px',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              position: 'relative'
+            }}>
+              <button 
+                onClick={handleCloseQuiz}
+                style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <X size={20} color="#6b7280" />
+              </button>
+              {!quizCompleted ? (
+                <>
+                  <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '16px' }}>
+                    Question {currentQuestionIndex + 1} of {questions.length}
+                  </h2>
+                  <p style={{ fontSize: '18px', marginBottom: '24px', fontWeight: '500' }}>
+                    {questions[currentQuestionIndex]?.question}
                   </p>
-                  <p style={{ fontSize: '16px', color: '#4b5563' }}>
-                    {quizScore >= Math.ceil(questions.length * 0.8) 
-                      ? 'Congratulations! You passed the quiz.' 
-                      : 'Keep studying and try again.'}
-                  </p>
-                </div>
-                
-                <div style={{ display: 'flex', gap: '12px' }}>
+                  <div style={{ marginBottom: '24px' }}>
+                    {questions[currentQuestionIndex]?.options.map((option, index) => (
+                      <div 
+                        key={index}
+                        onClick={() => handleAnswerSelect(index)}
+                        style={{
+                          padding: '12px 16px',
+                          border: `2px solid ${selectedAnswer === index ? '#0f766e' : '#e5e7eb'}`,
+                          borderRadius: '8px',
+                          marginBottom: '12px',
+                          cursor: 'pointer',
+                          backgroundColor: selectedAnswer === index ? '#f0fdfa' : 'white',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        {option}
+                      </div>
+                    ))}
+                  </div>
                   <button 
-                    onClick={handleCloseQuiz}
+                    onClick={handleNextQuestion}
+                    disabled={selectedAnswer === null}
                     style={{
-                      flex: 1,
+                      width: '100%',
                       padding: '12px',
-                      backgroundColor: '#e5e7eb',
-                      color: '#4b5563',
+                      backgroundColor: selectedAnswer !== null ? '#0f766e' : '#9ca3af',
+                      color: 'white',
                       border: 'none',
                       borderRadius: '6px',
                       fontSize: '16px',
                       fontWeight: '600',
-                      cursor: 'pointer'
+                      cursor: selectedAnswer !== null ? 'pointer' : 'not-allowed'
                     }}
                   >
-                    Close
+                    {currentQuestionIndex === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
                   </button>
-                  
-                  {remainingChances > 0 && quizScore < Math.ceil(questions.length * 0.8) && (
+                </>
+              ) : (
+                <>
+                  <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '16px' }}>
+                    Quiz Completed!
+                  </h2>
+                  <div style={{ 
+                    textAlign: 'center', 
+                    padding: '24px', 
+                    backgroundColor: '#f0fdfa', 
+                    borderRadius: '8px',
+                    marginBottom: '24px'
+                  }}>
+                    <p style={{ fontSize: '18px', marginBottom: '8px' }}>
+                      Your score: {quizScore} out of {questions.length}
+                    </p>
+                    <p style={{ fontSize: '16px', color: '#4b5563' }}>
+                      {quizScore >= Math.ceil(questions.length * 0.8) 
+                        ? 'Congratulations! You passed the quiz.' 
+                        : 'Keep studying and try again.'}
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', gap: '12px' }}>
                     <button 
-                      onClick={handleRetryQuiz}
+                      onClick={handleCloseQuiz}
                       style={{
                         flex: 1,
                         padding: '12px',
-                        backgroundColor: '#0f766e',
-                        color: 'white',
+                        backgroundColor: '#e5e7eb',
+                        color: '#4b5563',
                         border: 'none',
                         borderRadius: '6px',
                         fontSize: '16px',
@@ -1080,20 +1085,36 @@ const LessonPage = () => {
                         cursor: 'pointer'
                       }}
                     >
-                      Try Again ({remainingChances} left)
+                      Close
                     </button>
-                  )}
-                </div>
-              </>
-            )}
+                    {remainingChances > 0 && quizScore < Math.ceil(questions.length * 0.8) && (
+                      <button 
+                        onClick={handleRetryQuiz}
+                        style={{
+                          flex: 1,
+                          padding: '12px',
+                          backgroundColor: '#0f766e',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '6px',
+                          fontSize: '16px',
+                          fontWeight: '600',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Try Again ({remainingChances} left)
+                      </button>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
 export default LessonPage;
-
-
 
