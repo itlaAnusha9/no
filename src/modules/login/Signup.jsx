@@ -1,7 +1,8 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
   const navigate = useNavigate();
@@ -11,23 +12,86 @@ function Signup() {
     phone: "",
     email: "",
     role: "student",
-    username: "",
     password: "",
     confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "phone") {
+      const numericValue = value.replace(/\D/g, "").slice(0, 10);
+      setForm({ ...form, [name]: numericValue });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
+
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" });
+    }
+    if (name === "password" && errors.confirmPassword) {
+      setErrors({ ...errors, confirmPassword: "" });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[6-9][0-9]{9}$/; // updated regex
+
+    if (!form.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    } else if (!nameRegex.test(form.firstName)) {
+      newErrors.firstName = "First name should contain only letters and spaces";
+    }
+
+    if (!form.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    } else if (!nameRegex.test(form.lastName)) {
+      newErrors.lastName = "Last name should contain only letters and spaces";
+    }
+
+    if (!form.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!phoneRegex.test(form.phone)) {
+      newErrors.phone =
+        "Please enter a valid phone number";
+    }
+
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(form.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!form.password) {
+      newErrors.password = "Password is required";
+    } else if (form.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long";
+    }
+
+    if (!form.confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (form.password !== form.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
-      return;
+
+    if (validateForm()) {
+      toast.success("Account created successfully!");
+      setTimeout(() => navigate("/login"), 1500);
     }
-    alert("Account created successfully!");
-    navigate("/login");
   };
 
   return (
@@ -43,7 +107,7 @@ function Signup() {
         padding: "20px",
       }}
     >
-      {/* Animated floating circles */}
+      {/* Floating background circles */}
       <svg
         style={{
           position: "absolute",
@@ -110,12 +174,18 @@ function Signup() {
                   width: "100%",
                   padding: "10px",
                   borderRadius: "8px",
-                  border: "1px solid #2D5D7B",
+                  border: errors.firstName
+                    ? "1px solid #ff4d4f"
+                    : "1px solid #2D5D7B",
                   marginTop: "5px",
                 }}
                 whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
-                required
               />
+              {errors.firstName && (
+                <p style={{ color: "#ff4d4f", fontSize: "12px" }}>
+                  {errors.firstName}
+                </p>
+              )}
             </div>
             <div style={{ flex: 1 }}>
               <label htmlFor="lastName">Last Name</label>
@@ -130,35 +200,63 @@ function Signup() {
                   width: "100%",
                   padding: "10px",
                   borderRadius: "8px",
-                  border: "1px solid #2D5D7B",
+                  border: errors.lastName
+                    ? "1px solid #ff4d4f"
+                    : "1px solid #2D5D7B",
                   marginTop: "5px",
                 }}
                 whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
-                required
               />
+              {errors.lastName && (
+                <p style={{ color: "#ff4d4f", fontSize: "12px" }}>
+                  {errors.lastName}
+                </p>
+              )}
             </div>
           </div>
 
           {/* Phone */}
           <label htmlFor="phone">Phone Number</label>
-          <motion.input
-            id="phone"
-            type="tel"
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            placeholder="Enter Phone Number"
+          <div
             style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #2D5D7B",
-              marginTop: "5px",
-              marginBottom: "15px",
+              display: "flex",
+              alignItems: "center",
+              marginBottom: errors.phone ? "5px" : "15px",
             }}
-            whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
-            required
-          />
+          >
+            <span
+              style={{
+                padding: "10px",
+                background: "#f0f0f0",
+                border: "1px solid #2D5D7B",
+                borderRadius: "8px 0 0 8px",
+                color: "#555",
+              }}
+            >
+              +91
+            </span>
+            <motion.input
+              id="phone"
+              type="tel"
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              placeholder="Enter Phone Number"
+              style={{
+                flex: 1,
+                padding: "10px",
+                borderRadius: "0 8px 8px 0",
+                border: errors.phone
+                  ? "1px solid #ff4d4f"
+                  : "1px solid #2D5D7B",
+                borderLeft: "none",
+              }}
+              whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
+            />
+          </div>
+          {errors.phone && (
+            <p style={{ color: "#ff4d4f", fontSize: "12px" }}>{errors.phone}</p>
+          )}
 
           {/* Email */}
           <label htmlFor="email">Email</label>
@@ -173,13 +271,17 @@ function Signup() {
               width: "100%",
               padding: "10px",
               borderRadius: "8px",
-              border: "1px solid #2D5D7B",
+              border: errors.email
+                ? "1px solid #ff4d4f"
+                : "1px solid #2D5D7B",
               marginTop: "5px",
-              marginBottom: "15px",
+              marginBottom: errors.email ? "5px" : "15px",
             }}
             whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
-            required
           />
+          {errors.email && (
+            <p style={{ color: "#ff4d4f", fontSize: "12px" }}>{errors.email}</p>
+          )}
 
           {/* Role */}
           <label htmlFor="role">Role</label>
@@ -202,69 +304,99 @@ function Signup() {
             <option value="parent">Parent</option>
           </motion.select>
 
-          {/* Username */}
-          <label htmlFor="username">
-            {form.role === "student" ? "Username" : "Username"}
-          </label>
-          <motion.input
-            id="username"
-            type="text"
-            name="username"
-            value={form.username}
-            onChange={handleChange}
-            placeholder="Create a username"
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #2D5D7B",
-              marginTop: "5px",
-              marginBottom: "15px",
-            }}
-            whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
-            required
-          />
-
           {/* Password */}
           <label htmlFor="password">Password</label>
-          <motion.input
-            id="password"
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Create Password"
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #2D5D7B",
-              marginTop: "5px",
-              marginBottom: "10px",
-            }}
-            whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
-            required
-          />
+          <div style={{ position: "relative", marginBottom: errors.password ? "5px" : "10px" }}>
+            <motion.input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="Create Password"
+              style={{
+                width: "100%",
+                padding: "10px 40px 10px 10px",
+                borderRadius: "8px",
+                border: errors.password
+                  ? "1px solid #ff4d4f"
+                  : "1px solid #2D5D7B",
+                marginTop: "5px",
+              }}
+              whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
+            />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+              }}
+            >
+              {showPassword ? (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-7-10-7a18.166 18.166 0 015.058-5.058M9.88 9.88a3 3 0 014.243 4.243M6.1 6.1L18 18"/>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              )}
+            </span>
+          </div>
+          {errors.password && (
+            <p style={{ color: "#ff4d4f", fontSize: "12px" }}>{errors.password}</p>
+          )}
 
+          {/* Confirm Password */}
           <label htmlFor="confirmPassword">Confirm Password</label>
-          <motion.input
-            id="confirmPassword"
-            type="password"
-            name="confirmPassword"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            placeholder="Confirm Password"
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #2D5D7B",
-              marginTop: "5px",
-              marginBottom: "20px",
-            }}
-            whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
-            required
-          />
+          <div style={{ position: "relative", marginBottom: errors.confirmPassword ? "5px" : "20px" }}>
+            <motion.input
+              id="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirm Password"
+              style={{
+                width: "100%",
+                padding: "10px 40px 10px 10px",
+                borderRadius: "8px",
+                border: errors.confirmPassword
+                  ? "1px solid #ff4d4f"
+                  : "1px solid #2D5D7B",
+                marginTop: "5px",
+              }}
+              whileFocus={{ scale: 1.02, borderColor: "#A62D69" }}
+            />
+            <span
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+              }}
+            >
+              {showConfirmPassword ? (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-7-10-7a18.166 18.166 0 015.058-5.058M9.88 9.88a3 3 0 014.243 4.243M6.1 6.1L18 18"/>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              )}
+            </span>
+          </div>
+          {errors.confirmPassword && (
+            <p style={{ color: "#ff4d4f", fontSize: "12px" }}>{errors.confirmPassword}</p>
+          )}
 
           <motion.button
             type="submit"
@@ -285,6 +417,9 @@ function Signup() {
           </motion.button>
         </form>
       </motion.div>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 }

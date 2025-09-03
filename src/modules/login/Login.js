@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Toast, ToastContainer } from 'react-bootstrap';
+import { Toast, ToastContainer, Modal, Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion } from 'framer-motion';
 import { FaUserGraduate, FaUserTie, FaBookOpen, FaChalkboardTeacher, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { IoMdSchool } from 'react-icons/io';
 
-// ✅ Full Updated LoginPage
+// ✅ Full Updated LoginPage with Forgot Password
 const LoginPage = () => {
   const [activeTab, setActiveTab] = useState('student');
   const [formData, setFormData] = useState({
@@ -19,12 +19,16 @@ const LoginPage = () => {
     parent: { username: '', password: '' }
   });
   const [showToast, setShowToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showPassword, setShowPassword] = useState({
     student: false,
     parent: false,
-  }); // Separate for both
+  }); 
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotError, setForgotError] = useState('');
 
   const navigate = useNavigate();
 
@@ -94,30 +98,25 @@ const LoginPage = () => {
       const current = formData[activeTab];
       setIsLoading(true);
 
-      // Simulated API / Dummy check
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // ✅ Hardcoded demo login
       if (
         (activeTab === 'student' && current.username === 'student123' && current.password === 'studentpass') ||
         (activeTab === 'parent' && current.username === 'parent456' && current.password === 'parentpass')
       ) {
         localStorage.setItem('userRole', activeTab);
         localStorage.setItem('userToken', 'dummy-token');
+        setToastMsg(`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} login successful!`);
         setShowToast(true);
         setIsLoading(false);
 
         setTimeout(() => {
-          if (activeTab === 'student') {
-            navigate('/student/dashboard');
-          } else {
-            navigate('/parent/dashboard');
-          }
+          navigate(activeTab === 'student' ? '/student/dashboard' : '/parent/dashboard');
         }, 2000);
       } else {
         setErrors((prev) => ({
           ...prev,
-          [activeTab]: { username: '', password: 'Invalid credentials' },
+          [activeTab]: { username: '', password: 'Invalid username or password' },
         }));
         setIsLoading(false);
       }
@@ -129,22 +128,28 @@ const LoginPage = () => {
     navigate('/signup');
   };
 
+  // ✅ Forgot Password - Submit
+  const handleForgotPassword = () => {
+    if (!forgotEmail.trim() || !/\S+@\S+\.\S+/.test(forgotEmail)) {
+      setForgotError('Please enter a valid email address');
+      return;
+    }
+    setForgotError('');
+    setShowForgotModal(false);
+    setToastMsg(`Password reset link sent to ${forgotEmail}`);
+    setShowToast(true);
+    setForgotEmail('');
+  };
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
   };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { type: 'spring', stiffness: 100 }
-    }
+    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } }
   };
 
   return (
@@ -169,21 +174,42 @@ const LoginPage = () => {
 
       {/* Toast */}
       <ToastContainer position="top-end" className="p-3">
-        <Toast onClose={() => setShowToast(false)} show={showToast} delay={2000} autohide bg="success">
+        <Toast onClose={() => setShowToast(false)} show={showToast} delay={2500} autohide bg="success">
           <Toast.Header closeButton>
-            <strong className="me-auto">Login Success</strong>
+            <strong className="me-auto">Notification</strong>
           </Toast.Header>
-          <Toast.Body className="text-white">
-            {`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} login successful!`}
-          </Toast.Body>
+          <Toast.Body className="text-white">{toastMsg}</Toast.Body>
         </Toast>
       </ToastContainer>
+
+      {/* Forgot Password Modal */}
+      <Modal show={showForgotModal} onHide={() => setShowForgotModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Forgot Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label>Enter your email</Form.Label>
+            <Form.Control
+              type="email"
+              value={forgotEmail}
+              onChange={(e) => setForgotEmail(e.target.value)}
+              placeholder="you@example.com"
+            />
+            {forgotError && <div className="text-danger mt-1">{forgotError}</div>}
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowForgotModal(false)}>Cancel</Button>
+          <Button variant="primary" onClick={handleForgotPassword}>Send Reset Link</Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* Main Card */}
       <motion.div initial="hidden" animate="visible" variants={containerVariants} className="container">
         <div className="row justify-content-center">
           <div className="col-md-8 col-lg-6">
-           <motion.div variants={itemVariants} className="card shadow-lg border-0 overflow-hidden"
+            <motion.div variants={itemVariants} className="card shadow-lg border-0 overflow-hidden"
               style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', backgroundColor: 'rgba(255,255,255,0.9)' }}
               whileHover={{ scale: 1.02 }}>
               <div className="card-body p-0">
@@ -197,11 +223,9 @@ const LoginPage = () => {
                         {activeTab === 'student' ? <FaUserGraduate /> : <FaUserTie />}
                       </div>
                       <h4 className="fw-bold mb-0">{activeTab === 'student' ? 'Student Portal' : 'Parent Portal'}</h4>
-                      {activeTab === 'student' ? (
-                        <p className="mb-0 text-white">Your gateway to knowledge</p>
-                      ) : (
-                        <p className="mb-0 text-white">Track your child’s progress</p>
-                      )}
+                      {activeTab === 'student'
+                        ? <p className="mb-0 text-white">Your gateway to knowledge</p>
+                        : <p className="mb-0 text-white">Track your child’s progress</p>}
                     </motion.div>
                   </div>
 
@@ -238,43 +262,55 @@ const LoginPage = () => {
                           <label className="form-label fw-medium">Username</label>
                           <div className="input-group">
                             <span className="input-group-text"><FaUserGraduate /></span>
-                            <input type="text" name="username"
-                              className={`form-control ${errors[activeTab].username ? 'is-invalid' : ''}`}
-                              value={formData[activeTab].username} onChange={handleChange}
-                              placeholder={`Enter ${activeTab} username`} />
+                            <input
+                              type="text"
+                              name="username"
+                              className="form-control"
+                              value={formData[activeTab].username}
+                              onChange={handleChange}
+                              placeholder={`Enter ${activeTab} username`}
+                            />
                           </div>
-                          {errors[activeTab].username && <div className="invalid-feedback d-block">{errors[activeTab].username}</div>}
+                          {errors[activeTab].username && (
+                            <div className="invalid-feedback d-block">{errors[activeTab].username}</div>
+                          )}
                         </div>
 
                         {/* Password */}
-                   {/* Password */}
-<div className="mb-4">
-  <label className="form-label fw-medium">Password</label>
-  <div className="input-group">
-    <span className="input-group-text"><RiLockPasswordFill /></span>
-    <input
-      type={showPassword[activeTab] ? "text" : "password"}
-      name="password"
-      className={`form-control ${errors[activeTab].password ? 'is-invalid' : ''}`}
-      value={formData[activeTab].password}
-      onChange={handleChange}
-      placeholder="Enter password"
-    />
-    {/* ✅ Eye shows only when user types something */}
-    {formData[activeTab].password.length > 0 && (
-      <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={togglePasswordVisibility}>
-        {showPassword[activeTab] ? <FaEyeSlash /> : <FaEye />}
-      </span>
-    )}
-  </div>
-  {errors[activeTab].password && <div className="invalid-feedback d-block">{errors[activeTab].password}</div>}
-</div>
+                        <div className="mb-2">
+                          <label className="form-label fw-medium">Password</label>
+                          <div className="input-group">
+                            <span className="input-group-text"><RiLockPasswordFill /></span>
+                            <input
+                              type={showPassword[activeTab] ? "text" : "password"}
+                              name="password"
+                              className="form-control"
+                              value={formData[activeTab].password}
+                              onChange={handleChange}
+                              placeholder="Enter password"
+                            />
+                            {formData[activeTab].password.length > 0 && (
+                              <span className="input-group-text" style={{ cursor: "pointer" }} onClick={togglePasswordVisibility}>
+                                {showPassword[activeTab] ? <FaEyeSlash /> : <FaEye />}
+                              </span>
+                            )}
+                          </div>
+                          {errors[activeTab].password && (
+                            <div className="invalid-feedback d-block">{errors[activeTab].password}</div>
+                          )}
+                        </div>
 
+                        {/* Forgot Password */}
+                        <div className="text-end mb-3">
+                          <button type="button" className="btn btn-link p-0" onClick={() => setShowForgotModal(true)}>
+                            Forgot Password?
+                          </button>
+                        </div>
 
                         {/* Submit */}
                         <button type="submit" className="btn w-100" disabled={isLoading}
-                          style={{ background: 'linear-gradient(to right, #2D5D7B, #A62D69)', color: 'white' }}>
-                          {isLoading ? 'Signing in...' : 'Sign In'}
+                          style={{ background: "linear-gradient(to right, #2D5D7B, #A62D69)", color: "white" }}>
+                          {isLoading ? "Signing in..." : "Sign In"}
                         </button>
 
                         {/* Register */}

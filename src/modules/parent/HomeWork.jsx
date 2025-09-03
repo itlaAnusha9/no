@@ -88,7 +88,7 @@ const Homework = () => (
               <div>
                 <h5 className="mb-0 fw-bold text-dark">Assignments</h5>
                 <p className="mb-0 text-muted small">
-                  Track homework status and due dates
+                  Track your child's homework status and due dates
                 </p>
               </div>
             </div>

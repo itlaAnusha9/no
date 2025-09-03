@@ -42,6 +42,16 @@ const mockTestData = [
     trend: 'down',
     improvement: '-3%',
   },
+
+  {
+    subject: 'Computer',
+    date: '2025-06-25',
+    score: 62,
+    total: 100,
+    status: 'Improved',
+    trend: 'down',
+    improvement: '-5%',
+  },
 ];
 
 // Helper

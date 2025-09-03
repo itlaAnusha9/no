@@ -1,7 +1,12 @@
-
-
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+// This is the updated isValidEmail function
+const isValidEmail = (email) => {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com)$/i;
+  return emailRegex.test(email);
+};
 
 function FreeDemo() {
   const [showForm, setShowForm] = useState(false);
@@ -14,6 +19,9 @@ function FreeDemo() {
     preferredTime: '',
     message: ''
   });
+
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
 
   useEffect(() => {
     document.title = "Free demo | NOVYA - Your Smart Learning Platform";
@@ -34,27 +42,135 @@ function FreeDemo() {
       preferredTime: '',
       message: ''
     });
+    setErrors({});
+    setTouched({});
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    
+    if (name === 'phone') {
+      const digitsOnly = value.replace(/\D/g, '');
+      if (digitsOnly.length > 10) {
+        return;
+      }
+      setFormData(prev => ({ ...prev, [name]: digitsOnly }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+    
+    if (touched[name]) {
+      validateField(name, value);
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    validateField(name, value);
+  };
+
+  const validateField = (name, value) => {
+    let errorMsg = '';
+    
+    // Email validation using the new function
+    if (name === 'email') {
+      if (!value.trim()) {
+        errorMsg = 'Email is required';
+      } else if (!isValidEmail(value)) {
+        errorMsg = 'Please enter a valid email from @gmail.com or @outlook.com';
+      }
+    } else if (name === 'name') {
+        if (!value.trim()) {
+          errorMsg = 'Name is required';
+        } else if (value.trim().length < 2) {
+          errorMsg = 'Name must be at least 2 characters';
+        } else if (!/^[a-zA-Z\s]+$/.test(value)) {
+          errorMsg = 'Name can only contain letters and spaces';
+        }
+    } else if (name === 'phone') {
+        const digitsOnly = formData.phone;
+        if (!digitsOnly) {
+          errorMsg = 'Phone number is required';
+        } else if (digitsOnly.length !== 10) {
+          errorMsg = 'Phone number must be exactly 10 digits';
+        } else if (!/^[6-9]/.test(digitsOnly)) {
+          errorMsg = 'Phone number must start with 6, 7, 8, or 9';
+        }
+    } else if (name === 'course' && !value.trim()) {
+        errorMsg = 'Please select a course';
+    } else if (name === 'preferredTime' && !value.trim()) {
+        errorMsg = 'Please select a preferred time';
+    }
+
+    setErrors(prev => ({ ...prev, [name]: errorMsg }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
+      newErrors.name = 'Name can only contain letters and spaces';
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!isValidEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email from @gmail.com or @outlook.com';
+    }
+
+    // Phone validation
+    const digitsOnly = formData.phone;
+    if (!digitsOnly) {
+      newErrors.phone = 'Phone number is required';
+    } else if (digitsOnly.length !== 10) {
+      newErrors.phone = 'Phone number must be exactly 10 digits';
+    } else if (!/^[6-9]/.test(digitsOnly)) {
+      newErrors.phone = 'Phone number must start with 6, 7, 8, or 9';
+    }
+
+    // Course validation
+    if (!formData.course.trim()) {
+      newErrors.course = 'Please select a course';
+    }
+
+    // Preferred time validation
+    if (!formData.preferredTime.trim()) {
+      newErrors.preferredTime = 'Please select a preferred time';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = () => {
-    // Validate required fields
-    if (!formData.name || !formData.email || !formData.phone) {
-      alert('Please fill in all required fields.');
+    // Mark all fields as touched for full validation feedback
+    const allTouched = {};
+    Object.keys(formData).forEach(key => {
+      allTouched[key] = true;
+    });
+    setTouched(allTouched);
+    
+    // Run validation on all fields
+    if (!validateForm()) {
+      const firstErrorField = Object.keys(errors)[0];
+      if (firstErrorField) {
+        const element = document.querySelector(`[name="${firstErrorField}"]`);
+        if (element) {
+          element.focus();
+        }
+      }
       return;
     }
     
-    // Handle form submission here
+    // Handle successful form submission
     console.log('Form submitted:', formData);
-    
-    // Show success message instead of alert
     setShowSuccess(true);
     
     // Auto close after 5 seconds
@@ -65,9 +181,21 @@ function FreeDemo() {
 
   return (
     <div className="container-fluid p-0" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', overflow: 'hidden' }}>
+      {/* CSS for invalid fields */}
+      <style>
+        {`
+          .is-invalid {
+            border-color: #dc3545 !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='m3.5 8.5 5-5m0 5-5-5'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 0.75rem center !important;
+            background-size: 1.25em auto !important;
+          }
+        `}
+      </style>
+      
       {/* Hero Section */}
       <div className="row g-0 align-items-center position-relative flex-column flex-lg-row" style={{ minHeight: 'calc(100vh - 80px)' }}>
-
         {/* Magic Sparkles */}
         <motion.div
           className="position-absolute top-0 start-0 w-100 h-100"
@@ -271,13 +399,18 @@ function FreeDemo() {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className={`form-control ${errors.name ? 'is-invalid' : ''}`}
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
+                          onBlur={handleBlur}
                           required
-                          style={{ borderRadius: '8px', border: '2px solid #e9ecef' }}
+                          aria-invalid={!!errors.name}
+                          style={{ borderRadius: '8px' }}
                         />
+                        {errors.name && (
+                          <div className="text-danger small mt-1">{errors.name}</div>
+                        )}
                       </div>
                       
                       <div className="col-md-6">
@@ -286,40 +419,61 @@ function FreeDemo() {
                         </label>
                         <input
                           type="email"
-                          className="form-control"
+                          className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                           name="email"
                           value={formData.email}
                           onChange={handleInputChange}
+                          onBlur={handleBlur}
                           required
-                          style={{ borderRadius: '8px', border: '2px solid #e9ecef' }}
+                          aria-invalid={!!errors.email}
+                          style={{ borderRadius: '8px' }}
                         />
+                        {errors.email && (
+                          <div className="text-danger small mt-1">{errors.email}</div>
+                        )}
                       </div>
                       
                       <div className="col-md-6">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
                           Phone Number *
                         </label>
-                        <input
-                          type="tel"
-                          className="form-control"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          required
-                          style={{ borderRadius: '8px', border: '2px solid #e9ecef' }}
-                        />
+                        <div className="input-group">
+                          <span className="input-group-text bg-light border-end-0">+91</span>
+                          <input
+                            type="tel"
+                            className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            onBlur={handleBlur}
+                            required
+                            maxLength={10}
+                            placeholder="Enter 10-digit number"
+                            pattern="[6-9]{1}[0-9]{9}"
+                            aria-invalid={!!errors.phone}
+                            style={{ 
+                              borderRadius: '0 8px 8px 0', 
+                              borderLeft: 'none'
+                            }}
+                          />
+                        </div>
+                        {errors.phone && (
+                          <div className="text-danger small mt-1">{errors.phone}</div>
+                        )}
                       </div>
                       
                       <div className="col-md-6">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
-                          Course of Interest
+                          Course of Interest *
                         </label>
                         <select
-                          className="form-select"
+                          className={`form-select ${errors.course ? 'is-invalid' : ''}`}
                           name="course"
                           value={formData.course}
                           onChange={handleInputChange}
-                          style={{ borderRadius: '8px', border: '2px solid #e9ecef' }}
+                          onBlur={handleBlur}
+                          aria-invalid={!!errors.course}
+                          style={{ borderRadius: '8px' }}
                         >
                           <option value="">Select a course</option>
                           <option value="mathematics">Mathematics</option>
@@ -328,24 +482,32 @@ function FreeDemo() {
                           <option value="computer-science">Computer Science</option>
                           <option value="other">Other</option>
                         </select>
+                        {errors.course && (
+                          <div className="text-danger small mt-1">{errors.course}</div>
+                        )}
                       </div>
                       
                       <div className="col-12">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
-                          Preferred Time
+                          Preferred Time *
                         </label>
                         <select
-                          className="form-select"
+                          className={`form-select ${errors.preferredTime ? 'is-invalid' : ''}`}
                           name="preferredTime"
                           value={formData.preferredTime}
                           onChange={handleInputChange}
-                          style={{ borderRadius: '8px', border: '2px solid #e9ecef' }}
+                          onBlur={handleBlur}
+                          aria-invalid={!!errors.preferredTime}
+                          style={{ borderRadius: '8px' }}
                         >
                           <option value="">Select preferred time</option>
                           <option value="morning">Morning (9 AM - 12 PM)</option>
                           <option value="afternoon">Afternoon (12 PM - 6 PM)</option>
                           <option value="evening">Evening (6 PM - 9 PM)</option>
                         </select>
+                        {errors.preferredTime && (
+                          <div className="text-danger small mt-1">{errors.preferredTime}</div>
+                        )}
                       </div>
                       
                       <div className="col-12">
@@ -480,7 +642,7 @@ function FreeDemo() {
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 3}}
+                    transition={{ delay: 3 }}
                     className="mt-3 small text-muted"
                   >
                     This window will close automatically in 5 seconds

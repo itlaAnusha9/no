@@ -56,6 +56,7 @@
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
+  color: white; /* Changed to white */
 }
 
 .status {
@@ -63,6 +64,7 @@
   align-items: center;
   font-size: 0.8rem;
   margin-top: 2px;
+  color: white; /* Changed to white */
 }
 
 .status-indicator {
@@ -119,13 +121,17 @@
 
 .message.user .message-content {
   background-color: #4a6bff;
-  color: white;
+  color: white !important; /* User messages text color changed to white with !important */
   border-bottom-right-radius: 4px;
+}
+
+.message.user .message-content p {
+  color: white !important; /* Ensure paragraph text is also white */
 }
 
 .message.bot .message-content {
   background-color: #ffffff;
-  color: #333;
+  color: #000000; /* Bot messages text color changed to black */
   border-bottom-left-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }

@@ -1,7 +1,3 @@
-
-
- 
-// Pricing.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-bootstrap';
@@ -17,12 +13,10 @@ const courseImages = [
   'https://images.piclumen.com/normal/20250711/19/8cf4f2439f074fb7ad5f5444d2bcacda.webp',
   'https://images.piclumen.com/normal/20250711/19/6f78c58db77d40b9b1f28d5041add78d.webp',
   'https://images.piclumen.com/normal/20250711/19/11427e802c8b41eaa440cfc27f27eac9.webp',
-  'https://images.piclumen.com/normal/20250711/19/d02f9d494e5c4ac28293ceff66d2e153.webp',
   'https://images.piclumen.com/normal/20250711/19/b0e120c1c93f4f99bb7850c5508ac108.webp',
   'https://images.piclumen.com/normal/20250711/19/7288b04dca9545db8578703b6bfe5aba.webp',
   'https://images.piclumen.com/normal/20250711/19/f1cb0a43e28c418bae87af593c3ec35b.webp',
   'https://images.piclumen.com/normal/20250711/19/b821e8e8cffe4c84a7b8fc89338dfad2.webp',
-  'https://images.piclumen.com/normal/20250711/19/19535289cb2c42f285d03c080d3bd00b.webp'
 ];
  
 const temptingQuotes = [
@@ -105,8 +99,8 @@ function Pricing() {
   }];
  
   const courses = courseImages.map((img, i) => ({
-    title: ['Mathematics','Science','Social Studies','English','Hindi','Physics','Chemistry','Biology','Computer Science','Geography'][i],
-    instructor: ['CBSE','NCERT','State Board','CBSE','NCERT','CBSE','NCERT','State Board','CBSE','NCERT'][i] + ' Curriculum',
+    title: ['Mathematics','Science','Social Studies','English','Physics','Chemistry','Biology','Computer Science'][i],
+    instructor: ['CBSE','NCERT','State Board','CBSE','CBSE','NCERT','State Board','CBSE'][i] + ' Curriculum',
     rating: (4.5 + (i % 5) * 0.1).toFixed(1),
     students: `${10000 + i * 1000}`,
     originalPrice: `Price TBD`,
@@ -248,8 +242,8 @@ function Pricing() {
           </div>
  
           <div className="text-center mt-5 pt-4">
-            <div className="p-4 rounded-4 d-inline-block" style={{ backgroundColor: 'rgba(45,93,123,0.1)', border: '2px dashed #2D5D7B', minHeight: '150px', maxWidth: '600px' }}>
-              <motion.div key={currentQuote} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} style={{ color: '#2D5D7B', fontSize: '1.2rem', fontWeight: 600 }}>
+            <div className="p-4 rounded-4 d-inline-block" style={{ backgroundColor: 'rgba(45,93,123,0.1)', border: '2px dashed #2D5D7B', minHeight: '100px', maxWidth: '600px' }}>
+              <motion.div key={currentQuote} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} style={{ color: '#2D5D7B', fontSize: '1.2rem', fontWeight: 600,textAlign: "center", }}>
                 {temptingQuotes[currentQuote]}
               </motion.div>
             </div>
@@ -269,5 +263,3 @@ function Pricing() {
 }
  
 export default Pricing;
- 
- 

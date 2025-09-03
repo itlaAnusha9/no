@@ -10,7 +10,8 @@ const Home1 = () => {
     document.title = "Student-Dashboard | NOVYA - Your Smart Learning Platform";
   }, []);
     const navigate = useNavigate();
-  const [currentCourse, setCurrentCourse] = useState('Mathematics Class 10');
+  // MODIFIED: Changed currentCourse to 'Mathematics Class 7'
+  const [currentCourse, setCurrentCourse] = useState('Mathematics Class 7');
   const [upcomingEvents, setUpcomingEvents] = useState([
     { id: 1, title: 'Science Workshop', date: 'Oct 15, 2023', time: '3:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/ffc10f2a812e42cd8b702a792725b8d9.webp' },
     { id: 2, title: 'Career Guidance', date: 'Oct 18, 2023', time: '4:30 PM', type: 'seminar', image: 'https://images.piclumen.com/normal/20250703/14/b3c0f0ee7c854054ae648a59a82a9c9a.webp' },
@@ -19,12 +20,12 @@ const Home1 = () => {
   ]);
 
   const [allCourses, setAllCourses] = useState([
-    { id: 1, title: 'Mathematics Grade 9', progress: 65, category: 'Mathematics', image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-    { id: 2, title: 'Physics Grade 11', progress: 45, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-    { id: 3, title: 'English Literature Grade 10', progress: 70, category: 'Languages', image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-    { id: 4, title: 'History Grade 8', progress: 30, category: 'Social Studies', image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-    { id: 5, title: 'Chemistry Grade 12', progress: 25, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-    { id: 6, title: 'Computer Science Grade 11', progress: 80, category: 'Technology', image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
+    { id: 1, title: 'Mathematics Grade 7', progress: 65, category: 'Mathematics', image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
+    { id: 2, title: 'Physics Grade 7', progress: 45, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
+    { id: 3, title: 'English Literature Grade 7', progress: 70, category: 'Languages', image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
+    { id: 4, title: 'History Grade 7', progress: 30, category: 'Social Studies', image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
+    { id: 5, title: 'Chemistry Grade 7', progress: 25, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
+    { id: 6, title: 'Computer Science Grade 7', progress: 80, category: 'Technology', image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
   ]);
 
   const [activeTab, setActiveTab] = useState('all');
@@ -36,10 +37,14 @@ const Home1 = () => {
   useEffect(() => {
     if (activeTab === 'all') {
       setFeaturedCourses(allCourses);
-    } else {
+    } else if (activeTab === 'computer') { // New condition for 'computer' tab
+      // Filter courses where category is 'Technology' (or whatever you set for computer science)
+      setFeaturedCourses(allCourses.filter(course => course.category.toLowerCase() === 'technology'));
+    }
+    else {
       setFeaturedCourses(allCourses.filter(course => course.category.toLowerCase().includes(activeTab.toLowerCase())));
     }
-  }, [activeTab]);
+  }, [activeTab, allCourses]);
 
   useEffect(() => {
     if (inView) {
@@ -204,7 +209,7 @@ const Home1 = () => {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="hero-subtitle"
             >
-              Access your courses, track your progress and stay updated with upcoming events
+              Track your progress, access your courses, and stay updated with upcoming events
             </motion.p>
             <motion.div
               variants={textVariants}
@@ -224,14 +229,8 @@ const Home1 = () => {
                   Continue Learning
                 </button>
               </motion.div>
-            </motion.div>
+              
             
-            <motion.div 
-              className="hero-stats"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2 }}
-            >
               {[
                 { value: "8", label: 'Active Courses' },
                 { value: "92%", label: 'Average Grade' },
@@ -272,6 +271,7 @@ const Home1 = () => {
         </div>
       </motion.section>
 
+      {/* Rest of your existing code remains unchanged */}
       <motion.main 
         className="main-content container py-5"
         variants={containerVariants}
@@ -292,6 +292,7 @@ const Home1 = () => {
             >
               Your Current Course
             </motion.h2>
+            {/* <Link to="/courses" className="view-all">View All</Link> */}
           </div>
           
           <div className="row g-4">
@@ -350,15 +351,29 @@ const Home1 = () => {
                     <span>13/20 Lessons</span>
                   </div>
                 </div>
+                <div className="course-actions mt-4">
+                  
+                  <motion.button 
+                    className="btn btn-outline"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => navigate('/learn')}
+                  >
+                    View Syllabus
+                  </motion.button>
+                </div>
                 <div className="course-highlights mt-4">
                   <h5>Current Topics</h5>
                   <ul>
+                    {/* MODIFIED: Updated topics for Mathematics Class 7 */}
                     {[
-                      "Algebraic expressions and equations",
-                      "Geometry and trigonometry",
-                      "Quadratic functions",
-                      "Probability and statistics"
-                    ].map((item, index) => (
+                      "Large Numbers",
+                      "Arthmetic Expressions",
+                      "Peek Point",
+                      "Number Expressions",
+                      "Lines",
+                      
+                  ].map((item, index) => (
                       <motion.li
                         key={index}
                         initial={{ opacity: 0, x: -20 }}
@@ -428,7 +443,8 @@ const Home1 = () => {
           <div className="section-header">
             <h2>Your Courses</h2>
             <div className="tabs">
-              {['All', 'Mathematics', 'Science', 'Languages', 'Social Studies'].map((tab) => (
+              {/* MODIFICATION HERE: Added 'Computer' tab */}
+              {['All', 'Mathematics', 'Science', 'Languages', 'Social Studies', 'Computer'].map((tab) => (
                 <motion.button 
                   key={tab}
                   className={activeTab === tab.toLowerCase() ? 'active' : ''}
@@ -498,10 +514,10 @@ const Home1 = () => {
                       <span><i className="fas fa-clock"></i> 10 Hours</span>
                     </div>
                     <motion.button 
-                      className="btn btn-primary w-100 mt-3"
-                      whileHover={{ scale: 1.02, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => navigate('/learn')}
+                        className="btn btn-primary w-100 mt-3"
+                        whileHover={{ scale: 1.02, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => navigate('/learn')}
                     >
                       Continue
                     </motion.button>
@@ -518,6 +534,7 @@ const Home1 = () => {
         >
           <div className="section-header">
             <h2>Upcoming Events</h2>
+            {/* <Link to="/events" className="view-all">View Calendar</Link> */}
           </div>
           
           <div className="row g-4">
@@ -566,12 +583,13 @@ const Home1 = () => {
                           padding: "0.35em 1.1em",
                           minWidth: "unset"
                         }}
-                        onClick={() => navigate('/mentorship')}
+                        // MODIFICATION HERE: Navigate to an event-specific registration page
+                        onClick={() => navigate(`/events/${event.id}/register`)} 
                       >
                         Register Now
                       </motion.button>
                       <div className="event-reminder">
-                        <i className="far fa-bell"></i> Set Reminder
+                        <i className="far fa-bell"></i> 
                       </div>
                     </div>
                   </div>

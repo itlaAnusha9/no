@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
- 
+
 const LessonRecordings = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [playing, setPlaying] = useState(null);
@@ -7,7 +7,7 @@ const LessonRecordings = () => {
   const [loading, setLoading] = useState(false);
   const [buffering, setBuffering] = useState(false);
   const videoRef = useRef(null);
- 
+
   // Lesson videos list
   const videos = [
     {
@@ -15,95 +15,109 @@ const LessonRecordings = () => {
       title: "Video: The Ever Evolving World of Science",
       subject: "Science",
       src: "/videos/science/chapter-1.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/17/102bf976635c41bcbebf7829229ecca9.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/17/102bf976635c41bcbebf7829229ecca9.webp",
     },
     {
       id: 2,
       title: "Video: Exploring substances: Acidic, Basic, Neutral",
       subject: "Science",
       src: "/videos/science/chapter-2.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/17/e51532b3f16946ef9a7e12c9d2498c57.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/17/e51532b3f16946ef9a7e12c9d2498c57.webp",
     },
     {
       id: 3,
       title: "Video: A Quiet village morning",
       subject: "English",
       src: "/videos/english/7th english unit -1 LEARNING TOGETHER (2).mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/18/aa06488aa8154dfab8e1691bbb226f0b.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/18/aa06488aa8154dfab8e1691bbb226f0b.webp",
     },
     {
       id: 4,
       title: "Video: The power of perseverance",
       subject: "English",
       src: "/videos/english/7th english unit -1 LEARNING TOGETHER.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/17/7fce42770e7c458dbd8c14aa77cfec96.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/17/7fce42770e7c458dbd8c14aa77cfec96.webp",
     },
     {
       id: 5,
       title: "Video: Setting the stage",
       subject: "English",
       src: "/videos/english/english_3.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/17/aa222a6a28a7417ebbe7a24f7448cfc4.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/17/aa222a6a28a7417ebbe7a24f7448cfc4.webp",
     },
     {
       id: 6,
       title: "Video: Introduction to Electricity",
       subject: "Science",
       src: "/videos/science/chapter-3.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/18/32561f2b70e949f5ae31df7c6abd5ca7.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/18/32561f2b70e949f5ae31df7c6abd5ca7.webp",
     },
     {
       id: 7,
       title: "Video: The world of Metals and Non-metals",
       subject: "Science",
       src: "/videos/science/chapter-4.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/18/53c66f3becb94e7bb71cd923d5a1ebf2.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/18/53c66f3becb94e7bb71cd923d5a1ebf2.webp",
     },
     {
       id: 8,
       title: "Video: Large Numbers Around Us",
       subject: "Maths",
       src: "/videos/maths/chapter-1.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/18/65d0125149934d9d9f45ef5f9717a1a1.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/18/65d0125149934d9d9f45ef5f9717a1a1.webp",
     },
     {
       id: 9,
       title: "Video: What are Arthmetic Expressions?",
       subject: "Maths",
       src: "/videos/maths/chapter-2.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/18/3d226d6847db47ea9d0f137ef2c231e2.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/18/3d226d6847db47ea9d0f137ef2c231e2.webp",
     },
     {
       id: 10,
       title: "Video: Introduction to Algebraic Expressions ",
       subject: "Maths",
       src: "/videos/maths/chapter-4.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/18/057d63e090744bea82b73d4f616eb1e7.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/18/057d63e090744bea82b73d4f616eb1e7.webp",
     },
     {
       id: 11,
       title: "Video: Tracing changes to Maps",
       subject: "Social",
       src: "/videos/social/chapter1 (online-video-cutter.com).mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/18/418ae05d8bdc41449159891f7c392e7d.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/18/418ae05d8bdc41449159891f7c392e7d.webp",
     },
     {
       id: 12,
       title: "Video: New kings and kingdoms",
       subject: "Social",
       src: "/videos/social/chpter2social.mp4",
-      thumbnail: "https://images.piclumen.com/normal/20250828/17/bb4525b043d74cb3bf940be7c94bba0b.webp",
+      thumbnail:
+        "https://images.piclumen.com/normal/20250828/17/bb4525b043d74cb3bf940be7c94bba0b.webp",
     },
   ];
- 
+
   // Handle video errors
   const handleVideoError = (videoId, error) => {
     console.error(`Video ${videoId} failed to load:`, error);
-    setError(`Video failed to load. Please check your connection and try again.`);
+    setError(
+      `Video failed to load. Please check your connection and try again.`
+    );
     setLoading(false);
     setBuffering(false);
   };
- 
+
   // Reset error when modal is closed
   useEffect(() => {
     if (!selectedVideo) {
@@ -112,31 +126,31 @@ const LessonRecordings = () => {
       setBuffering(false);
     }
   }, [selectedVideo]);
- 
+
   // Handle video play
   const handlePlayVideo = (video) => {
     setSelectedVideo(video);
     setLoading(true);
     setPlaying(video.id);
   };
- 
+
   // Handle video load
   const handleVideoLoad = () => {
     setLoading(false);
     setBuffering(false);
     setError(null);
   };
- 
+
   // Handle waiting (buffering)
   const handleWaiting = () => {
     setBuffering(true);
   };
- 
+
   // Handle playing (buffering ended)
   const handlePlaying = () => {
     setBuffering(false);
   };
- 
+
   // Close modal with escape key
   useEffect(() => {
     const handleEscKey = (e) => {
@@ -145,14 +159,14 @@ const LessonRecordings = () => {
         setPlaying(null);
       }
     };
-   
-    window.addEventListener('keydown', handleEscKey);
-   
+
+    window.addEventListener("keydown", handleEscKey);
+
     return () => {
-      window.removeEventListener('keydown', handleEscKey);
+      window.removeEventListener("keydown", handleEscKey);
     };
   }, []);
- 
+
   return (
     <div
       style={{
@@ -175,13 +189,13 @@ const LessonRecordings = () => {
             margin-left: auto;
             margin-right: auto;
           }
-         
+          
           @media (max-width: 1024px) {
             .video-grid {
               grid-template-columns: repeat(3, 1fr);
             }
           }
-         
+          
           @media (max-width: 768px) {
             .video-grid {
               grid-template-columns: repeat(2, 1fr);
@@ -189,13 +203,13 @@ const LessonRecordings = () => {
               padding: 0 10px;
             }
           }
-         
+          
           @media (max-width: 480px) {
             .video-grid {
               grid-template-columns: 1fr;
             }
           }
- 
+
           .video-error {
             color: #ff4d4f;
             text-align: center;
@@ -205,7 +219,7 @@ const LessonRecordings = () => {
             border-radius: 4px;
             margin: 10px 0;
           }
-         
+          
           .loading-spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #3498db;
@@ -215,12 +229,12 @@ const LessonRecordings = () => {
             animation: spin 2s linear infinite;
             margin: 20px auto;
           }
-         
+          
           @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
           }
- 
+
           .thumbnail-fallback {
             display: flex;
             align-items: center;
@@ -232,45 +246,51 @@ const LessonRecordings = () => {
             width: 100%;
             height: 100%;
           }
- 
+
           .video-card {
             display: flex;
             flex-direction: column;
             height: 100%;
           }
- 
+
           .card-content {
             display: flex;
             flex-direction: column;
             flex-grow: 1;
             padding: 15px;
           }
- 
+
           .watch-now-btn {
             margin-top: auto;
           }
         `}
       </style>
-     
+
       <h1 style={{ textAlign: "center", color: "#111", fontSize: "1.2rem" }}>
         Lesson Recordings
       </h1>
       <p style={{ textAlign: "center", color: "#555", fontSize: "0.9rem" }}>
         Catch up on lectures or review complex topics with our recorded lessons.
       </p>
- 
+
       {error && (
         <div className="video-error">
           {error}
           <button
             onClick={() => setError(null)}
-            style={{ marginLeft: "10px", background: "none", border: "none", color: "#1890ff", cursor: "pointer" }}
+            style={{
+              marginLeft: "10px",
+              background: "none",
+              border: "none",
+              color: "#1890ff",
+              cursor: "pointer",
+            }}
           >
             Dismiss
           </button>
         </div>
       )}
- 
+
       {/* Video Grid */}
       <div className="video-grid">
         {videos.map((video) => (
@@ -288,11 +308,13 @@ const LessonRecordings = () => {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-5px)";
-              e.currentTarget.style.boxShadow = "0 5px 15px rgba(0,0,0,0.1)";
+              e.currentTarget.style.boxShadow =
+                "0 5px 15px rgba(0,0,0,0.1)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+              e.currentTarget.style.boxShadow =
+                "0 2px 5px rgba(0,0,0,0.1)";
             }}
           >
             {/* Thumbnail with overlay button */}
@@ -320,13 +342,10 @@ const LessonRecordings = () => {
                   e.target.nextSibling.style.display = "flex";
                 }}
               />
-              <div
-                className="thumbnail-fallback"
-                style={{ display: "none" }}
-              >
+              <div className="thumbnail-fallback" style={{ display: "none" }}>
                 {video.subject}
               </div>
- 
+
               {/* Overlay Play button */}
               <button
                 onClick={(e) => {
@@ -351,13 +370,17 @@ const LessonRecordings = () => {
                   justifyContent: "center",
                   transition: "background 0.2s",
                 }}
-                onMouseOver={(e) => e.target.style.background = "rgba(0,0,0,0.8)"}
-                onMouseOut={(e) => e.target.style.background = "rgba(0,0,0,0.6)"}
+                onMouseOver={(e) =>
+                  (e.target.style.background = "rgba(0,0,0,0.8)")
+                }
+                onMouseOut={(e) =>
+                  (e.target.style.background = "rgba(0,0,0,0.6)")
+                }
               >
                 ▶
               </button>
             </div>
- 
+
             {/* Card Content */}
             <div className="card-content">
               <h4
@@ -412,7 +435,7 @@ const LessonRecordings = () => {
           </div>
         ))}
       </div>
- 
+
       {/* Fullscreen Modal */}
       {selectedVideo && (
         <div
@@ -460,39 +483,48 @@ const LessonRecordings = () => {
           >
             ⟵
           </button>
- 
+
           {/* Video Info */}
-          <div style={{
-            position: "absolute",
-            top: "20px",
-            color: "white",
-            textAlign: "center",
-            width: "100%",
-            padding: "0 20px",
-            boxSizing: "border-box",
-            zIndex: 1001,
-            maxWidth: "80%",
-            margin: "0 auto",
-          }}>
-            <h3 style={{ margin: "0 0 5px 0", fontSize: "1.2rem" }}>{selectedVideo.title}</h3>
-            <p style={{ margin: 0, opacity: 0.8, fontSize: "0.9rem" }}>{selectedVideo.subject}</p>
+          <div
+            style={{
+              position: "absolute",
+              top: "20px",
+              color: "white",
+              textAlign: "center",
+              width: "100%",
+              padding: "0 20px",
+              boxSizing: "border-box",
+              zIndex: 1001,
+              maxWidth: "80%",
+              margin: "0 auto",
+            }}
+          >
+            <h3 style={{ margin: "0 0 5px 0", fontSize: "1.2rem" }}>
+              {selectedVideo.title}
+            </h3>
+            <p style={{ margin: 0, opacity: 0.8, fontSize: "0.9rem" }}>
+              {selectedVideo.subject}
+            </p>
           </div>
- 
+
           {/* Video Player */}
-          <div style={{
-            position: "relative",
-            width: "90%",
-            maxWidth: "1200px",
-            height: "auto",
-            cursor: "pointer",
-          }}
-          onClick={(e) => e.stopPropagation()}
+          <div
+            style={{
+              position: "relative",
+              width: "90%",
+              maxWidth: "1200px",
+              height: "auto",
+              cursor: "pointer",
+            }}
+            onClick={(e) => e.stopPropagation()}
           >
             <video
               ref={videoRef}
               src={selectedVideo.src}
               controls
               autoPlay
+              controlsList="nodownload"
+              onContextMenu={(e) => e.preventDefault()}
               style={{
                 width: "100%",
                 height: "auto",
@@ -506,32 +538,36 @@ const LessonRecordings = () => {
               onWaiting={handleWaiting}
               onPlaying={handlePlaying}
             />
-           
+
             {/* Loading indicator */}
             {loading && (
-              <div style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                color: "white",
-                textAlign: "center",
-              }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
                 <div className="loading-spinner"></div>
                 <p>Loading video...</p>
               </div>
             )}
- 
+
             {/* Buffering indicator */}
             {buffering && !loading && (
-              <div style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                color: "white",
-                textAlign: "center",
-              }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
                 <div className="loading-spinner"></div>
                 <p>Buffering...</p>
               </div>
@@ -542,6 +578,6 @@ const LessonRecordings = () => {
     </div>
   );
 };
- 
+
 // Make sure to export as default
 export default LessonRecordings;

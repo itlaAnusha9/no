@@ -334,9 +334,7 @@ const Career = () => {
           </div>
         </div>
         
-        <div className={`scroll-indicator ${heroAnimation ? 'animate' : ''}`}>
-          <ChevronDown size={24} />
-        </div>
+        
       </section>
 
       <section className="stats-section">
@@ -427,7 +425,10 @@ const Career = () => {
       </section>
 
       <section className="scale-section">
-        <h2 className="section-title">Performance Scale</h2>
+           <h2 className="section-title" style={{ textAlign: "center", width: "45%" }}>
+  Performance Scale
+</h2>
+ 
         <p className="section-subtitle">
           Understand how your metrics compare to benchmarks
         </p>

@@ -168,7 +168,7 @@ const StudyPlanner = () => {
             <div className="col-12">
               <div className="text-center mb-4">
                 <h1 className="display-6 fw-bold mb-2 text-dark">Study Planner</h1>
-                <p className="mb-0 text-muted">Your personalized learning schedule</p>
+                <p className="mb-0 text-muted">Your child's personalized learning schedule</p>
               </div>
               
               {selectedSubject ? (
@@ -539,26 +539,29 @@ const StudyPlanner = () => {
                 </button>
               </div>
               <div className="modal-body p-0">
-                {currentVideo && (
-                  <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-                    <iframe
-                      src={currentVideo}
-                      title="Study Video"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        border: 'none'
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
+  {currentVideo && (
+    <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+      <video
+        src={currentVideo}
+        controls
+        controlsList="nodownload"
+        disablePictureInPicture
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          border: "none",
+          borderRadius: "0 0 20px 20px"
+        }}
+      >
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  )}
+</div>
+
             </div>
           </div>
         </div>

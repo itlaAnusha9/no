@@ -1,3 +1,36 @@
+
+
+
+
+
+//                     scale: [1, 1.2, 1],
+//                     x: [0, -8, 8, 0]
+//                   }}
+//                   transition={{ duration: 0.6 }}
+//                 >
+//                   {status.includes('successful') ? '✅' : '❌'}
+//                 </motion.div>
+//                 <span className="status-text">{status}</span>
+//               </motion.div>
+//             )}
+//           </AnimatePresence>
+
+//           {/* Footer */}
+//           <motion.div 
+//             className="footer-note"
+//             variants={itemVariants}
+//           >
+//             <p>We'll contact you within 24 hours to confirm your session details</p>
+//           </motion.div>
+//         </motion.div>
+//       </motion.div>
+//     </div>
+//   );
+// };
+
+// export default Mentorship;
+
+
 import React, { useRef, useState, useEffect} from 'react';
 import emailjs from '@emailjs/browser';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,8 +46,6 @@ import {
   FaChevronDown
 } from 'react-icons/fa';
 import { GiTeacher } from 'react-icons/gi';
-// import './module/student/Mentorship.css';
-// import '../../module/student/Mentorship.css';
 import './Mentorship.css';
 const Mentorship = () => {
   useEffect(() => {
@@ -26,23 +57,23 @@ const Mentorship = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [focusedField, setFocusedField] = useState('');
-
+ 
   const sendEmail = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setStatus('Sending...');
-
+ 
     // Add date and time to form data
     const formData = new FormData(form.current);
     formData.append('date', selectedDate);
     formData.append('time', selectedTime);
-
+ 
     emailjs
       .sendForm(
-        'service_qahh4zm',
-        'template_mhjtvkk',
+        'service_hkgy9fk',
+        'template_lblxcx9',
         form.current,
-        '8VvxkiTdD0x4IKiWx'
+        'XwZ4tJWAOb1e2MDqY'
       )
       .then(() => {
         setStatus('✅ Booking successful! Confirmation email sent.');
@@ -61,19 +92,19 @@ const Mentorship = () => {
         setIsSubmitting(false);
       });
   };
-
+ 
   // Generate time slots
   const generateTimeSlots = () => {
     const slots = [];
     for (let hour = 9; hour <= 17; hour++) {
       ['00', '30'].forEach((minutes) => {
         const time = `${hour.toString().padStart(2, '0')}:${minutes}`;
-        const displayTime = hour > 12 ? 
-          `${(hour - 12).toString().padStart(2, '0')}:${minutes} PM` : 
-          hour === 12 ? 
-          `12:${minutes} PM` : 
+        const displayTime = hour > 12 ?
+          `${(hour - 12).toString().padStart(2, '0')}:${minutes} PM` :
+          hour === 12 ?
+          `12:${minutes} PM` :
           `${hour.toString().padStart(2, '0')}:${minutes} AM`;
-        
+       
         slots.push(
           <option key={time} value={time}>
             {displayTime}
@@ -83,7 +114,7 @@ const Mentorship = () => {
     }
     return slots;
   };
-
+ 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -94,7 +125,7 @@ const Mentorship = () => {
       }
     }
   };
-
+ 
   const itemVariants = {
     hidden: { y: 30, opacity: 0 },
     visible: {
@@ -103,12 +134,12 @@ const Mentorship = () => {
       transition: { duration: 0.6, ease: "easeOut" }
     }
   };
-
+ 
   return (
     <div className="mentorship-container">
       {/* Animated Background Elements */}
       <div className="bg-elements">
-        <motion.div 
+        <motion.div
           className="floating-shape shape-1"
           animate={{
             y: [0, -30, 0],
@@ -121,7 +152,7 @@ const Mentorship = () => {
             ease: "easeInOut"
           }}
         />
-        <motion.div 
+        <motion.div
           className="floating-shape shape-2"
           animate={{
             x: [0, 25, 0],
@@ -134,7 +165,7 @@ const Mentorship = () => {
             ease: "easeInOut"
           }}
         />
-        <motion.div 
+        <motion.div
           className="floating-shape shape-3"
           animate={{
             y: [0, 40, 0],
@@ -148,7 +179,7 @@ const Mentorship = () => {
           }}
         />
       </div>
-
+ 
       <motion.div
         className="mentorship-wrapper"
         variants={containerVariants}
@@ -158,57 +189,57 @@ const Mentorship = () => {
         <motion.div
           className="mentorship-card"
           variants={itemVariants}
-          whileHover={{ 
+          whileHover={{
             scale: 1.02,
             boxShadow: "0 25px 50px rgba(0, 123, 255, 0.15)"
           }}
           transition={{ duration: 0.3 }}
         >
           {/* Header Section */}
-          <motion.div 
+          <motion.div
             className="header-section"
             variants={itemVariants}
           >
             <motion.div
               className="icon-container"
-              animate={{ 
+              animate={{
                 rotate: [0, 360],
                 scale: [1, 1.1, 1]
               }}
-              transition={{ 
-                duration: 8, 
-                repeat: Infinity, 
+              transition={{
+                duration: 8,
+                repeat: Infinity,
                 ease: "linear"
               }}
             >
               <GiTeacher className="header-icon" />
               <div className="icon-glow"></div>
             </motion.div>
-            
-            <motion.h1 
+           
+            <motion.h1
               className="main-title"
               variants={itemVariants}
             >
               Personalized Mentorship Session
             </motion.h1>
-            
-            <motion.p 
+           
+            <motion.p
               className="subtitle"
               variants={itemVariants}
             >
               Get expert guidance tailored to your academic and career goals
             </motion.p>
           </motion.div>
-
+ 
           {/* Form Section */}
-          <motion.form 
-            ref={form} 
+          <motion.form
+            ref={form}
             onSubmit={sendEmail}
             className="mentorship-form"
             variants={itemVariants}
           >
             <div className="form-row">
-              <motion.div 
+              <motion.div
                 className="form-group"
                 variants={itemVariants}
                 whileHover={{ scale: 1.02 }}
@@ -219,19 +250,22 @@ const Mentorship = () => {
                 </label>
                 <div className="input-wrapper">
                   <input
-                    type="text"
-                    name="name"
-                    required
-                    className={`form-input ${focusedField === 'name' ? 'focused' : ''}`}
-                    placeholder="Enter your full name"
-                    onFocus={() => setFocusedField('name')}
-                    onBlur={() => setFocusedField('')}
-                  />
+                  type="text"
+                  name="name"
+                  required
+                  className={`form-input ${focusedField === 'name' ? 'focused' : ''}`}
+                  placeholder="Enter your full name"
+                  onInput={(e) => {
+                    e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, ""); // remove numbers/symbols
+                  }}
+                  onFocus={() => setFocusedField('name')}
+                  onBlur={() => setFocusedField('')}
+                />
                   <div className="input-highlight"></div>
                 </div>
               </motion.div>
-
-              <motion.div 
+ 
+              <motion.div
                 className="form-group"
                 variants={itemVariants}
                 whileHover={{ scale: 1.02 }}
@@ -241,76 +275,97 @@ const Mentorship = () => {
                   Email Address
                 </label>
                 <div className="input-wrapper">
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    className={`form-input ${focusedField === 'email' ? 'focused' : ''}`}
-                    placeholder="your.email@example.com"
-                    onFocus={() => setFocusedField('email')}
-                    onBlur={() => setFocusedField('')}
-                  />
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className={`form-input ${focusedField === 'email' ? 'focused' : ''}`}
+                  placeholder="novya1152@gmail.com"
+                  onFocus={() => setFocusedField('email')}
+                  onBlur={() => setFocusedField('')}
+                />
                   <div className="input-highlight"></div>
                 </div>
               </motion.div>
             </div>
-
             <div className="form-row">
-              <motion.div 
-                className="form-group"
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-              >
-                <label className="form-label">
-                  <FaPhone className="label-icon" />
-                  Phone Number
-                </label>
-                <div className="input-wrapper">
-                  <input
-                    type="tel"
-                    name="phone"
-                    pattern="[0-9]{10}"
-                    required
-                    className={`form-input ${focusedField === 'phone' ? 'focused' : ''}`}
-                    placeholder="1234567890"
-                    onFocus={() => setFocusedField('phone')}
-                    onBlur={() => setFocusedField('')}
-                  />
-                  <div className="input-highlight"></div>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                className="form-group"
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-              >
-                <label className="form-label">
-                  <FaGraduationCap className="label-icon" />
-                  Class/Level
-                </label>
-                <div className="select-wrapper">
-                  <select
-                    name="class"
-                    required
-                    className={`form-select ${focusedField === 'class' ? 'focused' : ''}`}
-                    onFocus={() => setFocusedField('class')}
-                    onBlur={() => setFocusedField('')}
-                  >
-                    <option value="">Select your level</option>
-                    <option value="High School">High School</option>
-                    <option value="Undergraduate">Undergraduate</option>
-                    <option value="Graduate">Graduate</option>
-                    <option value="Professional">Professional</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  <FaChevronDown className="select-arrow" />
-                  <div className="input-highlight"></div>
-                </div>
-              </motion.div>
-            </div>
-
-            <motion.div 
+  {/* Phone Number with Country Code */}
+ {/* Phone Number with Fixed Indian Code */}
+<motion.div
+  className="form-group"
+  variants={itemVariants}
+  whileHover={{ scale: 1.02 }}
+>
+  <label className="form-label">
+    <FaPhone className="label-icon" />
+    Phone Number
+  </label>
+  <div className="phone-wrapper" style={{ display: "flex", gap: "8px" }}>
+    <span
+      style={{
+        display: "flex",
+        alignItems: "center",
+        padding: "0 10px",
+        background: "#f5f5f5",
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        fontWeight: "bold"
+      }}
+    >
+      +91
+    </span>
+    <div className="input-wrapper" style={{ flex: 1 }}>
+     <input
+  type="tel"
+  name="phone"
+  required
+  maxLength="10"
+  className={`form-input ${focusedField === 'phone' ? 'focused' : ''}`}
+  placeholder="Enter 10-digit mobile number"
+  onInput={(e) => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, ""); // only digits
+  }}
+  onFocus={() => setFocusedField('phone')}
+  onBlur={() => setFocusedField('')}
+/>
+      <div className="input-highlight"></div>
+    </div>
+  </div>
+</motion.div>
+ 
+ 
+  {/* Class/Level restricted to 7–12 */}
+  <motion.div
+    className="form-group"
+    variants={itemVariants}
+    whileHover={{ scale: 1.02 }}
+  >
+    <label className="form-label">
+      <FaGraduationCap className="label-icon" />
+      Class
+    </label>
+    <div className="select-wrapper">
+      <select
+        name="class"
+        required
+        className={`form-select ${focusedField === 'class' ? 'focused' : ''}`}
+        onFocus={() => setFocusedField('class')}
+        onBlur={() => setFocusedField('')}
+      >
+        <option value="">Select your class</option>
+        <option value="7">Class 7</option>
+        <option value="8">Class 8</option>
+        <option value="9">Class 9</option>
+        <option value="10">Class 10</option>
+        <option value="11">Class 11</option>
+        <option value="12">Class 12</option>
+      </select>
+      <FaChevronDown className="select-arrow" />
+      <div className="input-highlight"></div>
+    </div>
+  </motion.div>
+</div>
+            <motion.div
               className="form-group full-width"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
@@ -332,9 +387,9 @@ const Mentorship = () => {
                 <div className="input-highlight"></div>
               </div>
             </motion.div>
-
+ 
             <div className="form-row">
-              <motion.div 
+              <motion.div
                 className="form-group"
                 variants={itemVariants}
                 whileHover={{ scale: 1.02 }}
@@ -358,8 +413,8 @@ const Mentorship = () => {
                   <div className="input-highlight"></div>
                 </div>
               </motion.div>
-
-              <motion.div 
+ 
+              <motion.div
                 className="form-group"
                 variants={itemVariants}
                 whileHover={{ scale: 1.02 }}
@@ -387,8 +442,8 @@ const Mentorship = () => {
                 </div>
               </motion.div>
             </div>
-
-            <motion.div 
+ 
+            <motion.div
               className="form-group full-width"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
@@ -409,12 +464,12 @@ const Mentorship = () => {
                 <div className="input-highlight"></div>
               </div>
             </motion.div>
-
+ 
             <motion.button
               type="submit"
               className="submit-btn"
               disabled={isSubmitting}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 boxShadow: "0 15px 35px rgba(0, 123, 255, 0.4)"
               }}
@@ -445,7 +500,7 @@ const Mentorship = () => {
               <div className="btn-shimmer"></div>
             </motion.button>
           </motion.form>
-
+ 
           {/* Status Message */}
           <AnimatePresence>
             {status && (
@@ -473,9 +528,9 @@ const Mentorship = () => {
               </motion.div>
             )}
           </AnimatePresence>
-
+ 
           {/* Footer */}
-          <motion.div 
+          <motion.div
             className="footer-note"
             variants={itemVariants}
           >
@@ -485,5 +540,6 @@ const Mentorship = () => {
     </div>
   );
 };
-
+ 
 export default Mentorship;
+ 

@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaUserCircle, FaChevronDown } from 'react-icons/fa';
 import './Navbarrr.css';
 import novyaLogo from '../home/assets/NOVYA LOGO.png';
-
+ 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -13,44 +14,40 @@ const Navbar = () => {
   const [classDropdownOpen, setClassDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+ 
   useEffect(() => {
     setActiveLink(location.pathname);
     setIsOpen(false);
     setAvatarOpen(false);
     setClassDropdownOpen(false);
   }, [location.pathname]);
-
-  const handleLogout = () => {
-    navigate('/');
-  };
-
-  // ✅ Updated paths to match App.js
+ 
+  const handleLogout = () => navigate('/');
+ 
+  // ✅ Classroom dropdown with Learn, Recordings, Quizzies
   const navLinks = [
     { path: '/student/dashboard', name: 'Home' },
-    { 
-      path: '/learn', 
+    {
+      path: '/learn',
       name: 'Class Room',
       hasDropdown: true,
       dropdownItems: [
         { path: '/learn', name: 'Learn' },
         { path: '/learn/recordings', name: 'Recordings' },
-        { path: '/learn/quizzes', name: 'Quizzes' }
-      ]
+        { path: '/learn/quizzes', name: 'quizzes' },
+      ],
     },
     { path: '/practice', name: 'Practice' },
     { path: '/career', name: 'Career' },
     { path: '/mentorship', name: 'Mentorship' },
   ];
-
+ 
   return (
     <motion.nav
       className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}
@@ -59,7 +56,7 @@ const Navbar = () => {
       transition={{ duration: 0.6 }}
     >
       <div className="navbar-container">
-        {/* Logo Section */}
+        {/* Logo */}
         <div className="navbar-brand" style={{ display: 'flex', alignItems: 'center' }}>
           <Link
             to="/student/dashboard"
@@ -69,13 +66,7 @@ const Navbar = () => {
             <img
               src={novyaLogo}
               alt="NOVYA Logo"
-              style={{
-                height: '50px',
-                width: 'auto',
-                maxWidth: '160px',
-                objectFit: 'contain',
-                display: 'block',
-              }}
+              style={{ height: '50px', width: 'auto', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
             />
             <motion.span
               style={{
@@ -94,23 +85,22 @@ const Navbar = () => {
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              whileHover={{
-                backgroundPosition: 'right center',
-                transition: { duration: 1.5 },
-              }}
+              whileHover={{ backgroundPosition: 'right center', transition: { duration: 1.5 } }}
             >
               NOVYA
             </motion.span>
           </Link>
         </div>
-
+ 
         {/* Desktop Links */}
         <div className="navbar-desktop-links">
           <ul>
             {navLinks.map((link) => (
-              <li 
-                key={link.path} 
-                className={`nav-item ${activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''} ${link.hasDropdown ? 'has-dropdown' : ''}`}
+              <li
+                key={link.path}
+                className={`nav-item ${
+                  activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''
+                } ${link.hasDropdown ? 'has-dropdown' : ''}`}
                 onMouseEnter={() => link.hasDropdown && setClassDropdownOpen(true)}
                 onMouseLeave={() => link.hasDropdown && setClassDropdownOpen(false)}
               >
@@ -118,13 +108,13 @@ const Navbar = () => {
                   <div className="nav-link-wrapper">
                     <Link to={link.path} className="nav-link">
                       {link.name}
-                      <FaChevronDown 
-                        size={10} 
-                        style={{ 
-                          marginLeft: '5px', 
+                      <FaChevronDown
+                        size={10}
+                        style={{
+                          marginLeft: '5px',
                           transform: classDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                          transition: 'transform 0.3s ease'
-                        }} 
+                          transition: 'transform 0.3s ease',
+                        }}
                       />
                       <span className="nav-link-underline" />
                     </Link>
@@ -140,10 +130,7 @@ const Navbar = () => {
                           <ul>
                             {link.dropdownItems.map((dropdownItem) => (
                               <li key={dropdownItem.path}>
-                                <Link 
-                                  to={dropdownItem.path} 
-                                  className="dropdown-link"
-                                >
+                                <Link to={dropdownItem.path} className="dropdown-link">
                                   {dropdownItem.name}
                                 </Link>
                               </li>
@@ -163,8 +150,8 @@ const Navbar = () => {
             ))}
           </ul>
         </div>
-
-        {/* Avatar + Toggler */}
+ 
+        {/* Avatar + Toggler */ }
         <div className="navbar-end">
           <div className="navbar-avatar-container" onClick={() => setAvatarOpen(!avatarOpen)}>
             <FaUserCircle size={30} className="navbar-avatar-icon" />
@@ -174,7 +161,7 @@ const Navbar = () => {
               </div>
             )}
           </div>
-
+ 
           <button
             className={`navbar-toggler ${isOpen ? 'open' : ''}`}
             onClick={() => setIsOpen(!isOpen)}
@@ -185,7 +172,7 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-
+ 
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
@@ -198,25 +185,30 @@ const Navbar = () => {
           >
             <ul>
               {navLinks.map((link) => (
-                <li key={link.path} className={`nav-item ${activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''}`}>
+                <li
+                  key={link.path}
+                  className={`nav-item ${
+                    activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''
+                  }`}
+                >
                   {link.hasDropdown ? (
                     <div className="mobile-dropdown-container">
-                      <Link 
-                        to={link.path} 
-                        className="nav-link" 
+                      <Link
+                        to={link.path}
+                        className="nav-link"
                         onClick={(e) => {
                           e.preventDefault();
                           setClassDropdownOpen(!classDropdownOpen);
                         }}
                       >
                         {link.name}
-                        <FaChevronDown 
-                          size={10} 
-                          style={{ 
-                            marginLeft: '5px', 
+                        <FaChevronDown
+                          size={10}
+                          style={{
+                            marginLeft: '5px',
                             transform: classDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                            transition: 'transform 0.3s ease'
-                          }} 
+                            transition: 'transform 0.3s ease',
+                          }}
                         />
                       </Link>
                       <AnimatePresence>
@@ -229,9 +221,9 @@ const Navbar = () => {
                             transition={{ duration: 0.3 }}
                           >
                             {link.dropdownItems.map((dropdownItem) => (
-                              <Link 
+                              <Link
                                 key={dropdownItem.path}
-                                to={dropdownItem.path} 
+                                to={dropdownItem.path}
                                 className="mobile-dropdown-link"
                                 onClick={() => {
                                   setIsOpen(false);
@@ -262,5 +254,5 @@ const Navbar = () => {
     </motion.nav>
   );
 };
-
+ 
 export default Navbar;

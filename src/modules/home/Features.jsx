@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion } from 'framer-motion';
@@ -7,9 +6,9 @@ import learningImage from './assets/learning-image.webp';
 import modulesImage from './assets/modules-image.webp'; // Add your third image import
 import computer from './assets/computer-image.webp'; // Add your third image import
 import car from './assets/car-image.webp';
-
-
-
+ 
+ 
+ 
 function MissionVision() {
    useEffect(() => {
         document.title = "Features|NOVYA - Your Smart Learning Platform";
@@ -36,19 +35,21 @@ function MissionVision() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <p className="lead" style={{ 
+              <p className="lead" style={{
                 fontSize: '1.25rem',
                 lineHeight: '1.6',
                 color: '#333',
                 marginBottom: 0
               }}>
-To democratize access to highly personalized and effective education by leveraging artificial intelligence, empowering every learner to achieve their full potential. 
-
- To be the leading global EdTech platform where AI-driven adaptive learning transforms individual academic and professional journeys, fostering a generation of curious, capable, and confident learners.               </p>
+        To make personalized, world-class education accessible to everyone through AI, helping each learner reach their full potential.
+ 
+               
+        At Novya, we recognize that everyone learns differently and turn each unique style into a strength. Our AI-driven platform makes learning engaging, interactive, and effective, shaping curious, confident, and capable learners ready to achieve their dreams.    </p>
+ 
             </motion.div>
           </div>
         </div>
-
+ 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -70,7 +71,7 @@ To democratize access to highly personalized and effective education by leveragi
           />
         </motion.div>
       </div>
-
+ 
       {/* Second Section - Unique Pace and Style */}
       <div className="container py-5">
         <div className="row align-items-center">
@@ -81,7 +82,7 @@ To democratize access to highly personalized and effective education by leveragi
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                style={{ 
+                style={{
                   color: '#2D5D7B',
                   fontSize: '2.5rem',
                   fontWeight: 'bold',
@@ -94,16 +95,16 @@ To democratize access to highly personalized and effective education by leveragi
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                style={{ 
+                style={{
                   color: '#3a86ff',
                   fontSize: '1.8rem',
                   fontWeight: 'bold',
                   marginBottom: '1.5rem'
                 }}
               >
-                Student's Unique Pace and Style
+                Student's Unique Pace & Style
               </motion.h2>
-
+ 
               <motion.p
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -115,14 +116,14 @@ To democratize access to highly personalized and effective education by leveragi
                   marginBottom: '2rem'
                 }}
               >
-Traditional learning often follows a one-size-fits-all approach, but we know every student learns differently. Novya's core strength lies in its adaptive learning engine, meticulously designed to understand and respond to your individual needs. 
-
-Personalized Pace: Our AI identifies your optimal learning speed, ensuring you're never overwhelmed or bored. 
-
- Novya adapts to your preferred learning style, making complex topics intuitive and engaging. 
-
+At Novya, learning is personal and it is built for you, but we know every student learns differently, and we turn your unique way of learning into your greatest strength. Novya's core strength lies in its adaptive learning engine, meticulously designed to understand and respond to your individual needs.   <br />
+ 
+<strong>Personalized Pace :</strong> Our AI identifies your optimal learning speed, ensuring you're never overwhelmed or bored.
+ 
+ Novya adapts to your preferred learning style, making complex topics intuitive and engaging.
+ 
 </motion.p>
-
+ 
               <div className="row">
                 <div className="col-md-6 mb-3 mb-md-0">
                   <motion.div
@@ -132,7 +133,7 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
                     className="p-3 rounded text-center"
                     style={{ backgroundColor: '#ffffff', boxShadow: '0 5px 15px rgba(0,0,0,0.05)' }}
                   >
-                    <h1 style={{ 
+                    <h1 style={{
                       color: '#3a86ff',
                       fontSize: '3rem',
                       fontWeight: 'bold',
@@ -153,7 +154,7 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
                     className="p-3 rounded text-center"
                     style={{ backgroundColor: '#ffffff', boxShadow: '0 5px 15px rgba(0,0,0,0.05)' }}
                   >
-                    <h1 style={{ 
+                    <h1 style={{
                       color: '#8338ec',
                       fontSize: '3rem',
                       fontWeight: 'bold',
@@ -169,7 +170,7 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
               </div>
             </div>
           </div>
-
+ 
           {/* Image Content */}
           <div className="col-lg-6">
             <motion.div
@@ -192,7 +193,7 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
           </div>
         </div>
       </div>
-
+ 
       {/* Third Section - Engaging Learning Modules */}
       <div className="container py-5">
         <div className="row align-items-center">
@@ -203,16 +204,16 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                style={{ 
+                style={{
                   color: '#2D5D7B',
                   fontSize: '2.5rem',
                   fontWeight: 'bold',
                   marginBottom: '1.5rem'
                 }}
               >
-                Dive into <span style={{ fontStyle: 'italic' }}>Engaging</span> and <span style={{ fontStyle: 'italic' }}>Adaptive</span> Learning Modules with NOVYA
+                Dive Into Engaging & Adaptive Learning Modules With NOVYA
               </motion.h1>
-
+ 
               <motion.p
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -224,8 +225,8 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
                   marginBottom: '2rem'
                 }}
               >
-              Learning with Novya isn't just about absorbing information; it's about active engagement and deep understanding. Our AI-powered modules are designed to keep you challenged and motivated.               </motion.p>
-
+              Learning with Novya isn't just about absorbing information, it's about active engagement and deep understanding. Our AI-powered modules are designed to keep you challenged and motivated.               </motion.p>
+ 
               <motion.ul
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -234,16 +235,18 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
                   textAlign: 'left',
                   paddingLeft: '1.5rem',
                   fontSize: '1.1rem',
-                  color: '#333'
+                  color: '#333',
+                  listStyle: "none", // ✅ removes dots
+                  paddingInlineStart: 0, // ✅ removes default list padding
                 }}
               >
-                <li className="mb-2"><strong>Personalized Content:</strong> As you progress, Novya's AI curates your next steps, suggesting relevant topics, advanced challenges, or remedial exercises to ensure a solid foundation. </li>
-                <li className="mb-2"><strong>Interactive Simulations:</strong> Experience dynamic lessons filled with interactive quizzes, simulations, and problem-solving scenarios that reinforce learning in a practical way. </li>
-                <li><strong>Real-time Feedback:</strong> Receive instant, actionable feedback that explains why an answer is right or wrong, guiding you toward mastery without frustration. </li>
+                <li className="mb-2"><strong>Personalized Content :</strong> As you progress, Novya's AI curates your next steps, suggesting relevant topics, advanced challenges, or remedial exercises to ensure a solid foundation. </li>
+                <li className="mb-2"><strong>Interactive Simulations :</strong> Experience dynamic lessons filled with interactive quizzes, simulations, and problem-solving scenarios that reinforce learning in a practical way. </li>
+                <li><strong>Real-time Feedback :</strong> Receive instant, actionable feedback that explains why an answer is right or wrong, guiding you toward mastery without frustration. </li>
               </motion.ul>
             </div>
           </div>
-
+ 
           {/* Image Content */}
           <div className="col-lg-6 order-lg-0">
             <motion.div
@@ -275,16 +278,16 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                style={{ 
+                style={{
                   color: '#2D5D7B',
                   fontSize: '2.5rem',
                   fontWeight: 'bold',
                   marginBottom: '1.5rem'
                 }}
               >
-                Unlock Your <span style={{ fontStyle: 'italic' }}>Potential</span> and <span style={{ fontStyle: 'italic' }}>with </span>NOVYA Resources
+                Unlock Your Potential & With NOVYA Resources
               </motion.h1>
-
+ 
               <motion.p
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -296,8 +299,8 @@ Personalized Pace: Our AI identifies your optimal learning speed, ensuring you'r
                   marginBottom: '2rem'
                 }}
               >
-Novya provides you with more than just courses; we give you the tools and insights to take control of your learning journey and truly unlock your potential.               </motion.p>
-
+Novya provides you with more than just courses, we give you the tools and insights to take control of your learning journey and truly unlock your potential.               </motion.p>
+ 
               <motion.ul
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -306,17 +309,20 @@ Novya provides you with more than just courses; we give you the tools and insigh
                   textAlign: 'left',
                   paddingLeft: '1.5rem',
                   fontSize: '1.1rem',
-                  color: '#333'
+                  color: '#333',
+                  listStyle: "none", // ✅ removes dots
+                  paddingInlineStart: 0, // ✅ removes default list padding
+ 
                 }}
               >
-                <li className="mb-2"><strong>Personalized Progress Reports:</strong>Gain clear, insightful overviews of your performance, highlighting your strengths, areas for improvement, and overall progress. </li>
-                <li className="mb-2"><strong>Performance Analytics:</strong> Understand your learning habits and identify patterns that contribute to your success, empowering you to optimize your study strategies. </li>
-                <li className="mb-2"><strong>Enhanced Learning Efficiency:</strong> Earn rewards and track progress.</li>
-                <li><strong>Real-time Feedback:</strong>  With data-driven insights, Novya helps you focus your efforts where they matter most, leading to more efficient learning and faster skill acquisition.</li>
+                <li className="mb-2"><strong>Personalized Progress Reports :</strong> Gain clear, insightful overviews of your performance, highlighting your strengths, areas for improvement, and overall progress. </li>
+                <li className="mb-2"><strong>Performance Analytics :</strong> Understand your learning habits and identify patterns that contribute to your success, empowering you to optimize your study strategies. </li>
+                <li className="mb-2"><strong>Enhanced Learning Efficiency :</strong> Earn rewards and track progress.</li>
+                <li><strong>Real-time Feedback :</strong>  With data-driven insights, Novya helps you focus your efforts where they matter most, leading to more efficient learning and faster skill acquisition.</li>
               </motion.ul>
             </div>
           </div>
-
+ 
           {/* Image Content */}
           <div className="col-lg-6 order-lg-0">
             <motion.div
@@ -339,9 +345,9 @@ Novya provides you with more than just courses; we give you the tools and insigh
           </div>
         </div>
       </div>
-
-
-
+ 
+ 
+ 
       <div className="container py-5">
         <div className="row align-items-center mb-5">
           <div className="col-md-4">
@@ -361,17 +367,17 @@ Novya provides you with more than just courses; we give you the tools and insigh
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <p className="lead" style={{ 
-                fontSize: '1.25rem',
+              <p className="lead" style={{
+                fontSize: '1.50rem',
                 lineHeight: '1.6',
                 color: '#333',
                 marginBottom: 0
               }}>
-Our AI offers smart recommendations for additional resources, practice problems, or related topics to deepen your understanding and broaden your skills.               </p>
+With Novya, every step of your journey is crafted to spark curiosity, boost confidence, and help you to achieve your true potential.              </p>
             </motion.div>
           </div>
         </div>
-
+ 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -393,11 +399,11 @@ Our AI offers smart recommendations for additional resources, practice problems,
           />
         </motion.div>
       </div>
-
-
-      
+ 
+ 
+     
     </section>
   );
 }
-
+ 
 export default MissionVision;

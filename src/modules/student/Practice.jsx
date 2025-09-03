@@ -1,11 +1,12 @@
-import React, { useState, useEffect,useCallback } from 'react';
+import React, { useState, useEffect,useCallback,useRef } from 'react';
 import { Clock,  BookOpen, Target, ChevronRight, Play, Users,  Star, X, Check, ArrowLeft } from 'lucide-react';
 import './practice.css';
 const Practice = () => {
   useEffect(() => {
       document.title = "Mock-Tests | NOVYA - Your Smart Learning Platform";
     }, []);
-  const [selectedGrade, setSelectedGrade] = useState('8');
+    const subjectSectionRef = useRef(null);
+  const [selectedGrade, setSelectedGrade] = useState('7');
   const [selectedSubject, setSelectedSubject] = useState('mathematics');
   const [activeFilter, setActiveFilter] = useState('all');
   const [testStarted, setTestStarted] = useState(false);
@@ -15,6 +16,8 @@ const Practice = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [testSubmitted, setTestSubmitted] = useState(false);
   const [score, setScore] = useState(0);
+  const [showComingSoon, setShowComingSoon] = useState(false);
+  const [comingSoonGrade, setComingSoonGrade] = useState(null);
   const [animatedStats, setAnimatedStats] = useState({
     totalTests: 0,
     studentsEnrolled: 0,
@@ -338,10 +341,10 @@ const Practice = () => {
   ];
 
   const recentResults = [
-    { name: 'Arjun Sharma', score: 92, subject: 'Mathematics', avatar: '👨‍🎓' },
-    { name: 'Priya Patel', score: 88, subject: 'Physics', avatar: '👩‍🎓' },
-    { name: 'Rohit Kumar', score: 95, subject: 'Chemistry', avatar: '👨‍🎓' },
-    { name: 'Sneha Singh', score: 90, subject: 'Biology', avatar: '👩‍🎓' }
+    { name: 'Arjun Sharma', score: 98, subject: 'Mathematics', avatar: '👨‍🎓' },
+    { name: 'Priya Patel', score: 95, subject: 'Physics', avatar: '👩‍🎓' },
+    { name: 'Rohit Kumar', score: 92, subject: 'Chemistry', avatar: '👨‍🎓' },
+    { name: 'Sneha Singh', score: 88, subject: 'Biology', avatar: '👩‍🎓' }
   ];
 
   const filteredTests = mockTests.filter(test => {
@@ -504,67 +507,99 @@ const Practice = () => {
           </section>
 
           {/* Grade Selection */}
-          <section className="grade-selection-section">
-            <h2 className="section-title">Choose Your Grade</h2>
-            <div className="grade-cards">
-              {grades.map((grade) => (
-                <div 
-                  key={grade.value}
-                  className={`grade-card ${selectedGrade === grade.value ? 'active' : ''}`}
-                  onClick={() => setSelectedGrade(grade.value)}
-                  style={{ '--grade-color': grade.color }}
-                >
-                  <div className="grade-number">{grade.value}</div>
-                  <div className="grade-label">{grade.label}</div>
-                  <div className="grade-glow"></div>
-                </div>
-              ))}
-            </div>
-          </section>
+         <section className="grade-selection-section">
+  <h2 className="section-title">Choose Your Grade</h2>
+  <div className="grade-cards" style={{ position: "relative" }}>
+    {grades.map((grade) => (
+      <div
+        key={grade.value}
+        className={`grade-card ${selectedGrade === grade.value ? 'active' : ''}`}
+        onClick={() => {
+          setSelectedGrade(grade.value);
+          if (grade.value !== '7') {
+            setComingSoonGrade(grade.value);
+            setShowComingSoon(true);
+            setTimeout(() => setShowComingSoon(false), 2000);
+          } else {
+            setTimeout(() => {
+              subjectSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }, 200);
+          }
+        }}
+        style={{ '--grade-color': grade.color, position: "relative" }}
+      >
+        {/* Toast message above the selected card */}
+        {showComingSoon && comingSoonGrade === grade.value && grade.value !== '7' && (
+          <div
+            style={{
+              position: "absolute",
+              top: "-48px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              background: "#2D5D7B",
+              color: "#fff",
+              padding: "0.7rem 1.5rem",
+              borderRadius: "8px",
+              boxShadow: "0 4px 16px rgba(45,93,123,0.12)",
+              zIndex: 10,
+              fontSize: "1rem",
+              fontWeight: 600,
+              textAlign: "center",
+              whiteSpace: "nowrap",
+              animation: "fadeInOut 2s"
+            }}
+          >
+            Coming Soon!
+          </div>
+        )}
+        <div className="grade-number">{grade.value}</div>
+        <div className="grade-label">{grade.label}</div>
+        <div className="grade-glow"></div>
+      </div>
+    ))}
+  </div>
+</section>
 
-          {/* Subject Selection */}
-          <section className="subject-selection-section">
-            <h2 className="section-title">Select Subject</h2>
-            <div className="subjects-grid">
-              {subjects.map((subject) => (
-                <div 
-                  key={subject.id}
-                  className={`subject-card ${selectedSubject === subject.id ? 'active' : ''}`}
-                  onClick={() => setSelectedSubject(subject.id)}
-                >
-                  <div className="subject-icon">{subject.icon}</div>
-                  <h3 className="subject-name">{subject.name}</h3>
-                  <div className="subject-stats">
-                    <div className="stat">
-                      <BookOpen size={16} />
-                      <span>{subject.tests} Tests</span>
-                    </div>
-                    <div className="stat">
-                      <Target size={16} />
-                      <span>{subject.difficulty}</span>
-                    </div>
-                    <div className="stat">
-                      <Clock size={16} />
-                      <span>{subject.duration}</span>
-                    </div>
-                  </div>
-                  <div className="card-hover-effect"></div>
-                </div>
-              ))}
-            </div>
-            <div className="start-subject-test-container">
-              <button 
-                className="start-subject-test-btn"
-                onClick={() => {
-                  const firstTest = mockTests.find(test => test.subject.toLowerCase() === selectedSubject);
-                  if (firstTest) startTest(firstTest);
-                }}
-              >
-                <Play size={18} />
-                Start {subjects.find(s => s.id === selectedSubject)?.name} Test
-              </button>
-            </div>
-          </section>
+
+      {/* Subject Selection */}
+      <section className="subject-selection-section" ref={subjectSectionRef}>
+  <h2 className="section-title">Select Subject</h2>
+  <div className="subjects-grid">
+    {subjects.map((subject) => (
+      <div 
+        key={subject.id}
+        className={`subject-card ${selectedSubject === subject.id ? 'active' : ''}`}
+        onClick={() => {
+          setSelectedSubject(subject.id);
+          // Automatically start the first test for this subject
+          const firstTest = mockTests.find(
+            (test) => test.subject.toLowerCase() === subject.id.toLowerCase()
+          );
+          if (firstTest) startTest(firstTest);
+        }}
+      >
+        <div className="subject-icon">{subject.icon}</div>
+        <h3 className="subject-name">{subject.name}</h3>
+        <div className="subject-stats">
+          <div className="stat">
+            <BookOpen size={16} />
+            <span>{subject.tests} Tests</span>
+          </div>
+          <div className="stat">
+            <Target size={16} />
+            <span>{subject.difficulty}</span>
+          </div>
+          <div className="stat">
+            <Clock size={16} />
+            <span>{subject.duration}</span>
+          </div>
+        </div>
+        <div className="card-hover-effect"></div>
+      </div>
+    ))}
+  </div>
+</section>
+
 
           {/* Mock Tests Grid */}
           <section className="mock-tests-section">
@@ -581,13 +616,13 @@ const Practice = () => {
                   className={`filter-tab ${activeFilter === 'free' ? 'active' : ''}`}
                   onClick={() => setActiveFilter('free')}
                 >
-                  Free
+                  Medium
                 </button>
                 <button 
                   className={`filter-tab ${activeFilter === 'premium' ? 'active' : ''}`}
                   onClick={() => setActiveFilter('premium')}
                 >
-                  Premium
+                 Advanced
                 </button>
               </div>
             </div>
@@ -595,7 +630,7 @@ const Practice = () => {
             <div className="mock-tests-grid">
               {filteredTests.map((test) => (
                 <div key={test.id} className="mock-test-card">
-                  {test.premium && <div className="premium-badge">Premium</div>}
+                  {test.premium && <div className="premium-badge">Advanced</div>}
                   
                   <div className="test-header">
                     <h3 className="test-title">{test.title}</h3>
@@ -894,7 +929,30 @@ const Practice = () => {
             </div>
           )}
         </div>
-      )}
+      )}{showComingSoon && (
+  <div
+    className="toast-coming-soon"
+    style={{
+      position: "fixed",
+      bottom: "32px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: "#2D5D7B",
+      color: "#fff",
+      padding: "0.9rem 2rem",
+      borderRadius: "8px",
+      boxShadow: "0 4px 16px rgba(45,93,123,0.15)",
+      zIndex: 9999,
+      fontSize: "1.1rem",
+      fontWeight: 600,
+      textAlign: "center",
+      whiteSpace: "nowrap",
+      animation: "fadeInOut 2s"
+    }}
+  >
+    Coming Soon!
+  </div>
+)}
     </div>
   );
 };

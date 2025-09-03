@@ -1,5 +1,5 @@
 import React from "react";
-import { FaPhone, FaEnvelope, FaHome, FaUser, FaBookOpen, FaStar } from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaHome, FaUser, FaBookOpen, FaStar } from "react-icons/fa";
  
 const ChildProfile = () => {
   const child = {
@@ -7,7 +7,7 @@ const ChildProfile = () => {
     class: "7th Grade",
     gender: "Male",
     dob: "2011-08-12",
-    subjects: ["Mathematics", "Science", "English", "Telugu", "Social Studies"],
+    subjects: ["Mathematics", "Science", "English", "Computers", "Social Studies"],
     teacher: "Mrs. Lakshmi",
     progress: "Excellent",
     guardian: "Ramesh Kumar",
@@ -114,7 +114,7 @@ const ChildProfile = () => {
                   <span className="info-value">{child.guardian}</span>
                 </div>
                 <div className="contact-item">
-                  <FaPhone className="contact-icon" />
+                  <FaPhoneAlt className="contact-icon" />
                   <span>{child.contact}</span>
                 </div>
                 <div className="contact-item">

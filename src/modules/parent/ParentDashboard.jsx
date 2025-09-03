@@ -6,13 +6,13 @@ import Progress from './Progress';
 import Homework from './HomeWork';
 import MockTestReports from './MockTestReports';
 import StudyPlanner from './StudyPlanner';
-
+import ContactUs from './ContactUs';
 import { Typewriter } from 'react-simple-typewriter';
 import { 
   FiLogOut,        
   FiBell,          
   FiSettings,
-  FiSun,           
+          
  
   FiGlobe,         
   FiTrendingUp,
@@ -29,6 +29,7 @@ import {
   HiOutlineHome
 } from 'react-icons/hi2';
 import novyaLogo from '../home/assets/NOVYA LOGO.png';
+import { FaPhoneAlt } from 'react-icons/fa';
 
 const ParentDashboard = () => {
   
@@ -54,7 +55,8 @@ const [showProfile, setShowProfile] = useState(false);
     setNotifications([
       { id: 1, title: 'New Assignment', message: 'Math homework assigned to your child', time: '2 hours ago', read: false },
       { id: 2, title: 'Progress Report', message: 'Weekly progress report is available', time: '1 day ago', read: false },
-      { id: 3, title: 'Parent-Teacher Meeting', message: 'Reminder: Meeting scheduled for tomorrow', time: '2 days ago', read: true }
+      { id: 3, title: 'Parent-Teacher Meeting', message: 'Reminder: Meeting scheduled for tomorrow', time: '2 days ago', read: false },
+      { id: 4, title: 'Attendance', message: 'Warning:Missed two classes', time: '2 days ago', read: false },
     ]);
     
     const savedTheme = localStorage.getItem('themePreference');
@@ -77,7 +79,8 @@ const [showProfile, setShowProfile] = useState(false);
       grades: 'Progress',
       homework: 'Assignments',
       mockreports: 'Mock Tests',
-      studyplanner: 'Study Plan'
+      studyplanner: 'Study Plan',
+      faq:'Contactus'
     };
     document.title = selectedSection && titles[selectedSection]
       ? `${titles[selectedSection]} | NOVYA - Your Smart Learning Platform`
@@ -143,6 +146,13 @@ const [showProfile, setShowProfile] = useState(false);
       icon: HiOutlineLightBulb,
       gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
    
+    },
+    { 
+      key: 'faq', 
+      label: 'Contact us', 
+      icon: FaPhoneAlt,
+      gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+   
     }
   ];
 
@@ -176,7 +186,7 @@ const [showProfile, setShowProfile] = useState(false);
   };
 
   const unreadNotificationsCount = notifications.filter(n => !n.read).length;
-  const toggleTheme = () => setDarkMode(!darkMode);
+
   const changeLanguage = (lang) => {
     setLanguage(lang);
     setShowSettings(false);
@@ -199,6 +209,7 @@ const [showProfile, setShowProfile] = useState(false);
       case 'homework': return <Homework />;
       case 'mockreports': return <MockTestReports />;
       case 'studyplanner': return <StudyPlanner />;
+      case 'faq': return <ContactUs />;
       default:
         return (
           <div className="dashboard-home">
@@ -209,9 +220,9 @@ const [showProfile, setShowProfile] = useState(false);
                   <div className="typewriter-container">
                     <Typewriter
                       words={[
-                        "Monitor academic progress in real-time",
+                        "Monitor your child's learning journey in real-time",
                         "Stay connected with teachers and assignments", 
-                        "Celebrate every milestone and achievement",
+                        "Celebrate your child's every milestone and achievement",
                         "Support your child's educational journey"
                       ]}
                       loop
@@ -318,12 +329,7 @@ const [showProfile, setShowProfile] = useState(false);
             <img src={novyaLogo} alt="NOVYA" />
             {!sidebarCollapsed && <span>NOVYA</span>}
           </div>
-          <button 
-            className="sidebar-toggle desktop-only"
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-          >
-            {sidebarCollapsed ? <FiMenu /> : <FiX />}
-          </button>
+        
           <button 
             className="sidebar-toggle mobile-only"
             onClick={() => setMobileMenuOpen(false)}
@@ -405,23 +411,25 @@ const [showProfile, setShowProfile] = useState(false);
 
                 {showNotifications && (
                   <div className="notification-dropdown">
-                    <div className="dropdown-header">
-                      <h3>Notifications</h3>
-                      <div className="header-actions-right">
-                        <button 
-                          className="clear-all-btn"
-                          onClick={() => setNotifications(notifications.map(n => ({ ...n, read: true })))}
-                        >
-                          Mark all as read
-                        </button>
-                        <button 
-                          className="close-dropdown-btn"
-                          onClick={() => setShowNotifications(false)}
-                        >
-                          <FiX />
-                        </button>
-                      </div>
-                    </div>
+                <div className="dropdown-header" style={{ alignItems: "center" }}>
+  <h3 style={{ margin: 0, flex: 1 }}>Notifications</h3>
+  <div className="header-actions-right" style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+   
+    <button
+      className="clear-all-btn"
+      onClick={() => setNotifications([])}
+    >
+      Clear
+    </button>
+    <button
+      className="close-dropdown-btn"
+      onClick={() => setShowNotifications(false)}
+      style={{ fontSize: "1.2rem" }}
+    >
+      <FiX />
+    </button>
+  </div>
+</div>
                     <div className="notification-list">
                       {notifications.length > 0 ? (
                         notifications.map(notification => (
@@ -484,7 +492,7 @@ const [showProfile, setShowProfile] = useState(false);
                         >
                           English
                         </button>
-                      
+                       
                       </div>
                     </div>
                   </div>
@@ -504,7 +512,7 @@ const [showProfile, setShowProfile] = useState(false);
   />
   <div className="profile-info">
     <span className="profile-name">{parentName}</span>
-    <span className="profile-role">Tulasi</span>
+    <span className="profile-role">tulasi</span>
   </div>
 </div>
 {showProfile && (
@@ -557,7 +565,7 @@ const [showProfile, setShowProfile] = useState(false);
           style={{ width: 64, height: 64, borderRadius: "50%", marginBottom: "0.5rem" }}
         />
         <h3 style={{ margin: 0 }}>{parentName}</h3>
-        <span style={{ color: "#64748b", fontSize: "0.95rem" }}>Tulasi</span>
+      
       </div>
       <div style={{ marginTop: "1rem" }}>
         <p><strong>Email:</strong> tulasi.kumar@example.com</p>

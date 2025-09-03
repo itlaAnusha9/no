@@ -43,8 +43,8 @@ const Chatbox = () => {
     contact: {
       patterns: ['contact', 'email', 'support', 'help'],
       responses: [
-        "You can email us at support@codingcourse.com or call (555) 123-4567 from 9am-5pm EST.",
-        "For immediate help, try our live support at support.codingcourse.com or use the chat button on our website."
+        "You can email us at info@novya.in or call 8886042228 from 9am-5pm EST.",
+        "For immediate help, try our live support at info@novya.in or use the chat button on our website."
       ]
     },
     thanks: {
@@ -125,7 +125,7 @@ const Chatbox = () => {
       }]);
     } catch (error) {
       setMessages(prev => [...prev, { 
-        text: "Sorry, I'm having trouble connecting. Please try again later or contact support@codingcourse.com", 
+        text: "Sorry, I'm having trouble connecting. Please try again later or contact info@novya.in", 
         sender: 'bot',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
@@ -190,7 +190,7 @@ const Chatbox = () => {
             resolve("We offer several pricing options to fit different budgets. Monthly access is $20, annual is $199 (save 17%), and bootcamps start at $2,500 with payment plans available. Need help choosing?");
             break;
           case 'support':
-            resolve("For technical issues, please email support@codingcourse.com with:\n1. Your account email\n2. Course name\n3. Detailed description of the issue\nWe typically respond within 2 business hours.");
+            resolve("For technical issues, please email info@novya.in with:\n1. Your account email\n2. Course name\n3. Detailed description of the issue\nWe typically respond within 2 business hours.");
             break;
           case 'career':
             resolve("Our career services include resume reviews, interview prep, and job search strategies. 85% of bootcamp grads land tech jobs within 6 months! Want our career guide PDF?");

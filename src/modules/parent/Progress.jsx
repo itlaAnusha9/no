@@ -1,23 +1,23 @@
 import React from 'react';
-import { 
-  Calculator, 
-  Atom, 
-  BookOpen, 
-  AlertTriangle, 
-  Globe, 
-  Languages, 
-  Code, 
+import {
+  Calculator,
+  Atom,
+  BookOpen,
+  AlertTriangle,
+  Globe,
+  Languages,
+  Code,
   TrendingUp,
   TrendingDown,
   Calendar,
   Award,
-  
+ 
   BarChart3,
   User,
   Clock,
   CheckCircle2
 } from 'lucide-react';
-
+ 
 const Progress = () => {
   const weeklyData = [
     { day: 'Mon', activity: 85, hours: 4.2 },
@@ -28,29 +28,29 @@ const Progress = () => {
     { day: 'Sat', activity: 95, hours: 5.5 },
     { day: 'Sun', activity: 82, hours: 4.1 },
   ];
-
+ 
   const subjects = [
     { name: 'Mathematics', icon: Calculator, score: 82, trend: 'up', change: '+5%' },
     { name: 'Science', icon: Atom, score: 90, trend: 'up', change: '+8%' },
     { name: 'English', icon: BookOpen, score: 86, trend: 'up', change: '+3%' },
     { name: 'Social Studies', icon: Globe, score: 72, trend: 'down', change: '-4%' },
-    { name: 'Hindi', icon: Languages, score: 91, trend: 'up', change: '+7%' },
+    
     { name: 'Computer Science', icon: Code, score: 96, trend: 'up', change: '+12%' }
   ];
-
+ 
   const stats = [
     { title: 'Overall Score', value: '84%', icon: Award, color: '#667eea' },
     { title: 'Study Hours', value: '28.9h', icon: Clock, color: '#f093fb' },
     { title: 'Tasks Completed', value: '21/25', icon: CheckCircle2, color: '#4facfe' },
   ];
-
+ 
   return (
     <>
       <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         rel="stylesheet"
       />
-
+ 
       <div
         style={{
           minHeight: '100vh',
@@ -61,9 +61,9 @@ const Progress = () => {
         <div className="container-fluid p-4">
           <div className="d-flex justify-content-between align-items-center text-white mb-4">
             <h1 className="display-6 fw-bold mb-0 text-dark">Progress Dashboard</h1>
-            
+           
           </div>
-
+ 
           <div className="row g-4 mb-4">
             {stats.map((stat, index) => {
               const IconComponent = stat.icon;
@@ -97,7 +97,7 @@ const Progress = () => {
               );
             })}
           </div>
-
+ 
           <div className="row g-4">
             <div className="col-12 col-lg-8">
               <div
@@ -113,7 +113,7 @@ const Progress = () => {
                   <div className="d-flex align-items-center justify-content-between mb-4">
                     <div>
                       <h5 className="fw-bold mb-1">Weekly Activity</h5>
-                      <p className="text-muted small mb-0">Your study time this week</p>
+                      <p className="text-muted small mb-0">Your child's study time this week</p>
                     </div>
                     <BarChart3 className="text-muted" size={24} />
                   </div>
@@ -121,24 +121,43 @@ const Progress = () => {
                     {weeklyData.map((day, index) => (
                       <div key={index} className="col">
                         <div className="text-center">
-                          <div
-                            className="mx-auto mb-2 rounded-pill overflow-hidden"
-                            style={{
-                              width: '8px',
-                              height: '120px',
-                              background: 'linear-gradient(to bottom, #e9ecef, #f8f9fa)'
-                            }}
-                          >
-                            <div
-                              className="rounded-pill w-100"
-                              style={{
-                                height: `${day.activity}%`,
-                                background: 'linear-gradient(to top, #667eea, #764ba2)',
-                                transition: 'height 1s ease-out',
-                                transformOrigin: 'bottom'
-                              }}
-                            />
-                          </div>
+                        <div
+  style={{
+    height: 120,
+    width: 24,
+    display: "flex",
+    flexDirection: "column-reverse",
+    alignItems: "center",
+    margin: "0 auto",
+    position: "relative"
+  }}
+>
+  {/* Bar Track */}
+  <div
+    style={{
+      position: "absolute",
+      top: 0,
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: 12,
+      height: "100%",
+      background: "#e5e7eb",
+      borderRadius: 8,
+      zIndex: 0
+    }}
+  />
+  {/* Bar Fill */}
+  <div
+    style={{
+      width: 12,
+      height: `${day.activity}%`,
+      background: "linear-gradient(180deg, #667eea 0%, #764ba2 100%)",
+      borderRadius: 8,
+      zIndex: 1,
+      boxShadow: "0 2px 8px rgba(102,126,234,0.15)"
+    }}
+  />
+</div>
                           <div className="small fw-medium text-dark">{day.day}</div>
                           <div className="small text-muted">{day.hours}h</div>
                         </div>
@@ -148,7 +167,7 @@ const Progress = () => {
                 </div>
               </div>
             </div>
-
+ 
             <div className="col-12 col-lg-4">
               <div
                 className="card border-0 h-100"
@@ -195,12 +214,12 @@ const Progress = () => {
                     </div>
                   </div>
                   <h6 className="fw-bold mb-2">This Week's Goal</h6>
-                  <p className="text-muted small mb-0">16% more to reach your target!</p>
+                  <p className="text-muted small mb-0">16% more to reach the target!</p>
                 </div>
               </div>
             </div>
           </div>
-
+ 
           {/* Subject Cards - WHITE BG + ORANGE GRADIENT BORDER */}
           <div className="row mt-4">
             <div className="col-12">
@@ -217,7 +236,7 @@ const Progress = () => {
                   <div className="d-flex align-items-center justify-content-between mb-4">
                     <div>
                       <h5 className="fw-bold mb-1">Subject Performance</h5>
-                      <p className="text-muted small mb-0">Track your progress across subjects</p>
+                      <p className="text-muted small mb-0">Track your child's progress across subjects</p>
                     </div>
                     <User className="text-muted" size={24} />
                   </div>
@@ -284,7 +303,7 @@ const Progress = () => {
               </div>
             </div>
           </div>
-
+ 
           <div className="row mt-4">
             <div className="col-12">
               <div
@@ -305,18 +324,20 @@ const Progress = () => {
                 <div className="flex-grow-1" >
                   <h6 className="fw-bold mb-2" style={{ color: '#f57c00' }}>Social Studies Needs Attention</h6>
                   <p className="mb-3 text-dark opacity-75">
-                    Your child performance has dropped by 4%. Consider reviewing recent topics and completing practice exercises.
+                    Your child's performance has dropped by 4%. Consider reviewing recent topics and completing practice exercises.
                   </p>
-               
+                 
                 </div>
               </div>
             </div>
           </div>
-
+ 
         </div>
       </div>
     </>
   );
 };
-
+ 
 export default Progress;
+ 
+ 
