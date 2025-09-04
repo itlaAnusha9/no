@@ -164,19 +164,25 @@ function Contact() {
               noValidate
             >
               {/* Full Name */}
-              <div className="mb-3">
-                <label className="form-label fw-semibold">👤 Full Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  className={`form-control rounded-pill px-4 ${errors.name ? 'is-invalid' : ''}`}
-                  placeholder="Your name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.name && <div className="text-danger small mt-1">{errors.name}</div>}
-              </div>
+             <div className="mb-3">
+  <label className="form-label fw-semibold">👤 Full Name</label>
+  <input
+    type="text"
+    name="name"
+    className={`form-control rounded-pill px-4 ${errors.name ? 'is-invalid' : ''}`}
+    placeholder="Your name"
+    value={formData.name}
+    onChange={(e) => {
+      const lettersOnly = e.target.value.replace(/[^A-Za-z\s]/g, ''); // allow letters & spaces
+      handleChange({
+        target: { name: "name", value: lettersOnly }
+      });
+    }}
+    onBlur={handleBlur}
+  />
+  {errors.name && <div className="text-danger small mt-1">{errors.name}</div>}
+</div>
+
  
               {/* Email */}
               <div className="mb-3">

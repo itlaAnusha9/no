@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // This is the updated isValidEmail function
 const isValidEmail = (email) => {
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com)$/i;
+  // A more robust regex that checks for a standard email format
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
   return emailRegex.test(email);
 };
 
@@ -48,7 +49,7 @@ function FreeDemo() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === 'phone') {
       const digitsOnly = value.replace(/\D/g, '');
       if (digitsOnly.length > 10) {
@@ -58,7 +59,8 @@ function FreeDemo() {
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
-    
+
+    // Validate the field on every change if it has been touched
     if (touched[name]) {
       validateField(name, value);
     }
@@ -72,15 +74,16 @@ function FreeDemo() {
 
   const validateField = (name, value) => {
     let errorMsg = '';
-    
-    // Email validation using the new function
-    if (name === 'email') {
-      if (!value.trim()) {
-        errorMsg = 'Email is required';
-      } else if (!isValidEmail(value)) {
-        errorMsg = 'Please enter a valid email from @gmail.com or @outlook.com';
-      }
-    } else if (name === 'name') {
+
+    switch (name) {
+      case 'email':
+        if (!value.trim()) {
+          errorMsg = 'Email is required';
+        } else if (!isValidEmail(value)) {
+          errorMsg = 'Please enter a valid email address';
+        }
+        break;
+      case 'name':
         if (!value.trim()) {
           errorMsg = 'Name is required';
         } else if (value.trim().length < 2) {
@@ -88,19 +91,29 @@ function FreeDemo() {
         } else if (!/^[a-zA-Z\s]+$/.test(value)) {
           errorMsg = 'Name can only contain letters and spaces';
         }
-    } else if (name === 'phone') {
+        break;
+      case 'phone':
         const digitsOnly = formData.phone;
         if (!digitsOnly) {
           errorMsg = 'Phone number is required';
         } else if (digitsOnly.length !== 10) {
           errorMsg = 'Phone number must be exactly 10 digits';
         } else if (!/^[6-9]/.test(digitsOnly)) {
-          errorMsg = 'Phone number must start with 6, 7, 8, or 9';
+          errorMsg = 'Enter a valid phone number ';
         }
-    } else if (name === 'course' && !value.trim()) {
-        errorMsg = 'Please select a course';
-    } else if (name === 'preferredTime' && !value.trim()) {
-        errorMsg = 'Please select a preferred time';
+        break;
+      case 'course':
+        if (!value.trim()) {
+          errorMsg = 'Please select a course';
+        }
+        break;
+      case 'preferredTime':
+        if (!value.trim()) {
+          errorMsg = 'Please select a preferred time';
+        }
+        break;
+      default:
+        break;
     }
 
     setErrors(prev => ({ ...prev, [name]: errorMsg }));
@@ -109,74 +122,93 @@ function FreeDemo() {
   const validateForm = () => {
     const newErrors = {};
 
-    // Name validation
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
-    } else if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
-      newErrors.name = 'Name can only contain letters and spaces';
-    }
+    // Validate all fields
+    Object.keys(formData).forEach(key => {
+      let value = formData[key];
+      validateField(key, value);
+    });
 
-    // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!isValidEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email from @gmail.com or @outlook.com';
-    }
+    // We must return true or false based on the updated errors object
+    // after all fields have been validated.
+    // We create a temporary object to hold current validation results.
+    const tempErrors = {};
+    Object.keys(formData).forEach(key => {
+        let value = formData[key];
+        switch (key) {
+            case 'email':
+                if (!value.trim()) {
+                    tempErrors.email = 'Email is required';
+                } else if (!isValidEmail(value)) {
+                    tempErrors.email = 'Please enter a valid email address';
+                }
+                break;
+            case 'name':
+                if (!value.trim()) {
+                    tempErrors.name = 'Name is required';
+                } else if (value.trim().length < 2) {
+                    tempErrors.name = 'Name must be at least 2 characters';
+                } else if (!/^[a-zA-Z\s]+$/.test(value)) {
+                    tempErrors.name = 'Name can only contain letters and spaces';
+                }
+                break;
+            case 'phone':
+                const digitsOnly = formData.phone;
+                if (!digitsOnly) {
+                    tempErrors.phone = 'Phone number is required';
+                } else if (digitsOnly.length !== 10) {
+                    tempErrors.phone = 'Phone number must be exactly 10 digits';
+                } else if (!/^[6-9]/.test(digitsOnly)) {
+                    tempErrors.phone = 'Phone number must start with 6, 7, 8, or 9';
+                }
+                break;
+            case 'course':
+                if (!value.trim()) {
+                    tempErrors.course = 'Please select a course';
+                }
+                break;
+            case 'preferredTime':
+                if (!value.trim()) {
+                    tempErrors.preferredTime = 'Please select a preferred time';
+                }
+                break;
+            default:
+                break;
+        }
+    });
 
-    // Phone validation
-    const digitsOnly = formData.phone;
-    if (!digitsOnly) {
-      newErrors.phone = 'Phone number is required';
-    } else if (digitsOnly.length !== 10) {
-      newErrors.phone = 'Phone number must be exactly 10 digits';
-    } else if (!/^[6-9]/.test(digitsOnly)) {
-      newErrors.phone = 'Phone number must start with 6, 7, 8, or 9';
-    }
-
-    // Course validation
-    if (!formData.course.trim()) {
-      newErrors.course = 'Please select a course';
-    }
-
-    // Preferred time validation
-    if (!formData.preferredTime.trim()) {
-      newErrors.preferredTime = 'Please select a preferred time';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrors(tempErrors); // Update the state with the final errors
+    return Object.keys(tempErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     // Mark all fields as touched for full validation feedback
     const allTouched = {};
     Object.keys(formData).forEach(key => {
       allTouched[key] = true;
     });
     setTouched(allTouched);
-    
-    // Run validation on all fields
-    if (!validateForm()) {
-      const firstErrorField = Object.keys(errors)[0];
+
+    if (validateForm()) {
+      // Handle successful form submission
+      console.log('Form submitted:', formData);
+      setShowSuccess(true);
+      
+      // Auto close after 5 seconds
+      setTimeout(() => {
+        handleCloseForm();
+      }, 5000);
+    } else {
+      // Find the first invalid field and focus on it
+      const firstErrorField = Object.keys(errors).find(key => errors[key]);
       if (firstErrorField) {
         const element = document.querySelector(`[name="${firstErrorField}"]`);
         if (element) {
           element.focus();
         }
       }
-      return;
     }
-    
-    // Handle successful form submission
-    console.log('Form submitted:', formData);
-    setShowSuccess(true);
-    
-    // Auto close after 5 seconds
-    setTimeout(() => {
-      handleCloseForm();
-    }, 5000);
   };
 
   return (
@@ -193,7 +225,7 @@ function FreeDemo() {
           }
         `}
       </style>
-      
+
       {/* Hero Section */}
       <div className="row g-0 align-items-center position-relative flex-column flex-lg-row" style={{ minHeight: 'calc(100vh - 80px)' }}>
         {/* Magic Sparkles */}
@@ -391,7 +423,7 @@ function FreeDemo() {
                     ></button>
                   </div>
 
-                  <div>
+                  <form onSubmit={handleSubmit}>
                     <div className="row g-3">
                       <div className="col-md-6">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
@@ -412,7 +444,7 @@ function FreeDemo() {
                           <div className="text-danger small mt-1">{errors.name}</div>
                         )}
                       </div>
-                      
+
                       <div className="col-md-6">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
                           Email Address *
@@ -432,7 +464,7 @@ function FreeDemo() {
                           <div className="text-danger small mt-1">{errors.email}</div>
                         )}
                       </div>
-                      
+
                       <div className="col-md-6">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
                           Phone Number *
@@ -451,8 +483,8 @@ function FreeDemo() {
                             placeholder="Enter 10-digit number"
                             pattern="[6-9]{1}[0-9]{9}"
                             aria-invalid={!!errors.phone}
-                            style={{ 
-                              borderRadius: '0 8px 8px 0', 
+                            style={{
+                              borderRadius: '0 8px 8px 0',
                               borderLeft: 'none'
                             }}
                           />
@@ -461,7 +493,7 @@ function FreeDemo() {
                           <div className="text-danger small mt-1">{errors.phone}</div>
                         )}
                       </div>
-                      
+
                       <div className="col-md-6">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
                           Course of Interest *
@@ -486,7 +518,7 @@ function FreeDemo() {
                           <div className="text-danger small mt-1">{errors.course}</div>
                         )}
                       </div>
-                      
+
                       <div className="col-12">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
                           Preferred Time *
@@ -509,7 +541,7 @@ function FreeDemo() {
                           <div className="text-danger small mt-1">{errors.preferredTime}</div>
                         )}
                       </div>
-                      
+
                       <div className="col-12">
                         <label className="form-label fw-semibold" style={{ color: '#2D5D7B' }}>
                           Additional Message
@@ -536,9 +568,9 @@ function FreeDemo() {
                         Cancel
                       </button>
                       <motion.button
+                        type="submit"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={handleSubmit}
                         className="btn flex-fill fw-bold"
                         style={{
                           background: 'linear-gradient(135deg, #2D5D7B, #3a7ca5)',
@@ -550,7 +582,7 @@ function FreeDemo() {
                         Book Demo
                       </motion.button>
                     </div>
-                  </div>
+                  </form>
                 </>
               ) : (
                 // Success Message
@@ -567,7 +599,7 @@ function FreeDemo() {
                     transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
                     className="mb-4"
                   >
-                    <div 
+                    <div
                       className="mx-auto rounded-circle d-flex align-items-center justify-content-center"
                       style={{
                         width: '80px',
@@ -615,7 +647,7 @@ function FreeDemo() {
                       <strong>What's Next?</strong>
                     </p>
                     <p className="mb-0" style={{ color: '#5A6A7D' }}>
-                      Detailed information and demo session link will be sent to your email shortly. 
+                      Detailed information and a demo session link will be sent to your email shortly.
                       Our team will contact you within 24 hours to confirm your preferred time slot.
                     </p>
                   </motion.div>

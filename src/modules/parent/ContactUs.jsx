@@ -1,5 +1,5 @@
 import React, { useState } from "react";
- 
+
 const ContactUs = () => {
   const [form, setForm] = useState({
     parentName: "",
@@ -9,25 +9,25 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
- 
+
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [touched, setTouched] = useState({});
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
- 
+
     // Restrict phone number input
     if (name === "phoneNumber") {
       // New validation: Block input if the first digit is not 6, 7, 8, or 9.
       if (value.length === 1 && !/[6-9]/.test(value)) {
-        return;
+        return; 
       }
       // Allow only digits and max 10 chars
       if (!/^\d*$/.test(value)) return; // block non-digits
       if (value.length > 10) return; // block more than 10
     }
-   
+    
     // Validation for names: allow only letters and spaces
     if (name === "parentName" || name === "studentName") {
       // Allow only letters, spaces, and common name characters (hyphens, apostrophes)
@@ -35,42 +35,42 @@ const ContactUs = () => {
         return; // Block numbers and special characters
       }
     }
-   
+    
     // Validation for studentId: allow only alphanumeric characters
     if (name === "studentId") {
       if (!/^[a-zA-Z0-9]*$/.test(value)) {
         return; // Block non-alphanumeric characters
       }
     }
- 
+
     setForm({ ...form, [name]: value });
-   
+    
     // Validate field as user types (only if it's been touched/blurred)
     if (touched[name]) {
       validateField(name, value);
     }
   };
- 
+
   const handleBlur = (e) => {
     const { name, value } = e.target;
-   
+    
     // Mark field as touched
     setTouched({ ...touched, [name]: true });
-   
+    
     // Validate the field
     validateField(name, value);
   };
- 
+
   const validateField = (name, value) => {
     let errorMsg = "";
-   
+    
     if (!value.trim()) {
       errorMsg = `${getFieldLabel(name)} is required`;
     } else if (name === "phoneNumber") {
       if (value.length !== 10) {
         errorMsg = "Phone Number must be exactly 10 digits";
       } else if (!/^[6-9]\d{9}$/.test(value)) {
-        errorMsg = "Phone number must start with 6, 7, 8, or 9";
+        errorMsg = "enter a valid phone number ";
       }
     } else if (name === "email" && !isValidEmail(value)) {
       errorMsg = "Please enter a valid email address";
@@ -81,10 +81,10 @@ const ContactUs = () => {
     } else if ((name === "parentName" || name === "studentName") && value.trim().length < 2) {
       errorMsg = "Name must be at least 2 characters long";
     }
-   
+    
     setErrors({ ...errors, [name]: errorMsg });
   };
- 
+
   const getFieldLabel = (fieldName) => {
     const labels = {
       parentName: "Parent Name",
@@ -94,24 +94,26 @@ const ContactUs = () => {
       email: "Email",
       message: "Message"
     };
-   
+    
     return labels[fieldName] || fieldName;
   };
- 
-  const isValidEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
- 
+
+ const isValidEmail = (email) => {
+  // A more robust regex that checks for a standard email format
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+  return emailRegex.test(email);
+};
+
   const handleSubmit = (e) => {
     e.preventDefault();
- 
+
     // Mark all fields as touched to show all errors
     const allTouched = {};
     Object.keys(form).forEach(key => {
       allTouched[key] = true;
     });
     setTouched(allTouched);
- 
+
     // Validate all fields
     const newErrors = {};
     Object.keys(form).forEach(key => {
@@ -133,10 +135,10 @@ const ContactUs = () => {
         newErrors[key] = "Name must be at least 2 characters long";
       }
     });
- 
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-     
+      
       // Scroll to the first error
       const firstErrorField = Object.keys(newErrors)[0];
       const element = document.querySelector(`[name="${firstErrorField}"]`);
@@ -144,12 +146,12 @@ const ContactUs = () => {
         element.focus();
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-     
+      
       return;
     }
- 
+
     setSubmitted(true);
- 
+
     // TODO: API call to send data here
     setForm({
       parentName: "",
@@ -159,14 +161,14 @@ const ContactUs = () => {
       email: "",
       message: "",
     });
- 
+
     // Reset touched state
     setTouched({});
- 
+
     // Reset success message after 5s
     setTimeout(() => setSubmitted(false), 5000);
   };
- 
+
   return (
     <div
       style={{
@@ -215,7 +217,7 @@ const ContactUs = () => {
               </p>
             )}
           </div>
- 
+
           {/* Student Name */}
           <div style={{ marginBottom: "1rem" }}>
             <label style={{ fontWeight: 500 }}>Student Name *</label>
@@ -242,7 +244,7 @@ const ContactUs = () => {
               </p>
             )}
           </div>
- 
+
           {/* Student ID */}
           <div style={{ marginBottom: "1rem" }}>
             <label style={{ fontWeight: 500 }}>Student ID *</label>
@@ -269,7 +271,7 @@ const ContactUs = () => {
               </p>
             )}
           </div>
- 
+
           {/* Phone Number */}
           <div style={{ marginBottom: "1rem" }}>
             <label style={{ fontWeight: 500 }}>Phone Number *</label>
@@ -315,7 +317,7 @@ const ContactUs = () => {
               </p>
             )}
           </div>
- 
+
           {/* Email */}
           <div style={{ marginBottom: "1rem" }}>
             <label style={{ fontWeight: 500 }}>Email *</label>
@@ -342,7 +344,7 @@ const ContactUs = () => {
               </p>
             )}
           </div>
- 
+
           {/* Message */}
           <div style={{ marginBottom: "1.5rem" }}>
             <label style={{ fontWeight: 500 }}>Message *</label>
@@ -370,7 +372,7 @@ const ContactUs = () => {
               </p>
             )}
           </div>
- 
+
           {/* Submit */}
           <button
             type="submit"
@@ -393,6 +395,5 @@ const ContactUs = () => {
     </div>
   );
 };
- 
+
 export default ContactUs;
- 

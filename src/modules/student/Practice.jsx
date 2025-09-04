@@ -341,7 +341,7 @@ const Practice = () => {
   ];
 
   const recentResults = [
-    { name: 'Arjun Sharma', score: 98, subject: 'Mathematics', avatar: '👨‍🎓' },
+    { name: 'Lokesh', score: 98, subject: 'Mathematics', avatar: '👨‍🎓' },
     { name: 'Priya Patel', score: 95, subject: 'Physics', avatar: '👩‍🎓' },
     { name: 'Rohit Kumar', score: 92, subject: 'Chemistry', avatar: '👨‍🎓' },
     { name: 'Sneha Singh', score: 88, subject: 'Biology', avatar: '👩‍🎓' }

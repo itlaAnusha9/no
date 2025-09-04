@@ -268,7 +268,7 @@ const LoginPage = () => {
                               className="form-control"
                               value={formData[activeTab].username}
                               onChange={handleChange}
-                              placeholder={`Enter ${activeTab} username`}
+                              placeholder={`Enter username`}
                             />
                           </div>
                           {errors[activeTab].username && (

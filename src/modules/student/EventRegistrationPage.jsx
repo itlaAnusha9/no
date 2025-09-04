@@ -169,17 +169,23 @@ const EventRegistrationPage = () => {
                     <form onSubmit={handleSubmit} className="mt-4">
                       <motion.h4 className="mb-4" variants={fadeInVariants}>Fill your details to register:</motion.h4>
                       <motion.div className="mb-3" variants={fadeInVariants}>
-                        <label htmlFor="name" className="form-label">Full Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          disabled={isSubmitting}
-                        />
+                      <label htmlFor="name" className="form-label">Full Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={(e) => {
+                          const regex = /^[A-Za-z\s]*$/; // allow only letters and spaces
+                          if (regex.test(e.target.value)) {
+                            handleChange(e);
+                          }
+                        }}
+                        required
+                        disabled={isSubmitting}
+                      />
+
                       </motion.div>
                       <motion.div className="mb-3" variants={fadeInVariants}>
                         <label htmlFor="email" className="form-label">Email address</label>
@@ -234,7 +240,7 @@ const EventRegistrationPage = () => {
                             disabled={isSubmitting}
                             maxLength="10" // Limits input to 10 characters (as per previous requests)
                             pattern="[6-9][0-9]{9}" // Pattern for Indian mobile numbers (starts with 6-9, followed by 9 digits)
-                            title="Please enter a 10-digit Indian phone number starting with 6, 7, 8, or 9" // Title for better feedback
+                            title="Please enter a valid number " // Title for better feedback
                           />
                         </div>
                         <div className="form-text">For important event updates.</div>
