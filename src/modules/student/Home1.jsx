@@ -209,7 +209,7 @@ const Home1 = () => {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="hero-subtitle"
             >
-              Track your progress, access your courses, and stay updated with upcoming events
+             Access your courses, track your progress, and stay updated with upcoming events
             </motion.p>
             <motion.div
               variants={textVariants}

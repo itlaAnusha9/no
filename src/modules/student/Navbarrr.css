@@ -21,29 +21,28 @@
 }
  
 .navbar-container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: auto;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-content: center; /* Centers navbar content for all pages */
 }
  
-/* Logo */
 .navbar-brand {
   font-size: 1.8rem;
   font-weight: 700;
   cursor: pointer;
 }
  
-/* Desktop Links */
 .navbar-desktop-links {
   display: flex;
+  gap: 1rem;
 }
  
 .navbar-desktop-links ul {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 1rem;
 }
  
 .nav-item {
@@ -58,6 +57,7 @@
   padding-top: 20px;
   padding-bottom: 8px;
   position: relative;
+ 
 }
  
 .nav-link:hover {
@@ -84,7 +84,6 @@
   width: 100%;
 }
  
-/* Avatar & Toggle */
 .navbar-end {
   display: flex;
   align-items: center;
@@ -96,6 +95,7 @@
 .navbar-avatar-container {
   position: relative;
   cursor: pointer;
+  gap: 1rem;
 }
  
 .navbar-avatar-icon {
@@ -116,6 +116,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   z-index: 999;
+ 
 }
  
 .logout-button,
@@ -127,6 +128,7 @@
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
+ 
 }
  
 .logout-button:hover,
@@ -134,7 +136,6 @@
   background-color: #1c3b4f;
 }
  
-/* Hamburger Toggler - 3 Dashes */
 .navbar-toggler {
   display: none;
   flex-direction: column;
@@ -168,7 +169,6 @@
   transform: rotate(-45deg) translate(6px, -6px);
 }
  
-/* Mobile Menu */
 .navbar-mobile-menu {
   background-color: #ffffff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -207,34 +207,11 @@
   font-weight: 700;
 }
  
-/* Responsive */
-@media (max-width: 992px) {
-  .navbar-desktop-links {
-    display: none;
-  }
- 
-  .navbar-toggler {
-    display: flex;
-  }
-}
- 
-@media (max-width: 576px) {
-  .navbar-container {
-    padding: 0.5rem 1rem;
-  }
- 
-  .navbar-brand {
-    font-size: 1.5rem;
-  }
-}
-/* Add these styles to your existing Navbarrr.css file */
- 
-/* Desktop Dropdown */
 .nav-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  background: #fff; /* Force white background */
+  background: #fff;
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -245,19 +222,18 @@
 }
  
 .dropdown-link {
-  position: relative; /* allow underline positioning */
+  position: relative;
   display: block;
   padding: 10px 16px;
-  color: #2D5D7B; /* match navbar color */
+  color: #2D5D7B;
   text-decoration: none;
-  font-weight: 500; /* match nav link weight */
-  font-size: 1.1rem; /* match nav link size */
-  font-family: inherit; /* inherit same font */
-  background: #fff; /* always white */
+  font-weight: 500;
+  font-size: 1.1rem;
+  font-family: inherit;
+  background: #fff;
   transition: transform 0.2s ease;
 }
  
-/* underline animation using ::after */
 .dropdown-link::after {
   content: "";
   position: absolute;
@@ -278,7 +254,6 @@
   width: 100%;
 }
  
-/* Mobile Dropdown */
 .mobile-dropdown {
   display: flex;
   flex-direction: column;
@@ -287,10 +262,11 @@
   margin-top: 6px;
   border: 1px solid rgba(0,0,0,0.1);
   overflow: hidden;
+ 
 }
  
 .mobile-dropdown-link {
-  position: relative; /* allow underline positioning if needed */
+  position: relative;
   padding: 10px 16px;
   font-size: 1.1rem;
   color: #2D5D7B;
@@ -308,7 +284,6 @@
   transform: translateX(2px);
 }
  
-/* ensure dropdown shows 3 clean stacked lines */
 .nav-dropdown ul {
   list-style: none;
   padding: 0;
@@ -323,7 +298,38 @@
 }
  
 .dropdown-link {
-  text-transform: lowercase; /* enforces lowercase display */
+  text-transform: lowercase;
   padding: 12px 16px;
   display: block;
+}
+ 
+@media (max-width: 992px) {
+  .navbar-desktop-links {
+    display: none;
+    gap: 1rem;
+  }
+ 
+  .navbar-toggler {
+    display: flex;
+    margin-right: 15rem; /* Shifts toggle button left in mobile view */
+   
+  }
+ 
+  .navbar-center {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensures centering for Home page in mobile view */
+    gap: 1.5rem;
+    flex: 1;
+  }
+}
+ 
+@media (max-width: 576px) {
+  .navbar-container {
+    padding: 0.5rem 1rem;
+  }
+ 
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
 }

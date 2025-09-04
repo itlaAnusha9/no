@@ -152,7 +152,7 @@ const Navbar = () => {
         </div>
  
         {/* Avatar + Toggler */ }
-        <div className="navbar-end">
+        {/* <div className="navbar-end">
           <div className="navbar-avatar-container" onClick={() => setAvatarOpen(!avatarOpen)}>
             <FaUserCircle size={30} className="navbar-avatar-icon" />
             {avatarOpen && (
@@ -160,7 +160,23 @@ const Navbar = () => {
                 <button onClick={handleLogout} className="logout-button">Logout</button>
               </div>
             )}
-          </div>
+          </div> */}
+
+
+                  {/* Avatar + Toggler */}
+<div className="navbar-end" style={{ display: "flex", alignItems: "center" }}>
+  <div
+    className="navbar-avatar-container"
+    style={{ marginLeft: "30px" }}   // 👈 adjust gap here
+    onClick={() => setAvatarOpen(!avatarOpen)}
+  >
+    <FaUserCircle size={30} className="navbar-avatar-icon" />
+    {avatarOpen && (
+      <div className="avatar-dropdown">
+        <button onClick={handleLogout} className="logout-button">Logout</button>
+      </div>
+    )}
+  </div>
  
           <button
             className={`navbar-toggler ${isOpen ? 'open' : ''}`}

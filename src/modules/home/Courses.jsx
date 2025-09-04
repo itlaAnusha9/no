@@ -272,7 +272,7 @@ function Courses() {
       subjects: [' Maths', 'Science', 'English', 'Social', 'Computer'],
       images: [
         'https://images.piclumen.com/normal/20250711/19/11427e802c8b41eaa440cfc27f27eac9.webp',
-        'https://images.piclu-12men.com/normal/20250711/19/d02f9d494e5c4ac28293ceff66d2e153.webp',
+        'https://snu.edu.in/site/assets/files/16749/computerscienceandengineering.1600x0.webp',
         'https://images.piclumen.com/normal/20250711/19/8cf4f2439f074fb7ad5f5444d2bcacda.webp'
       ]
     },

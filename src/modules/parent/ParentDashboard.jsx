@@ -12,8 +12,7 @@ import {
   FiLogOut,        
   FiBell,          
   FiSettings,
-          
- 
+        
   FiGlobe,         
   FiTrendingUp,
   FiMenu,
@@ -220,9 +219,9 @@ const [showProfile, setShowProfile] = useState(false);
                   <div className="typewriter-container">
                     <Typewriter
                       words={[
-                        "Monitor your child's learning journey in real-time",
+                        "Monitor academic progress in real-time",
                         "Stay connected with teachers and assignments", 
-                        "Celebrate your child's every milestone and achievement",
+                        "Celebrate every milestone and achievement",
                         "Support your child's educational journey"
                       ]}
                       loop
@@ -612,11 +611,23 @@ const [showProfile, setShowProfile] = useState(false);
           display: none;
         }
 
-        @media (max-width: 768px) {
-          .mobile-overlay {
-            display: block;
-          }
-        }
+       @media (max-width: 768px) {
+  /* Fallback: guarantee visibility when sidebar is open */
+  .sidebar.mobile-open .sidebar-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 280px;           /* match sidebar width on mobile */
+    border-top: 1px solid #e2e8f0;
+    background: var(--sidebar-bg, #ffffff);
+    z-index: 1100;
+  }
+  .dark-mode .sidebar.mobile-open .sidebar-footer {
+    border-top: 1px solid #334155;
+    background: var(--sidebar-bg, #1e293b);
+  }
+}
+
 
         /* Custom scrollbar styles */
         .sidebar-nav::-webkit-scrollbar,
@@ -1769,9 +1780,3 @@ const [showProfile, setShowProfile] = useState(false);
 };
 
 export default ParentDashboard;
-
-
-
-
-
-
