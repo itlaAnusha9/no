@@ -1,20 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ChildProfile from './ChildProfile';
-import Attendance from './Attendance';
-import Progress from './Progress';
-import Homework from './HomeWork';
-import MockTestReports from './MockTestReports';
-import StudyPlanner from './StudyPlanner';
-import ContactUs from './ContactUs';
-import { Typewriter } from 'react-simple-typewriter';
+import { useNavigate, useLocation, Routes, Route, Outlet } from 'react-router-dom';
+
 import { 
   FiLogOut,        
   FiBell,          
   FiSettings,
         
   FiGlobe,         
-  FiTrendingUp,
+
   FiMenu,
   FiX
 } from 'react-icons/fi';
@@ -31,8 +24,9 @@ import novyaLogo from '../home/assets/NOVYA LOGO.png';
 import { FaPhoneAlt } from 'react-icons/fa';
 
 const ParentDashboard = () => {
+    const navigate = useNavigate();
+  const location = useLocation();
   
-  const [selectedSection, setSelectedSection] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [parentName, setParentName] = useState('');
@@ -44,7 +38,18 @@ const ParentDashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mainContentRef = useRef(null);
-  const navigate = useNavigate();
+  const getCurrentSection = () => {
+    const pathParts = location.pathname.split('/');
+    return pathParts[pathParts.length - 1] || '';
+  };
+  
+  const [selectedSection, setSelectedSection] = useState(getCurrentSection());
+
+    useEffect(() => {
+    // Update selectedSection when URL changes
+    setSelectedSection(getCurrentSection());
+  }, [location]);
+
 const [showProfile, setShowProfile] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
@@ -147,7 +152,7 @@ const [showProfile, setShowProfile] = useState(false);
    
     },
     { 
-      key: 'faq', 
+      key: 'contactus', 
       label: 'Contact us', 
       icon: FaPhoneAlt,
       gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
@@ -196,125 +201,11 @@ const [showProfile, setShowProfile] = useState(false);
   };
 
   const handleSectionSelect = (sectionKey) => {
-    setSelectedSection(sectionKey);
-    setMobileMenuOpen(false); // Close mobile menu when selecting a section
+    // Use navigate instead of setSelectedSection
+    navigate(`/parent/dashboard/${sectionKey}`);
+    setMobileMenuOpen(false);
   };
 
-  const renderSection = () => {
-    switch (selectedSection) {
-      case 'profile': return <ChildProfile />;
-      case 'attendance': return <Attendance />;
-      case 'grades': return <Progress />;
-      case 'homework': return <Homework />;
-      case 'mockreports': return <MockTestReports />;
-      case 'studyplanner': return <StudyPlanner />;
-      case 'faq': return <ContactUs />;
-      default:
-        return (
-          <div className="dashboard-home">
-            <div className="welcome-section">
-              <div className="welcome-content">
-                <div className="welcome-text">
-                  <h1>Welcome back, {parentName}!</h1>
-                  <div className="typewriter-container">
-                    <Typewriter
-                      words={[
-                        "Monitor academic progress in real-time",
-                        "Stay connected with teachers and assignments", 
-                        "Celebrate every milestone and achievement",
-                        "Support your child's educational journey"
-                      ]}
-                      loop
-                      typeSpeed={50}
-                      deleteSpeed={30}
-                      delaySpeed={2500}
-                    />
-                  </div>
-                </div>
-                <div className="welcome-image">
-                  <img
-                    src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/d92aaad8-daf4-48e8-9313-bc4d45f82b91.png"
-                    alt="Parent and child learning together"
-                    className="parent-child-image"
-                  />
-                  <div className="image-overlay"></div>
-                </div>
-              </div>
-            </div>
-
-            <div className="stats-section">
-              <h2>Quick Overview</h2>
-              <div className="stats-grid">
-                <div className="stat-card">
-                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-                    <FiTrendingUp />
-                  </div>
-                  <div className="stat-content">
-                    <div className="stat-value">85%</div>
-                    <div className="stat-label">Overall Progress</div>
-                    <div className="stat-change positive">+5% this week</div>
-                  </div>
-                </div>
-
-                <div className="stat-card">
-                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}>
-                    <HiOutlineCalendarDays />
-                  </div>
-                  <div className="stat-content">
-                    <div className="stat-value">92%</div>
-                    <div className="stat-label">Attendance Rate</div>
-                    <div className="stat-change positive">+2% this month</div>
-                  </div>
-                </div>
-
-                <div className="stat-card">
-                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}>
-                    <HiOutlineClipboardDocumentList />
-                  </div>
-                  <div className="stat-content">
-                    <div className="stat-value">15</div>
-                    <div className="stat-label">Achievements</div>
-                    <div className="stat-change positive">+3 this week</div>
-                  </div>
-                </div>
-
-                <div className="stat-card">
-                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
-                    <HiOutlineAcademicCap />
-                  </div>
-                  <div className="stat-content">
-                    <div className="stat-value">8/10</div>
-                    <div className="stat-label">Assignments</div>
-                    <div className="stat-change neutral">2 pending</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="features-section">
-              <h2>What Makes NOVYA Special</h2>
-              <div className="features-grid">
-                <div className="feature-card">
-                  <div className="feature-icon">🧠</div>
-                  <h3>AI-Powered Learning</h3>
-                  <p>Personalized learning paths adapted to your child's unique learning style and pace.</p>
-                </div>
-                <div className="feature-card">
-                  <div className="feature-icon">📊</div>
-                  <h3>Real-time Analytics</h3>
-                  <p>Track progress with detailed insights and performance metrics updated in real-time.</p>
-                </div>
-                <div className="feature-card">
-                  <div className="feature-icon">🎯</div>
-                  <h3>Goal-based Learning</h3>
-                  <p>Set and achieve learning goals with milestone tracking and celebration of achievements.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-    }
-  };
 
   return (
     <div className={`parent-dashboard ${darkMode ? 'dark-mode' : ''}`}>
@@ -322,7 +213,8 @@ const [showProfile, setShowProfile] = useState(false);
       {mobileMenuOpen && <div className="mobile-overlay" onClick={() => setMobileMenuOpen(false)}></div>}
       
       {/* Sidebar */}
-      <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+        <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+      
         <div className="sidebar-header">
           <div className="sidebar-logo">
             <img src={novyaLogo} alt="NOVYA" />
@@ -578,9 +470,9 @@ const [showProfile, setShowProfile] = useState(false);
           </div>
         </header>
 
-        {/* Main Content Area */}
+            {/* Main Content Area - Replace with Outlet */}
         <main className="content-area" ref={mainContentRef}>
-          {renderSection()}
+          <Outlet /> {/* This will render the nested route components */}
         </main>
       </div>
 
