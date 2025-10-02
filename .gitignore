@@ -23,11 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
 # build outputs
 /build
 /dist
