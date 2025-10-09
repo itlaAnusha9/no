@@ -2056,12 +2056,6 @@ const Home1 = () => {
 
   const navigate = useNavigate();
   const [currentCourse, setCurrentCourse] = useState(t('dashboard.currentCourse'));
-  const [upcomingEvents, setUpcomingEvents] = useState([
-    { id: 1, title: t('dashboard.events.scienceWorkshop'), date: t('dashboard.events.dates.oct15'), time: '3:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/ffc10f2a812e42cd8b702a792725b8d9.webp' },
-    { id: 2, title: t('dashboard.events.careerGuidance'), date: t('dashboard.events.dates.oct18'), time: '4:30 PM', type: 'seminar', image: 'https://images.piclumen.com/normal/20250703/14/b3c0f0ee7c854054ae648a59a82a9c9a.webp' },
-    { id: 3, title: t('dashboard.events.mathOlympiad'), date: t('dashboard.events.dates.oct22'), time: '10:00 AM', type: 'competition', image: 'https://images.piclumen.com/normal/20250703/14/7c8ecbde0fd3415f848ba00176cd3b25.webp' },
-    { id: 4, title: t('dashboard.events.literatureSeminar'), date: t('dashboard.events.dates.oct25'), time: '2:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/08ea6901b2ad491595bc36c122451693.webp' }
-  ]);
 
   const coursesByClass = {
     '7': [
@@ -2631,74 +2625,6 @@ const Home1 = () => {
                     >
                       {t('dashboard.continue')}
                     </motion.button>
-                  </div>
-                </motion.div>
-              </div>
-            ))}
-          </div>
-        </motion.section>
-
-        <motion.section
-          className="events-section mb-5"
-          variants={itemVariants}
-        >
-          <div className="section-header">
-            <h2>{t('dashboard.sections.events')}</h2>
-          </div>
-          <div className="row g-4">
-            {upcomingEvents.map((event, index) => (
-              <div className="col-lg-3 col-md-6" key={event.id}>
-                <motion.div
-                  className="event-card"
-                  whileHover="hover"
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, type: 'spring' }}
-                  variants={{
-                    hover: {
-                      y: -10,
-                      boxShadow: "0 25px 50px -10px rgba(45, 93, 123, 0.3)",
-                      transition: { duration: 0.3 }
-                    }
-                  }}
-                >
-                  <div className="event-image">
-                    <img src={event.image} alt={event.title} />
-                    <div className={`event-type ${event.type}`}>
-                      {t(`dashboard.eventTypes.${event.type}`)}
-                    </div>
-                  </div>
-                  <div className="event-content p-4">
-                    <div className="event-date">
-                      <span className="day">{event.date.split(' ')[1].replace(',', '')}</span>
-                      <span className="month">{event.date.split(' ')[0]}</span>
-                    </div>
-                    <h3>{event.title}</h3>
-                    <div className="event-meta">
-                      <span><i className="far fa-clock"></i> {event.time}</span>
-                      <span><i className="fas fa-map-marker-alt"></i> {t('dashboard.eventLocation')}</span>
-                    </div>
-                    <p className="event-description">
-                      {t('dashboard.eventDescription', { type: t(`dashboard.eventTypes.${event.type}`), date: event.date, time: event.time })}
-                    </p>
-                    <div className="event-footer">
-                      <motion.button
-                        className="btn btn-primary"
-                        whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
-                        whileTap={{ scale: 0.98 }}
-                        style={{
-                          fontSize: "0.95rem",
-                          padding: "0.35em 1.1em",
-                          minWidth: "unset"
-                        }}
-                        onClick={() => navigate(`/events/${event.id}/register`)}
-                      >
-                        {t('dashboard.register')}
-                      </motion.button>
-                      <div className="event-reminder">
-                        <i className="far fa-bell"></i>
-                      </div>
-                    </div>
                   </div>
                 </motion.div>
               </div>

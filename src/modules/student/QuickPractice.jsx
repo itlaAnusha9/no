@@ -19,6 +19,7 @@ function Quiz() {
   const [selectedClass, setSelectedClass] = useState(null);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedSubtopic, setSelectedSubtopic] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("English"); // NEW: Store selected language
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -71,19 +72,26 @@ function Quiz() {
       });
   };
  
-  const fetchQuiz = (subtopic, level = 1, retry = false) => {
+  // UPDATED: fetchQuiz now accepts language parameter
+  const fetchQuiz = (subtopic, level = 1, retry = false, language = "English") => {
     if (!subtopic) return;
     setLoading(true);
-    fetch(
-      `http://127.0.0.1:8000/quiz?subtopic=${encodeURIComponent(
-        subtopic
-      )}&currentLevel=${level}&retry=${retry}`
-    )
+    
+    // Construct URL with language parameter
+    const url = `http://127.0.0.1:8000/quiz?subtopic=${encodeURIComponent(
+      subtopic
+    )}&currentLevel=${level}&retry=${retry}&language=${encodeURIComponent(language)}`;
+    
+    console.log("Fetching quiz with URL:", url); // Debug log
+    console.log("Language being sent:", language); // Debug log
+    
+    fetch(url)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
       })
       .then((data) => {
+        console.log("Quiz data received:", data); // Debug log
         if (data.error) setError(data.error);
         else {
           const cleanedQuiz = data.quiz.map((q) => {
@@ -123,11 +131,14 @@ function Quiz() {
     fetchSubtopics(selectedClass, subject);
   };
  
-  const handleSubtopicClick = (subtopic) => {
+  // UPDATED: handleSubtopicClick now accepts language parameter
+  const handleSubtopicClick = (subtopic, language = "English") => {
+    console.log("Subtopic clicked:", subtopic, "Language:", language); // Debug log
     setSelectedSubtopic(subtopic);
+    setSelectedLanguage(language); // Store the selected language
     setCurrentLevel(1);
     enterFullScreen();
-    fetchQuiz(subtopic, 1);
+    fetchQuiz(subtopic, 1, false, language); // Pass language to fetchQuiz
   };
  
   const handleAnswer = (option) => {
@@ -174,15 +185,17 @@ function Quiz() {
     exitFullScreen();
   };
  
+  // UPDATED: retryQuiz now uses stored language
   const retryQuiz = () => {
     enterFullScreen();
-    fetchQuiz(selectedSubtopic, currentLevel, true);
+    fetchQuiz(selectedSubtopic, currentLevel, true, selectedLanguage);
   };
  
+  // UPDATED: nextLevel now uses stored language
   const nextLevel = () => {
     const nextLvl = currentLevel + 1;
     setCurrentLevel(nextLvl);
-    fetchQuiz(selectedSubtopic, nextLvl);
+    fetchQuiz(selectedSubtopic, nextLvl, false, selectedLanguage);
     enterFullScreen();
   };
  
@@ -238,7 +251,7 @@ function Quiz() {
         <QuizGrade classes={classes} onClassClick={handleClassClick} />
       )}
  
-      {/* Subject / Subtopic Selection */}
+      {/* Subject / Subtopic Selection - UPDATED: Pass handleSubtopicClick that accepts language */}
       {selectedClass && !selectedSubtopic && !error && (
         <QuizSubject
           subjects={subjects}
@@ -247,7 +260,7 @@ function Quiz() {
           selectedClass={selectedClass}
           onClassClick={() => setSelectedClass(null)} // smooth back to grades
           onSubjectClick={handleSubjectClick}
-          onSubtopicClick={handleSubtopicClick}
+          onSubtopicClick={handleSubtopicClick} // This now accepts (subtopic, language)
         />
       )}
  
@@ -268,6 +281,7 @@ function Quiz() {
           backToChapters={backToChapters}
           currentLevel={currentLevel}
           userAnswers={userAnswers}
+          selectedLanguage={selectedLanguage} // Pass language to QuizQuestion if needed
         />
       )}
     </>
@@ -275,6 +289,10 @@ function Quiz() {
 }
  
 export default Quiz;
+
+
+
+
 // import { useState, useEffect } from "react";
 // import QuizGrade from "./QuizGrade";
 // import QuizSubject from "./QuizSubject";

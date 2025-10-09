@@ -783,7 +783,7 @@ const StudyPlanner = () => {
             <div className="row g-4">
               <div className="col-md-4 text-center">
                 <h3>{subjects.length}</h3>
-                <p>{t('subjects')}</p>
+                <p>{t('All Subjects')}</p>
               </div>
               <div className="col-md-4 text-center">
                 <h3>5h+</h3>

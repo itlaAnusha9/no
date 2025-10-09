@@ -878,7 +878,6 @@
 
 
 
-
 import { useState, useEffect } from "react";
 import './MockTest.css';
 import Navbar from "./Navbarrr";
@@ -912,13 +911,14 @@ function MockTest() {
   const [warningCount, setWarningCount] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const [showAnswerKey, setShowAnswerKey] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const optionLabels = ["A", "B", "C", "D"];
   const classIcons = ["🏫", "📚", "🎓", "💼", "🔬", "📊"];
   const subjectIcons = ["📖", "🧮", "🔭", "🧪", "🌍", "📜", "💻", "🎨"];
   const chapterIcons = ["📝", "🔍", "💡", "⚡", "🌟", "🎯", "📊", "🔬"];
 
-  // 🧹 Hide chatbot widget on this page
+  // Hide chatbot widget
   useEffect(() => {
     const chatWidget = document.querySelector('iframe[src*="tawk"], iframe[src*="crisp"], iframe[src*="chat"], iframe[src*="bot"], iframe[src*="dialogflow"]');
     if (chatWidget) {
@@ -1106,7 +1106,7 @@ function MockTest() {
     fetch(
       `http://127.0.0.1:8000/mock_test?class_name=${selectedClass}&subject=${encodeURIComponent(
         selectedSubject
-      )}&chapter=${encodeURIComponent(chapter)}&difficulty=${difficulty}&retry=${retry}&num_questions=50`
+      )}&chapter=${encodeURIComponent(chapter)}&difficulty=${difficulty}&retry=${retry}&language=${encodeURIComponent(selectedLanguage)}&num_questions=50`
     )
       .then(res => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -1197,15 +1197,6 @@ function MockTest() {
     setShowInstructions(true);
   };
 
-  const startMockTest = () => {
-    if (selectedChapter) {
-      fetchMockTest(selectedChapter);
-      enterFullScreen();
-    } else {
-      setError("Please select a chapter to start the mock test");
-    }
-  };
-
   const startQuiz = () => {
     setShowInstructions(false);
     if (quiz.length === 0) {
@@ -1220,7 +1211,6 @@ function MockTest() {
     newUserAnswers[currentQ] = label;
     setUserAnswers(newUserAnswers);
 
-    // Remove from skipped questions if it was previously skipped
     const newSkipped = skippedQuestions.filter(q => q !== currentQ);
     setSkippedQuestions(newSkipped);
 
@@ -1235,7 +1225,6 @@ function MockTest() {
     newUserAnswers[currentQ] = correctAnswer;
     setUserAnswers(newUserAnswers);
 
-    // Remove from skipped questions if it was previously skipped
     const newSkipped = skippedQuestions.filter(q => q !== currentQ);
     setSkippedQuestions(newSkipped);
 
@@ -1275,7 +1264,6 @@ function MockTest() {
       setSkippedQuestions(newSkipped);
     }
     
-    // Clear any selected answer for this question
     const newUserAnswers = [...userAnswers];
     newUserAnswers[currentQ] = null;
     setUserAnswers(newUserAnswers);
@@ -1388,17 +1376,9 @@ function MockTest() {
     setShowAnswerKey(!showAnswerKey);
   };
 
-  // Determine back button text and action based on current screen
   const getBackButtonConfig = () => {
     if (quiz.length > 0 && !isFinished && !showInstructions) {
         return null;
-    }
-
-    if (showInstructions && selectedChapter) {
-        // return {
-        //   text: "Back to Chapters",
-        //   action: backToChapters
-        // };
     }
     
     if (selectedSubject && !selectedChapter) {
@@ -1421,37 +1401,10 @@ function MockTest() {
             action: backToPractice
         };
     }
-};
+  };
 
-const backButtonConfig = getBackButtonConfig();
+  const backButtonConfig = getBackButtonConfig();
 
-// In your JSX/HTML:
-{backButtonConfig && (
-    <div className="p-3">
-        <button 
-            className="btn btn-outline-primary mb-3"
-            onClick={backButtonConfig.action}
-            style={{ 
-                padding: "10px 25px", 
-                margin: "10px 0",
-                borderRadius: "6px",
-                fontWeight: "500",
-                border: "2px solid #007bff",
-                transition: "all 0.3s ease"
-            }}
-            onMouseOver={(e) => {
-                e.target.style.backgroundColor = "#007bff";
-                e.target.style.color = "white";
-            }}
-            onMouseOut={(e) => {
-                e.target.style.backgroundColor = "transparent";
-                e.target.style.color = "#007bff";
-            }}
-        >
-            ← {backButtonConfig.text}
-        </button>
-    </div>
-)}
   if (loading) return (
     <div className="loading-container">
       <div className="edu-loader">
@@ -1459,7 +1412,7 @@ const backButtonConfig = getBackButtonConfig();
         <span role="img" aria-label="graduation" className="edu-icon">🎓</span>
         <span role="img" aria-label="lightbulb" className="edu-icon">💡</span>
       </div>
-      <p>Preparing your test...</p>
+      <p>Preparing your test in {selectedLanguage}...</p>
     </div>
   );
 
@@ -1467,7 +1420,6 @@ const backButtonConfig = getBackButtonConfig();
     <>
       <Navbar isFullScreen={isFullScreen && quiz.length > 0 && !showInstructions} />
       
-      {/* Global Back Button - Below the navbar */}
       {!isFullScreen && backButtonConfig && (
         <div className="navbar-back-wrapper">
           <div className="navbar-back-container">
@@ -1570,6 +1522,7 @@ const backButtonConfig = getBackButtonConfig();
           <div className="instructions-card">
             <div className="instructions-icon">📋</div>
             <h2>Mock Test Instructions</h2>
+
             <div className="instructions-content">
               <div className="instruction-item">
                 <span className="instruction-icon">⏱️</span>
@@ -1613,7 +1566,15 @@ const backButtonConfig = getBackButtonConfig();
                   <p>Click the 'Show Answer Key' button to reveal the correct answer for any question</p>
                 </div>
               </div>
+              <div className="instruction-item">
+                <span className="instruction-icon">🌐</span>
+                <div>
+                  <h3>Language</h3>
+                  <p>Questions will be generated in your selected language</p>
+                </div>
+              </div>
             </div>
+
             <div className="test-details">
               <h3>Test Details:</h3>
               <p><strong>Class:</strong> {selectedClass}</p>
@@ -1621,7 +1582,38 @@ const backButtonConfig = getBackButtonConfig();
               <p><strong>Chapter:</strong> {selectedChapter}</p>
               <p><strong>Total Questions:</strong> 50</p>
               <p><strong>Passing Score:</strong> 21/50 or more</p>
+              <p><strong>Language:</strong> {selectedLanguage}</p>
             </div>
+
+            <div className="language-select">
+              <label htmlFor="language" style={{ fontWeight: '600', marginRight: '8px', fontSize: '16px' }}>
+                🌐 Select Language:
+              </label>
+              <select
+                id="language"
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+                className="language-dropdown"
+                style={{
+                  padding: '10px 15px',
+                  fontSize: '15px',
+                  borderRadius: '8px',
+                  border: '2px solid #007bff',
+                  backgroundColor: 'white',
+                  cursor: 'pointer',
+                  minWidth: '180px',
+                  fontWeight: '500'
+                }}
+              >
+                <option value="English">English</option>
+                <option value="Telugu">తెలుగు (Telugu)</option>
+                <option value="Hindi">हिंदी (Hindi)</option>
+                <option value="Tamil">தமிழ் (Tamil)</option>
+                <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
+                <option value="Malayalam">മലയാളം (Malayalam)</option>
+              </select>
+            </div>
+
             <div className="instructions-actions">
               <button className="back-button" onClick={backToChapters}>
                 ← Back to Chapters
@@ -1633,6 +1625,7 @@ const backButtonConfig = getBackButtonConfig();
           </div>
         </div>
       )}
+
       {isFinished && !error && (
         <div className={`finished-container ${isFullScreen ? "fullscreen-mode" : ""}`}>
           <div className="result-card">
@@ -1656,6 +1649,7 @@ const backButtonConfig = getBackButtonConfig();
                   ? `You scored ${score} which is greater than 20. You are eligible for next level!` 
                   : `You scored ${score} which is less than or equal to 20. Please retry the same level.`}
               </p>
+              <p className="language-info">Test taken in: <strong>{selectedLanguage}</strong></p>
             </div>
             
             <div className="time-result">
@@ -1710,27 +1704,10 @@ const backButtonConfig = getBackButtonConfig();
               <div className="quiz-stats">
                 <span>Question {currentQ + 1} of {quiz.length}</span>
                 <span className="timer">⏱️ {formatTime(timeLeft)}</span>
+                <span className="language-badge">🌐 {selectedLanguage}</span>
               </div>
             </div>
-            <div className="answer-key-section">
-              <button 
-                className={`answer-key-btn ${showAnswerKey ? 'active' : ''}`}
-                onClick={toggleAnswerKey}
-              >
-                {showAnswerKey ? 'Hide Answer Key' : 'Show Answer Key'}
-              </button>
-              {showAnswerKey && (
-                <div className="answer-key-display">
-                  <span className="correct-answer-label">Correct Answer: {quiz[currentQ].answer}</span>
-                  <button 
-                    className="use-answer-btn"
-                    onClick={() => handleAnswerKeyClick(quiz[currentQ].answer)}
-                  >
-                    Mark This Answer
-                  </button>
-                </div>
-              )}
-            </div>
+            
           </div>
           <div className="question-nav">
             {quiz.map((_, index) => (
@@ -1799,6 +1776,7 @@ const backButtonConfig = getBackButtonConfig();
             <div className="popup-content">
               <div className="review-summary">
                 <p><strong>Class:</strong> {selectedClass} | <strong>Subject:</strong> {selectedSubject} | <strong>Chapter:</strong> {selectedChapter}</p>
+                <p><strong>Language:</strong> {selectedLanguage}</p>
                 <p><strong>Score:</strong> {score}/{quiz.length} ({Math.round((score / quiz.length) * 100)}%)</p>
                 <p><strong>Status:</strong> <span className={isPassed ? 'pass-text' : 'fail-text'}>{isPassed ? 'PASSED' : 'FAILED'}</span></p>
               </div>

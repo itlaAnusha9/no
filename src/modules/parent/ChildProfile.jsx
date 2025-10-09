@@ -292,7 +292,7 @@ const ChildProfile = () => {
             <div className="info-section">
               <h3 className="section-title">
                 <div className="section-icon"><FaBookOpen /></div>
-                {t('subjects')}
+                {t('All Subjects')}
               </h3>
               <div className="subjects-grid">
                 {child.subjects.map((subject, index) => (

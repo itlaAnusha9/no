@@ -1,67 +1,98 @@
+
+
+
+
+
 // import React, { useState, useEffect } from 'react';
 // import { Link, useLocation, useNavigate } from 'react-router-dom';
 // import { motion, AnimatePresence } from 'framer-motion';
-// import { FaUserCircle, FaChevronDown } from 'react-icons/fa';
+// import { FaUserCircle, FaChevronDown, FaGlobe } from 'react-icons/fa';
+// import { useTranslation } from 'react-i18next';
 // import './Navbarrr.css';
 // import novyaLogo from '../home/assets/NOVYA LOGO.png';
-
+ 
 // const Navbar = () => {
-//   const [isOpen, setIsOpen] = useState(false);
 //   const [scrolled, setScrolled] = useState(false);
 //   const [activeLink, setActiveLink] = useState('');
 //   const [avatarOpen, setAvatarOpen] = useState(false);
 //   const [classDropdownOpen, setClassDropdownOpen] = useState(false);
 //   const [practiceDropdownOpen, setPracticeDropdownOpen] = useState(false);
-
+//   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+//   const [showNavbar, setShowNavbar] = useState(true);
+ 
 //   const location = useLocation();
 //   const navigate = useNavigate();
-
-//   // Always call hooks
+//   const { t, i18n } = useTranslation();
+ 
+//   const languages = [
+//     { code: 'en', label: 'English' },
+//     { code: 'te', label: 'తెలుగు' },
+//     { code: 'hi', label: 'हिन्दी' },
+//     { code: 'kn', label: 'ಕನ್ನಡ' },
+//     { code: 'ta', label: 'தமிழ்' },
+//     { code: 'ml', label: 'മലയാളം' },
+//   ];
+ 
 //   useEffect(() => {
 //     const handleScroll = () => setScrolled(window.scrollY > 10);
 //     window.addEventListener('scroll', handleScroll);
 //     return () => window.removeEventListener('scroll', handleScroll);
 //   }, []);
-
+ 
 //   useEffect(() => {
 //     setActiveLink(location.pathname);
-//     setIsOpen(false);
 //     setAvatarOpen(false);
 //     setClassDropdownOpen(false);
 //     setPracticeDropdownOpen(false);
+//     setLangDropdownOpen(false);
+   
+//     // Check if current route is mock test or quick practice page
+//     const hideNavbarRoutes = ['/mock-test', '/quick-practice'];
+//     const shouldHideNavbar = hideNavbarRoutes.some(route =>
+//       location.pathname.includes(route)
+//     );
+   
+//     setShowNavbar(!shouldHideNavbar);
 //   }, [location.pathname]);
-
+ 
 //   const handleLogout = () => navigate('/');
-
+ 
+//   const handleLanguageChange = (code) => {
+//     i18n.changeLanguage(code);
+//     setLangDropdownOpen(false);
+//   };
+ 
 //   const navLinks = [
-//     { path: '/student/dashboard', name: 'Home' },
+//     { path: '/student/dashboard', name: t('home', 'Home') },
 //     {
 //       path: '/learn',
-//       name: 'Class Room',
+//       name: t('class_room', 'Class Room'),
 //       hasDropdown: true,
 //       dropdownItems: [
-//         { path: '/learn', name: 'Class 7' },
-//         { path: '/learn/class8', name: 'Class 8' },
-//         { path: '/learn/class9', name: 'Class 9' },
-//         { path: '/learn/class10', name: 'Class 10' },
+//         { path: '/learn', name: t('class_7', 'Class 7') },
+//         { path: '/learn/class8', name: t('class_8', 'Class 8') },
+//         { path: '/learn/class9', name: t('class_9', 'Class 9') },
+//         { path: '/learn/class10', name: t('class_10', 'Class 10') },
 //       ],
 //     },
 //     {
 //       path: '/practice',
-//       name: 'Practice',
+//       name: t('practice', 'Practice'),
 //       hasDropdown: true,
 //       dropdownItems: [
-//         { path: '/quick-practice', name: 'Quick Practice' },
-//         { path: '/mock-test', name: 'Mock Test' },
+//         { path: '/quick-practice', name: t('quick_practice', 'Quick Practice') },
+//         { path: '/mock-test', name: t('mock_test', 'Mock Test') },
 //       ],
 //     },
-//     { path: '/career', name: 'Career' },
-//     { path: '/mentorship', name: 'Mentorship' },
+//     { path: '/career', name: t('career', 'Career') },
+//     { path: '/mentorship', name: t('mentorship', 'Mentorship') },
 //   ];
-
-//   // Conditionally hide navbar only on /mock-test
-//   if (location.pathname === '/mock-test') return <></>;
-
+ 
+//   // Don't render navbar if it should be hidden
+//   if (!showNavbar) {
+//     return null;
+//   }
+ 
 //   return (
 //     <motion.nav
 //       className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}
@@ -72,16 +103,8 @@
 //       <div className="navbar-container">
 //         {/* Logo */}
 //         <div className="navbar-brand" style={{ display: 'flex', alignItems: 'center' }}>
-//           <Link
-//             to="/student/dashboard"
-//             className="navbar-logo-link"
-//             style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}
-//           >
-//             <img
-//               src={novyaLogo}
-//               alt="NOVYA Logo"
-//               style={{ height: '50px', width: 'auto', maxWidth: '160px', objectFit: 'contain', display: 'block' }}
-//             />
+//           <Link to="/student/dashboard" className="navbar-logo-link">
+//             <img src={novyaLogo} alt="NOVYA Logo" style={{ height: '50px' }} />
 //             <motion.span
 //               style={{
 //                 background: 'linear-gradient(90deg, #2D5D7B 0%, #4a8db7 25%, #FF6B6B 50%, #FFD166 75%, #2D5D7B 100%)',
@@ -105,16 +128,30 @@
 //             </motion.span>
 //           </Link>
 //         </div>
-
+ 
 //         {/* Desktop Links */}
 //         <div className="navbar-desktop-links">
-//           <ul>
+//           <ul style={{
+//             display: 'flex',
+//             alignItems: 'center',
+//             margin: 0,
+//             padding: 0,
+//             listStyle: 'none',
+//             gap: '20px'
+//           }}>
 //             {navLinks.map((link) => (
 //               <li
 //                 key={link.path}
 //                 className={`nav-item ${
-//                   activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''
+//                   activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path))
+//                     ? 'active'
+//                     : ''
 //                 } ${link.hasDropdown ? 'has-dropdown' : ''}`}
+//                 style={{
+//                   position: 'relative',
+//                   display: 'flex',
+//                   alignItems: 'center'
+//                 }}
 //                 onMouseEnter={() => {
 //                   if (link.path === '/learn') setClassDropdownOpen(true);
 //                   if (link.path === '/practice') setPracticeDropdownOpen(true);
@@ -125,21 +162,18 @@
 //                 }}
 //               >
 //                 {link.hasDropdown ? (
-//                   <div className="nav-link-wrapper">
-//                     <Link to={link.path} className="nav-link">
+//                   <div className="nav-link-wrapper" style={{ position: 'relative' }}>
+//                     <Link
+//                       to={link.path}
+//                       className="nav-link"
+//                       style={{
+//                         display: 'flex',
+//                         alignItems: 'center',
+//                         gap: '5px'
+//                       }}
+//                     >
 //                       {link.name}
-//                       <FaChevronDown
-//                         size={10}
-//                         style={{
-//                           marginLeft: '5px',
-//                           transform:
-//                             (link.path === '/learn' ? classDropdownOpen : practiceDropdownOpen)
-//                               ? 'rotate(180deg)'
-//                               : 'rotate(0deg)',
-//                           transition: 'transform 0.3s ease',
-//                         }}
-//                       />
-//                       <span className="nav-link-underline" />
+//                       <FaChevronDown size={10} />
 //                     </Link>
 //                     <AnimatePresence>
 //                       {(link.path === '/learn' ? classDropdownOpen : practiceDropdownOpen) && (
@@ -148,12 +182,38 @@
 //                           initial={{ opacity: 0, y: -10 }}
 //                           animate={{ opacity: 1, y: 0 }}
 //                           exit={{ opacity: 0, y: -10 }}
-//                           transition={{ duration: 0.2 }}
+//                           style={{
+//                             position: 'absolute',
+//                             top: '100%',
+//                             left: 0,
+//                             background: 'white',
+//                             borderRadius: '8px',
+//                             boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+//                             minWidth: '160px',
+//                             zIndex: 1000,
+//                             padding: '10px 0'
+//                           }}
 //                         >
-//                           <ul>
+//                           <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
 //                             {link.dropdownItems.map((dropdownItem) => (
 //                               <li key={dropdownItem.path}>
-//                                 <Link to={dropdownItem.path} className="dropdown-link">
+//                                 <Link
+//                                   to={dropdownItem.path}
+//                                   className="dropdown-link"
+//                                   style={{
+//                                     display: 'block',
+//                                     padding: '8px 16px',
+//                                     textDecoration: 'none',
+//                                     color: '#333',
+//                                     transition: 'background 0.3s'
+//                                   }}
+//                                   onMouseEnter={(e) => {
+//                                     e.target.style.background = '#f5f5f5';
+//                                   }}
+//                                   onMouseLeave={(e) => {
+//                                     e.target.style.background = 'transparent';
+//                                   }}
+//                                 >
 //                                   {dropdownItem.name}
 //                                 </Link>
 //                               </li>
@@ -164,130 +224,201 @@
 //                     </AnimatePresence>
 //                   </div>
 //                 ) : (
-//                   <Link to={link.path} className="nav-link">
+//                   <Link
+//                     to={link.path}
+//                     className="nav-link"
+//                     style={{
+//                       display: 'block',
+//                       textDecoration: 'none',
+//                       color: 'inherit'
+//                     }}
+//                   >
 //                     {link.name}
-//                     <span className="nav-link-underline" />
 //                   </Link>
 //                 )}
 //               </li>
 //             ))}
+ 
+//             {/* Language Button - Button Style */}
+//             <li
+//               className="nav-item"
+//               style={{
+//                 position: 'relative',
+//                 display: 'flex',
+//                 alignItems: 'center'
+//               }}
+//             >
+//               <div
+//                 className="nav-link-wrapper"
+//                 style={{
+//                   position: 'relative'
+//                 }}
+//                 onMouseEnter={() => setLangDropdownOpen(true)}
+//                 onMouseLeave={() => setLangDropdownOpen(false)}
+//               >
+//                 <button
+//                   className="language-button"
+//                   style={{
+//                     display: 'flex',
+//                     alignItems: 'center',
+//                     gap: '8px',
+//                     background: 'transparent',
+//                     border: '1px solid #ddd',
+//                     borderRadius: '6px',
+//                     padding: '8px 12px',
+//                     cursor: 'pointer',
+//                     fontSize: '14px',
+//                     fontWeight: '500',
+//                     color: '#333',
+//                     transition: 'all 0.3s ease',
+//                     minWidth: '100px',
+//                     justifyContent: 'center'
+//                   }}
+//                   onMouseEnter={(e) => {
+//                     e.target.style.background = '#f8f9fa';
+//                     e.target.style.borderColor = '#2D5D7B';
+//                   }}
+//                   onMouseLeave={(e) => {
+//                     e.target.style.background = 'transparent';
+//                     e.target.style.borderColor = '#ddd';
+//                   }}
+//                 >
+//                   <FaGlobe size={14} />
+//                   <span>{i18n.language.toUpperCase()}</span>
+//                   <FaChevronDown size={10} />
+//                 </button>
+               
+//                 <AnimatePresence>
+//                   {langDropdownOpen && (
+//                     <motion.div
+//                       className="nav-dropdown"
+//                       initial={{ opacity: 0, y: -10 }}
+//                       animate={{ opacity: 1, y: 0 }}
+//                       exit={{ opacity: 0, y: -10 }}
+//                       style={{
+//                         position: 'absolute',
+//                         top: '100%',
+//                         right: 0,
+//                         background: 'white',
+//                         borderRadius: '8px',
+//                         boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+//                         minWidth: '140px',
+//                         zIndex: 1000,
+//                         padding: '8px 0',
+//                         marginTop: '5px'
+//                       }}
+//                     >
+//                       <ul style={{
+//                         margin: 0,
+//                         padding: 0,
+//                         listStyle: 'none',
+//                         display: 'flex',
+//                         flexDirection: 'column',
+//                         gap: '2px'
+//                       }}>
+//                         {languages.map((lang) => (
+//                           <li key={lang.code}>
+//                             <button
+//                               onClick={() => handleLanguageChange(lang.code)}
+//                               className="dropdown-link"
+//                               style={{
+//                                 width: '100%',
+//                                 border: 'none',
+//                                 background: 'transparent',
+//                                 padding: '10px 16px',
+//                                 textAlign: 'left',
+//                                 cursor: 'pointer',
+//                                 fontSize: '14px',
+//                                 color: '#333',
+//                                 transition: 'all 0.3s ease',
+//                                 display: 'flex',
+//                                 alignItems: 'center',
+//                                 borderRadius: '0'
+//                               }}
+//                               onMouseEnter={(e) => {
+//                                 e.target.style.background = '#2D5D7B';
+//                                 e.target.style.color = 'white';
+//                               }}
+//                               onMouseLeave={(e) => {
+//                                 e.target.style.background = 'transparent';
+//                                 e.target.style.color = '#333';
+//                               }}
+//                             >
+//                               {lang.label}
+//                             </button>
+//                           </li>
+//                         ))}
+//                       </ul>
+//                     </motion.div>
+//                   )}
+//                 </AnimatePresence>
+//               </div>
+//             </li>
 //           </ul>
 //         </div>
-
-//         {/* Avatar + Toggler */}
+ 
+//         {/* Avatar Only - Mobile Toggler Removed */}
 //         <div className="navbar-end" style={{ display: 'flex', alignItems: 'center' }}>
 //           <div
 //             className="navbar-avatar-container"
-//             style={{ marginLeft: '30px' }}
-//             onClick={() => setAvatarOpen(!avatarOpen)}
+//             style={{ position: 'relative', cursor: 'pointer' }}
+//             onMouseEnter={() => setAvatarOpen(true)}
+//             onMouseLeave={() => setAvatarOpen(false)}
 //           >
-//             <FaUserCircle size={30} className="navbar-avatar-icon" />
-//             {avatarOpen && (
-//               <div className="avatar-dropdown">
-//                 <button onClick={handleLogout} className="logout-button">
-//                   Logout
-//                 </button>
-//               </div>
-//             )}
+//             <FaUserCircle size={30} color="#666" />
+//             <AnimatePresence>
+//               {avatarOpen && (
+//                 <motion.div
+//                   className="avatar-dropdown"
+//                   initial={{ opacity: 0, y: -10 }}
+//                   animate={{ opacity: 1, y: 0 }}
+//                   exit={{ opacity: 0, y: -10 }}
+//                   style={{
+//                     position: 'absolute',
+//                     top: '100%',
+//                     right: 0,
+//                     background: 'white',
+//                     borderRadius: '8px',
+//                     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+//                     padding: '10px',
+//                     minWidth: '120px',
+//                     zIndex: 1000
+//                   }}
+//                 >
+//                   <button
+//                     onClick={handleLogout}
+//                     className="logout-button"
+//                     style={{
+//                       width: '100%',
+//                       border: 'none',
+//                       background: 'transparent',
+//                       padding: '8px 12px',
+//                       cursor: 'pointer',
+//                       textAlign: 'left',
+//                       borderRadius: '4px',
+//                       transition: 'background 0.3s',
+//                       fontSize: '14px',
+//                       color: '#333'
+//                     }}
+//                     onMouseEnter={(e) => {
+//                       e.target.style.background = '#f5f5f5';
+//                     }}
+//                     onMouseLeave={(e) => {
+//                       e.target.style.background = 'transparent';
+//                     }}
+//                   >
+//                     Logout
+//                   </button>
+//                 </motion.div>
+//               )}
+//             </AnimatePresence>
 //           </div>
-
-//           <button className={`navbar-toggler ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
-//             <span className="toggler-line"></span>
-//             <span className="toggler-line"></span>
-//             <span className="toggler-line"></span>
-//           </button>
 //         </div>
 //       </div>
-
-//       {/* Mobile Menu */}
-//       <AnimatePresence>
-//         {isOpen && (
-//           <motion.div
-//             className="navbar-mobile-menu"
-//             initial={{ opacity: 0, y: -15 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             exit={{ opacity: 0, y: -15 }}
-//             transition={{ duration: 0.3 }}
-//           >
-//             <ul>
-//               {navLinks.map((link) => (
-//                 <li
-//                   key={link.path}
-//                   className={`nav-item ${
-//                     activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''
-//                   }`}
-//                 >
-//                   {link.hasDropdown ? (
-//                     <div className="mobile-dropdown-container">
-//                       <Link
-//                         to={link.path}
-//                         className="nav-link"
-//                         onClick={(e) => {
-//                           e.preventDefault();
-//                           if (link.path === '/learn') setClassDropdownOpen(!classDropdownOpen);
-//                           if (link.path === '/practice') setPracticeDropdownOpen(!practiceDropdownOpen);
-//                         }}
-//                       >
-//                         {link.name}
-//                         <FaChevronDown
-//                           size={10}
-//                           style={{
-//                             marginLeft: '5px',
-//                             transform:
-//                               (link.path === '/learn' ? classDropdownOpen : practiceDropdownOpen)
-//                                 ? 'rotate(180deg)'
-//                                 : 'rotate(0deg)',
-//                             transition: 'transform 0.3s ease',
-//                           }}
-//                         />
-//                       </Link>
-//                       <AnimatePresence>
-//                         {(link.path === '/learn' ? classDropdownOpen : practiceDropdownOpen) && (
-//                           <motion.div
-//                             className="mobile-dropdown"
-//                             initial={{ opacity: 0, height: 0 }}
-//                             animate={{ opacity: 1, height: 'auto' }}
-//                             exit={{ opacity: 0, height: 0 }}
-//                             transition={{ duration: 0.3 }}
-//                           >
-//                             {link.dropdownItems.map((dropdownItem) => (
-//                               <Link
-//                                 key={dropdownItem.path}
-//                                 to={dropdownItem.path}
-//                                 className="mobile-dropdown-link"
-//                                 onClick={() => {
-//                                   setIsOpen(false);
-//                                   setClassDropdownOpen(false);
-//                                   setPracticeDropdownOpen(false);
-//                                 }}
-//                               >
-//                                 {dropdownItem.name}
-//                               </Link>
-//                             ))}
-//                           </motion.div>
-//                         )}
-//                       </AnimatePresence>
-//                     </div>
-//                   ) : (
-//                     <Link to={link.path} className="nav-link" onClick={() => setIsOpen(false)}>
-//                       {link.name}
-//                     </Link>
-//                   )}
-//                 </li>
-//               ))}
-//               <li>
-//                 <button onClick={handleLogout} className="logout-button-mobile">
-//                   Logout
-//                 </button>
-//               </li>
-//             </ul>
-//           </motion.div>
-//         )}
-//       </AnimatePresence>
 //     </motion.nav>
 //   );
 // };
-
+ 
 // export default Navbar;
 
 
@@ -305,7 +436,6 @@ import './Navbarrr.css';
 import novyaLogo from '../home/assets/NOVYA LOGO.png';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState('');
   const [avatarOpen, setAvatarOpen] = useState(false);
@@ -313,6 +443,9 @@ const Navbar = () => {
   const [practiceDropdownOpen, setPracticeDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
+
+  const [avatar, setAvatar] = useState(null);
+  const [name, setName] = useState('');
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -327,6 +460,24 @@ const Navbar = () => {
     { code: 'ml', label: 'മലയാളം' },
   ];
 
+  // Fetch avatar and name from localStorage
+  useEffect(() => {
+    const userRole = localStorage.getItem('userRole');
+    let storedData = null;
+
+    if (userRole === 'student') {
+      storedData = localStorage.getItem('studentData');
+    } else if (userRole === 'parent') {
+      storedData = localStorage.getItem('parentData');
+    }
+
+    if (storedData) {
+      const parsed = JSON.parse(storedData);
+      setAvatar(parsed.avatar || null);
+      setName(`${parsed.firstName || ''} ${parsed.lastName || ''}`);
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
@@ -335,22 +486,18 @@ const Navbar = () => {
 
   useEffect(() => {
     setActiveLink(location.pathname);
-    setIsOpen(false);
     setAvatarOpen(false);
     setClassDropdownOpen(false);
     setPracticeDropdownOpen(false);
     setLangDropdownOpen(false);
-    
-    // Check if current route is mock test or quick practice page
+
     const hideNavbarRoutes = ['/mock-test', '/quick-practice'];
-    const shouldHideNavbar = hideNavbarRoutes.some(route => 
+    const shouldHideNavbar = hideNavbarRoutes.some(route =>
       location.pathname.includes(route)
     );
-    
+
     setShowNavbar(!shouldHideNavbar);
   }, [location.pathname]);
-
-  const handleLogout = () => navigate('/');
 
   const handleLanguageChange = (code) => {
     i18n.changeLanguage(code);
@@ -380,13 +527,9 @@ const Navbar = () => {
       ],
     },
     { path: '/career', name: t('career', 'Career') },
-    { path: '/mentorship', name: t('mentorship', 'Mentorship') },
   ];
 
-  // Don't render navbar if it should be hidden
-  if (!showNavbar) {
-    return null;
-  }
+  if (!showNavbar) return null;
 
   return (
     <motion.nav
@@ -398,25 +541,43 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Logo */}
         <div className="navbar-brand" style={{ display: 'flex', alignItems: 'center' }}>
-          <Link to="/student/dashboard" className="navbar-logo-link">
-            <img src={novyaLogo} alt="NOVYA Logo" style={{ height: '50px' }} />
-            <motion.span style={{ fontWeight: '800', fontSize: '1.8rem', marginLeft: '12px' }}>
-              NOVYA
-            </motion.span>
-          </Link>
-        </div>
-
+        <Link 
+          to="/student/dashboard" 
+          className="navbar-logo-link"
+          style={{ textDecoration: 'none' }} // <-- remove underline
+        >
+          <img src={novyaLogo} alt="NOVYA Logo" style={{ height: '50px' }} />
+          <motion.span
+            style={{
+              background: 'linear-gradient(90deg, #2D5D7B 0%, #4a8db7 25%, #FF6B6B 50%, #FFD166 75%, #2D5D7B 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              color: 'transparent',
+              fontWeight: '800',
+              fontSize: '1.8rem',
+              marginLeft: '12px',
+              letterSpacing: '1px',
+              fontFamily: "'Poppins', sans-serif",
+              backgroundSize: '200% auto',
+              animation: 'gradientText 3s ease infinite',
+            }}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            whileHover={{ backgroundPosition: 'right center', transition: { duration: 1.5 } }}
+          >
+            NOVYA
+          </motion.span>
+        </Link>
+      </div>
         {/* Desktop Links */}
         <div className="navbar-desktop-links">
-          <ul>
+          <ul style={{ display: 'flex', alignItems: 'center', margin: 0, padding: 0, listStyle: 'none', gap: '20px' }}>
             {navLinks.map((link) => (
               <li
                 key={link.path}
-                className={`nav-item ${
-                  activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path))
-                    ? 'active'
-                    : ''
-                } ${link.hasDropdown ? 'has-dropdown' : ''}`}
+                className={`nav-item ${activeLink === link.path || (link.hasDropdown && activeLink.startsWith(link.path)) ? 'active' : ''} ${link.hasDropdown ? 'has-dropdown' : ''}`}
+                style={{ position: 'relative', display: 'flex', alignItems: 'center' }}
                 onMouseEnter={() => {
                   if (link.path === '/learn') setClassDropdownOpen(true);
                   if (link.path === '/practice') setPracticeDropdownOpen(true);
@@ -427,10 +588,14 @@ const Navbar = () => {
                 }}
               >
                 {link.hasDropdown ? (
-                  <div className="nav-link-wrapper">
-                    <Link to={link.path} className="nav-link">
+                  <div className="nav-link-wrapper" style={{ position: 'relative' }}>
+                    <Link
+                      to={link.path}
+                      className="nav-link"
+                      style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+                    >
                       {link.name}
-                      <FaChevronDown size={10} style={{ marginLeft: '5px' }} />
+                      <FaChevronDown size={10} />
                     </Link>
                     <AnimatePresence>
                       {(link.path === '/learn' ? classDropdownOpen : practiceDropdownOpen) && (
@@ -439,11 +604,28 @@ const Navbar = () => {
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
+                          style={{
+                            position: 'absolute',
+                            top: '100%',
+                            left: 0,
+                            background: 'white',
+                            borderRadius: '8px',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                            minWidth: '160px',
+                            zIndex: 1000,
+                            padding: '10px 0'
+                          }}
                         >
-                          <ul>
+                          <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
                             {link.dropdownItems.map((dropdownItem) => (
                               <li key={dropdownItem.path}>
-                                <Link to={dropdownItem.path} className="dropdown-link">
+                                <Link
+                                  to={dropdownItem.path}
+                                  className="dropdown-link"
+                                  style={{ display: 'block', padding: '8px 16px', textDecoration: 'none', color: '#333', transition: 'background 0.3s' }}
+                                  onMouseEnter={(e) => { e.target.style.background = '#f5f5f5'; }}
+                                  onMouseLeave={(e) => { e.target.style.background = 'transparent'; }}
+                                >
                                   {dropdownItem.name}
                                 </Link>
                               </li>
@@ -454,22 +636,47 @@ const Navbar = () => {
                     </AnimatePresence>
                   </div>
                 ) : (
-                  <Link to={link.path} className="nav-link">
+                  <Link to={link.path} className="nav-link" style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
                     {link.name}
                   </Link>
                 )}
               </li>
             ))}
 
-            {/* Language Globe */}
-            <li className="nav-item">
+            {/* Language Button */}
+            <li className="nav-item" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <div
                 className="nav-link-wrapper"
-                style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                style={{ position: 'relative' }}
+                onMouseEnter={() => setLangDropdownOpen(true)}
+                onMouseLeave={() => setLangDropdownOpen(false)}
               >
-                <FaGlobe size={16} style={{ marginRight: '5px' }} />
-                {i18n.language.toUpperCase()}
+                <button
+                  className="language-button"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    background: 'transparent',
+                    border: '1px solid #ddd',
+                    borderRadius: '6px',
+                    padding: '8px 12px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    color: '#333',
+                    transition: 'all 0.3s ease',
+                    minWidth: '100px',
+                    justifyContent: 'center'
+                  }}
+                  onMouseEnter={(e) => { e.target.style.background = '#f8f9fa'; e.target.style.borderColor = '#2D5D7B'; }}
+                  onMouseLeave={(e) => { e.target.style.background = 'transparent'; e.target.style.borderColor = '#ddd'; }}
+                >
+                  <FaGlobe size={14} />
+                  <span>{i18n.language.toUpperCase()}</span>
+                  <FaChevronDown size={10} />
+                </button>
+
                 <AnimatePresence>
                   {langDropdownOpen && (
                     <motion.div
@@ -477,13 +684,41 @@ const Navbar = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
+                      style={{
+                        position: 'absolute',
+                        top: '100%',
+                        right: 0,
+                        background: 'white',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                        minWidth: '140px',
+                        zIndex: 1000,
+                        padding: '8px 0',
+                        marginTop: '5px'
+                      }}
                     >
-                      <ul>
+                      <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '2px' }}>
                         {languages.map((lang) => (
                           <li key={lang.code}>
                             <button
                               onClick={() => handleLanguageChange(lang.code)}
                               className="dropdown-link"
+                              style={{
+                                width: '100%',
+                                border: 'none',
+                                background: 'transparent',
+                                padding: '10px 16px',
+                                textAlign: 'left',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                                color: '#333',
+                                transition: 'all 0.3s ease',
+                                display: 'flex',
+                                alignItems: 'center',
+                                borderRadius: '0'
+                              }}
+                              onMouseEnter={(e) => { e.target.style.background = '#2D5D7B'; e.target.style.color = 'white'; }}
+                              onMouseLeave={(e) => { e.target.style.background = 'transparent'; e.target.style.color = '#333'; }}
                             >
                               {lang.label}
                             </button>
@@ -498,23 +733,107 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Avatar + Mobile Toggler */}
-        <div className="navbar-end">
-          <div className="navbar-avatar-container" onClick={() => setAvatarOpen(!avatarOpen)}>
-            <FaUserCircle size={30} />
-            {avatarOpen && (
-              <div className="avatar-dropdown">
-                <button onClick={handleLogout} className="logout-button">
-                  Logout
-                </button>
+        {/* Avatar Dropdown */}
+        <div
+          className="navbar-end"
+          style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingLeft: '20px' }}
+        >
+          <div
+            className="navbar-avatar-container"
+            style={{
+              position: 'relative',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={() => setAvatarOpen(true)}
+            onMouseLeave={() => setAvatarOpen(false)}
+          >
+            {/* Avatar with Name */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              <div
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: '#f0f0f0',
+                  transition: 'transform 0.2s',
+                }}
+              >
+                {avatar ? (
+                  <img
+                    src={avatar}
+                    alt="User Avatar"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <FaUserCircle size={36} color="#4B5563" />
+                )}
               </div>
-            )}
+              <span style={{ fontWeight: 500, color: '#111827' }}>
+                {name || 'User'}
+              </span>
+            </div>
+
+            {/* Dropdown */}
+            <AnimatePresence>
+              {avatarOpen && (
+                <motion.div
+                  className="avatar-dropdown"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    right: 0,
+                    background: 'white',
+                    borderRadius: '10px',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                    padding: '10px 0',
+                    minWidth: '150px',
+                    zIndex: 1000,
+                  }}
+                >
+                  <button
+                    onClick={() => navigate('/user-details')}
+                    className="profile-button"
+                    style={{
+                      width: '100%',
+                      border: 'none',
+                      background: 'transparent',
+                      padding: '10px 16px',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      borderRadius: '6px',
+                      fontSize: '14px',
+                      color: '#1F2937',
+                      transition: 'background 0.2s, color 0.2s',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = '#E5E7EB';
+                      e.target.style.color = '#111827';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = 'transparent';
+                      e.target.style.color = '#1F2937';
+                    }}
+                  >
+                    View Profile
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          <button className={`navbar-toggler ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(!isOpen)}>
-            <span className="toggler-line"></span>
-            <span className="toggler-line"></span>
-            <span className="toggler-line"></span>
-          </button>
         </div>
       </div>
     </motion.nav>

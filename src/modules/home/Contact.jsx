@@ -295,29 +295,32 @@
 
 
 
+
+
+ 
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+ 
 function Contact() {
   const { t } = useTranslation();
-  
+ 
   useEffect(() => {
     document.title = `${t('contact.title')} | NOVYA - Your Smart Learning Platform`;
   }, [t]);
-
+ 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     reason: '',
     message: ''
   });
-
+ 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-
+ 
   // ✅ Email validation function
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
   const isValidEmail = (email) => {
@@ -326,26 +329,26 @@ function Contact() {
     if (email.includes(',')) return false;  // block commas
     return true;
   };
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-
+ 
     // Only validate if the field has been touched (blurred at least once)
     if (touched[name]) {
       validateField(name, value);
     }
   };
-
+ 
   const handleBlur = (e) => {
     const { name } = e.target;
     setTouched(prev => ({ ...prev, [name]: true }));
     validateField(name, formData[name]);
   };
-
+ 
   const validateField = (name, value) => {
     let errorMsg = '';
-
+ 
     if (name === 'name') {
       if (!value.trim()) {
         errorMsg = t('contact.errors.nameRequired');
@@ -367,33 +370,33 @@ function Contact() {
         errorMsg = t('contact.errors.messageMinLength');
       }
     }
-
+ 
     setErrors(prev => ({ ...prev, [name]: errorMsg }));
   };
-
+ 
   const validateForm = () => {
     const newErrors = {};
-
+ 
     if (!formData.name.trim()) {
       newErrors.name = t('contact.errors.nameRequired');
     } else if (formData.name.trim().length < 2) {
       newErrors.name = t('contact.errors.nameMinLength');
     }
-
+ 
     if (!formData.email.trim()) {
       newErrors.email = t('contact.errors.emailRequired');
     } else if (!isValidEmail(formData.email)) {
       newErrors.email = t('contact.errors.invalidEmail');
     }
-
+ 
     if (!formData.reason.trim()) newErrors.reason = t('contact.errors.reasonRequired');
-
+ 
     if (!formData.message.trim()) {
       newErrors.message = t('contact.errors.messageRequired');
     } else if (formData.message.trim().length < 10) {
       newErrors.message = t('contact.errors.messageMinLength');
     }
-
+ 
     setErrors(newErrors);
     setTouched({
       name: true,
@@ -401,24 +404,24 @@ function Contact() {
       reason: true,
       message: true
     });
-
+ 
     return Object.keys(newErrors).length === 0;
   };
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+ 
     if (!validateForm()) {
       toast.error(t('contact.submitError'));
       return;
     }
-
+ 
     toast.success(t('contact.submitSuccess'));
     setFormData({ name: '', email: '', reason: '', message: '' });
     setErrors({});
     setTouched({});
   };
-
+ 
   // Updated to avoid navbar overlap
   const gradientAnimation = {
     background: 'linear-gradient(-45deg, #F4F8FB, #e0f7fa, #ffffff, #fce4ec)',
@@ -428,14 +431,14 @@ function Contact() {
     paddingTop: '120px',
     paddingBottom: '60px'
   };
-
+ 
   const glassCardStyle = {
     backdropFilter: 'blur(12px)',
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
     boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
   };
-
+ 
   const reasons = [
     { value: 'student-support', label: t('contact.reasons.studentSupport') },
     { value: 'parent-info', label: t('contact.reasons.parentInfo') },
@@ -443,7 +446,7 @@ function Contact() {
     { value: 'career', label: t('contact.reasons.career') },
     { value: 'other', label: t('contact.reasons.other') }
   ];
-
+ 
   return (
     <section style={gradientAnimation}>
       <style>
@@ -461,7 +464,7 @@ function Contact() {
           }
         `}
       </style>
-
+ 
       <div className="container">
         <div className="text-center mb-5 mt-4">
           <h2 className="fw-bold" style={{ color: '#2D5D7B', marginTop: '20px' }}>
@@ -469,7 +472,7 @@ function Contact() {
           </h2>
           <p className="text-muted">{t('contact.subtitle')}</p>
         </div>
-
+ 
         <div className="row align-items-center">
           {/* Form Section */}
           <div className="col-lg-6 mb-5 mb-lg-0">
@@ -498,7 +501,7 @@ function Contact() {
                 />
                 {errors.name && <div className="text-danger small mt-1">{errors.name}</div>}
               </div>
-
+ 
               {/* Email */}
               <div className="mb-3">
                 <label className="form-label fw-semibold">{t('contact.labels.email')}</label>
@@ -513,7 +516,7 @@ function Contact() {
                 />
                 {errors.email && <div className="text-danger small mt-1">{errors.email}</div>}
               </div>
-
+ 
               {/* Reason */}
               <div className="mb-3">
                 <label className="form-label fw-semibold">{t('contact.labels.reason')}</label>
@@ -533,7 +536,7 @@ function Contact() {
                 </select>
                 {errors.reason && <div className="text-danger small mt-1">{errors.reason}</div>}
               </div>
-
+ 
               {/* Message */}
               <div className="mb-3">
                 <label className="form-label fw-semibold">{t('contact.labels.message')}</label>
@@ -548,7 +551,7 @@ function Contact() {
                 />
                 {errors.message && <div className="text-danger small mt-1">{errors.message}</div>}
               </div>
-
+ 
               {/* Submit */}
               <button
                 type="submit"
@@ -562,7 +565,7 @@ function Contact() {
               >
                 {t('contact.submitButton')}
               </button>
-
+ 
               <div className="text-center mt-4">
                 <a
                   href="https://wa.me/919999999999?text=Hi%20I%20have%20a%20question%20about%20LMS%20AI"
@@ -575,7 +578,7 @@ function Contact() {
               </div>
             </form>
           </div>
-
+ 
           {/* Image Section */}
           <div className="col-lg-6 text-center">
             <img
@@ -587,10 +590,11 @@ function Contact() {
           </div>
         </div>
       </div>
-
+ 
       <ToastContainer position="bottom-center" autoClose={3000} />
     </section>
   );
 }
-
+ 
 export default Contact;
+ 

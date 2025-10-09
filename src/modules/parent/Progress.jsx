@@ -1067,11 +1067,11 @@ const Progress = () => {
   ];
  
   const subjects = [
-    { name: t("subjects.mathematics"), icon: Calculator, score: 82, trend: 'up', change: '+5%' },
-    { name: t("subjects.science"), icon: Atom, score: 90, trend: 'up', change: '+8%' },
-    { name: t("subjects.english"), icon: BookOpen, score: 86, trend: 'up', change: '+3%' },
-    { name: t("subjects.socialStudies"), icon: Globe, score: 72, trend: 'down', change: '-4%' },
-    { name: t("subjects.computerScience"), icon: Code, score: 96, trend: 'up', change: '+12%' }
+    { name: t("mathematics"), icon: Calculator, score: 82, trend: 'up', change: '+5%' },
+    { name: t("science"), icon: Atom, score: 90, trend: 'up', change: '+8%' },
+    { name: t("english"), icon: BookOpen, score: 86, trend: 'up', change: '+3%' },
+    { name: t("Social"), icon: Globe, score: 72, trend: 'down', change: '-4%' },
+    { name: t("Computer"), icon: Code, score: 96, trend: 'up', change: '+12%' }
   ];
  
   const stats = [

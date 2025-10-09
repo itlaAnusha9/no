@@ -245,7 +245,7 @@
   "appdownload": {
     "title": "Home",
     "titleText": "Transform Your Learning",
-    "subtitle": "Our cutting-edge app is <span style=\"color: #1a6bff; fontWeight: bold\">coming soon</span> to revolutionize your education!",
+    "subtitle": "Our cutting-edge app is coming soon to revolutionize your education!",
     "googlePlay": "Google Play",
     "appStore": "App Store",
     "comingSoon": "Coming Soon"
@@ -606,30 +606,24 @@
 
 
 
-  "testimonials": {
-    "title": "Testimonials",
+    "testimonials": {
+    "pageTitle": "Testimonials|NOVYA - Your Smart Learning Platform",
     "header": "Success Stories",
-    "verifiedUser": "Verified User • {{weeksAgo}} weeks ago",
+    "name1": "Tulasi, Class 10",
+    "role1": "CBSE Topper 2023",
+    "quote1": "I improved from 50% to 85% using LMS AI’s personalized feedback system. The AI tutor identified my weak areas instantly!",
+    "name2": "Anand, Class 12",
+    "role2": "JEE Aspirant",
+    "quote2": "As a student from a small town, I never had access to quality coaching. LMS AI became my 24/7 mentor at a fraction of the cost!",
+    "name3": "Dr. Harini",
+    "role3": "Parent & Educator",
+    "quote3": "The progress tracking dashboard helped me monitor my child's improvement week-by-week. Better than any tuition center!",
+    "verified": "Verified User • 2 weeks ago",
     "averageRating": "Average Rating",
     "studentsTransformed": "Students Transformed",
-    "acrossIndia": "Across India",
-    "t1": {
-      "name": "Tulasi, Class 10",
-      "role": "CBSE Topper 2023",
-      "quote": "I improved from 50% to 85% using LMS AI's personalized feedback system. The AI tutor identified my weak areas instantly!"
-    },
-    "t2": {
-      "name": "Anand, Class 12",
-      "role": "JEE Aspirant",
-      "quote": "As a student from a small town, I never had access to quality coaching. LMS AI became my 24/7 mentor at a fraction of the cost!"
-    },
-    "t3": {
-      "name": "Dr. Harini",
-      "role": "Parent & Educator",
-      "quote": "The progress tracking dashboard helped me monitor my child's improvement week-by-week. Better than any tuition center!"
-    }
+    "acrossIndia": "Across India"
   },
-
+ 
 
 
 
@@ -989,28 +983,27 @@
       "Thank you for contacting us!": "Thank you for contacting us!",
       "We will reach out to you soon.": "We will reach out to you soon.",
  
-  "student_profile": "Student Profile",
-  "personal_information": "Personal Information",
-  "guardian_contact": "Guardian Contact",
-  "subjects": "Subjects",
+
+  "studentProfile": "Student Profile",
+  "personalInformation": "Personal Information",
   "gender": "Gender",
-  "dob": "Date of Birth",
-  "class_teacher": "Class Teacher",
+  "dateOfBirth": "Date of Birth",
+  "classTeacher": "Class Teacher",
   "progress": "Progress",
+  "guardianAndContact": "Guardian & Contact",
   "guardian": "Guardian",
-  "change_language": "Change Language",
- 
-  "gender_male": "Male",
-  "teacher_mrs_lakshmi": "Mrs. Lakshmi",
-  "progress_excellent": "Excellent",
-  "guardian_ramesh": "Ramesh Kumar",
-  "address_visakhapatanam": "45, MG Road, Visakhapatanam, Andhra Pradesh",
- 
-  "subject_mathematics": "Mathematics",
-  "subject_science": "Science",
-  "subject_english": "English",
-  "subject_computers": "Computers",
-  "subject_social_studies": "Social Studies",
+  "contact": "Contact",
+  "email": "Email",
+  "address": "Address",
+  "All Subjects": "All Subjects",
+  "subjectsList": {
+    "Mathematics": "Mathematics",
+    "Science": "Science",
+    "English": "English",
+    "Computers": "Computers",
+    "Social Studies": "Social Studies"
+  },
+
  
   "Contact Us": "Contact Us",
   "Parent Name": "Parent Name",
@@ -1349,6 +1342,7 @@
   "SocialDescription": "Understand society, history, geography, and civic responsibilities.",
   "Computer": "Computer",
   "ComputerDescription": "Learn computer basics, software applications, and digital literacy.",
+  "All Subjects":"All Subjects",
 
 
 
@@ -1403,18 +1397,8 @@
   "joinStudents": "Join thousands of students who are already improving their grades with NOVYA"
 
 
+  
+
 }
 
 
-
- 
- 
-
-
- 
- 
- 
- 
- 
-
- 
