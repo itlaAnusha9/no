@@ -1,24 +1,20 @@
 
-
-
-
-
-
-
-
-
-
 // import React, { useState } from "react";
+// import { useQuiz } from "./QuizContext";
  
 // function QuizSubject({
 //   subjects,
 //   subtopics,
 //   selectedSubject,
-//   selectedGrade,
+//   selectedClass,
+//   onClassClick,
 //   onSubjectClick,
 //   onSubtopicClick,
-//   onBackToGrades,
 // }) {
+//   const { startQuiz } = useQuiz();
+//   const [activeChapter, setActiveChapter] = useState(null);
+//   const [hoveredSubtopic, setHoveredSubtopic] = useState(null);
+ 
 //   const subjectIcons = ["💻", "📜", "🏛️", "🧮", "🌍", "🔬", "⚙️", "🎨"];
 //   const subjectColors = {
 //     Computers: "#3498db",
@@ -27,63 +23,49 @@
 //     Maths: "#f39c12",
 //     Geography: "#27ae60",
 //     Science: "#e67e22",
-//     "Engine chapters and topics": "#f9fbfd",
-//     "Explore chapters and topics": "#34495e",
 //   };
  
+//   const handleSubtopicClick = (topic) => {
+//     startQuiz();
+//     onSubtopicClick(topic);
+//   };
+ 
+//   const backToGrades = () => {
+//     if (onClassClick) onClassClick(null); // Go back to Grade selection
+//   };
+ 
+//   const backToSubjects = () => {
+//     if (onSubjectClick) onSubjectClick(null); // Go back to Subject selection
+//   };
+ 
+//   // Subject selection page
 //   if (!selectedSubject) {
 //     return (
-//       <section
-//         style={{
-//           padding: "3rem 1rem",
-//           background: "#f9fbfd",
-//           minHeight: "100vh",
-//         }}
-//       >
-        
-//         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-//           <button
-//             onClick={onBackToGrades}
-//             style={{
-//               background: "linear-gradient(135deg, #2c3e50, #34495e)",
-//               color: "white",
-//               border: "none",
-//               borderRadius: "50px",
-//               padding: "0.8rem 1.8rem",
-//               cursor: "pointer",
-//               fontWeight: "600",
-//               fontSize: "1rem",
-//               marginBottom: "2rem",
-//               transition: "all 0.3s ease",
-//               boxShadow: "0 6px 15px rgba(0,0,0,0.2)",
-//             }}
-//           >
-//             ← Back to Grades
-//           </button>
+//       <section style={{ padding: "3rem 1rem", background: "#f9fbfd", minHeight: "100vh" }}>
+//         <button
+//           onClick={backToGrades}
+//           style={{
+//             marginBottom: "1.5rem",
+//             padding: "0.5rem 1rem",
+//             borderRadius: "8px",
+//             border: "1px solid #ccc",
+//             background: "#fff",
+//             cursor: "pointer",
+//             fontWeight: "600",
+//           }}
+//         >
+//           ← Back to Grades
+//         </button>
  
-//           <h2
-//             style={{
-//               fontSize: "2.5rem",
-//               fontWeight: "800",
-//               color: "#2c3e50",
-//               margin: 0,
-//             }}
-//           >
+//         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+//           <h2 style={{ fontSize: "2.5rem", fontWeight: "800", color: "#2c3e50", margin: 0 }}>
 //             Select Your Subject
 //           </h2>
-//           <p
-//             style={{
-//               color: "#2c3e50",
-//               fontSize: "1.2rem",
-//               margin: "0.8rem 0 0",
-//               fontWeight: "500",
-//             }}
-//           >
-//             Choose a subject for Grade {selectedGrade}
+//           <p style={{ color: "#2c3e50", fontSize: "1.2rem", margin: "0.8rem 0 0", fontWeight: "500" }}>
+//             Choose a subject for Grade {selectedClass}
 //           </p>
 //         </div>
  
-//         {/* Subject Grid */}
 //         <div
 //           style={{
 //             display: "grid",
@@ -93,7 +75,7 @@
 //             margin: "0 auto",
 //           }}
 //         >
-//           {subjects.map((sub, i) => (
+//           {(subjects || []).map((sub, i) => (
 //             <div
 //               key={i}
 //               onClick={() => onSubjectClick(sub)}
@@ -108,24 +90,14 @@
 //                 border: "1px solid #eee",
 //               }}
 //             >
-//               {/* Icon */}
-//               <div
-//                 style={{
-//                   fontSize: "3rem",
-//                   marginBottom: "1rem",
-//                 }}
-//               >
+//               <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>
 //                 {subjectIcons[i % subjectIcons.length]}
 //               </div>
- 
-//               {/* Subject Title */}
 //               <h3
 //                 style={{
 //                   fontSize: "1.5rem",
 //                   fontWeight: "700",
-//                   background: `linear-gradient(135deg, ${
-//                     subjectColors[sub] || "#6c5ce7"
-//                   }, #e84393)`,
+//                   background: `linear-gradient(135deg, ${subjectColors[sub] || "#6c5ce7"}, #e84393)`,
 //                   WebkitBackgroundClip: "text",
 //                   WebkitTextFillColor: "transparent",
 //                   marginBottom: "1rem",
@@ -133,42 +105,6 @@
 //               >
 //                 {sub}
 //               </h3>
- 
-//               {/* Details Section */}
-//               <div
-//                 style={{
-//                   textAlign: "left",
-//                   padding: "1rem",
-//                   borderRadius: "12px",
-//                   background: "#f8f9fa",
-//                   boxShadow: "inset 0 2px 6px rgba(0,0,0,0.05)",
-//                 }}
-//               >
-//                 <p
-//                   style={{
-//                     margin: "0.4rem 0",
-//                     fontSize: "1rem",
-//                     color: "#2c3e50",
-//                     display: "flex",
-//                     alignItems: "center",
-//                     gap: "0.6rem",
-//                   }}
-//                 >
-//                   📖 <span style={{ fontWeight: "600" }}>Chapters</span>
-//                 </p>
-//                 <p
-//                   style={{
-//                     margin: "0.4rem 0",
-//                     fontSize: "1rem",
-//                     color: "#2c3e50",
-//                     display: "flex",
-//                     alignItems: "center",
-//                     gap: "0.6rem",
-//                   }}
-//                 >
-//                   📑 <span style={{ fontWeight: "600" }}>Sub-Topics</span>
-//                 </p>
-//               </div>
 //             </div>
 //           ))}
 //         </div>
@@ -176,78 +112,34 @@
 //     );
 //   }
  
-//   return (
-//     <QuizSubtopics
-//       subtopics={subtopics}
-//       onSubtopicClick={onSubtopicClick}
-//       selectedSubject={selectedSubject}
-//       selectedGrade={selectedGrade}
-//       onBackToSubjects={() => onSubjectClick(null)}
-//     />
-//   );
-// }
- 
-// // --------------------
-// // SUBTOPIC SELECTION
-// // --------------------
-// function QuizSubtopics({
-//   subtopics,
-//   onSubtopicClick,
-//   selectedSubject,
-//   selectedGrade,
-//   onBackToSubjects,
-// }) {
-//   const [activeChapter, setActiveChapter] = useState(null);
-//   const [hoveredSubtopic, setHoveredSubtopic] = useState(null);
- 
-//   const subjectColors = {
-//     Computers: "#3498db",
-//     History: "#e74c3c",
-//     Civics: "#9b59b6",
-//     Maths: "#f39c12",
-//     Geography: "#27ae60",
-//     Science: "#e67e22",
-//   };
- 
+//   // Subtopic selection page
 //   return (
 //     <section style={{ display: "flex", minHeight: "100vh", background: "#f1f2f6" }}>
-//       {/* Sidebar */}
-//       <aside
-//         style={{
-//           width: "300px",
-//           background: "white",
-//           padding: "2rem",
-//           borderRight: "1px solid #eee",
-//         }}
-//       >
+//       <aside style={{ width: "300px", background: "white", padding: "2rem", borderRight: "1px solid #eee" }}>
 //         <button
-//           onClick={onBackToSubjects}
+//           onClick={backToSubjects}
 //           style={{
-//             marginBottom: "1.5rem",
-//             background: "#2c3e50",
-//             color: "white",
-//             border: "none",
-//             borderRadius: "10px",
-//             padding: "0.8rem 1.2rem",
+//             marginBottom: "1rem",
+//             padding: "0.5rem 1rem",
+//             borderRadius: "8px",
+//             border: "1px solid #ccc",
+//             background: "#fff",
 //             cursor: "pointer",
 //             fontWeight: "600",
-//             width: "100%",
 //           }}
 //         >
 //           ← Back to Subjects
 //         </button>
  
 //         <h3 style={{ fontSize: "1.2rem", fontWeight: "700", marginBottom: "1rem" }}>
-//           📖 Chapters ({selectedSubject}, {selectedGrade}) Grade
+//           📖 Chapters ({selectedSubject})
 //         </h3>
  
 //         <ul style={{ listStyle: "none", padding: 0 }}>
-//           {Object.keys(subtopics).map((chapter, i) => (
+//           {Object.keys(subtopics || {}).map((chapter, i) => (
 //             <li key={i} style={{ marginBottom: "1rem" }}>
 //               <button
-//                 onClick={() =>
-//                   setActiveChapter(activeChapter === chapter ? null : chapter)
-//                 }
+//                 onClick={() => setActiveChapter(activeChapter === chapter ? null : chapter)}
 //                 style={{
 //                   width: "100%",
 //                   textAlign: "left",
@@ -269,7 +161,6 @@
 //         </ul>
 //       </aside>
  
-//       {/* Main */}
 //       <main style={{ flex: 1, padding: "2rem" }}>
 //         {!activeChapter ? (
 //           <p style={{ textAlign: "center", marginTop: "4rem", fontSize: "1.2rem" }}>
@@ -277,14 +168,12 @@
 //           </p>
 //         ) : (
 //           <div>
-//             <h2 style={{ fontSize: "1.5rem", fontWeight: "700", marginBottom: "1rem" }}>
-//               {activeChapter}
-//             </h2>
+//             <h2 style={{ fontSize: "1.5rem", fontWeight: "700", marginBottom: "1rem" }}>{activeChapter}</h2>
 //             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-//               {subtopics[activeChapter].map((topic, j) => (
+//               {(subtopics[activeChapter] || []).map((topic, j) => (
 //                 <button
 //                   key={j}
-//                   onClick={() => onSubtopicClick(topic)}
+//                   onClick={() => handleSubtopicClick(topic)}
 //                   onMouseEnter={() => setHoveredSubtopic(j)}
 //                   onMouseLeave={() => setHoveredSubtopic(null)}
 //                   style={{
@@ -323,12 +212,6 @@
 // }
  
 // export default QuizSubject;
- 
-
-
-
-
-
 
 
 
@@ -336,6 +219,7 @@
 
 import React, { useState } from "react";
 import { useQuiz } from "./QuizContext";
+import { useTranslation } from "react-i18next";
  
 function QuizSubject({
   subjects,
@@ -347,6 +231,7 @@ function QuizSubject({
   onSubtopicClick,
 }) {
   const { startQuiz } = useQuiz();
+  const { t } = useTranslation();
   const [activeChapter, setActiveChapter] = useState(null);
   const [hoveredSubtopic, setHoveredSubtopic] = useState(null);
  
@@ -389,15 +274,15 @@ function QuizSubject({
             fontWeight: "600",
           }}
         >
-          ← Back to Grades
+          ← {t("back_to_grades")}
         </button>
  
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <h2 style={{ fontSize: "2.5rem", fontWeight: "800", color: "#2c3e50", margin: 0 }}>
-            Select Your Subject
+            {t("select_subject")}
           </h2>
           <p style={{ color: "#2c3e50", fontSize: "1.2rem", margin: "0.8rem 0 0", fontWeight: "500" }}>
-            Choose a subject for Grade {selectedClass}
+            {t("choose_subject_for_grade", { grade: selectedClass })}
           </p>
         </div>
  
@@ -438,7 +323,7 @@ function QuizSubject({
                   marginBottom: "1rem",
                 }}
               >
-                {sub}
+                {t(sub)}
               </h3>
             </div>
           ))}
@@ -463,11 +348,11 @@ function QuizSubject({
             fontWeight: "600",
           }}
         >
-          ← Back to Subjects
+          ← {t("back_to_subjects")}
         </button>
  
         <h3 style={{ fontSize: "1.2rem", fontWeight: "700", marginBottom: "1rem" }}>
-          📖 Chapters ({selectedSubject})
+          📖 {t("chapters_for_subject", { subject: selectedSubject })}
         </h3>
  
         <ul style={{ listStyle: "none", padding: 0 }}>
@@ -480,10 +365,7 @@ function QuizSubject({
                   textAlign: "left",
                   padding: "0.8rem 1rem",
                   borderRadius: "8px",
-                  border:
-                    activeChapter === chapter
-                      ? `2px solid ${subjectColors[selectedSubject] || "#6c5ce7"}`
-                      : "1px solid #ddd",
+                  border: activeChapter === chapter ? `2px solid ${subjectColors[selectedSubject] || "#6c5ce7"}` : "1px solid #ddd",
                   background: activeChapter === chapter ? "#ecf0f1" : "#fff",
                   fontWeight: "600",
                   cursor: "pointer",
@@ -499,7 +381,7 @@ function QuizSubject({
       <main style={{ flex: 1, padding: "2rem" }}>
         {!activeChapter ? (
           <p style={{ textAlign: "center", marginTop: "4rem", fontSize: "1.2rem" }}>
-            Select a chapter to view subtopics
+            {t("select_chapter_to_view_subtopics")}
           </p>
         ) : (
           <div>
@@ -534,7 +416,7 @@ function QuizSubject({
                       fontWeight: "600",
                     }}
                   >
-                    ⏱️ Start Quiz →
+                    ⏱️ {t("start_quiz")}
                   </span>
                 </button>
               ))}

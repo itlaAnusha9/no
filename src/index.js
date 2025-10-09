@@ -10,6 +10,7 @@ import './modules/student/fontawesome'; // ✅ Correct import path
 import { QuizProvider } from './modules/student/QuizContext';
 import { BrowserRouter } from 'react-router-dom'; // ✅ Router for App
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

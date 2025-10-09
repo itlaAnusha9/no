@@ -1,4 +1,39 @@
+// MAIN FUNCTIONALITIES:
 
+// 1. EVENT REGISTRATION FORM
+// - Dynamic form that loads based on event ID from URL parameters
+// - Collects user details: name, email, phone with country code
+// - Handles form submission with validation
+
+// 2. FORM VALIDATION SYSTEM
+// - HTML5 native validation for required fields
+// - Email validation: requires @gmail.com domain specifically
+// - Phone validation: Indian numbers only (starts with 6-9, 10 digits)
+// - Name validation: only letters and spaces allowed
+
+// 3. EVENT DATA MANAGEMENT
+// - Fetches event details from mock data based on eventId
+// - Displays event image, title, date, time, location, description
+// - Shows event type with styled badges
+
+// 4. USER EXPERIENCE FEATURES
+// - Loading states during form submission
+// - Success confirmation message after registration
+// - Smooth animations using Framer Motion
+// - Back navigation to dashboard
+
+// 5. PHONE NUMBER HANDLING
+// - Country code selection (currently only +91 India)
+// - Automatic digit filtering and length restriction (10 digits)
+// - Input sanitization to remove non-numeric characters
+
+// 6. ERROR HANDLING
+// - Redirects if event not found
+// - Form validation feedback
+// - Submission state management
+
+// DATA FLOW:
+// URL Event ID → Load Event Details → Form Input → Validation → Submit → Confirmation
 
  
 import React, { useEffect, useState } from 'react';

@@ -1144,19 +1144,6 @@ button, .option-card, .nav-dot {
   box-shadow: none !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Fullscreen quiz layout */
 .quiz-fullscreen {
   position: fixed;
@@ -1905,7 +1892,187 @@ button, .option-card, .nav-dot {
 }
 
 
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.review-popup {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+/* Option 1: Close button inside popup */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eaeaea;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+}
+
+.close-popup {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-popup:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Option 2: Close button outside popup */
+.close-popup-outside {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 1010;
+  transition: all 0.2s ease;
+}
+
+.close-popup-outside:hover {
+  background-color: white;
+  transform: scale(1.1);
+}
+
+.popup-content {
+  padding: 20px;
+}
+
+.popup-actions {
+  padding: 20px;
+  border-top: 1px solid #eaeaea;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.popup-close-btn {
+  background-color: #4a6cf7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.popup-close-btn:hover {
+  background-color: #3a5bd9;
+}
+
+/* Rest of your existing styles */
+.review-summary {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.pass-text {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.fail-text {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.question-review-item {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.question-review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.answer-status.correct {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.answer-status.incorrect {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.review-question {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.review-option {
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+.correct-answer {
+  background-color: #d4edda;
+  border-left: 3px solid #28a745;
+}
+
+.user-incorrect {
+  background-color: #f8d7da;
+  border-left: 3px solid #dc3545;
+}
+
+.correct-mark, .incorrect-mark {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.correct-mark {
+  color: #28a745;
+}
+
+.incorrect-mark {
+  color: #dc3545;
+}
 
 
 

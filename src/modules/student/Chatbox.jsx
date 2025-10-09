@@ -1,3 +1,51 @@
+// MAIN FUNCTIONALITIES:
+
+// 1. CHATBOG UI MANAGEMENT
+// - Toggle chatbox open/close state
+// - Manage message display with smooth scrolling
+// - Handle typing indicators for bot responses
+
+// 2. MESSAGE HANDLING SYSTEM
+// - Send and receive text messages with timestamps
+// - Store conversation history in state
+// - Auto-scroll to latest message
+
+// 3. KNOWLEDGE BASE & RESPONSE SYSTEM
+// - Pre-defined patterns and responses for common queries
+// - Intent recognition for user questions
+// - Dynamic response generation based on query type
+
+// 4. QUICK QUESTION FEATURE
+// - Pre-populated common questions for quick access
+// - One-click question submission
+// - Covers frequent support topics
+
+// 5. NATURAL LANGUAGE PROCESSING (BASIC)
+// - Pattern matching for greeting, courses, pricing, etc.
+// - Intent detection (question, support, course_info, pricing, career, duration)
+// - Context-aware response generation
+
+// 6. ENHANCED USER EXPERIENCE
+// - Realistic typing simulation with random delays
+// - Welcome messages on chat open
+// - Online status indicator
+// - Error handling for failed responses
+
+// 7. SUPPORT TOPICS COVERED:
+// - Course information and curriculum
+// - Pricing and payment plans
+// - Technical support and account issues
+// - Career services and job placement
+// - Course duration and schedules
+// - General FAQs
+
+// DATA FLOW:
+// User Input → Intent Recognition → Pattern Matching → Response Generation → Display Message
+
+
+
+
+
 import { useState, useEffect, useRef } from 'react';
 import './Chatbox.css';
 
