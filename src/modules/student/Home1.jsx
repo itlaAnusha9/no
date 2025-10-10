@@ -2557,22 +2557,23 @@ const Home1 = () => {
               ))}
             </div>
           </div>
-          <div className="tabs">
-            {['7', '8', '9', '10'].map((cls) => (
-              <motion.button
-                key={cls}
-                className={activeClass === cls ? 'active' : ''}
-                onClick={() => setActiveClass(cls)}
-                whileHover={{ scale: 1.05, backgroundColor: activeClass === cls ? '#1a3a4f' : '#e9ecef' }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                {t('dashboard.class', { class: cls })}
-              </motion.button>
-            ))}
-          </div>
+                <div className="tabs">
+  {['7', '8', '9', '10'].map((cls) => (
+    <motion.button
+      key={cls}
+      className={activeClass === cls ? 'active' : ''}
+      onClick={() => setActiveClass(cls)}
+      whileHover={{ scale: 1.05, backgroundColor: activeClass === cls ? '#1a3a4f' : '#e9ecef' }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+    >
+      {t(`dashboard.classes.${cls}`)}
+    </motion.button>
+  ))}
+</div>
+ 
           <br />
           <div className="row g-4">
             {featuredCourses.map((course, index) => (

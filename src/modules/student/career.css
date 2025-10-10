@@ -1128,3 +1128,54 @@
     padding: 15px;
   }
 }
+
+
+ 
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+ 
+.history-item {
+  background: #f9fafc;
+  padding: 10px 15px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+ 
+.history-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+}
+ 
+.history-title {
+  font-weight: 600;
+  color: #444;
+}
+ 
+.history-score {
+  font-weight: 500;
+  color: #667eea;
+}
+ 
+.history-bar {
+  margin-top: 6px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  height: 8px;
+  overflow: hidden;
+}
+ 
+.bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.5s ease;
+}
+ 
+ 
+ 

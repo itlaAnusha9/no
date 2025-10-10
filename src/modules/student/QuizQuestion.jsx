@@ -720,7 +720,7 @@ function QuizQuestion({
                   <Typography variant="h6" sx={{ mb: 2 }}>
                     {passed 
                       ? (isPerfectScore ? t('perfect_score') : t('great_job')) 
-                      : t('minimum_score', { score })}
+                      : t('minimum score', { score })}
                   </Typography>
 
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 2 }}>
@@ -749,7 +749,7 @@ function QuizQuestion({
             </Paper>
 
             <Typography variant="h5" gutterBottom fontWeight="bold" sx={{ mb: 3 }}>
-              {t('review_qa')}
+              {t('Review Questions & Answers')}
             </Typography>
 
             <List sx={{ mb: 4 }}>
@@ -823,7 +823,7 @@ function QuizQuestion({
                 startIcon={<Replay />}
                 sx={{ borderRadius: 2, px: 4, py: 1.5, borderWidth: 2, '&:hover': { borderWidth: 2 } }}
               >
-                {t('retry_level', { level: currentLevel })}
+                {t('retry level', { level: currentLevel })}
               </Button>
 
               {passed && (
