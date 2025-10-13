@@ -2219,8 +2219,8 @@ const ParentDashboard = () => {
       faq: t('sections.contact')
     };
     document.title = selectedSection && titles[selectedSection]
-      ? `${titles[selectedSection]} | NOVYA - ${t('dashboard.platform')}`
-      : `${t('dashboard.title')} | NOVYA - ${t('dashboard.platform')}`;
+      ? `${titles[selectedSection]} | NOVYA - ${t('parentdashboard.platform')}`
+      : `${t('parentdashboard.title')} | NOVYA - ${t('parentdashboard.platform')}`;
   }, [selectedSection, t]);
 
   useEffect(() => {
@@ -2359,9 +2359,9 @@ const ParentDashboard = () => {
 
   const getGreeting = () => {
     const hour = currentTime.getHours();
-    if (hour < 12) return t('dashboard.greeting.morning');
-    if (hour < 17) return t('dashboard.greeting.afternoon');
-    return t('dashboard.greeting.evening');
+    if (hour < 12) return t('parentdashboard.greeting.morning');
+    if (hour < 17) return t('parentdashboard.greeting.afternoon');
+    return t('parentdashboard.greeting.evening');
   };
 
   const markNotificationAsRead = (id) => {
@@ -2411,7 +2411,7 @@ const ParentDashboard = () => {
             <div className="welcome-section">
               <div className="welcome-content">
                 <div className="welcome-text">
-                  <h1>{t('dashboard.welcome', { name: parentName })}</h1>
+                  <h1>{t('parentdashboard.welcome', { name: parentName })}</h1>
                   <div className="typewriter-container">
                     <Typewriter
                       key={i18n.language}
@@ -2440,7 +2440,7 @@ const ParentDashboard = () => {
             </div>
 
             <div className="stats-section">
-              <h2>{t('dashboard.overview')}</h2>
+              <h2>{t('parentdashboard.overview')}</h2>
               <div className="stats-grid">
                 <div className="stat-card">
                   <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
@@ -2489,7 +2489,7 @@ const ParentDashboard = () => {
             </div>
 
             <div className="features-section">
-              <h2>{t('dashboard.features')}</h2>
+              <h2>{t('parentdashboard.features')}</h2>
               <div className="features-grid">
                 <div className="feature-card">
                   <div className="feature-icon">🧠</div>
@@ -2578,7 +2578,7 @@ const ParentDashboard = () => {
             </button>
             <div className="header-title">
               <h1>{selectedSection ? sections.find(s => s.key === selectedSection)?.label || t('sections.home') : t('sections.home')}</h1>
-              <p>{getGreeting()}! {t('dashboard.subtitle')}</p>
+              <p>{getGreeting()}! {t('parentdashboard.subtitle')}</p>
             </div>
           </div>
          

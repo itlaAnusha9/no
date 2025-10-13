@@ -383,6 +383,128 @@
 
 
 
+ 
+  "MockTestSubjectPage": {
+    "subjectNotFound": "Subject not found",
+    "back": "Back",
+    "class": "Class",
+    "chaptersAvailable": "chapters available",
+    "noChapters": "No chapters available for {subject} in class {grade}.",
+    "chapter": "Chapter",
+    "startTest": "Start Test"
+  },
+
+
+
+  "selectClassTitle": "Select Your Class",
+  "selectClassSubtitle": "Choose your academic level to begin",
+  "classCardDesc": "Start your learning journey",
+  "classes": {
+    "7th": "7th class",
+    "8th": "8th class",
+    "9th": "9th class",
+    "10th": "10th class"
+  },
+  "selectSubjectTitle": "Select a Subject",
+  "selectSubjectSubtitle": "Choose a subject for {{class}}",
+  "subjectCardDesc": "Explore chapters and topics",
+  "subjects": {
+    "computers": "Computers",
+    "english": "English",
+    "maths": "Maths",
+    "science": "Science",
+    "history": "History",
+    "civics": "Civics",
+    "geography": "Geography"
+  },
+  "backToPractice": "Back to Practice",
+  "backToClasses": "Back to Classes",
+  "selectChapterTitle": "Select Chapter",
+  "selectChapterSubtitle": "Choose a chapter from {{selectedSubject}}",
+  "chapterCardDesc": "Click to select",
+  "chapterSelected": "Selected",
+  "chapter": {
+    "computers": {
+      "exceptionHandling": "Chapter 1: Exception Handling in Python",
+      "fileHandling": "Chapter 2: File Handling in Python",
+      "stack": "Chapter 3: Stack (Data Structure)",
+      "queue": "Chapter 4: Queue (Data Structure)",
+      "sorting": "Chapter 5: Sorting"
+    },
+    "english": {
+      "honeysuckleProse": "Unit 1: Honeysuckle - Prose",
+      "honeysucklePoems": "Unit 2: Honeysuckle - Poems",
+      "itSoHappened": "Unit 3: It So Happened - Supplementary"
+    },
+    "maths": {
+      "numberSystems": "Chapter 1: Number Systems",
+      "polynomials": "Chapter 2: Polynomials",
+      "coordinateGeometry": "Chapter 3: Coordinate Geometry",
+      "linearEquations": "Chapter 4: Linear Equations in Two Variables",
+      "triangles": "Chapter 5: Triangles"
+    },
+    "science": {
+      "cropProduction": "Chapter 1: Crop Production and Management",
+      "microorganisms": "Chapter 2: Microorganisms: Friend and Foe",
+      "syntheticFibers": "Chapter 3: Synthetic Fibers and Plastics",
+      "metalsNonmetals": "Chapter 4: Metals and Non-metals",
+      "coalPetroleum": "Chapter 5: Coal and Petroleum"
+    },
+    "history": {
+      "fromBeginning": "Chapter 1: From the Beginning of Time",
+      "writingHistory": "Chapter 2: Writing and City Life",
+      "empireMauryas": "Chapter 3: An Empire Across Three Continents",
+      "centralIslamicLands": "Chapter 4: The Central Islamic Lands",
+      "nomadicEmpires": "Chapter 5: Nomadic Empires"
+    },
+    "civics": {
+      "indianConstitution": "Chapter 1: The Indian Constitution",
+      "understandingDiversity": "Chapter 2: Understanding Diversity",
+      "government": "Chapter 3: What is Government?",
+      "keyElementsDemocracy": "Chapter 4: Key Elements of a Democratic Government",
+      "womenCaste": "Chapter 5: Women, Caste, and Reform"
+    },
+    "geography": {
+      "earthInterior": "Chapter 1: The Earth in the Solar System",
+      "globeLatitudes": "Chapter 2: Globe: Latitudes and Longitudes",
+      "motionsEarth": "Chapter 3: Motions of the Earth",
+      "maps": "Chapter 4: Maps",
+      "majorDomainsEarth": "Chapter 5: Major Domains of the Earth"
+    }
+  },
+  "instructionsTitle": "Mock Test Instructions",
+  "timeLimitTitle": "Time Limit",
+  "timeLimitDesc": "20 minutes for 50 questions",
+  "questionFormatTitle": "Question Format",
+  "questionFormatDesc": "Multiple choice questions with 4 options each",
+  "passingCriteriaTitle": "Passing Criteria",
+  "passingCriteriaDesc": "Score more than 20 to pass and unlock next level",
+  "skippingQuestionsTitle": "Skipping Questions",
+  "skippingQuestionsDesc": "You can skip questions and come back to them later",
+  "scoringTitle": "Scoring",
+  "scoringDesc": "1 point for each correct answer. No negative marking.",
+  "answerKeyTitle": "Answer Key",
+  "answerKeyDesc": "Click the 'Show Answer Key' button to reveal the correct answer for any question",
+  "languageTitle": "Language",
+  "languageDesc": "Questions will be generated in your selected language",
+  "testDetailsTitle": "Test Details:",
+  "testClass": "Class:",
+  "testSubject": "Subject:",
+  "testChapter": "Chapter:",
+  "testTotalQuestions": "Total Questions:",
+  "testPassingScore": "Passing Score: 21/50 or more",
+  "testLanguage": "Language:",
+  "languageSelectLabel": "🌐 Select Language:",
+  "backToChapters": "← Back to Chapters",
+  "startTestNow": "Start Test Now",
+
+
+
+
+
+
+
+
     "faqs": {
     "title": "FAQs",
     "header": "❓ Frequently Asked Questions",
@@ -561,7 +683,32 @@
   },
 
 
-
+ "userDetails": {
+    "title": "User Details",
+    "loading": "Loading user data...",
+    "back": "Back",
+    "avatarAlt": "User Avatar",
+    "firstNamePlaceholder": "First Name",
+    "lastNamePlaceholder": "Last Name",
+    "studentRole": "Student",
+    "parentRole": "Parent",
+    "personalInfo": "Personal Information",
+    "email": "Email",
+    "phone": "Phone",
+    "userName": "User Name",
+    "grade": "Grade",
+    "course": "Course",
+    "address": "Address",
+    "notProvided": "Not provided",
+    "parentInfo": "Parent/Guardian Information",
+    "parentName": "Parent Name",
+    "parentEmail": "Parent Email",
+    "parentPhone": "Parent Phone",
+    "enterField": "Enter {{field}}",
+    "save": "Save",
+    "edit": "Edit"
+  },
+ 
 
 
   "pricing": {
@@ -669,25 +816,21 @@
       "hours": "{{hours}} Hours",
       "continue": "Continue"
     },
-    "tabs": {
-      "all": "All",
-      "mathematics": "Mathematics",
-      "science": "Science",
-      "languages": "Languages",
-      "socialStudies": "Social Studies",
-      "computer": "Computer"
-    },
-    "classes": {
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10"
-    },
+   "tabs": {
+  "all": "All",
+  "mathematics": "Mathematics",
+  "science": "Science",
+  "languages": "Languages",
+  "socialstudies": "SocialStudies",
+  "computer": "Computer"
+},
+
+   
     "categories": {
       "mathematics": "Mathematics",
       "science": "Science",
       "languages": "Languages",
-      "socialStudies": "Social Studies",
+      "socialstudies": "socialstudies",
       "technology": "Technology"
     },
     "courses": {
@@ -872,7 +1015,7 @@
   "goal_based_description": "Set and achieve learning goals with milestone tracking and celebration of achievements.",
  
  
-  "dashboard": {
+  "parentdashboard": {
     "title": "Parent Dashboard",
     "welcome": "Welcome back, {{name}}!",
     "greeting": {
@@ -1172,7 +1315,7 @@
       "mathematics": "Mathematics",
       "science": "Science",
       "languages": "Languages",
-      "socialStudies": "Social Studies",
+      "socialstudies": "socialstudies",
       "technology": "Technology"
     },
     "courses": {
@@ -1226,7 +1369,7 @@
       "mathematics": "Mathematics",
       "science": "Science",
       "languages": "Languages",
-      "socialstudies": "Social Studies",
+      "social": "social",
       "computer": "Computer"
     },
    "classes": {
@@ -1235,7 +1378,7 @@
   "9": "Class 9",
   "10": "Class 10"
 }
- 
+
   },
 
 
@@ -1405,5 +1548,6 @@
   
 
 }
+
 
 

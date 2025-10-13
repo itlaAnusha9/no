@@ -2141,7 +2141,7 @@ const Home1 = () => {
     [t('dashboard.categories.mathematics')]: 'Maths',
     [t('dashboard.categories.science')]: 'Science',
     [t('dashboard.categories.languages')]: 'English',
-    [t('dashboard.categories.socialStudies')]: 'Social',
+    [t('dashboard.categories.social')]: 'Social',
     [t('dashboard.categories.technology')]: 'Computer',
   };
 
@@ -2315,12 +2315,12 @@ const Home1 = () => {
             animate="visible"
             variants={staggerContainer}
           >
-            <motion.h1
+            <motion.h2
               variants={textVariants}
               transition={{ duration: 0.8 }}
             >
               {t('dashboard.hero.title')} <span className="highlight-text">{t('dashboard.hero.highlight')}</span>
-            </motion.h1>
+            </motion.h2>
             <motion.p
               variants={textVariants}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -2499,7 +2499,7 @@ const Home1 = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, type: 'spring' }}
               >
-                <h4>{t('dashboard.sections.learningStats')}</h4>
+                <h5>{t('dashboard.sections.learningStats')}</h5>
                 <div className="stats-bargraph">
                   {learningStats.map((stat, index) => (
                     <div className="bargraph-item" key={index}>
@@ -2541,7 +2541,7 @@ const Home1 = () => {
           <div className="section-header">
             <h2>{t('dashboard.sections.courses')}</h2>
             <div className="tabs">
-              {['All', 'Mathematics', 'Science', 'Languages', 'Social Studies', 'Computer'].map((tab) => (
+              {['All', 'Mathematics', 'Science', 'Languages', 'Social', 'Computer'].map((tab) => (
                 <motion.button
                   key={tab}
                   className={activeTab === tab.toLowerCase() ? 'active' : ''}
@@ -2557,8 +2557,8 @@ const Home1 = () => {
               ))}
             </div>
           </div>
-                <div className="tabs">
-  {['7', '8', '9', '10'].map((cls) => (
+<div className="tabs">
+  {['7th', '8th', '9th', '10th'].map((cls) => (
     <motion.button
       key={cls}
       className={activeClass === cls ? 'active' : ''}
@@ -2569,10 +2569,11 @@ const Home1 = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
     >
-      {t(`dashboard.classes.${cls}`)}
+      {t(`classes.${cls}`)}
     </motion.button>
   ))}
 </div>
+
  
           <br />
           <div className="row g-4">

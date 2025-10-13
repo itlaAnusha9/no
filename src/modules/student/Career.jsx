@@ -308,28 +308,28 @@ const Career = () => {
               <Users size={32} />
             </div>
             <div className="stat-number">{animatedStats.students.toLocaleString()}+</div>
-            <div className="stat-label">{t('stats.studentsTracked')}</div>
+            <div className="stat-label">{t('studentsTracked')}</div>
           </div>
           <div className="stat-item">
             <div className="stat-icon">
               <Star size={32} />
             </div>
             <div className="stat-number">{animatedStats.successRate}%</div>
-            <div className="stat-label">{t('stats.improvementRate')}</div>
+            <div className="stat-label">{t('improvementRate')}</div>
           </div>
           <div className="stat-item">
             <div className="stat-icon">
               <Target size={32} />
             </div>
             <div className="stat-number">{animatedStats.careers}+</div>
-            <div className="stat-label">{t('stats.metricsTracked')}</div>
+            <div className="stat-label">{t('metricsTracked')}</div>
           </div>
           <div className="stat-item">
             <div className="stat-icon">
               <Clock size={32} />
             </div>
             <div className="stat-number">{animatedStats.universities.toLocaleString()}+</div>
-            <div className="stat-label">{t('stats.hoursAnalyzed')}</div>
+            <div className="stat-label">{t('hoursAnalyzed')}</div>
           </div>
         </div>
       </section>
