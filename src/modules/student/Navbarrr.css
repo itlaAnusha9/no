@@ -386,3 +386,48 @@
 }
 
 
+/* Enhanced Reward Points Styles */
+.reward-points-display {
+  position: relative;
+  overflow: hidden;
+}
+
+.reward-points-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.reward-points-display:hover::before {
+  left: 100%;
+}
+
+/* Animation for points update */
+@keyframes pointsPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.points-update {
+  animation: pointsPulse 0.6s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .reward-points-display {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: 70px;
+  }
+  
+  .reward-points-display svg {
+    width: 14px;
+    height: 14px;
+  }
+}

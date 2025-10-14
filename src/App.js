@@ -6,6 +6,12 @@
 
 
 
+
+
+
+
+
+
 // import { Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 // import React from 'react';
 // import { QuizProvider, useQuiz } from './modules/student/QuizContext';
@@ -40,11 +46,9 @@
 // import LessonPage from './modules/student/LessonPage';
 // import Practice from './modules/student/Practice';
 // import Career from './modules/student/Career';
-// import Mentorship from './modules/student/Mentorship';
 // import Chatbox from './modules/student/Chatbox';
 // import Quizzes from './modules/student/Quizzes';
 // import Recordings from './modules/student/Recordings';
-// import EventRegistrationPage from './modules/student/EventRegistrationPage';
 // import QuickPractice from './modules/student/QuickPractice';
 // import MockTest from './modules/student/MockTest';
 // import UserDetailsPage from './modules/student/UserDetailsPage';
@@ -103,10 +107,8 @@
 //     '/learn',
 //     '/practice',
 //     '/career',
-//     '/mentorship',
 //     '/student/dashboard',
 //     '/lesson',
-//     '/events',
 //     '/practice-subject',
 //     '/mock-test',
 //     '/practice-questions',
@@ -251,16 +253,9 @@
 //               <RoleRoute requiredRole="student"><Career /></RoleRoute>
 //             </ProtectedRoute>
 //           } />
-//           <Route path="/mentorship" element={
-//             <ProtectedRoute>
-//               <RoleRoute requiredRole="student"><Mentorship /></RoleRoute>
-//             </ProtectedRoute>
-//           } />
-//           <Route path="/events/:eventId/register" element={
-//             <ProtectedRoute>
-//               <RoleRoute requiredRole="student"><EventRegistrationPage /></RoleRoute>
-//             </ProtectedRoute>
-//           } />
+
+//           {/* Removed Mentorship and Event Registration Routes */}
+
 //           <Route path="/learn/quizzes" element={
 //             <ProtectedRoute>
 //               <RoleRoute requiredRole="student"><Quizzes /></RoleRoute>
@@ -347,19 +342,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
+ 
 import { Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 import React from 'react';
 import { QuizProvider, useQuiz } from './modules/student/QuizContext';
-
+ 
 // Home Modules
 import Navbar from './modules/home/Navbar';
 import HeroSection from './modules/home/HeroSection';
@@ -377,12 +364,12 @@ import FreeDemo from './modules/home/FreeDemo';
 import ProfilePage from './modules/home/ProfilePage';
 import FloatingChatBot from './modules/home/FloatingChatBot';
 import AIDemo from './modules/home/AIDemo';
-
+ 
 // Auth Modules
 import Login from './modules/login/Login';
 import Signup from './modules/login/Signup';
 import ForgotPassword from './modules/login/ForgotPassword';
-
+ 
 // Student Modules
 import Navbarrr from './modules/student/Navbarrr';
 import Home1 from './modules/student/Home1';
@@ -396,17 +383,18 @@ import Recordings from './modules/student/Recordings';
 import QuickPractice from './modules/student/QuickPractice';
 import MockTest from './modules/student/MockTest';
 import UserDetailsPage from './modules/student/UserDetailsPage';
-
+import StudyRoom from './modules/student/StudyRoom'; // New import for StudyRoom
+ 
 // Practice & Mock Test Modules
 import PracticeSubjectPage from './modules/student/PracticeSubjectPage';
 import PracticeQuestionPage from './modules/student/PracticeQuestionPage';
 import MockTestSubjectPage from './modules/student/MockTestSubjectPage';
 import MockTestQuestionsPage from './modules/student/MockTestQuestionsPage';
 import MockTestSyllabus from './modules/student/MockTestSyllabus';
-
+ 
 // Quiz Test Page
 import QuizTestPage from './modules/student/QuizTestPage';
-
+ 
 // Parent Modules
 import ParentDashboard from './modules/parent/ParentDashboard';
 import Attendance from './modules/parent/Attendance';
@@ -416,26 +404,26 @@ import HomeWork from './modules/parent/HomeWork';
 import MockTestReports from './modules/parent/MockTestReports';
 import Progress from './modules/parent/Progress';
 import StudyPlanner from './modules/parent/StudyPlanner';
-
+ 
 import './modules/parent/styles.css';
-
+ 
 // Protected route wrapper
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = !!localStorage.getItem('userToken');
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
-
+ 
 // Role-based route wrapper
 const RoleRoute = ({ children, requiredRole }) => {
   const userRole = localStorage.getItem('userRole');
   if (!userRole) return <Navigate to="/login" replace />;
   return userRole === requiredRole ? children : <Navigate to="/unauthorized" replace />;
 };
-
+ 
 function App() {
   const location = useLocation();
   const { isQuizActive } = useQuiz();
-
+ 
   // Paths where Navbar/Footer should be hidden
   const hideNavbarFooter = [
     '/login',
@@ -445,12 +433,13 @@ function App() {
     '/profile',
     '/user-details'
   ].includes(location.pathname);
-
+ 
   // Student routes detection
   const isStudentPage = [
     '/learn',
     '/practice',
     '/career',
+    '/study-room',
     '/student/dashboard',
     '/lesson',
     '/practice-subject',
@@ -462,33 +451,33 @@ function App() {
     '/quick-practice',
     '/quiz-test'
   ].some(path => location.pathname.startsWith(path));
-
+ 
   // Parent routes detection
   const isParentPage = location.pathname.startsWith('/parent');
-
+ 
   // Hide student navbar only on Quick Practice, Profile, and User Details pages
   const hideStudentNavbar = [
     '/quick-practice',
     '/profile',
     '/user-details'
   ].some(path => location.pathname.startsWith(path));
-
+ 
   // Mock test routes where chatbot should be hidden
   const isMockTestPage = [
     '/mock-test',
     '/mock-test-questions',
     '/quiz-test'
   ].some(path => location.pathname.startsWith(path));
-
+ 
   return (
     <QuizProvider>
       <div className="app-container">
         {/* Home Navbar */}
         {!hideNavbarFooter && !isStudentPage && !isParentPage && <Navbar />}
-
+ 
         {/* Student Navbar */}
         {isStudentPage && !hideStudentNavbar && <Navbarrr />}
-
+ 
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<>
@@ -521,21 +510,21 @@ function App() {
               <Link to="/" className="btn btn-primary mt-3">Return Home</Link>
             </div>
           } />
-
+ 
           {/* Profile Page - Protected */}
           <Route path="/profile" element={
             <ProtectedRoute>
               <ProfilePage />
             </ProtectedRoute>
           } />
-
+ 
           {/* Student Routes */}
           <Route path="/student/dashboard" element={
             <ProtectedRoute>
               <RoleRoute requiredRole="student"><Home1 /></RoleRoute>
             </ProtectedRoute>
           } />
-
+ 
           {/* Learn Routes */}
           {['', 'class7', 'class8', 'class9', 'class10'].map(cls => (
             <Route
@@ -548,14 +537,14 @@ function App() {
               }
             />
           ))}
-
+ 
           {/* Lesson */}
           <Route path="/lesson/:classId/:subject/:chapterNumber" element={
             <ProtectedRoute>
               <RoleRoute requiredRole="student"><LessonPage /></RoleRoute>
             </ProtectedRoute>
           } />
-
+ 
           {/* Practice & Mock Test */}
           <Route path="/practice" element={
             <ProtectedRoute>
@@ -597,9 +586,14 @@ function App() {
               <RoleRoute requiredRole="student"><Career /></RoleRoute>
             </ProtectedRoute>
           } />
-
+          <Route path="/study-room" element={
+            <ProtectedRoute>
+              <RoleRoute requiredRole="student"><StudyRoom /></RoleRoute>
+            </ProtectedRoute>
+          } />
+ 
           {/* Removed Mentorship and Event Registration Routes */}
-
+ 
           <Route path="/learn/quizzes" element={
             <ProtectedRoute>
               <RoleRoute requiredRole="student"><Quizzes /></RoleRoute>
@@ -610,21 +604,21 @@ function App() {
               <RoleRoute requiredRole="student"><Recordings /></RoleRoute>
             </ProtectedRoute>
           } />
-
+ 
           {/* User Details Page */}
           <Route path="/user-details" element={
             <ProtectedRoute>
               <RoleRoute requiredRole="student"><UserDetailsPage /></RoleRoute>
             </ProtectedRoute>
           } />
-
+ 
           {/* Quiz Test */}
           <Route path="/quiz-test" element={
             <ProtectedRoute>
               <RoleRoute requiredRole="student"><QuizTestPage /></RoleRoute>
             </ProtectedRoute>
           } />
-
+ 
           {/* Parent Routes */}
           <Route path="/parent/dashboard" element={
             <ProtectedRoute>
@@ -666,19 +660,20 @@ function App() {
               <RoleRoute requiredRole="parent"><StudyPlanner /></RoleRoute>
             </ProtectedRoute>
           } />
-
+ 
           {/* Catch-All */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-
+ 
         {/* Footer */}
         {!hideNavbarFooter && !isStudentPage && !isParentPage && <Footer />}
-
+ 
         {/* Student Chatbox */}
         {isStudentPage && !hideStudentNavbar && !isMockTestPage && <div className="student-chatbox-container"><Chatbox /></div>}
       </div>
     </QuizProvider>
   );
 }
-
+ 
 export default App;
+ 

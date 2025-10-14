@@ -1015,52 +1015,105 @@
   "goal_based_description": "Set and achieve learning goals with milestone tracking and celebration of achievements.",
  
  
+
+
   "parentdashboard": {
+
     "title": "Parent Dashboard",
+
     "welcome": "Welcome back, {{name}}!",
+
     "greeting": {
+
       "morning": "Good Morning",
+
       "afternoon": "Good Afternoon",
+
       "evening": "Good Evening"
+
     },
+
     "subtitle": "Track your child's learning journey",
+
     "overview": "Quick Overview",
+
     "features": "What Makes NOVYA Special",
-    "platform": "Your Smart Learning Platform"
-  },
-  "sections": {
-    "home": "Dashboard",
-    "profile": "Child Profile",
-    "attendance": "Attendance",
-    "progress": "Progress",
-    "assignments": "Assignments",
-    "mockTests": "Mock Tests",
-    "studyPlan": "Study Plan",
-    "contact": "Contact us"
-  },
-  "stats": {
-    "overallProgress": "Overall Progress",
-    "attendanceRate": "Attendance Rate",
-    "achievements": "Achievements",
-    "assignments": "Assignments",
-    "thisWeek": "this week",
-    "thisMonth": "this month",
-    "pending": "pending"
-  },
-  "features": {
-    "aiLearning": {
-      "title": "AI-Powered Learning",
-      "description": "Personalized learning paths adapted to your child's unique learning style and pace."
-    },
-    "analytics": {
-      "title": "Real-time Analytics",
-      "description": "Track progress with detailed insights and performance metrics updated in real-time."
-    },
-    "goalLearning": {
-      "title": "Goal-based Learning",
-      "description": "Set and achieve learning goals with milestone tracking and celebration of achievements."
+
+    "platform": "Your Smart Learning Platform",
+ 
+    "featuresList": {
+
+      "aiLearning": {
+
+        "title": "AI-Powered Learning",
+
+        "description": "Personalized learning paths adapted to your child's unique learning style and pace."
+
+      },
+
+      "analytics": {
+
+        "title": "Real-time Analytics",
+
+        "description": "Track progress with detailed insights and performance metrics updated in real-time."
+
+      },
+
+      "goalLearning": {
+
+        "title": "Goal-based Learning",
+
+        "description": "Set and achieve learning goals with milestone tracking and celebration of achievements."
+
+      }
+
     }
+
   },
+ 
+  "sections": {
+
+    "home": "Dashboard",
+
+    "profile": "Child Profile",
+
+    "attendance": "Attendance",
+
+    "progress": "Progress",
+
+    "assignments": "Assignments",
+
+    "mockTests": "Mock Tests",
+
+    "studyPlan": "Study Plan",
+
+    "contact": "Contact us"
+
+  },
+ 
+  "stats": {
+
+    "overallProgress": "Overall Progress",
+
+    "attendanceRate": "Attendance Rate",
+
+    "achievements": "Achievements",
+
+    "assignments": "Assignments",
+
+    "thisWeek": "this week",
+
+    "thisMonth": "this month",
+
+    "pending": "pending"
+
+  },
+
+
+
+ 
+
+
   "typewriter": {
     "monitorProgress": "Monitor academic progress in real-time",
     "stayConnected": "Stay connected with teachers and assignments",

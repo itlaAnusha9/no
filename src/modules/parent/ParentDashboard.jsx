@@ -2488,26 +2488,27 @@ const ParentDashboard = () => {
               </div>
             </div>
 
-            <div className="features-section">
-              <h2>{t('parentdashboard.features')}</h2>
-              <div className="features-grid">
-                <div className="feature-card">
-                  <div className="feature-icon">🧠</div>
-                  <h3>{t('features.aiLearning.title')}</h3>
-                  <p>{t('features.aiLearning.description')}</p>
-                </div>
-                <div className="feature-card">
-                  <div className="feature-icon">📊</div>
-                  <h3>{t('features.analytics.title')}</h3>
-                  <p>{t('features.analytics.description')}</p>
-                </div>
-                <div className="feature-card">
-                  <div className="feature-icon">🎯</div>
-                  <h3>{t('features.goalLearning.title')}</h3>
-                  <p>{t('features.goalLearning.description')}</p>
-                </div>
-              </div>
-            </div>
+  <div className="features-section">
+  <h2>{t('parentdashboard.features')}</h2>
+  <div className="features-grid">
+    <div className="feature-card">
+      <div className="feature-icon">🧠</div>
+      <h3>{t('parentdashboard.featuresList.aiLearning.title')}</h3>
+      <p>{t('parentdashboard.featuresList.aiLearning.description')}</p>
+    </div>
+    <div className="feature-card">
+      <div className="feature-icon">📊</div>
+      <h3>{t('parentdashboard.featuresList.analytics.title')}</h3>
+      <p>{t('parentdashboard.featuresList.analytics.description')}</p>
+    </div>
+    <div className="feature-card">
+      <div className="feature-icon">🎯</div>
+      <h3>{t('parentdashboard.featuresList.goalLearning.title')}</h3>
+      <p>{t('parentdashboard.featuresList.goalLearning.description')}</p>
+    </div>
+  </div>
+</div>
+ 
           </div>
         );
     }
