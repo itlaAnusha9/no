@@ -1,1362 +1,4 @@
-
-// import React, { useState, useEffect } from 'react';
-
-// import { Link } from 'react-router-dom';
-
-// import { motion, useAnimation } from 'framer-motion';
-
-// import { useInView } from 'react-intersection-observer';
-
-// import { useNavigate } from 'react-router-dom';
-
-// import './Home1.css';
-
- 
-
-// const Home1 = () => {
-
-//   useEffect(() => {
-
-//     document.title = "Student-Dashboard | NOVYA - Your Smart Learning Platform";
-
-//   }, []);
-
-//   const navigate = useNavigate();
-
-//   const [currentCourse, setCurrentCourse] = useState('Mathematics Class 7');
-
-//   const [upcomingEvents, setUpcomingEvents] = useState([
-
-//     { id: 1, title: 'Science Workshop', date: 'Oct 15, 2023', time: '3:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/ffc10f2a812e42cd8b702a792725b8d9.webp' },
-
-//     { id: 2, title: 'Career Guidance', date: 'Oct 18, 2023', time: '4:30 PM', type: 'seminar', image: 'https://images.piclumen.com/normal/20250703/14/b3c0f0ee7c854054ae648a59a82a9c9a.webp' },
-
-//     { id: 3, title: 'Math Olympiad', date: 'Oct 22, 2023', time: '10:00 AM', type: 'competition', image: 'https://images.piclumen.com/normal/20250703/14/7c8ecbde0fd3415f848ba00176cd3b25.webp' },
-
-//     { id: 4, title: 'Literature Seminar', date: 'Oct 25, 2023', time: '2:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/08ea6901b2ad491595bc36c122451693.webp' }
-
-//   ]);
-
- 
-
-//   const coursesByClass = {
-
-//     '7': [
-
-//       { id: 1, title: 'Mathematics Grade 7', progress: 65, category: 'Mathematics', image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-
-//       { id: 2, title: 'Physics Grade 7', progress: 45, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-
-//       { id: 3, title: 'English Literature Grade 7', progress: 70, category: 'Languages', image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-
-//       { id: 4, title: 'History Grade 7', progress: 30, category: 'Social Studies', image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-
-//       { id: 5, title: 'Chemistry Grade 7', progress: 25, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-
-//       { id: 6, title: 'Computer Science Grade 7', progress: 80, category: 'Technology', image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
-
-//     ],
-
-//     '8': [
-
-//       { id: 1, title: 'Mathematics Grade 8', progress: 70, category: 'Mathematics', image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-
-//       { id: 2, title: 'Physics Grade 8', progress: 50, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-
-//       { id: 3, title: 'English Literature Grade 8', progress: 75, category: 'Languages', image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-
-//       { id: 4, title: 'History Grade 8', progress: 35, category: 'Social Studies', image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-
-//       { id: 5, title: 'Chemistry Grade 8', progress: 30, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-
-//       { id: 6, title: 'Computer Science Grade 8', progress: 85, category: 'Technology', image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
-
-//     ],
-
-//     '9': [
-
-//       { id: 1, title: 'Mathematics Grade 9', progress: 75, category: 'Mathematics', image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-
-//       { id: 2, title: 'Physics Grade 9', progress: 55, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-
-//       { id: 3, title: 'English Literature Grade 9', progress: 80, category: 'Languages', image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-
-//       { id: 4, title: 'History Grade 9', progress: 40, category: 'Social Studies', image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-
-//       { id: 5, title: 'Chemistry Grade 9', progress: 35, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-
-//       { id: 6, title: 'Computer Science Grade 9', progress: 90, category: 'Technology', image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
-
-//     ],
-
-//     '10': [
-
-//       { id: 1, title: 'Mathematics Grade 10', progress: 80, category: 'Mathematics', image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-
-//       { id: 2, title: 'Physics Grade 10', progress: 60, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-
-//       { id: 3, title: 'English Literature Grade 10', progress: 85, category: 'Languages', image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-
-//       { id: 4, title: 'History Grade 10', progress: 45, category: 'Social Studies', image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-
-//       { id: 5, title: 'Chemistry Grade 10', progress: 40, category: 'Science', image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-
-//       { id: 6, title: 'Computer Science Grade 10', progress: 95, category: 'Technology', image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
-
-//     ]
-
-//   };
-
- 
-
-//   const statsByClass = {
-
-//     '7': [
-
-//       { value: 8, label: 'Active Courses', icon: 'book', max: 10, color: '#2D5D7B' },
-
-//       { value: 24, label: 'Hours This Week', icon: 'clock', max: 40, color: '#A62D69' },
-
-//       { value: 92, label: 'Average Grade', icon: 'chart-line', max: 100, color: '#F9A826' },
-
-//       { value: 15, label: 'Assignments Due', icon: 'tasks', max: 20, color: '#009688' }
-
-//     ],
-
-//     '8': [
-
-//       { value: 7, label: 'Active Courses', icon: 'book', max: 10, color: '#2D5D7B' },
-
-//       { value: 20, label: 'Hours This Week', icon: 'clock', max: 40, color: '#A62D69' },
-
-//       { value: 88, label: 'Average Grade', icon: 'chart-line', max: 100, color: '#F9A826' },
-
-//       { value: 12, label: 'Assignments Due', icon: 'tasks', max: 20, color: '#009688' }
-
-//     ],
-
-//     '9': [
-
-//       { value: 9, label: 'Active Courses', icon: 'book', max: 10, color: '#2D5D7B' },
-
-//       { value: 28, label: 'Hours This Week', icon: 'clock', max: 40, color: '#A62D69' },
-
-//       { value: 95, label: 'Average Grade', icon: 'chart-line', max: 100, color: '#F9A826' },
-
-//       { value: 18, label: 'Assignments Due', icon: 'tasks', max: 20, color: '#009688' }
-
-//     ],
-
-//     '10': [
-
-//       { value: 6, label: 'Active Courses', icon: 'book', max: 10, color: '#2D5D7B' },
-
-//       { value: 18, label: 'Hours This Week', icon: 'clock', max: 40, color: '#A62D69' },
-
-//       { value: 85, label: 'Average Grade', icon: 'chart-line', max: 100, color: '#F9A826' },
-
-//       { value: 10, label: 'Assignments Due', icon: 'tasks', max: 20, color: '#009688' }
-
-//     ]
-
-//   };
-
- 
-
-//   const topicsByClass = {
-
-//     '7': ["Large Numbers", "Arthmetic Expressions", "Peek Point", "Number Expressions", "Lines"],
-
-//     '8': ["A Square And A Cube", "Power Play", "A Story Of Numbers", "Quadrilaterals", "Number Play"],
-
-//     '9': ["Number Systems", "Polynomials", "Coordinate Geometry", "Linear Equations", "Intoduction To Euclids Geometry"],
-
-//     '10': ["Real Numbers", "Polynomials", "Pair Of Linear Equations", "Quadritic Equations", "Arthmetic Progressions"]
-
-//   };
-
- 
-
-//   const [activeClass, setActiveClass] = useState('7');
-
-//   const [allCourses, setAllCourses] = useState(coursesByClass['7']);
-
-//   const [activeTab, setActiveTab] = useState('all');
-
-//   const [featuredCourses, setFeaturedCourses] = useState(coursesByClass['7']);
-
-//   const [currentProgress, setCurrentProgress] = useState(65);
-
-//   const [learningStats, setLearningStats] = useState(statsByClass['7']);
-
-//   const [currentTopics, setCurrentTopics] = useState(topicsByClass['7']);
-
-//   const [isHovered, setIsHovered] = useState(null);
-
-//   const controls = useAnimation();
-
-//   const [ref, inView] = useInView();
-
- 
-
-//   const subjectMap = {
-
-//     'Mathematics': 'Maths',
-
-//     'Science': 'Science',
-
-//     'Languages': 'English',
-
-//     'Social Studies': 'Social',
-
-//     'Technology': 'Computer',
-
-//   };
-
- 
-
-//   useEffect(() => {
-
-//     setAllCourses(coursesByClass[activeClass]);
-
-
-
-//   }, [activeClass]);
-
- 
-
-//   useEffect(() => {
-
-//     if (activeTab === 'all') {
-
-//       setFeaturedCourses(allCourses);
-
-//     } else if (activeTab === 'computer') {
-
-//       setFeaturedCourses(allCourses.filter(course => course.category.toLowerCase() === 'technology'));
-
-//     } else {
-
-//       setFeaturedCourses(allCourses.filter(course => course.category.toLowerCase().includes(activeTab.toLowerCase())));
-
-//     }
-
-//   }, [activeTab, allCourses]);
-
- 
-
-//   useEffect(() => {
-
-//     if (inView) {
-
-//       controls.start('visible');
-
-//     }
-
-//   }, [controls, inView]);
-
- 
-
-//   const containerVariants = {
-
-//     hidden: { opacity: 0 },
-
-//     visible: {
-
-//       opacity: 1,
-
-//       transition: { staggerChildren: 0.1, delayChildren: 0.3 }
-
-//     }
-
-//   };
-
- 
-
-//   const itemVariants = {
-
-//     hidden: { y: 40, opacity: 0 },
-
-//     visible: {
-
-//       y: 0,
-
-//       opacity: 1,
-
-//       transition: { type: 'spring', stiffness: 100, damping: 15 }
-
-//     }
-
-//   };
-
- 
-
-//   const hoverEffect = {
-
-//     scale: 1.05,
-
-//     boxShadow: "0 15px 30px -10px rgba(45, 93, 123, 0.4)",
-
-//     transition: { duration: 0.3 }
-
-//   };
-
- 
-
-//   const cardHover = {
-
-//     scale: 1.03,
-
-//     boxShadow: "0 20px 40px -10px rgba(45, 93, 123, 0.3)",
-
-//     transition: { duration: 0.3 }
-
-//   };
-
- 
-
-//   const textVariants = {
-
-//     hidden: { opacity: 0, x: -30 },
-
-//     visible: {
-
-//       opacity: 1,
-
-//       x: 0,
-
-//       transition: { duration: 0.8, ease: "easeOut" }
-
-//     }
-
-//   };
-
- 
-
-//   const fadeIn = {
-
-//     hidden: { opacity: 0 },
-
-//     visible: {
-
-//       opacity: 1,
-
-//       transition: { duration: 0.8 }
-
-//     }
-
-//   };
-
- 
-
-//   const staggerContainer = {
-
-//     hidden: { opacity: 0 },
-
-//     visible: {
-
-//       opacity: 1,
-
-//       transition: {
-
-//         staggerChildren: 0.15
-
-//       }
-
-//     }
-
-//   };
-
- 
-
-//   const heroVariants = {
-
-//     hidden: { opacity: 0, y: 80 },
-
-//     visible: {
-
-//       opacity: 1,
-
-//       y: 0,
-
-//       transition: { duration: 1, ease: "easeInOut" }
-
-//     }
-
-//   };
-
- 
-
-//   const pulseAnimation = {
-
-//     scale: [1, 1.05, 1],
-
-//     transition: { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
-
-//   };
-
- 
-
-//   const floatAnimation = {
-
-//     y: [0, -15, 0],
-
-//     transition: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-
-//   };
-
- 
-
-//   const glowAnimation = {
-
-//     boxShadow: [
-
-//       "0 0 0 0 rgba(166, 45, 105, 0.4)",
-
-//       "0 0 20px 10px rgba(166, 45, 105, 0)",
-
-//       "0 0 0 0 rgba(166, 45, 105, 0.4)"
-
-//     ],
-
-//     transition: { duration: 3, repeat: Infinity }
-
-//   };
-
- 
-
-//   const rotateAnimation = {
-
-//     rotate: [0, 5, -5, 0],
-
-//     transition: { duration: 0.5 }
-
-//   };
-
- 
-
-//   return (
-
-//     <div className="home-container">
-
-//       <motion.div
-
-//         className="floating-shape shape-1"
-
-//         animate={{
-
-//           y: [0, -40, 0],
-
-//           x: [0, 20, 0],
-
-//           rotate: [0, 5, 0]
-
-//         }}
-
-//         transition={{
-
-//           duration: 12,
-
-//           repeat: Infinity,
-
-//           ease: "easeInOut"
-
-//         }}
-
-//       />
-
-//       <motion.div
-
-//         className="floating-shape shape-2"
-
-//         animate={{
-
-//           y: [0, 30, 0],
-
-//           x: [0, -30, 0],
-
-//           rotate: [0, -8, 0]
-
-//         }}
-
-//         transition={{
-
-//           duration: 15,
-
-//           repeat: Infinity,
-
-//           ease: "easeInOut",
-
-//           delay: 2
-
-//         }}
-
-//       />
-
-//       <motion.div
-
-//         className="floating-shape shape-3"
-
-//         animate={{
-
-//           y: [0, -20, 0],
-
-//           x: [0, 15, 0],
-
-//           rotate: [0, 3, 0]
-
-//         }}
-
-//         transition={{
-
-//           duration: 10,
-
-//           repeat: Infinity,
-
-//           ease: "easeInOut",
-
-//           delay: 1
-
-//         }}
-
-//       />
-
- 
-
-//       <motion.section
-
-//         className="hero-section"
-
-//         initial="hidden"
-
-//         animate="visible"
-
-//         variants={heroVariants}
-
-//       >
-
-//         <div className="container hero-content">
-
-//           <motion.div
-
-//             className="hero-text"
-
-//             initial="hidden"
-
-//             animate="visible"
-
-//             variants={staggerContainer}
-
-//           >
-
-//             <motion.h1
-
-//               variants={textVariants}
-
-//               transition={{ duration: 0.8 }}
-
-//             >
-
-//               Welcome to Your <span className="highlight-text">Student Dashboard</span>
-
-//             </motion.h1>
-
-//             <motion.p
-
-//               variants={textVariants}
-
-//               transition={{ duration: 0.8, delay: 0.3 }}
-
-//               className="hero-subtitle"
-
-//             >
-
-//               Track your progress, access your courses, and stay updated with upcoming events
-
-//             </motion.p>
-
-//             <motion.div
-
-//               variants={textVariants}
-
-//               transition={{ duration: 0.8, delay: 0.6 }}
-
-//               className="hero-buttons"
-
-//             >
-
-//               {/* Continue Learning Button */}
-
-//               <motion.div
-
-//                 whileHover={{ scale: 1.05 }}
-
-//                 whileTap={{ scale: 0.95 }}
-
-//                 animate={controls}
-
-//               >
-
-//                 <button
-
-//                   className="btn btn-primary"
-
-//                   onClick={() => navigate(`/learn/class${activeClass}?subject=Maths`)}
-
-//                 >
-
-//                   Continue Learning
-
-//                 </button>
-
-//               </motion.div>
-
-             
-
-//               {[
-
-//                 { value: "8", label: 'Active Courses' },
-
-//                 { value: "92%", label: 'Average Grade' },
-
-//                 { value: "15", label: 'Upcoming Tasks' }
-
-//               ].map((stat, index) => (
-
-//                 <motion.div
-
-//                   className="stat-item"
-
-//                   key={index}
-
-//                   initial={{ opacity: 0, y: 20 }}
-
-//                   animate={{ opacity: 1, y: 0 }}
-
-//                   transition={{ delay: 1.4 + index * 0.2 }}
-
-//                   whileHover={{ y: -5 }}
-
-//                 >
-
-//                   <div className="stat-value">{stat.value}</div>
-
-//                   <div className="stat-label">{stat.label}</div>
-
-//                 </motion.div>
-
-//               ))}
-
-//             </motion.div>
-
-//           </motion.div>
-
-         
-
-//           <motion.div
-
-//             className="hero-image"
-
-//             initial={{ opacity: 0, scale: 0.8 }}
-
-//             animate={{ opacity: 1, scale: 1 }}
-
-//             transition={{ duration: 1, delay: 0.5 }}
-
-//             whileHover={pulseAnimation}
-
-//           >
-
-//             <motion.img
-
-//               src="https://illustrations.popsy.co/amber/digital-nomad.svg"
-
-//               alt="Student illustration"
-
-//               animate={floatAnimation}
-
-//             />
-
-//             <motion.div
-
-//               className="hero-image-glow"
-
-//               animate={glowAnimation}
-
-//             />
-
-//           </motion.div>
-
-//         </div>
-
-//       </motion.section>
-
- 
-
-//       {/* Rest of your existing code remains unchanged */}
-
-//       <motion.main
-
-//         className="main-content container py-5"
-
-//         variants={containerVariants}
-
-//         initial="hidden"
-
-//         animate="visible"
-
-//         ref={ref}
-
-//       >
-
-//         {/* Current Learning Section */}
-
-//         <motion.section
-
-//           className="current-learning-section mb-5"
-
-//           variants={itemVariants}
-
-//         >
-
-//           <div className="section-header">
-
-//             <motion.h2
-
-//               initial={{ opacity: 0, x: -20 }}
-
-//               animate={{ opacity: 1, x: 0 }}
-
-//               transition={{ delay: 0.2 }}
-
-//             >
-
-//               Your Current Course
-
-//             </motion.h2>
-
-            
-//           </div>
-
-         
-
-//           <div className="row g-4">
-
-//             <div className="col-lg-8">
-
-//               <motion.div
-
-//                 className="current-course-card p-4"
-
-//                 whileHover={cardHover}
-
-//                 initial={{ opacity: 0, x: -40 }}
-
-//                 animate={{ opacity: 1, x: 0 }}
-
-//                 transition={{ delay: 0.3, type: 'spring' }}
-
-//               >
-
-//                 <div
-
-//                   className="course-header"
-
-//                   style={{
-
-//                     display: "flex",
-
-//                     alignItems: "center",
-
-//                     gap: "12px",
-
-//                     overflow: "visible"
-
-//                   }}
-
-//                 >
-
-//                   <h3 style={{ margin: 0 }}>{currentCourse}</h3>
-
-//                   <motion.span
-
-//                     className="badge"
-
-//                     animate={pulseAnimation}
-
-//                     style={{
-
-//                       fontSize: "1rem",
-
-//                       padding: "0.3em 1.1em",
-
-//                       lineHeight: "1.5",
-
-//                       alignSelf: "flex-start",
-
-//                       whiteSpace: "nowrap"
-
-//                     }}
-
-//                   >
-
-//                     Active
-
-//                   </motion.span>
-
-//                 </div>
-
-//                 <div className="course-meta">
-
-//                   <span><i className="fas fa-chalkboard-teacher"></i> Instructor: Mrs. Smith</span>
-
-//                   <span><i className="fas fa-calendar-alt"></i> Started: Sep 5, 2023</span>
-
-//                 </div>
-
-//                 <div className="progress-container mt-3">
-
-//                   <div className="progress" style={{ height: '10px' }}>
-
-//                     <motion.div
-
-//                       className="progress-bar"
-
-//                       role="progressbar"
-
-//                       initial={{ width: 0 }}
-
-//                       animate={{ width: `${currentProgress}%` }}
-
-//                       transition={{ duration: 1.5, delay: 0.5, type: 'spring' }}
-
-//                       style={{ backgroundColor: '#A62D69' }}
-
-//                       aria-valuenow={currentProgress}
-
-//                       aria-valuemin="0"
-
-//                       aria-valuemax="100"
-
-//                     ></motion.div>
-
-//                   </div>
-
-//                   <div className="d-flex justify-content-between mt-2">
-
-//                     <span>{currentProgress}% Complete</span>
-
-//                     <span>13/20 Lessons</span>
-
-//                   </div>
-
-//                 </div>
-
-//                 <div className="course-actions mt-4">
-
-                 
-
-//                   <motion.button
-
-//                     className="btn btn-outline"
-
-//                     whileHover={{ scale: 1.03 }}
-
-//                     whileTap={{ scale: 0.98 }}
-
-//                     onClick={() => navigate(`/learn/class${activeClass}?subject=Maths`)}
-
-//                   >
-
-//                     View Syllabus
-
-//                   </motion.button>
-
-//                 </div>
-
-//                 <div className="course-highlights mt-4">
-
-//                   <h5>Current Topics</h5>
-
-//                   <ul>
-
-//                     {currentTopics.map((item, index) => (
-
-//                       <motion.li
-
-//                         key={index}
-
-//                         initial={{ opacity: 0, x: -20 }}
-
-//                         animate={{ opacity: 1, x: 0 }}
-
-//                         transition={{ delay: 0.6 + index * 0.1 }}
-
-//                       >
-
-//                         <i className="fas fa-check-circle"></i> {item}
-
-//                       </motion.li>
-
-//                     ))}
-
-//                   </ul>
-
-//                 </div>
-
-//               </motion.div>
-
-//             </div>
-
-           
-
-//             <div className="col-lg-4">
-
-//               <motion.div
-
-//                 className="stats-card p-4"
-
-//                 whileHover={cardHover}
-
-//                 initial={{ opacity: 0, y: 40 }}
-
-//                 animate={{ opacity: 1, y: 0 }}
-
-//                 transition={{ delay: 0.4, type: 'spring' }}
-
-//               >
-
-//                 <h4>Your Learning Stats</h4>
-
-//                 <div className="stats-bargraph">
-
-//                   {learningStats.map((stat, index) => (
-
-//                     <div className="bargraph-item" key={index}>
-
-//                       <div className="bargraph-label">
-
-//                         <i className={`fas fa-${stat.icon}`}></i> {stat.label}
-
-//                         <span className="bargraph-value">{stat.value}{stat.label === 'Average Grade' ? '%' : ''}</span>
-
-//                       </div>
-
-//                       <div className="bargraph-bar-bg">
-
-//                         <div
-
-//                           className="bargraph-bar-fill"
-
-//                           style={{
-
-//                             width: `${(stat.value / stat.max) * 100}%`,
-
-//                             background: stat.color
-
-//                           }}
-
-//                         ></div>
-
-//                       </div>
-
-//                     </div>
-
-//                   ))}
-
-//                 </div>
-
-//                 <motion.div
-
-//                   className="achievement-badge mt-4"
-
-//                   initial={{ scale: 0 }}
-
-//                   animate={{ scale: 1 }}
-
-//                   transition={{ delay: 1.1, type: 'spring' }}
-
-//                   whileHover={rotateAnimation}
-
-//                 >
-
-//                   <i className="fas fa-trophy"></i>
-
-//                   <span>Math Star Student</span>
-
-//                 </motion.div>
-
-//               </motion.div>
-
-//             </div>
-
-//           </div>
-
-//         </motion.section>
-
- 
-
-//         <motion.section
-
-//           className="featured-courses mb-5"
-
-//           variants={itemVariants}
-
-//         >
-
-//           <div className="section-header">
-
-//             <h2>Your Courses</h2>
-           
-
-
-//             <div className="tabs">
-
-//               {/* MODIFICATION HERE: Added 'Computer' tab */}
-
-//               {['All', 'Mathematics', 'Science', 'Languages', 'Social Studies', 'Computer'].map((tab) => (
-
-//                 <motion.button
-
-//                   key={tab}
-
-//                   className={activeTab === tab.toLowerCase() ? 'active' : ''}
-
-//                   onClick={() => setActiveTab(tab.toLowerCase())}
-
-//                   whileHover={{ scale: 1.05, backgroundColor: activeTab === tab.toLowerCase() ? '#1a3a4f' : '#e9ecef' }}
-
-//                   whileTap={{ scale: 0.95 }}
-
-//                   initial={{ opacity: 0, y: 10 }}
-
-//                   animate={{ opacity: 1, y: 0 }}
-
-//                   transition={{ delay: 0.3 }}
-
-//                 >
-
-//                   {tab}
-
-//                 </motion.button>
-
-//               ))}
-
-//             </div>
-
-//           </div>
-
-//           <div className="tabs">
-
-//               {['7', '8', '9', '10'].map((cls) => (
-
-//                 <motion.button
-
-//                   key={cls}
-
-//                   className={activeClass === cls ? 'active' : ''}
-
-//                   onClick={() => setActiveClass(cls)}
-
-//                   whileHover={{ scale: 1.05, backgroundColor: activeClass === cls ? '#1a3a4f' : '#e9ecef' }}
-
-//                   whileTap={{ scale: 0.95 }}
-
-//                   initial={{ opacity: 0, y: 10 }}
-
-//                   animate={{ opacity: 1, y: 0 }}
-
-//                   transition={{ delay: 0.3 }}
-
-//                 >
-
-//                   Class {cls}
-
-//                 </motion.button>
-
-//               ))}
-
-//             </div>
-// <br/>
-//           <div className="row g-4">
-
-//             {featuredCourses.map((course, index) => (
-
-//               <div className="col-md-4" key={course.id}>
-
-//                 <motion.div
-
-//                   className="featured-course-card"
-
-//                   whileHover={cardHover}
-
-//                   initial={{ opacity: 0, y: 40 }}
-
-//                   animate={{ opacity: 1, y: 0 }}
-
-//                   transition={{ delay: index * 0.1, type: 'spring' }}
-
-//                   onHoverStart={() => setIsHovered(course.id)}
-
-//                   onHoverEnd={() => setIsHovered(null)}
-
-//                 >
-
-//                   <div className="course-image">
-
-//                     <img src={course.image} alt={course.title} />
-
-//                     <div className="course-category">{course.category}</div>
-
-//                     {isHovered === course.id && (
-
-//                       <motion.div
-
-//                         className="course-hover-overlay"
-
-//                         initial={{ opacity: 0 }}
-
-//                         animate={{ opacity: 1 }}
-
-//                         exit={{ opacity: 0 }}
-
-//                       >
-
-               
-
-//                       </motion.div>
-
-//                     )}
-
-//                   </div>
-
-//                   <div className="course-content p-4">
-
-//                     <h3>{course.title}</h3>
-
-//                     <div className="progress-container mt-3">
-
-//                       <div className="progress" style={{ height: '6px' }}>
-
-//                         <motion.div
-
-//                           className="progress-bar"
-
-//                           role="progressbar"
-
-//                           initial={{ width: 0 }}
-
-//                           animate={{ width: `${course.progress}%` }}
-
-//                           transition={{ duration: 1, delay: index * 0.1 + 0.3 }}
-
-//                           style={{ backgroundColor: '#2D5D7B' }}
-
-//                         ></motion.div>
-
-//                       </div>
-
-//                       <span className="mt-2 d-block">{course.progress}% Complete</span>
-
-//                     </div>
-
-//                     <div className="course-meta mt-3">
-
-//                       <span><i className="fas fa-book-open"></i> 20 Lessons</span>
-
-//                       <span><i className="fas fa-clock"></i> 10 Hours</span>
-
-//                     </div>
-
-//                     <motion.button
-
-//                         className="btn btn-primary w-100 mt-3"
-
-//                         whileHover={{ scale: 1.02, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
-
-//                         whileTap={{ scale: 0.98 }}
-
-//                         onClick={() => navigate(`/learn/class${activeClass}?subject=${subjectMap[course.category]}`)}
-
-//                     >
-
-//                       Continue
-
-//                     </motion.button>
-
-//                   </div>
-
-//                 </motion.div>
-
-//               </div>
-
-//             ))}
-
-//           </div>
-
-//         </motion.section>
-
- 
-
-//         <motion.section
-
-//           className="events-section mb-5"
-
-//           variants={itemVariants}
-
-//         >
-
-//           <div className="section-header">
-
-//             <h2>Upcoming Events</h2>
-
-//             {/* <Link to="/events" className="view-all">View Calendar</Link> */}
-
-//           </div>
-
-         
-
-//           <div className="row g-4">
-
-//             {upcomingEvents.map((event, index) => (
-
-//               <div className="col-lg-3 col-md-6" key={event.id}>
-
-//                 <motion.div
-
-//                   className="event-card"
-
-//                   whileHover="hover"
-
-//                   initial={{ opacity: 0, y: 40 }}
-
-//                   animate={{ opacity: 1, y: 0 }}
-
-//                   transition={{ delay: index * 0.1, type: 'spring' }}
-
-//                   variants={{
-
-//                     hover: {
-
-//                       y: -10,
-
-//                       boxShadow: "0 25px 50px -10px rgba(45, 93, 123, 0.3)",
-
-//                       transition: { duration: 0.3 }
-
-//                     }
-
-//                   }}
-
-//                 >
-
-//                   <div className="event-image">
-
-//                     <img src={event.image} alt={event.title} />
-
-//                     <div className={`event-type ${event.type}`}>
-
-//                       {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
-
-//                     </div>
-
-//                   </div>
-
-//                   <div className="event-content p-4">
-
-//                     <div className="event-date">
-
-//                       <span className="day">{event.date.split(' ')[1].replace(',', '')}</span>
-
-//                       <span className="month">{event.date.split(' ')[0]}</span>
-
-//                     </div>
-
-//                     <h3>{event.title}</h3>
-
-//                     <div className="event-meta">
-
-//                       <span><i className="far fa-clock"></i> {event.time}</span>
-
-//                       <span><i className="fas fa-map-marker-alt"></i> School Campus</span>
-
-//                     </div>
-
-//                     <p className="event-description">
-
-//                       Join us for an exciting {event.type} on {event.date} at {event.time}
-
-//                     </p>
-
-//                     <div className="event-footer">
-
-//                       <motion.button
-
-//                         className="btn btn-primary"
-
-//                         whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
-
-//                         whileTap={{ scale: 0.98 }}
-
-//                         style={{
-
-//                           fontSize: "0.95rem",
-
-//                           padding: "0.35em 1.1em",
-
-//                           minWidth: "unset"
-
-//                         }}
-
-//                         // MODIFICATION HERE: Navigate to an event-specific registration page
-
-//                         onClick={() => navigate(`/events/${event.id}/register`)}
-
-//                       >
-
-//                         Register Now
-
-//                       </motion.button>
-
-//                       <div className="event-reminder">
-
-//                         <i className="far fa-bell"></i>
-
-//                       </div>
-
-//                     </div>
-
-//                   </div>
-
-//                 </motion.div>
-
-//               </div>
-
-//             ))}
-
-//           </div>
-
-//         </motion.section>
-
-//       </motion.main>
-
-//     </div>
-
-//   );
-
-// };
-
- 
-
-// export default Home1;
-
-
-
-
-
-
-
-
+////old code
 // import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import { motion, useAnimation } from 'framer-motion';
@@ -1369,85 +11,79 @@
 //   const { t } = useTranslation();
 
 //   useEffect(() => {
-//     document.title = t('home.title') + " | NOVYA - Your Smart Learning Platform";
+//     document.title = t('dashboard.title') + " | NOVYA - Your Smart Learning Platform";
 //   }, [t]);
 
 //   const navigate = useNavigate();
-//   const [currentCourse, setCurrentCourse] = useState(t('home.currentCourse'));
-//   const [upcomingEvents, setUpcomingEvents] = useState([
-//     { id: 1, title: t('home.events.scienceWorkshop'), date: t('home.events.dates.oct15'), time: '3:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/ffc10f2a812e42cd8b702a792725b8d9.webp' },
-//     { id: 2, title: t('home.events.careerGuidance'), date: t('home.events.dates.oct18'), time: '4:30 PM', type: 'seminar', image: 'https://images.piclumen.com/normal/20250703/14/b3c0f0ee7c854054ae648a59a82a9c9a.webp' },
-//     { id: 3, title: t('home.events.mathOlympiad'), date: t('home.events.dates.oct22'), time: '10:00 AM', type: 'competition', image: 'https://images.piclumen.com/normal/20250703/14/7c8ecbde0fd3415f848ba00176cd3b25.webp' },
-//     { id: 4, title: t('home.events.literatureSeminar'), date: t('home.events.dates.oct25'), time: '2:00 PM', type: 'workshop', image: 'https://images.piclumen.com/normal/20250703/14/08ea6901b2ad491595bc36c122451693.webp' }
-//   ]);
+//   const [currentCourse, setCurrentCourse] = useState(t('dashboard.currentCourse'));
 
 //   const coursesByClass = {
 //     '7': [
-//       { id: 1, title: t('home.courses.class7.math'), progress: 65, category: t('home.categories.mathematics'), image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-//       { id: 2, title: t('home.courses.class7.physics'), progress: 45, category: t('home.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-//       { id: 3, title: t('home.courses.class7.english'), progress: 70, category: t('home.categories.languages'), image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-//       { id: 4, title: t('home.courses.class7.history'), progress: 30, category: t('home.categories.socialStudies'), image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-//       { id: 5, title: t('home.courses.class7.chemistry'), progress: 25, category: t('home.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-//       { id: 6, title: t('home.courses.class7.computer'), progress: 80, category: t('home.categories.technology'), image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
+//       { id: 1, title: t('dashboard.courses.class7.math'), progress: 65, category: t('dashboard.categories.mathematics'), image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
+//       { id: 2, title: t('dashboard.courses.class7.physics'), progress: 45, category: t('dashboard.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
+//       { id: 3, title: t('dashboard.courses.class7.english'), progress: 70, category: t('dashboard.categories.languages'), image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
+//       { id: 4, title: t('dashboard.courses.class7.history'), progress: 30, category: t('dashboard.categories.socialStudies'), image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
+//       { id: 5, title: t('dashboard.courses.class7.chemistry'), progress: 25, category: t('dashboard.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
+//       { id: 6, title: t('dashboard.courses.class7.computer'), progress: 80, category: t('dashboard.categories.technology'), image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
 //     ],
 //     '8': [
-//       { id: 1, title: t('home.courses.class8.math'), progress: 70, category: t('home.categories.mathematics'), image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-//       { id: 2, title: t('home.courses.class8.physics'), progress: 50, category: t('home.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-//       { id: 3, title: t('home.courses.class8.english'), progress: 75, category: t('home.categories.languages'), image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-//       { id: 4, title: t('home.courses.class8.history'), progress: 35, category: t('home.categories.socialStudies'), image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-//       { id: 5, title: t('home.courses.class8.chemistry'), progress: 30, category: t('home.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-//       { id: 6, title: t('home.courses.class8.computer'), progress: 85, category: t('home.categories.technology'), image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
+//       { id: 1, title: t('dashboard.courses.class8.math'), progress: 70, category: t('dashboard.categories.mathematics'), image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
+//       { id: 2, title: t('dashboard.courses.class8.physics'), progress: 50, category: t('dashboard.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
+//       { id: 3, title: t('dashboard.courses.class8.english'), progress: 75, category: t('dashboard.categories.languages'), image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
+//       { id: 4, title: t('dashboard.courses.class8.history'), progress: 35, category: t('dashboard.categories.socialStudies'), image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
+//       { id: 5, title: t('dashboard.courses.class8.chemistry'), progress: 30, category: t('dashboard.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
+//       { id: 6, title: t('dashboard.courses.class8.computer'), progress: 85, category: t('dashboard.categories.technology'), image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
 //     ],
 //     '9': [
-//       { id: 1, title: t('home.courses.class9.math'), progress: 75, category: t('home.categories.mathematics'), image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-//       { id: 2, title: t('home.courses.class9.physics'), progress: 55, category: t('home.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-//       { id: 3, title: t('home.courses.class9.english'), progress: 80, category: t('home.categories.languages'), image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-//       { id: 4, title: t('home.courses.class9.history'), progress: 40, category: t('home.categories.socialStudies'), image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-//       { id: 5, title: t('home.courses.class9.chemistry'), progress: 35, category: t('home.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-//       { id: 6, title: t('home.courses.class9.computer'), progress: 90, category: t('home.categories.technology'), image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
+//       { id: 1, title: t('dashboard.courses.class9.math'), progress: 75, category: t('dashboard.categories.mathematics'), image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
+//       { id: 2, title: t('dashboard.courses.class9.physics'), progress: 55, category: t('dashboard.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
+//       { id: 3, title: t('dashboard.courses.class9.english'), progress: 80, category: t('dashboard.categories.languages'), image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
+//       { id: 4, title: t('dashboard.courses.class9.history'), progress: 40, category: t('dashboard.categories.socialStudies'), image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
+//       { id: 5, title: t('dashboard.courses.class9.chemistry'), progress: 35, category: t('dashboard.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
+//       { id: 6, title: t('dashboard.courses.class9.computer'), progress: 90, category: t('dashboard.categories.technology'), image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
 //     ],
 //     '10': [
-//       { id: 1, title: t('home.courses.class10.math'), progress: 80, category: t('home.categories.mathematics'), image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
-//       { id: 2, title: t('home.courses.class10.physics'), progress: 60, category: t('home.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
-//       { id: 3, title: t('home.courses.class10.english'), progress: 85, category: t('home.categories.languages'), image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
-//       { id: 4, title: t('home.courses.class10.history'), progress: 45, category: t('home.categories.socialStudies'), image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
-//       { id: 5, title: t('home.courses.class10.chemistry'), progress: 40, category: t('home.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
-//       { id: 6, title: t('home.courses.class10.computer'), progress: 95, category: t('home.categories.technology'), image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
+//       { id: 1, title: t('dashboard.courses.class10.math'), progress: 80, category: t('dashboard.categories.mathematics'), image: 'https://images.piclumen.com/normal/20250703/13/8d165eddc71142118d4122267d70f935.webp' },
+//       { id: 2, title: t('dashboard.courses.class10.physics'), progress: 60, category: t('dashboard.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/bbe702fae3f24484a539808f7d5945c3.webp' },
+//       { id: 3, title: t('dashboard.courses.class10.english'), progress: 85, category: t('dashboard.categories.languages'), image: 'https://images.piclumen.com/normal/20250703/13/628bb4e5d4d949218ed1bf18674ea5e9.webp' },
+//       { id: 4, title: t('dashboard.courses.class10.history'), progress: 45, category: t('dashboard.categories.socialStudies'), image: 'https://images.piclumen.com/normal/20250703/13/ad70cd8ae379446fa8a024dadc66d2ce.webp' },
+//       { id: 5, title: t('dashboard.courses.class10.chemistry'), progress: 40, category: t('dashboard.categories.science'), image: 'https://images.piclumen.com/normal/20250703/13/6fd3ce336b4a4bd1a940573ba82618fe.webp' },
+//       { id: 6, title: t('dashboard.courses.class10.computer'), progress: 95, category: t('dashboard.categories.technology'), image: 'https://images.piclumen.com/normal/20250703/14/de85ebdcf04345859b4a9b29f2deea94.webp' }
 //     ]
 //   };
 
 //   const statsByClass = {
 //     '7': [
-//       { value: 8, label: t('home.stats.activeCourses'), icon: 'book', max: 10, color: '#2D5D7B' },
-//       { value: 24, label: t('home.stats.hoursThisWeek'), icon: 'clock', max: 40, color: '#A62D69' },
-//       { value: 92, label: t('home.stats.averageGrade'), icon: 'chart-line', max: 100, color: '#F9A826' },
-//       { value: 15, label: t('home.stats.assignmentsDue'), icon: 'tasks', max: 20, color: '#009688' }
+//       { value: 8, label: t('dashboard.stats.activeCourses'), icon: 'book', max: 10, color: '#2D5D7B' },
+//       { value: 24, label: t('dashboard.stats.hoursThisWeek'), icon: 'clock', max: 40, color: '#A62D69' },
+//       { value: 92, label: t('dashboard.stats.averageGrade'), icon: 'chart-line', max: 100, color: '#F9A826' },
+//       { value: 15, label: t('dashboard.stats.assignmentsDue'), icon: 'tasks', max: 20, color: '#009688' }
 //     ],
 //     '8': [
-//       { value: 7, label: t('home.stats.activeCourses'), icon: 'book', max: 10, color: '#2D5D7B' },
-//       { value: 20, label: t('home.stats.hoursThisWeek'), icon: 'clock', max: 40, color: '#A62D69' },
-//       { value: 88, label: t('home.stats.averageGrade'), icon: 'chart-line', max: 100, color: '#F9A826' },
-//       { value: 12, label: t('home.stats.assignmentsDue'), icon: 'tasks', max: 20, color: '#009688' }
+//       { value: 7, label: t('dashboard.stats.activeCourses'), icon: 'book', max: 10, color: '#2D5D7B' },
+//       { value: 20, label: t('dashboard.stats.hoursThisWeek'), icon: 'clock', max: 40, color: '#A62D69' },
+//       { value: 88, label: t('dashboard.stats.averageGrade'), icon: 'chart-line', max: 100, color: '#F9A826' },
+//       { value: 12, label: t('dashboard.stats.assignmentsDue'), icon: 'tasks', max: 20, color: '#009688' }
 //     ],
 //     '9': [
-//       { value: 9, label: t('home.stats.activeCourses'), icon: 'book', max: 10, color: '#2D5D7B' },
-//       { value: 28, label: t('home.stats.hoursThisWeek'), icon: 'clock', max: 40, color: '#A62D69' },
-//       { value: 95, label: t('home.stats.averageGrade'), icon: 'chart-line', max: 100, color: '#F9A826' },
-//       { value: 18, label: t('home.stats.assignmentsDue'), icon: 'tasks', max: 20, color: '#009688' }
+//       { value: 9, label: t('dashboard.stats.activeCourses'), icon: 'book', max: 10, color: '#2D5D7B' },
+//       { value: 28, label: t('dashboard.stats.hoursThisWeek'), icon: 'clock', max: 40, color: '#A62D69' },
+//       { value: 95, label: t('dashboard.stats.averageGrade'), icon: 'chart-line', max: 100, color: '#F9A826' },
+//       { value: 18, label: t('dashboard.stats.assignmentsDue'), icon: 'tasks', max: 20, color: '#009688' }
 //     ],
 //     '10': [
-//       { value: 6, label: t('home.stats.activeCourses'), icon: 'book', max: 10, color: '#2D5D7B' },
-//       { value: 18, label: t('home.stats.hoursThisWeek'), icon: 'clock', max: 40, color: '#A62D69' },
-//       { value: 85, label: t('home.stats.averageGrade'), icon: 'chart-line', max: 100, color: '#F9A826' },
-//       { value: 10, label: t('home.stats.assignmentsDue'), icon: 'tasks', max: 20, color: '#009688' }
+//       { value: 6, label: t('dashboard.stats.activeCourses'), icon: 'book', max: 10, color: '#2D5D7B' },
+//       { value: 18, label: t('dashboard.stats.hoursThisWeek'), icon: 'clock', max: 40, color: '#A62D69' },
+//       { value: 85, label: t('dashboard.stats.averageGrade'), icon: 'chart-line', max: 100, color: '#F9A826' },
+//       { value: 10, label: t('dashboard.stats.assignmentsDue'), icon: 'tasks', max: 20, color: '#009688' }
 //     ]
 //   };
 
 //   const topicsByClass = {
-//     '7': t('home.topics.class7', { returnObjects: true }),
-//     '8': t('home.topics.class8', { returnObjects: true }),
-//     '9': t('home.topics.class9', { returnObjects: true }),
-//     '10': t('home.topics.class10', { returnObjects: true })
+//     '7': t('dashboard.topics.class7', { returnObjects: true }),
+//     '8': t('dashboard.topics.class8', { returnObjects: true }),
+//     '9': t('dashboard.topics.class9', { returnObjects: true }),
+//     '10': t('dashboard.topics.class10', { returnObjects: true })
 //   };
 
 //   const [activeClass, setActiveClass] = useState('7');
@@ -1462,11 +98,11 @@
 //   const [ref, inView] = useInView();
 
 //   const subjectMap = {
-//     [t('home.categories.mathematics')]: 'Maths',
-//     [t('home.categories.science')]: 'Science',
-//     [t('home.categories.languages')]: 'English',
-//     [t('home.categories.socialStudies')]: 'Social',
-//     [t('home.categories.technology')]: 'Computer',
+//     [t('dashboard.categories.mathematics')]: 'Maths',
+//     [t('dashboard.categories.science')]: 'Science',
+//     [t('dashboard.categories.languages')]: 'English',
+//     [t('dashboard.categories.social')]: 'Social',
+//     [t('dashboard.categories.technology')]: 'Computer',
 //   };
 
 //   useEffect(() => {
@@ -1481,7 +117,7 @@
 //     if (activeTab === 'all') {
 //       setFeaturedCourses(allCourses);
 //     } else if (activeTab === 'computer') {
-//       setFeaturedCourses(allCourses.filter(course => course.category.toLowerCase() === t('home.categories.technology').toLowerCase()));
+//       setFeaturedCourses(allCourses.filter(course => course.category.toLowerCase() === t('dashboard.categories.technology').toLowerCase()));
 //     } else {
 //       setFeaturedCourses(allCourses.filter(course => course.category.toLowerCase().includes(activeTab.toLowerCase())));
 //     }
@@ -1639,18 +275,18 @@
 //             animate="visible"
 //             variants={staggerContainer}
 //           >
-//             <motion.h1
+//             <motion.h2
 //               variants={textVariants}
 //               transition={{ duration: 0.8 }}
 //             >
-//               {t('home.hero.title')} <span className="highlight-text">{t('home.hero.highlight')}</span>
-//             </motion.h1>
+//               {t('dashboard.hero.title')} <span className="highlight-text">{t('dashboard.hero.highlight')}</span>
+//             </motion.h2>
 //             <motion.p
 //               variants={textVariants}
 //               transition={{ duration: 0.8, delay: 0.3 }}
 //               className="hero-subtitle"
 //             >
-//               {t('home.hero.subtitle')}
+//               {t('dashboard.hero.subtitle')}
 //             </motion.p>
 //             <motion.div
 //               variants={textVariants}
@@ -1666,14 +302,14 @@
 //                   className="btn btn-primary"
 //                   onClick={() => navigate(`/learn/class${activeClass}?subject=Maths`)}
 //                 >
-//                   {t('home.hero.continueLearning')}
+//                   {t('dashboard.hero.continueLearning')}
 //                 </button>
 //               </motion.div>
 
 //               {[
-//                 { value: "8", label: t('home.stats.activeCourses') },
-//                 { value: "92%", label: t('home.stats.averageGrade') },
-//                 { value: "15", label: t('home.stats.assignmentsDue') }
+//                 { value: "8", label: t('dashboard.stats.activeCourses') },
+//                 { value: "92%", label: t('dashboard.stats.averageGrade') },
+//                 { value: "15", label: t('dashboard.stats.assignmentsDue') }
 //               ].map((stat, index) => (
 //                 <motion.div
 //                   className="stat-item"
@@ -1699,7 +335,7 @@
 //           >
 //             <motion.img
 //               src="https://illustrations.popsy.co/amber/digital-nomad.svg"
-//               alt={t('home.hero.imageAlt')}
+//               alt={t('dashboard.hero.imageAlt')}
 //               animate={floatAnimation}
 //             />
 //             <motion.div
@@ -1727,7 +363,7 @@
 //               animate={{ opacity: 1, x: 0 }}
 //               transition={{ delay: 0.2 }}
 //             >
-//               {t('home.sections.currentCourse')}
+//               {t('dashboard.sections.currentCourse')}
 //             </motion.h2>
 //           </div>
 
@@ -1761,12 +397,12 @@
 //                       whiteSpace: "nowrap"
 //                     }}
 //                   >
-//                     {t('home.active')}
+//                     {t('dashboard.active')}
 //                   </motion.span>
 //                 </div>
 //                 <div className="course-meta">
-//                   <span><i className="fas fa-chalkboard-teacher"></i> {t('home.instructor')}</span>
-//                   <span><i className="fas fa-calendar-alt"></i> {t('home.startDate')}</span>
+//                   <span><i className="fas fa-chalkboard-teacher"></i> {t('dashboard.instructor')}</span>
+//                   <span><i className="fas fa-calendar-alt"></i> {t('dashboard.startDate')}</span>
 //                 </div>
 //                 <div className="progress-container mt-3">
 //                   <div className="progress" style={{ height: '10px' }}>
@@ -1783,8 +419,8 @@
 //                     ></motion.div>
 //                   </div>
 //                   <div className="d-flex justify-content-between mt-2">
-//                     <span>{currentProgress}% {t('home.complete')}</span>
-//                     <span>{t('home.lessonsProgress')}</span>
+//                     <span>{currentProgress}% {t('dashboard.complete')}</span>
+//                     <span>{t('dashboard.lessonsProgress')}</span>
 //                   </div>
 //                 </div>
 //                 <div className="course-actions mt-4">
@@ -1794,11 +430,11 @@
 //                     whileTap={{ scale: 0.98 }}
 //                     onClick={() => navigate(`/learn/class${activeClass}?subject=Maths`)}
 //                   >
-//                     {t('home.viewSyllabus')}
+//                     {t('dashboard.viewSyllabus')}
 //                   </motion.button>
 //                 </div>
 //                 <div className="course-highlights mt-4">
-//                   <h5>{t('home.currentTopics')}</h5>
+//                   <h5>{t('dashboard.currentTopics')}</h5>
 //                   <ul>
 //                     {Array.isArray(currentTopics) ? currentTopics.map((item, index) => (
 //                       <motion.li
@@ -1809,7 +445,7 @@
 //                       >
 //                         <i className="fas fa-check-circle"></i> {item}
 //                       </motion.li>
-//                     )) : <li>{t('home.noTopics')}</li>}
+//                     )) : <li>{t('dashboard.noTopics')}</li>}
 //                   </ul>
 //                 </div>
 //               </motion.div>
@@ -1823,13 +459,13 @@
 //                 animate={{ opacity: 1, y: 0 }}
 //                 transition={{ delay: 0.4, type: 'spring' }}
 //               >
-//                 <h4>{t('home.sections.learningStats')}</h4>
+//                 <h5>{t('dashboard.sections.learningStats')}</h5>
 //                 <div className="stats-bargraph">
 //                   {learningStats.map((stat, index) => (
 //                     <div className="bargraph-item" key={index}>
 //                       <div className="bargraph-label">
 //                         <i className={`fas fa-${stat.icon}`}></i> {stat.label}
-//                         <span className="bargraph-value">{stat.value}{stat.label === t('home.stats.averageGrade') ? '%' : ''}</span>
+//                         <span className="bargraph-value">{stat.value}{stat.label === t('dashboard.stats.averageGrade') ? '%' : ''}</span>
 //                       </div>
 //                       <div className="bargraph-bar-bg">
 //                         <div
@@ -1851,7 +487,7 @@
 //                   whileHover={rotateAnimation}
 //                 >
 //                   <i className="fas fa-trophy"></i>
-//                   <span>{t('home.achievement')}</span>
+//                   <span>{t('dashboard.achievement')}</span>
 //                 </motion.div>
 //               </motion.div>
 //             </div>
@@ -1863,9 +499,9 @@
 //           variants={itemVariants}
 //         >
 //           <div className="section-header">
-//             <h2>{t('home.sections.courses')}</h2>
+//             <h2>{t('dashboard.sections.courses')}</h2>
 //             <div className="tabs">
-//               {['All', 'Mathematics', 'Science', 'Languages', 'Social Studies', 'Computer'].map((tab) => (
+//               {['All', 'Mathematics', 'Science', 'Languages', 'Social', 'Computer'].map((tab) => (
 //                 <motion.button
 //                   key={tab}
 //                   className={activeTab === tab.toLowerCase() ? 'active' : ''}
@@ -1876,27 +512,29 @@
 //                   animate={{ opacity: 1, y: 0 }}
 //                   transition={{ delay: 0.3 }}
 //                 >
-//                   {t(`home.tabs.${tab.toLowerCase()}`)}
+//                   {t(`dashboard.tabs.${tab.toLowerCase()}`)}
 //                 </motion.button>
 //               ))}
 //             </div>
 //           </div>
-//           <div className="tabs">
-//             {['7', '8', '9', '10'].map((cls) => (
-//               <motion.button
-//                 key={cls}
-//                 className={activeClass === cls ? 'active' : ''}
-//                 onClick={() => setActiveClass(cls)}
-//                 whileHover={{ scale: 1.05, backgroundColor: activeClass === cls ? '#1a3a4f' : '#e9ecef' }}
-//                 whileTap={{ scale: 0.95 }}
-//                 initial={{ opacity: 0, y: 10 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 transition={{ delay: 0.3 }}
-//               >
-//                 {t('home.class', { class: cls })}
-//               </motion.button>
-//             ))}
-//           </div>
+// <div className="tabs">
+//   {['7th', '8th', '9th', '10th'].map((cls) => (
+//     <motion.button
+//       key={cls}
+//       className={activeClass === cls ? 'active' : ''}
+//       onClick={() => setActiveClass(cls)}
+//       whileHover={{ scale: 1.05, backgroundColor: activeClass === cls ? '#1a3a4f' : '#e9ecef' }}
+//       whileTap={{ scale: 0.95 }}
+//       initial={{ opacity: 0, y: 10 }}
+//       animate={{ opacity: 1, y: 0 }}
+//       transition={{ delay: 0.3 }}
+//     >
+//       {t(`classes.${cls}`)}
+//     </motion.button>
+//   ))}
+// </div>
+
+ 
 //           <br />
 //           <div className="row g-4">
 //             {featuredCourses.map((course, index) => (
@@ -1935,11 +573,11 @@
 //                           style={{ backgroundColor: '#2D5D7B' }}
 //                         ></motion.div>
 //                       </div>
-//                       <span className="mt-2 d-block">{course.progress}% {t('home.complete')}</span>
+//                       <span className="mt-2 d-block">{course.progress}% {t('dashboard.complete')}</span>
 //                     </div>
 //                     <div className="course-meta mt-3">
-//                       <span><i className="fas fa-book-open"></i> {t('home.lessons')}</span>
-//                       <span><i className="fas fa-clock"></i> {t('home.hours')}</span>
+//                       <span><i className="fas fa-book-open"></i> {t('dashboard.lessons')}</span>
+//                       <span><i className="fas fa-clock"></i> {t('dashboard.hours')}</span>
 //                     </div>
 //                     <motion.button
 //                       className="btn btn-primary w-100 mt-3"
@@ -1947,76 +585,8 @@
 //                       whileTap={{ scale: 0.98 }}
 //                       onClick={() => navigate(`/learn/class${activeClass}?subject=${subjectMap[course.category]}`)}
 //                     >
-//                       {t('home.continue')}
+//                       {t('dashboard.continue')}
 //                     </motion.button>
-//                   </div>
-//                 </motion.div>
-//               </div>
-//             ))}
-//           </div>
-//         </motion.section>
-
-//         <motion.section
-//           className="events-section mb-5"
-//           variants={itemVariants}
-//         >
-//           <div className="section-header">
-//             <h2>{t('home.sections.events')}</h2>
-//           </div>
-//           <div className="row g-4">
-//             {upcomingEvents.map((event, index) => (
-//               <div className="col-lg-3 col-md-6" key={event.id}>
-//                 <motion.div
-//                   className="event-card"
-//                   whileHover="hover"
-//                   initial={{ opacity: 0, y: 40 }}
-//                   animate={{ opacity: 1, y: 0 }}
-//                   transition={{ delay: index * 0.1, type: 'spring' }}
-//                   variants={{
-//                     hover: {
-//                       y: -10,
-//                       boxShadow: "0 25px 50px -10px rgba(45, 93, 123, 0.3)",
-//                       transition: { duration: 0.3 }
-//                     }
-//                   }}
-//                 >
-//                   <div className="event-image">
-//                     <img src={event.image} alt={event.title} />
-//                     <div className={`event-type ${event.type}`}>
-//                       {t(`home.eventTypes.${event.type}`)}
-//                     </div>
-//                   </div>
-//                   <div className="event-content p-4">
-//                     <div className="event-date">
-//                       <span className="day">{event.date.split(' ')[1].replace(',', '')}</span>
-//                       <span className="month">{event.date.split(' ')[0]}</span>
-//                     </div>
-//                     <h3>{event.title}</h3>
-//                     <div className="event-meta">
-//                       <span><i className="far fa-clock"></i> {event.time}</span>
-//                       <span><i className="fas fa-map-marker-alt"></i> {t('home.eventLocation')}</span>
-//                     </div>
-//                     <p className="event-description">
-//                       {t('home.eventDescription', { type: t(`home.eventTypes.${event.type}`), date: event.date, time: event.time })}
-//                     </p>
-//                     <div className="event-footer">
-//                       <motion.button
-//                         className="btn btn-primary"
-//                         whileHover={{ scale: 1.03, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
-//                         whileTap={{ scale: 0.98 }}
-//                         style={{
-//                           fontSize: "0.95rem",
-//                           padding: "0.35em 1.1em",
-//                           minWidth: "unset"
-//                         }}
-//                         onClick={() => navigate(`/events/${event.id}/register`)}
-//                       >
-//                         {t('home.register')}
-//                       </motion.button>
-//                       <div className="event-reminder">
-//                         <i className="far fa-bell"></i>
-//                       </div>
-//                     </div>
 //                   </div>
 //                 </motion.div>
 //               </div>
@@ -2039,12 +609,20 @@
 
 
 
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { FaCoins } from 'react-icons/fa';
 import './Home1.css';
 
 const Home1 = () => {
@@ -2052,10 +630,164 @@ const Home1 = () => {
 
   useEffect(() => {
     document.title = t('dashboard.title') + " | NOVYA - Your Smart Learning Platform";
+    
+    // Set session flag to indicate we just logged in
+    const justLoggedIn = sessionStorage.getItem('justLoggedIn');
+    if (justLoggedIn) {
+      setShowWelcomeCoins(true);
+      setTimeout(() => {
+        setShowWelcomeCoins(false);
+        sessionStorage.removeItem('justLoggedIn');
+      }, 3000);
+    }
   }, [t]);
 
   const navigate = useNavigate();
   const [currentCourse, setCurrentCourse] = useState(t('dashboard.currentCourse'));
+  const [showWelcomeCoins, setShowWelcomeCoins] = useState(false);
+  const [showFeedbackCoins, setShowFeedbackCoins] = useState(false);
+  const [hasGivenFeedbackThisYear, setHasGivenFeedbackThisYear] = useState(false);
+
+  const emojis = ["😡", "😕", "😐", "😊", "🤩"];
+  const labels = ["1 ⭐ Not at all","2 ⭐ Not Really","3 ⭐ Somewhat","4 ⭐ To a great extent","5 ⭐ Absolutely"];
+  const [feedbackRating, setFeedbackRating] = useState(0);
+  const [feedbackComment, setFeedbackComment] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // MARK: ADDED - Check if user has already given feedback this year
+  useEffect(() => {
+    const checkFeedbackEligibility = () => {
+      const feedbackData = localStorage.getItem('userFeedbackData');
+      if (feedbackData) {
+        try {
+          const parsedData = JSON.parse(feedbackData);
+          const lastFeedbackYear = new Date(parsedData.lastFeedbackDate).getFullYear();
+          const currentYear = new Date().getFullYear();
+          
+          if (lastFeedbackYear === currentYear) {
+            setHasGivenFeedbackThisYear(true);
+            setIsSubmitted(true); // Mark as submitted if already gave feedback this year
+          }
+        } catch (error) {
+          console.error('Error parsing feedback data:', error);
+        }
+      }
+    };
+
+    checkFeedbackEligibility();
+  }, []);
+
+  // MARK: UPDATED - Function to trigger flying coins for feedback reward (once per year)
+  const triggerFeedbackReward = () => {
+    const currentYear = new Date().getFullYear();
+    const feedbackData = localStorage.getItem('userFeedbackData');
+    let lastFeedbackYear = null;
+
+    if (feedbackData) {
+      try {
+        const parsedData = JSON.parse(feedbackData);
+        lastFeedbackYear = new Date(parsedData.lastFeedbackDate).getFullYear();
+      } catch (error) {
+        console.error('Error parsing feedback data:', error);
+      }
+    }
+
+    // Check if feedback was already given this year
+    if (lastFeedbackYear === currentYear) {
+      alert("You've already received reward points for feedback this year. Thank you for your continued support!");
+      return false;
+    }
+
+    // Show flying coins animation
+    setShowFeedbackCoins(true);
+    
+    // Calculate current reward points
+    const currentPoints = parseInt(localStorage.getItem('rewardPoints')) || 0;
+    const newPoints = currentPoints + 20;
+    
+    // Update reward points in localStorage
+    localStorage.setItem('rewardPoints', newPoints.toString());
+    
+    // Save feedback data with current date
+    const userFeedbackData = {
+      lastFeedbackDate: new Date().toISOString(),
+      feedbackCount: (JSON.parse(feedbackData)?.feedbackCount || 0) + 1,
+      totalPointsEarned: (JSON.parse(feedbackData)?.totalPointsEarned || 0) + 20
+    };
+    localStorage.setItem('userFeedbackData', JSON.stringify(userFeedbackData));
+    
+    // Mark as submitted for this year
+    setHasGivenFeedbackThisYear(true);
+    
+    // Dispatch custom event to notify navbar about points update
+    window.dispatchEvent(new CustomEvent('rewardPointsUpdated', {
+      detail: { rewardPoints: newPoints }
+    }));
+    
+    // Also dispatch storage event for cross-tab synchronization
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'rewardPoints',
+      newValue: newPoints.toString(),
+      oldValue: currentPoints.toString()
+    }));
+
+    // Hide coins after animation
+    setTimeout(() => {
+      setShowFeedbackCoins(false);
+    }, 2000);
+
+    return true;
+  };
+
+  const handleFeedbackSubmit = () => {
+    if (feedbackRating === 0 || feedbackComment.trim() === "") {
+      alert("Please provide both a rating and a comment.");
+      return;
+    }
+
+    console.log("Feedback submitted:", {
+      rating: feedbackRating,
+      comment: feedbackComment,
+    });
+
+    setIsSubmitted(true);
+    
+    // MARK: UPDATED - Trigger reward points and flying coins animation (only once per year)
+    const rewardGiven = triggerFeedbackReward();
+    
+    if (!rewardGiven) {
+      // Still mark as submitted but without rewards
+      setIsSubmitted(true);
+    }
+  };
+
+  const handleChangeFeedback = () => {
+    // Only allow changing feedback if they haven't received points yet this year
+    if (!hasGivenFeedbackThisYear) {
+      setFeedbackRating(0);
+      setFeedbackComment("");
+      setIsSubmitted(false);
+    } else {
+      alert("You cannot change your feedback after receiving reward points for this year. Thank you for your participation!");
+    }
+  };
+
+  // MARK: ADDED - Function to check when user can give feedback again
+  const getNextFeedbackDate = () => {
+    const feedbackData = localStorage.getItem('userFeedbackData');
+    if (feedbackData) {
+      try {
+        const parsedData = JSON.parse(feedbackData);
+        const lastFeedbackDate = new Date(parsedData.lastFeedbackDate);
+        const nextFeedbackDate = new Date(lastFeedbackDate);
+        nextFeedbackDate.setFullYear(nextFeedbackDate.getFullYear() + 1);
+        return nextFeedbackDate;
+      } catch (error) {
+        console.error('Error parsing feedback data:', error);
+      }
+    }
+    return null;
+  };
 
   const coursesByClass = {
     '7': [
@@ -2258,8 +990,135 @@ const Home1 = () => {
     transition: { duration: 0.5 }
   };
 
+  const nextFeedbackDate = getNextFeedbackDate();
+  const canGiveFeedback = !hasGivenFeedbackThisYear;
+
   return (
-    <div className="home-container">
+    <div className="home-container" style={{ position: 'relative', overflow: 'hidden' }}>
+      
+      {/* Welcome Flying Coins Animation */}
+      {showWelcomeCoins && (
+        <div className="welcome-coins-container" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 9999 }}>
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="welcome-coin"
+              initial={{ 
+                scale: 0,
+                opacity: 1,
+                x: window.innerWidth / 2 - 100,
+                y: window.innerHeight / 2 - 50
+              }}
+              animate={{
+                scale: [0, 1, 0.8, 0],
+                opacity: [1, 1, 1, 0],
+                x: [
+                  window.innerWidth / 2 - 100, 
+                  Math.random() * window.innerWidth,
+                  Math.random() * window.innerWidth
+                ],
+                y: [
+                  window.innerHeight / 2 - 50,
+                  Math.random() * window.innerHeight / 2,
+                  Math.random() * window.innerHeight
+                ]
+              }}
+              transition={{
+                duration: 2.5,
+                ease: "easeOut",
+                delay: i * 0.08
+              }}
+              style={{
+                position: 'absolute',
+                fontSize: '28px',
+                color: '#FFD700',
+                zIndex: 9999,
+                filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))'
+              }}
+            >
+              <FaCoins />
+            </motion.div>
+          ))}
+          
+          {/* Welcome Message */}
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              background: 'linear-gradient(135deg, #2D5D7B, #A62D69)',
+              color: 'white',
+              padding: '20px 40px',
+              borderRadius: '20px',
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              zIndex: 10000,
+              boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+            }}
+          >
+            🎉 Welcome Back! +5 Reward Points! 🎉
+          </motion.div>
+        </div>
+      )}
+
+      {/* MARK: ADDED - Feedback Reward Flying Coins Animation */}
+      {showFeedbackCoins && (
+        <div className="feedback-coins-container" style={{ 
+          position: 'fixed', 
+          top: 0, 
+          left: 0, 
+          width: '100%', 
+          height: '100%', 
+          pointerEvents: 'none', 
+          zIndex: 9998 
+        }}>
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="feedback-coin"
+              initial={{ 
+                scale: 0,
+                opacity: 1,
+                x: window.innerWidth / 2,
+                y: window.innerHeight - 200 // Start from feedback section area
+              }}
+              animate={{
+                scale: [0, 1, 0.8, 0],
+                opacity: [1, 1, 1, 0],
+                x: [
+                  window.innerWidth / 2,
+                  window.innerWidth - 100, // Fly to navbar area
+                  window.innerWidth - 100
+                ],
+                y: [
+                  window.innerHeight - 200,
+                  80, // End at navbar height
+                  -50
+                ]
+              }}
+              transition={{
+                duration: 2,
+                ease: "easeOut",
+                delay: i * 0.1
+              }}
+              style={{
+                position: 'absolute',
+                fontSize: '24px',
+                color: '#FFD700',
+                zIndex: 9998,
+                filter: 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.8))'
+              }}
+            >
+              <FaCoins />
+            </motion.div>
+          ))}
+        </div>
+      )}
       <motion.div
         className="floating-shape shape-1"
         animate={{
@@ -2557,24 +1416,23 @@ const Home1 = () => {
               ))}
             </div>
           </div>
-<div className="tabs">
-  {['7th', '8th', '9th', '10th'].map((cls) => (
-    <motion.button
-      key={cls}
-      className={activeClass === cls ? 'active' : ''}
-      onClick={() => setActiveClass(cls)}
-      whileHover={{ scale: 1.05, backgroundColor: activeClass === cls ? '#1a3a4f' : '#e9ecef' }}
-      whileTap={{ scale: 0.95 }}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 }}
-    >
-      {t(`classes.${cls}`)}
-    </motion.button>
-  ))}
-</div>
+          <div className="tabs">
+            {['7th', '8th', '9th', '10th'].map((cls) => (
+              <motion.button
+                key={cls}
+                className={activeClass === cls ? 'active' : ''}
+                onClick={() => setActiveClass(cls)}
+                whileHover={{ scale: 1.05, backgroundColor: activeClass === cls ? '#1a3a4f' : '#e9ecef' }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                {t(`classes.${cls}`)}
+              </motion.button>
+            ))}
+          </div>
 
- 
           <br />
           <div className="row g-4">
             {featuredCourses.map((course, index) => (
@@ -2631,6 +1489,176 @@ const Home1 = () => {
                 </motion.div>
               </div>
             ))}
+
+            {/* Feedback & Comment Section */}
+            <motion.section
+              style={{
+                background: "#f8f9fb",
+                borderRadius: "20px",
+                padding: "40px 20px",
+                boxShadow: "0 8px 25px rgba(0, 0, 0, 0.05)",
+                margin: "60px 0",
+                textAlign: "center",
+                width: "100%"
+              }}
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <div style={{ marginBottom: "25px" }}>
+                <h2 style={{ fontWeight: "700", color: "#2D5D7B", marginBottom: "10px" }}>
+                  Share Your Feedback
+                </h2>
+                <p style={{ color: "#555", fontSize: "16px" }}>
+                  We value your opinion — help us improve your learning experience!
+                </p>
+                
+                {/* MARK: UPDATED - Dynamic reward message based on eligibility */}
+                {canGiveFeedback ? (
+                  <motion.div
+                    style={{
+                      background: "linear-gradient(135deg, #FFD700, #FFA500)",
+                      color: "#744210",
+                      padding: "8px 16px",
+                      borderRadius: "20px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      marginTop: "10px"
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <FaCoins size={16} />
+                    <span>Earn +20 Reward Points for your feedback!</span>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    style={{
+                      background: "linear-gradient(135deg, #6B7280, #9CA3AF)",
+                      color: "white",
+                      padding: "8px 16px",
+                      borderRadius: "20px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      marginTop: "10px"
+                    }}
+                  >
+                    <FaCoins size={16} />
+                    <span>
+                       ✅ Thank You for Your Feedback Already Submitted.
+                    </span>
+                  </motion.div>
+                )}
+              </div>
+
+              <motion.div
+                style={{
+                  background: "#fff",
+                  borderRadius: "20px",
+                  boxShadow: "0 5px 20px rgba(0, 0, 0, 0.08)",
+                  padding: "30px 25px",
+                  maxWidth: "600px",
+                  margin: "0 auto",
+                }}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                {!isSubmitted ? (
+                  <>
+                    <h5 style={{ marginBottom: "20px", color: "#2D5D7B", fontWeight: "600" }}>
+                      How satisfied are you with the platform?
+                    </h5>
+
+                    <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginBottom: "15px" }}>
+                      {emojis.map((emoji, index) => (
+                        <motion.span
+                          key={index}
+                          whileHover={{ scale: 1.3 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => setFeedbackRating(index + 1)}
+                          style={{
+                            fontSize: "2rem",
+                            cursor: "pointer",
+                            transform: feedbackRating === index + 1 ? "scale(1.4)" : "scale(1)",
+                            filter: feedbackRating === index + 1 ? "drop-shadow(0 0 10px rgba(166, 45, 105, 0.6))" : "none",
+                            transition: "transform 0.3s, filter 0.3s",
+                          }}
+                        >
+                          {emoji}
+                        </motion.span>
+                      ))}
+                    </div>
+
+                    {/* Show label only for selected emoji */}
+                    {feedbackRating > 0 && (
+                      <div style={{ marginBottom: "15px", color: "#2D5D7B", fontWeight: "600" }}>
+                        {labels[feedbackRating - 1]}
+                      </div>
+                    )}
+
+                    <textarea
+                      rows="4"
+                      placeholder="Share your thoughts or suggestions..."
+                      value={feedbackComment}
+                      onChange={(e) => setFeedbackComment(e.target.value)}
+                      style={{
+                        width: "100%",
+                        padding: "12px",
+                        borderRadius: "10px",
+                        border: "1px solid #ccc",
+                        outline: "none",
+                        resize: "none",
+                        fontSize: "15px",
+                        transition: "all 0.3s ease",
+                        marginBottom: "15px",
+                        boxShadow: feedbackComment.length > 0 ? "0 0 6px rgba(166, 45, 105, 0.3)" : "none",
+                      }}
+                    ></textarea>
+
+                <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={handleFeedbackSubmit}
+      style={{
+        width: "100%",
+        borderRadius: "10px",
+        padding: "12px",
+        border: "none",
+        background: "linear-gradient(135deg, #2D5D7B, #A62D69)",
+        color: "white",
+        fontWeight: "600",
+        cursor: "pointer",
+        fontSize: "16px",
+      }}
+    >
+      Submit Feedback
+    </motion.button>
+  </>
+) : (
+  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+    <motion.div
+      style={{
+        padding: "12px",
+        borderRadius: "10px",
+        border: "none",
+        background: "#2D5D7B",
+        color: "#fff",
+        fontWeight: "600",
+        textAlign: "center"
+      }}
+      whileHover={{ scale: 1.02 }}
+    >
+      ✅ Feedback Submitted
+    </motion.div>
+  </div>
+)}
+              </motion.div>
+            </motion.section>
           </div>
         </motion.section>
       </motion.main>
