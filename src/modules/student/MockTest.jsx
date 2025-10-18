@@ -6045,7 +6045,7 @@ function MockTest() {
       )}
       {!selectedSubject && selectedClass && !error && (
         <div className="selection-container">
-          <div className="header">
+          <div className="header"><br></br><br></br><br></br><br></br><br></br>
             <h2>{t('selectSubjectTitle')}</h2>
             <p>{t('selectSubjectSubtitle', { class: t(`classes.${selectedClass}`) })}</p>
           </div>
@@ -6067,7 +6067,7 @@ function MockTest() {
       )}
       {!selectedChapter && selectedSubject && !error && (
         <div className="selection-container chapter-select">
-          <div className="header">
+          <div className="header"><br></br><br></br><br></br><br></br><br></br>
             <h2>{t('selectChapterTitle')}</h2>
             <p>{t('selectChapterSubtitle', { selectedSubject: t(`subjects.${selectedSubject.toLowerCase()}`) })}</p>
           </div>
