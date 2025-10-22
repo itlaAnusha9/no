@@ -1,4 +1,4 @@
-// ////old code
+
 // import React, { useState, useRef, useEffect } from 'react';
 // import { useTranslation } from 'react-i18next';
 // import { Users, FileText } from 'lucide-react';
@@ -16,27 +16,23 @@
 //     if (rewardRef.current) {
 //       const wheelRect = document.querySelector('.wheel-wrapper')?.getBoundingClientRect();
 //       const navbarReward = document.querySelector('.reward-points-display')?.getBoundingClientRect();
-      
+     
 //       if (wheelRect && navbarReward) {
 //         const startX = wheelRect.left + wheelRect.width / 2;
 //         const startY = wheelRect.top + wheelRect.height / 2;
 //         const endX = navbarReward.left + navbarReward.width / 2;
 //         const endY = navbarReward.top + navbarReward.height / 2;
-
 //         setPosition({ x: startX, y: startY });
-        
-//         // Animate to navbar
+       
 //         setTimeout(() => {
 //           setPosition({ x: endX, y: endY });
 //           setScale(0.3);
 //         }, 100);
 
-//         // Fade out and complete
 //         setTimeout(() => {
 //           setOpacity(0);
 //         }, 800);
 
-//         // Complete animation
 //         setTimeout(() => {
 //           if (onComplete) onComplete();
 //         }, 1000);
@@ -71,47 +67,73 @@
 //   );
 // };
 
-// // Spin Wheel Component with React-Custom-Roulette
+// // Spin Wheel Component with full internationalization
 // const SpinWheel = ({ onRewardWon }) => {
+//   const { t, i18n } = useTranslation();
 //   const [mustSpin, setMustSpin] = useState(false);
 //   const [prizeNumber, setPrizeNumber] = useState(0);
 //   const [reward, setReward] = useState(null);
 //   const [spinsLeft, setSpinsLeft] = useState(3);
+//   const [wheelRadius, setWheelRadius] = useState(100);
 
-//   // Define wheel data in correct order
-//   const data = [
-//     { option: '10 Points', style: { backgroundColor: '#FF6B6B', textColor: 'white' } },
-//     { option: '20 Points', style: { backgroundColor: '#4ECDC4', textColor: 'white' } },
-//     { option: '05 Points', style: { backgroundColor: '#45B7D1', textColor: 'white' } },
-//     { option: 'Bonus Spin', style: { backgroundColor: '#96CEB4', textColor: 'white' } },
-//     { option: '15 Points', style: { backgroundColor: '#FFEAA7', textColor: 'black' } },
-//     { option: 'Better luck', style: { backgroundColor: '#DDA0DD', textColor: 'white' } },
+//   // Internationalized wheel data - CORRECT ORDER FOR WHEEL DISPLAY
+//   const getWheelData = () => [
+//     { option: t('spinWheel.rewards.10Points'), style: { backgroundColor: '#FF6B6B', textColor: 'white' } },
+//     { option: t('spinWheel.rewards.20Points'), style: { backgroundColor: '#4ECDC4', textColor: 'white' } },
+//     { option: t('spinWheel.rewards.05Points'), style: { backgroundColor: '#45B7D1', textColor: 'white' } },
+//     { option: t('spinWheel.rewards.bonusSpin'), style: { backgroundColor: '#96CEB4', textColor: 'white' } },
+//     { option: t('spinWheel.rewards.15Points'), style: { backgroundColor: '#FFEAA7', textColor: 'black' } },
+//     { option: t('spinWheel.rewards.betterLuck'), style: { backgroundColor: '#DDA0DD', textColor: 'white' } },
 //   ];
 
-//   // Reward mapping that correctly matches the wheel segments
+//   // Internationalized rewards mapping - CORRECTED FOR PROPER ALIGNMENT
 //   const getRewardForSegment = (segmentIndex) => {
 //     const rewards = [
-//       { id: 1, name: '10 Points', color: '#FF6B6B', value: 10 },
-//       { id: 2, name: '20 Points', color: '#4ECDC4', value: 20 },
-//       { id: 3, name: '05 Points', color: '#45B7D1', value: 5 },
-//       { id: 4, name: 'Bonus Spin', color: '#96CEB4', value: 1 },
-//       { id: 5, name: '15 Points', color: '#FFEAA7', value: 15 },
-//       { id: 6, name: 'Better luck', color: '#DDA0DD', value: 0 },
+//       { id: 1, name: t('spinWheel.rewards.10Points'), color: '#FF6B6B', value: 10 },      // Index 0 - 10 Points
+//       { id: 2, name: t('spinWheel.rewards.20Points'), color: '#4ECDC4', value: 20 },      // Index 1 - 20 Points  
+//       { id: 3, name: t('spinWheel.rewards.05Points'), color: '#45B7D1', value: 5 },       // Index 2 - 05 Points
+//       { id: 4, name: t('spinWheel.rewards.bonusSpin'), color: '#96CEB4', value: 1 },      // Index 3 - Bonus Spin
+//       { id: 5, name: t('spinWheel.rewards.15Points'), color: '#FFEAA7', value: 15 },      // Index 4 - 15 Points
+//       { id: 6, name: t('spinWheel.rewards.betterLuck'), color: '#DDA0DD', value: 0 },     // Index 5 - Better Luck
 //     ];
-//     return rewards[segmentIndex];
+    
+//     // The key fix: react-custom-roulette has an offset issue
+//     // We need to adjust the index to match the visual position
+//     const adjustedIndex = (segmentIndex - 1 + rewards.length) % rewards.length;
+//     console.log('Wheel stopped at segment:', segmentIndex, 'Adjusted to:', adjustedIndex, 'Reward:', rewards[adjustedIndex]);
+//     return rewards[adjustedIndex];
 //   };
 
-//   // Initialize spins from localStorage
 //   useEffect(() => {
 //     initializeSpins();
+    
+//     const handleResize = () => {
+//       const screenWidth = window.innerWidth;
+//       let newRadius;
+      
+//       if (screenWidth < 480) {
+//         newRadius = Math.min(80, screenWidth * 0.25);
+//       } else if (screenWidth < 768) {
+//         newRadius = Math.min(90, screenWidth * 0.22);
+//       } else if (screenWidth < 1024) {
+//         newRadius = Math.min(110, screenWidth * 0.15);
+//       } else {
+//         newRadius = 100;
+//       }
+      
+//       setWheelRadius(newRadius);
+//     };
+    
+//     handleResize();
+//     window.addEventListener('resize', handleResize);
+//     return () => window.removeEventListener('resize', handleResize);
 //   }, []);
 
 //   const initializeSpins = () => {
 //     const today = new Date().toDateString();
 //     const spinData = JSON.parse(localStorage.getItem('spinData') || '{}');
-    
+   
 //     if (spinData.date !== today) {
-//       // Reset spins for new day
 //       const newSpinData = {
 //         date: today,
 //         spinsUsed: 0,
@@ -120,7 +142,6 @@
 //       localStorage.setItem('spinData', JSON.stringify(newSpinData));
 //       setSpinsLeft(3);
 //     } else {
-//       // Use existing spins
 //       const remainingSpins = 3 - (spinData.spinsUsed || 0);
 //       setSpinsLeft(Math.max(0, remainingSpins));
 //     }
@@ -129,9 +150,8 @@
 //   const updateSpins = () => {
 //     const today = new Date().toDateString();
 //     const spinData = JSON.parse(localStorage.getItem('spinData') || '{}');
-    
+   
 //     if (spinData.date !== today) {
-//       // Reset for new day
 //       const newSpinData = {
 //         date: today,
 //         spinsUsed: 1,
@@ -140,7 +160,6 @@
 //       localStorage.setItem('spinData', JSON.stringify(newSpinData));
 //       setSpinsLeft(2);
 //     } else {
-//       // Update existing day
 //       const updatedSpinsUsed = (spinData.spinsUsed || 0) + 1;
 //       const newSpinData = {
 //         ...spinData,
@@ -155,14 +174,13 @@
 //     if (rewardValue > 0) {
 //       const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
 //       const newPoints = currentPoints + rewardValue;
-      
+     
 //       localStorage.setItem('rewardPoints', newPoints.toString());
-      
-//       // Dispatch event for navbar update
-//       window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
-//         detail: { rewardPoints: newPoints, addedPoints: rewardValue } 
+     
+//       window.dispatchEvent(new CustomEvent('rewardPointsUpdated', {
+//         detail: { rewardPoints: newPoints, addedPoints: rewardValue }
 //       }));
-      
+     
 //       return newPoints;
 //     }
 //     return parseInt(localStorage.getItem('rewardPoints') || '0');
@@ -170,11 +188,10 @@
 
 //   const handleSpinClick = () => {
 //     if (mustSpin || spinsLeft <= 0) return;
-
-//     // Generate random prize number
-//     const newPrizeNumber = Math.floor(Math.random() * data.length);
-//     console.log('Spinning to prize number:', newPrizeNumber, 'which is:', data[newPrizeNumber]?.option);
     
+//     // Generate random prize number (0-5 for 6 segments)
+//     const newPrizeNumber = Math.floor(Math.random() * 6);
+//     console.log('Spinning to prize number:', newPrizeNumber);
 //     setPrizeNumber(newPrizeNumber);
 //     setMustSpin(true);
 //     updateSpins();
@@ -182,13 +199,12 @@
 
 //   const handleStopSpinning = () => {
 //     setMustSpin(false);
-    
-//     // Get the actual reward based on the prize number
+   
+//     // Get the CORRECT reward for the segment where wheel stopped
 //     const wonReward = getRewardForSegment(prizeNumber);
-//     console.log('Won reward:', wonReward, 'for prize number:', prizeNumber);
-    
+//     console.log('Wheel stopped. Prize Number:', prizeNumber, 'Won Reward:', wonReward);
 //     setReward(wonReward);
-    
+   
 //     // Save reward to localStorage
 //     const userRewards = JSON.parse(localStorage.getItem('userRewards') || '[]');
 //     const rewardWithId = {
@@ -198,17 +214,17 @@
 //     };
 //     userRewards.push(rewardWithId);
 //     localStorage.setItem('userRewards', JSON.stringify(userRewards));
-
-//     // Update user points if reward has value
+    
+//     // Update points if reward has value
 //     if (wonReward.value > 0) {
 //       updateUserPoints(wonReward.value);
 //     }
-
-//     // Handle bonus spin
-//     if (wonReward.id === 4) { // Bonus Spin
+    
+//     // Handle bonus spin (refund one spin)
+//     if (wonReward.id === 4) { // Bonus spin has id 4
 //       const spinData = JSON.parse(localStorage.getItem('spinData') || '{}');
 //       const today = new Date().toDateString();
-      
+     
 //       if (spinData.date === today) {
 //         const updatedSpinsUsed = Math.max(0, (spinData.spinsUsed || 0) - 1);
 //         const newSpinData = {
@@ -219,8 +235,8 @@
 //         setSpinsLeft(3 - updatedSpinsUsed);
 //       }
 //     }
-
-//     // Trigger flying animation with reward data
+    
+//     // Call the callback function
 //     if (onRewardWon) {
 //       onRewardWon(rewardWithId);
 //     }
@@ -230,47 +246,50 @@
 //     <div style={{
 //       background: 'transparent',
 //       textAlign: 'center',
-//       maxWidth: '280px',
-//       width: '100%'
+//       maxWidth: '340px',
+//       width: '100%',
+//       margin: '0 auto',
+//       padding: '0 15px'
 //     }}>
 //       {/* Spin Wheel Header */}
 //       <div style={{
 //         display: 'flex',
 //         justifyContent: 'space-between',
 //         alignItems: 'center',
-//         marginBottom: '12px',
-//         padding: '8px 12px',
-//         background: 'rgba(255, 255, 255, 0.9)',
-//         borderRadius: '12px',
+//         marginBottom: '20px',
+//         padding: '15px 20px',
+//         background: 'rgba(255, 255, 255, 0.95)',
+//         borderRadius: '16px',
 //         backdropFilter: 'blur(10px)',
-//         border: '1px solid rgba(255, 255, 255, 0.2)'
+//         border: '1px solid rgba(255, 255, 255, 0.2)',
+//         boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)'
 //       }}>
 //         <h3 style={{
 //           margin: 0,
-//           fontSize: '1.1rem',
+//           fontSize: 'clamp(1.1rem, 4vw, 1.3rem)',
 //           fontWeight: '700',
 //           color: '#1F2937'
 //         }}>
-//           🎯 Daily Rewards
+//           🎯 {t('spinWheel.dailyRewards')}
 //         </h3>
 //         <div style={{
 //           display: 'flex',
 //           alignItems: 'center',
-//           gap: '4px',
-//           background: 'rgba(249, 250, 251, 0.8)',
-//           padding: '4px 8px',
-//           borderRadius: '8px',
-//           border: '1px solid rgba(229, 231, 235, 0.5)'
+//           gap: '8px',
+//           background: 'rgba(249, 250, 251, 0.9)',
+//           padding: '8px 12px',
+//           borderRadius: '10px',
+//           border: '1px solid rgba(229, 231, 235, 0.6)'
 //         }}>
 //           <span style={{
-//             fontSize: '0.7rem',
+//             fontSize: '0.8rem',
 //             color: '#6B7280',
 //             fontWeight: '500'
 //           }}>
-//             Spins:
+//             {t('spinWheel.spins')}:
 //           </span>
 //           <span style={{
-//             fontSize: '0.7rem',
+//             fontSize: '0.8rem',
 //             fontWeight: '700',
 //             color: spinsLeft > 0 ? '#10B981' : '#EF4444'
 //           }}>
@@ -285,24 +304,24 @@
 //         display: 'flex',
 //         justifyContent: 'center',
 //         alignItems: 'center',
-//         margin: '10px 0',
-//         padding: '10px'
+//         margin: '20px 0',
+//         padding: '20px'
 //       }}>
 //         <Wheel
 //           mustStartSpinning={mustSpin}
 //           prizeNumber={prizeNumber}
-//           data={data}
+//           data={getWheelData()}
 //           onStopSpinning={handleStopSpinning}
 //           backgroundColors={['#3e3e3e', '#df3428']}
 //           textColors={['#ffffff']}
-//           fontSize={10}
+//           fontSize={i18n.language === 'hi' ? 10 : 12}
 //           outerBorderColor="#333"
-//           outerBorderWidth={2}
+//           outerBorderWidth={3}
 //           innerBorderColor="#333"
 //           innerRadius={0.4}
-//           innerBorderWidth={1}
+//           innerBorderWidth={2}
 //           radiusLineColor="#333"
-//           radiusLineWidth={1}
+//           radiusLineWidth={2}
 //           spinDuration={0.6}
 //           pointerProps={{
 //             src: '',
@@ -311,90 +330,79 @@
 //             }
 //           }}
 //           perpendicularText={false}
-//           radius={100}
+//           radius={wheelRadius}
 //         />
+        
 //         {/* Custom Pointer */}
 //         <div style={{
 //           position: 'absolute',
-//           top: '-6px',
+//           top: '-10px',
 //           left: '50%',
 //           transform: 'translateX(-50%)',
-//           width: '20px',
-//           height: '26px',
+//           width: '28px',
+//           height: '35px',
 //           backgroundColor: '#333',
 //           clipPath: 'polygon(50% 100%, 0 0, 100% 0)',
 //           zIndex: 10,
-//           filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
+//           filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.3))'
 //         }} />
-        
+       
 //         {/* Center Circle */}
 //         <div style={{
 //           position: 'absolute',
 //           top: '50%',
 //           left: '50%',
 //           transform: 'translate(-50%, -50%)',
-//           width: '35px',
-//           height: '35px',
+//           width: '45px',
+//           height: '45px',
 //           backgroundColor: 'white',
-//           border: '2px solid #333',
+//           border: '3px solid #333',
 //           borderRadius: '50%',
 //           zIndex: 5,
-//           boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
+//           boxShadow: '0 3px 10px rgba(0,0,0,0.2)'
 //         }} />
 //       </div>
 
-//       {/* Current Wheel Segments Display for Debugging */}
-//       <div style={{
-//         marginTop: '10px',
-//         padding: '8px',
-//         background: 'rgba(0,0,0,0.05)',
-//         borderRadius: '8px',
-//         fontSize: '10px',
-//         color: '#666'
-//       }}>
-//         Wheel Segments: {data.map((item, index) => `${index}:${item.option}`).join(' | ')}
-//       </div>
-
 //       {/* Spin Button */}
-//       <button 
+//       <button
 //         onClick={handleSpinClick}
 //         disabled={mustSpin || spinsLeft <= 0}
 //         style={{
 //           width: '100%',
-//           padding: '10px 16px',
-//           fontSize: '0.9rem',
+//           padding: '16px 24px',
+//           fontSize: 'clamp(1rem, 4vw, 1.1rem)',
 //           fontWeight: '700',
 //           color: 'white',
-//           background: mustSpin 
-//             ? '#9CA3AF' 
-//             : spinsLeft <= 0 
+//           background: mustSpin
+//             ? '#9CA3AF'
+//             : spinsLeft <= 0
 //             ? '#EF4444'
 //             : 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
 //           border: 'none',
-//           borderRadius: '8px',
+//           borderRadius: '12px',
 //           cursor: mustSpin || spinsLeft <= 0 ? 'not-allowed' : 'pointer',
 //           transition: 'all 0.3s ease',
 //           opacity: mustSpin || spinsLeft <= 0 ? 0.7 : 1,
-//           boxShadow: mustSpin || spinsLeft <= 0 
-//             ? 'none' 
-//             : '0 4px 12px rgba(102, 126, 234, 0.4)',
-//           marginTop: '6px',
+//           boxShadow: mustSpin || spinsLeft <= 0
+//             ? 'none'
+//             : '0 6px 20px rgba(102, 126, 234, 0.4)',
+//           marginTop: '15px',
 //           backdropFilter: 'blur(10px)'
 //         }}
 //         onMouseEnter={(e) => {
 //           if (!mustSpin && spinsLeft > 0) {
 //             e.target.style.transform = 'translateY(-2px)';
-//             e.target.style.boxShadow = '0 6px 18px rgba(102, 126, 234, 0.6)';
+//             e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.6)';
 //           }
 //         }}
 //         onMouseLeave={(e) => {
 //           if (!mustSpin && spinsLeft > 0) {
 //             e.target.style.transform = 'translateY(0)';
-//             e.target.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+//             e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
 //           }
 //         }}
 //       >
-//         {mustSpin ? 'Spinning...' : spinsLeft <= 0 ? 'Come Back Tomorrow' : 'SPIN & GET REWARD'}
+//         {mustSpin ? t('spinWheel.spinning') : spinsLeft <= 0 ? t('spinWheel.comeBackTomorrow') : t('spinWheel.spinButton')}
 //       </button>
 
 //       {/* Reward Popup */}
@@ -414,88 +422,82 @@
 //         }}>
 //           <div style={{
 //             background: 'white',
-//             borderRadius: '16px',
-//             padding: '24px',
-//             maxWidth: '300px',
-//             width: '100%',
+//             borderRadius: '20px',
+//             padding: '30px',
+//             maxWidth: '350px',
+//             width: '90%',
 //             textAlign: 'center',
-//             boxShadow: '0 15px 30px rgba(0, 0, 0, 0.3)',
+//             boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)',
 //             animation: 'scaleIn 0.3s ease-out'
 //           }}>
 //             <div style={{
-//               fontSize: '2.5rem',
-//               marginBottom: '12px',
+//               fontSize: '3.5rem',
+//               marginBottom: '20px',
 //               animation: 'bounce 0.6s ease-in-out'
 //             }}>
 //               🎉
 //             </div>
 //             <h3 style={{
-//               fontSize: '1.1rem',
+//               fontSize: 'clamp(1.2rem, 5vw, 1.4rem)',
 //               fontWeight: '700',
 //               color: '#1F2937',
-//               marginBottom: '10px'
+//               marginBottom: '15px'
 //             }}>
-//               Congratulations!
+//               {t('spinWheel.congratulations')}
 //             </h3>
 //             <p style={{
-//               fontSize: '0.9rem',
+//               fontSize: 'clamp(1rem, 4vw, 1.1rem)',
 //               color: '#6B7280',
-//               marginBottom: '12px'
+//               marginBottom: '20px',
+//               lineHeight: '1.6'
 //             }}>
-//               You won: <strong style={{ color: reward.color }}>{reward.name}</strong>
+//               {t('spinWheel.youWon')} <strong style={{ color: reward.color }}>{reward.name}</strong>
 //             </p>
 //             {reward.value > 0 && (
 //               <p style={{
-//                 fontSize: '0.8rem',
+//                 fontSize: '0.9rem',
 //                 color: '#10B981',
 //                 fontWeight: '600',
-//                 marginBottom: '12px',
-//                 padding: '6px 12px',
+//                 marginBottom: '20px',
+//                 padding: '10px 18px',
 //                 background: '#ECFDF5',
-//                 borderRadius: '6px',
+//                 borderRadius: '10px',
 //                 display: 'inline-block'
 //               }}>
-//                 +{reward.value} points added to your account!
+//                 +{reward.value} {t('spinWheel.pointsAdded')}
 //               </p>
 //             )}
 //             {reward.id === 4 && (
 //               <p style={{
-//                 fontSize: '0.8rem',
+//                 fontSize: '0.9rem',
 //                 color: '#F59E0B',
 //                 fontWeight: '600',
-//                 marginBottom: '12px',
-//                 padding: '6px 12px',
+//                 marginBottom: '20px',
+//                 padding: '10px 18px',
 //                 background: '#FFFBEB',
-//                 borderRadius: '6px',
+//                 borderRadius: '10px',
 //                 display: 'inline-block'
 //               }}>
-//                 You earned an extra spin!
+//                 {t('spinWheel.bonusSpin')}
 //               </p>
 //             )}
-//             <button 
+//             <button
 //               onClick={() => setReward(null)}
 //               style={{
-//                 padding: '8px 16px',
-//                 fontSize: '0.8rem',
+//                 padding: '14px 28px',
+//                 fontSize: '1.1rem',
 //                 fontWeight: '600',
 //                 color: 'white',
 //                 background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
 //                 border: 'none',
-//                 borderRadius: '6px',
+//                 borderRadius: '10px',
 //                 cursor: 'pointer',
 //                 transition: 'all 0.3s ease',
-//                 marginTop: '6px'
-//               }}
-//               onMouseEnter={(e) => {
-//                 e.target.style.transform = 'translateY(-2px)';
-//                 e.target.style.boxShadow = '0 4px 10px rgba(102, 126, 234, 0.4)';
-//               }}
-//               onMouseLeave={(e) => {
-//                 e.target.style.transform = 'translateY(0)';
-//                 e.target.style.boxShadow = 'none';
+//                 marginTop: '15px',
+//                 width: '100%'
 //               }}
 //             >
-//               Awesome!
+//               {t('spinWheel.awesome')}
 //             </button>
 //           </div>
 //         </div>
@@ -504,7 +506,7 @@
 //   );
 // };
 
-// // Main Practice Component
+// // Main Practice Component with Mobile Responsiveness
 // const Practice = () => {
 //   const { t } = useTranslation();
 //   const [animatedStats, setAnimatedStats] = useState({
@@ -515,9 +517,8 @@
 
 //   useEffect(() => {
 //     document.title = "Practice | NOVYA - Your Smart Learning Platform";
-
-//     // Listen for points updates (keeping for navbar updates)
-//     const handlePointsUpdate = (event) => {
+    
+//     const handlePointsUpdate = () => {
 //       // This is handled by navbar component
 //     };
 
@@ -548,7 +549,7 @@
 //       id: Date.now() + Math.random(),
 //       reward: reward
 //     };
-    
+   
 //     setFlyingRewards(prev => [...prev, flyingReward]);
 //   };
 
@@ -557,7 +558,12 @@
 //   };
 
 //   return (
-//     <div className="practice-full-container" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+//     <div className="practice-full-container" style={{ 
+//       fontFamily: 'system-ui, -apple-system, sans-serif',
+//       overflowX: 'hidden'
+//     }}>
+//       {/* ... (rest of the Practice component remains exactly the same) */}
+//       {/* All the CSS styles and JSX structure below remains identical to your original code */}
 //       <style>{`
 //         @keyframes float {
 //           0%, 100% { transform: translateY(0px); }
@@ -592,6 +598,223 @@
 //           from { transform: scale(0.8); opacity: 0; }
 //           to { transform: scale(1); opacity: 1; }
 //         }
+
+//         /* iPad Air Specific Styles (768px - 1024px) */
+//         @media (min-width: 768px) and (max-width: 1024px) {
+//           .hero-content-wrapper {
+//             flex-direction: row !important;
+//             text-align: left !important;
+//             gap: 50px !important;
+//             align-items: center !important;
+//             justify-content: space-between !important;
+//           }
+          
+//           .hero-text {
+//             order: 1 !important;
+//             flex: 1 !important;
+//             text-align: left !important;
+//             min-width: 400px !important;
+//             padding-right: 30px !important;
+//           }
+          
+//           .spin-wheel-section {
+//             order: 2 !important;
+//             flex: 0 0 340px !important;
+//             margin: 0 !important;
+//             max-width: 340px !important;
+//           }
+          
+//           .feature-grid {
+//             grid-template-columns: repeat(2, 1fr) !important;
+//             gap: 25px !important;
+//           }
+          
+//           .subject-grid {
+//             grid-template-columns: repeat(3, 1fr) !important;
+//             gap: 20px !important;
+//           }
+          
+//           .step-item {
+//             flex-direction: row !important;
+//             text-align: left !important;
+//             gap: 30px !important;
+//           }
+
+//           .practice-hero {
+//             padding: 70px 40px !important;
+//           }
+
+//           .stat-card {
+//             padding: 25px !important;
+//           }
+
+//           .hero-text h1 {
+//             font-size: 2.8rem !important;
+//             line-height: 1.1 !important;
+//           }
+
+//           .hero-text p {
+//             font-size: 1.2rem !important;
+//             line-height: 1.7 !important;
+//           }
+//         }
+
+//         /* Small Phones (320px - 480px) */
+//         @media (max-width: 480px) {
+//           .hero-content-wrapper {
+//             flex-direction: column;
+//             text-align: center;
+//             gap: 20px;
+//           }
+          
+//           .hero-text {
+//             padding-top: 0;
+//             padding-bottom: 0;
+//             order: 2;
+//             text-align: center;
+//           }
+          
+//           .hero-text h1,
+//           .hero-text p {
+//             text-align: center;
+//           }
+          
+//           .spin-wheel-section {
+//             margin: 0 auto;
+//             order: 1;
+//             max-width: 280px;
+//           }
+          
+//           .stat-card {
+//             padding: 12px;
+//             flex-direction: column;
+//             text-align: center;
+//             gap: 8px;
+//           }
+          
+//           .feature-grid {
+//             grid-template-columns: 1fr;
+//             gap: 15px;
+//           }
+          
+//           .subject-grid {
+//             grid-template-columns: 1fr;
+//             gap: 12px;
+//           }
+          
+//           .step-item {
+//             flex-direction: column;
+//             text-align: center;
+//             gap: 15px;
+//           }
+
+//           .practice-hero {
+//             padding: 20px 10px;
+//           }
+
+//           .hero-bg-1, .hero-bg-2 {
+//             display: none;
+//           }
+//         }
+
+//         /* Medium Phones (481px - 767px) */
+//         @media (min-width: 481px) and (max-width: 767px) {
+//           .hero-content-wrapper {
+//             flex-direction: column;
+//             text-align: center;
+//             gap: 25px;
+//           }
+          
+//           .hero-text {
+//             order: 2;
+//             text-align: center;
+//           }
+          
+//           .hero-text h1,
+//           .hero-text p {
+//             text-align: center;
+//           }
+          
+//           .spin-wheel-section {
+//             order: 1;
+//             max-width: 300px;
+//           }
+          
+//           .stat-card {
+//             padding: 14px;
+//           }
+          
+//           .feature-grid {
+//             grid-template-columns: 1fr;
+//             gap: 18px;
+//           }
+          
+//           .subject-grid {
+//             grid-template-columns: repeat(2, 1fr);
+//             gap: 15px;
+//           }
+//         }
+
+//         /* Large Tablets (1025px - 1200px) */
+//         @media (min-width: 1025px) and (max-width: 1200px) {
+//           .hero-content-wrapper {
+//             flex-direction: row;
+//             gap: 60px;
+//           }
+          
+//           .feature-grid {
+//             grid-template-columns: repeat(3, 1fr);
+//             gap: 25px;
+//           }
+          
+//           .subject-grid {
+//             grid-template-columns: repeat(3, 1fr);
+//             gap: 20px;
+//           }
+//         }
+
+//         /* Very Small Phones (below 320px) */
+//         @media (max-width: 320px) {
+//           .hero-text h1 {
+//             font-size: clamp(1.3rem, 6vw, 1.8rem);
+//           }
+          
+//           .stat-card {
+//             padding: 10px;
+//           }
+          
+//           .subject-grid {
+//             grid-template-columns: 1fr;
+//             gap: 10px;
+//           }
+          
+//           .practice-hero {
+//             padding: 15px 8px;
+//           }
+//         }
+
+//         /* Landscape Mode */
+//         @media (max-height: 500px) and (orientation: landscape) {
+//           .practice-hero {
+//             padding: 20px;
+//             min-height: auto;
+//           }
+          
+//           .hero-content-wrapper {
+//             flex-direction: row;
+//             gap: 20px;
+//           }
+          
+//           .hero-text {
+//             order: 1;
+//             flex: 1;
+//           }
+          
+//           .spin-wheel-section {
+//             order: 2;
+//             flex: 0 0 250px;
+//           }
+//         }
 //       `}</style>
 
 //       {/* Render flying rewards */}
@@ -610,8 +833,8 @@
 //           background: 'linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 100%)',
 //           position: 'relative',
 //           overflow: 'hidden',
-//           paddingTop: '80px',
-//           paddingBottom: '80px'
+//           padding: '80px 20px',
+//           minHeight: 'auto'
 //         }}
 //       >
 //         <div
@@ -640,8 +863,12 @@
 //             animation: 'float 8s ease-in-out infinite reverse'
 //           }}
 //         />
-
-//         <div className="hero-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+        
+//         <div style={{ 
+//           maxWidth: '1200px', 
+//           margin: '0 auto',
+//           width: '100%'
+//         }}>
 //           <div
 //             className="hero-content-wrapper"
 //             style={{
@@ -651,27 +878,27 @@
 //               alignItems: 'center',
 //               flexWrap: 'wrap',
 //               position: 'relative',
-//               zIndex: 1
+//               zIndex: 1,
+//               gap: '60px'
 //             }}
 //           >
-//             <div 
+//             <div
 //               className="hero-text"
-//               style={{ 
-//                 flex: '1 1 350px', 
-//                 minWidth: 260,
-//                 paddingTop: '100px'
+//               style={{
+//                 flex: '1 1 600px',
+//                 minWidth: '400px',
+//                 paddingTop: '0'
 //               }}
 //             >
-//               <h1 style={{ 
-//                 fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+//               <h1 style={{
+//                 fontSize: 'clamp(2rem, 6vw, 3.5rem)',
 //                 fontWeight: '800',
 //                 color: '#1F2937',
 //                 marginBottom: '24px',
-//                 lineHeight: '1.2',
-//                 animation: 'slideInLeft 1s ease-out'
+//                 lineHeight: '1.2'
 //               }}>
 //                 {t('masterSubject')}
-//                 <span style={{ 
+//                 <span style={{
 //                   background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
 //                   WebkitBackgroundClip: 'text',
 //                   WebkitTextFillColor: 'transparent',
@@ -680,76 +907,85 @@
 //                   {t('smartPractice')}
 //                 </span>
 //               </h1>
-
+              
 //               <p
-//                 style={{ 
-//                   fontSize: '1.125rem',
+//                 style={{
+//                   fontSize: 'clamp(1rem, 4vw, 1.25rem)',
 //                   color: '#6B7280',
 //                   marginBottom: '40px',
-//                   lineHeight: '1.8',
-//                   animation: 'slideInLeft 1s ease-out 0.2s both'
+//                   lineHeight: '1.7'
 //                 }}
 //               >
 //                 {t('challengeDescription')}
 //               </p>
-
-//               <div style={{ 
+              
+//               <div style={{
 //                 display: 'grid',
-//                 gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-//                 gap: '20px',
-//                 marginTop: '40px',
-//                 animation: 'slideInUp 1s ease-out 0.4s both'
+//                 gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+//                 gap: '24px',
+//                 marginTop: '40px'
 //               }}>
 //                 <div className="stat-card" style={{
 //                   background: '#FFFFFF',
 //                   borderRadius: '16px',
-//                   padding: '20px',
-//                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+//                   padding: '24px',
+//                   boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
 //                   display: 'flex',
 //                   alignItems: 'center',
-//                   gap: '12px'
+//                   gap: '16px'
 //                 }}>
 //                   <div style={{
 //                     background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
 //                     borderRadius: '12px',
-//                     padding: '10px',
+//                     padding: '12px',
 //                     display: 'flex',
 //                     alignItems: 'center',
-//                     justifyContent: 'center'
+//                     justifyContent: 'center',
+//                     flexShrink: 0
 //                   }}>
-//                     <FileText size={20} color="#FFFFFF" />
+//                     <FileText size={24} color="#FFFFFF" />
 //                   </div>
 //                   <div>
-//                     <div style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1F2937' }}>
+//                     <div style={{ 
+//                       fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
+//                       fontWeight: '700', 
+//                       color: '#1F2937' 
+//                     }}>
 //                       {animatedStats.totalTests.toLocaleString()}+
 //                     </div>
-//                     <div style={{ fontSize: '0.875rem', color: '#6B7280' }}>{t('practiceTests')}</div>
+//                     <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>{t('practiceTests')}</div>
 //                   </div>
 //                 </div>
+                
 //                 <div className="stat-card" style={{
 //                   background: '#FFFFFF',
 //                   borderRadius: '16px',
-//                   padding: '20px',
-//                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+//                   padding: '24px',
+//                   boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
 //                   display: 'flex',
 //                   alignItems: 'center',
-//                   gap: '12px'
+//                   gap: '16px'
 //                 }}>
 //                   <div style={{
 //                     background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
 //                     borderRadius: '12px',
-//                     padding: '10px',
+//                     padding: '12px',
 //                     display: 'flex',
 //                     alignItems: 'center',
-//                     justifyContent: 'center'
+//                     justifyContent: 'center',
+//                     flexShrink: 0
 //                   }}>
-//                     <Users size={20} color="#FFFFFF" />
+//                     <Users size={24} color="#FFFFFF" />
 //                   </div>
 //                   <div>
-//                     <div style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1F2937' }}>
+//                     <div style={{ 
+//                       fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
+//                       fontWeight: '700', 
+//                       color: '#1F2937' 
+//                     }}>
 //                       {animatedStats.studentsEnrolled.toLocaleString()}+
 //                     </div>
-//                     <div style={{ fontSize: '0.875rem', color: '#6B7280' }}>{t('studentsLearning')}</div>
+//                     <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>{t('studentsLearning')}</div>
 //                   </div>
 //                 </div>
 //               </div>
@@ -759,17 +995,15 @@
 //             <div
 //               className="spin-wheel-section"
 //               style={{
-//                 flex: '1 1 280px',
-//                 maxWidth: 280,
-//                 minWidth: 220,
+//                 flex: '0 0 auto',
+//                 maxWidth: '340px',
+//                 width: '100%',
 //                 display: 'flex',
 //                 flexDirection: 'column',
 //                 alignItems: 'center',
-//                 margin: '40px auto 0',
-//                 animation: 'slideInRight 1s ease-out 0.3s both'
+//                 margin: '0'
 //               }}
 //             >
-//               {/* Spin Wheel Component */}
 //               <SpinWheel onRewardWon={handleRewardWon} />
 //             </div>
 //           </div>
@@ -780,112 +1014,70 @@
 //       <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
 //         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 //           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-//             <h2 style={{ 
-//               fontSize: '2.5rem', 
-//               fontWeight: '700', 
+//             <h2 style={{
+//               fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+//               fontWeight: '700',
 //               color: '#1F2937',
-//               marginBottom: '16px',
-//               animation: 'fadeIn 1s ease-out'
+//               marginBottom: '20px'
 //             }}>
 //               {t('whyChoose')}
 //             </h2>
-//             <p style={{ 
-//               fontSize: '1.125rem', 
-//               color: '#6B7280', 
-//               maxWidth: '600px', 
-//               margin: '0 auto',
-//               animation: 'fadeIn 1s ease-out 0.2s both'
+//             <p style={{
+//               fontSize: 'clamp(1.1rem, 4vw, 1.25rem)',
+//               color: '#6B7280',
+//               maxWidth: '700px',
+//               margin: '0 auto'
 //             }}>
 //               {t('revolutionaryExperience')}
 //             </p>
 //           </div>
-
-//           <div style={{ 
-//             display: 'grid', 
-//             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-//             gap: '30px',
-//             marginTop: '40px'
+          
+//           <div className="feature-grid" style={{
+//             display: 'grid',
+//             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+//             gap: '30px'
 //           }}>
 //             {[
-//               {
-//                 icon: '🎯',
-//                 title: 'personalizedLearning',
-//                 description: 'personalizedLearning',
-//                 delay: '0s'
-//               },
-//               {
-//                 icon: '⚡',
-//                 title: 'instantFeedback',
-//                 description: 'instantFeedback',
-//                 delay: '0.1s'
-//               },
-//               {
-//                 icon: '📊',
-//                 title: 'progressAnalytics',
-//                 description: 'progressAnalytics',
-//                 delay: '0.2s'
-//               },
-//               {
-//                 icon: '🏆',
-//                 title: 'gamifiedExperience',
-//                 description: 'gamifiedExperience',
-//                 delay: '0.3s'
-//               },
-//               {
-//                 icon: '📚',
-//                 title: 'vastQuestionBank',
-//                 description: 'vastQuestionBank',
-//                 delay: '0.4s'
-//               },
-//               {
-//                 icon: '🎓',
-//                 title: 'expertCrafted',
-//                 description: 'expertCrafted',
-//                 delay: '0.5s'
-//               }
+//               { icon: '🎯', title: 'personalizedLearning', description: 'personalizedLearningDesc' },
+//               { icon: '⚡', title: 'instantFeedback', description: 'instantFeedbackDesc' },
+//               { icon: '📊', title: 'progressAnalytics', description: 'progressAnalyticsDesc' },
+//               { icon: '🏆', title: 'gamifiedExperience', description: 'gamifiedExperienceDesc' },
+//               { icon: '📚', title: 'vastQuestionBank', description: 'vastQuestionBankDesc' },
+//               { icon: '🎓', title: 'expertCrafted', description: 'expertCraftedDesc' }
 //             ].map((feature, index) => (
 //               <div
 //                 key={index}
 //                 style={{
 //                   background: 'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
 //                   borderRadius: '20px',
-//                   padding: '32px',
-//                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+//                   padding: '35px',
+//                   boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
 //                   transition: 'all 0.3s ease',
-//                   cursor: 'pointer',
-//                   animation: `slideInUp 0.6s ease-out ${feature.delay} both`,
-//                   border: '1px solid #E5E7EB'
-//                 }}
-//                 onMouseEnter={(e) => {
-//                   e.currentTarget.style.transform = 'translateY(-8px)';
-//                   e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1)';
-//                 }}
-//                 onMouseLeave={(e) => {
-//                   e.currentTarget.style.transform = 'translateY(0)';
-//                   e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+//                   border: '1px solid #E5E7EB',
+//                   textAlign: 'center'
 //                 }}
 //               >
-//                 <div style={{
-//                   fontSize: '48px',
-//                   marginBottom: '16px',
-//                   animation: 'bounce 2s infinite'
+//                 <div style={{ 
+//                   fontSize: '56px', 
+//                   marginBottom: '20px',
+//                   display: 'inline-block'
 //                 }}>
 //                   {feature.icon}
 //                 </div>
 //                 <h3 style={{
-//                   fontSize: '1.25rem',
+//                   fontSize: '1.4rem',
 //                   fontWeight: '600',
 //                   color: '#1F2937',
-//                   marginBottom: '12px'
+//                   marginBottom: '16px'
 //                 }}>
 //                   {t(`features.${feature.title}`)}
 //                 </h3>
 //                 <p style={{
-//                   fontSize: '0.95rem',
+//                   fontSize: '1.1rem',
 //                   color: '#6B7280',
 //                   lineHeight: '1.6'
 //                 }}>
-//                   {t(`featureDescriptions.${feature.description}`)}
+//                   {t(`features.${feature.description}`)}
 //                 </p>
 //               </div>
 //             ))}
@@ -894,30 +1086,33 @@
 //       </section>
 
 //       {/* Subject Categories */}
-//       <section style={{ 
-//         padding: '80px 20px', 
-//         background: 'linear-gradient(180deg, #F3F4F6 0%, #FFFFFF 100%)' 
+//       <section style={{
+//         padding: '80px 20px',
+//         background: 'linear-gradient(180deg, #F3F4F6 0%, #FFFFFF 100%)'
 //       }}>
 //         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 //           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-//             <h2 style={{ 
-//               fontSize: '2.5rem', 
-//               fontWeight: '700', 
+//             <h2 style={{
+//               fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+//               fontWeight: '700',
 //               color: '#1F2937',
-//               marginBottom: '16px'
+//               marginBottom: '20px'
 //             }}>
 //               {t('exploreCategories')}
 //             </h2>
-//             <p style={{ fontSize: '1.125rem', color: '#6B7280' }}>
+//             <p style={{ 
+//               fontSize: 'clamp(1.1rem, 4vw, 1.25rem)', 
+//               color: '#6B7280' 
+//             }}>
 //               {t('chooseSubjects')}
 //             </p>
 //           </div>
-
-//           <div style={{
+          
+//           <div className="subject-grid" style={{
 //             display: 'grid',
-//             gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-//             gap: '24px',
-//             maxWidth: '900px',
+//             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+//             gap: '25px',
+//             maxWidth: '1100px',
 //             margin: '0 auto'
 //           }}>
 //             {[
@@ -932,42 +1127,49 @@
 //                 key={index}
 //                 style={{
 //                   background: '#FFFFFF',
-//                   borderRadius: '16px',
-//                   padding: '28px',
+//                   borderRadius: '20px',
+//                   padding: '35px 25px',
 //                   textAlign: 'center',
-//                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+//                   boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
 //                   transition: 'all 0.3s ease',
-//                   cursor: 'pointer',
-//                   animation: `fadeIn 0.6s ease-out ${index * 0.1}s both`,
-//                   border: '2px solid transparent'
+//                   border: '2px solid transparent',
+//                   cursor: 'pointer'
 //                 }}
 //                 onMouseEnter={(e) => {
-//                   e.currentTarget.style.transform = 'scale(1.05)';
+//                   e.currentTarget.style.transform = 'translateY(-8px)';
 //                   e.currentTarget.style.borderColor = subject.color;
-//                   e.currentTarget.style.boxShadow = `0 8px 24px ${subject.color}40`;
+//                   e.currentTarget.style.boxShadow = `0 12px 35px ${subject.color}40`;
 //                 }}
 //                 onMouseLeave={(e) => {
-//                   e.currentTarget.style.transform = 'scale(1)';
+//                   e.currentTarget.style.transform = 'translateY(0)';
 //                   e.currentTarget.style.borderColor = 'transparent';
-//                   e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+//                   e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.08)';
 //                 }}
 //               >
 //                 <div style={{ 
-//                   fontSize: '56px', 
-//                   marginBottom: '12px',
-//                   animation: 'float 3s ease-in-out infinite'
+//                   fontSize: '72px', 
+//                   marginBottom: '20px',
+//                   display: 'inline-block'
 //                 }}>
 //                   {subject.icon}
 //                 </div>
 //                 <h3 style={{
-//                   fontSize: '1.25rem',
+//                   fontSize: '1.4rem',
 //                   fontWeight: '600',
 //                   color: '#1F2937',
-//                   marginBottom: '8px'
+//                   marginBottom: '12px'
 //                 }}>
 //                   {t(`subjects.${subject.name}`)}
 //                 </h3>
-//                 <p style={{ fontSize: '0.875rem', color: subject.color, fontWeight: '500' }}>
+//                 <p style={{ 
+//                   fontSize: '1rem', 
+//                   color: subject.color, 
+//                   fontWeight: '600',
+//                   background: `${subject.color}15`,
+//                   padding: '8px 16px',
+//                   borderRadius: '25px',
+//                   display: 'inline-block'
+//                 }}>
 //                   {subject.tests} {t('practiceTestsCount')}
 //                 </p>
 //               </div>
@@ -980,92 +1182,81 @@
 //       <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
 //         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 //           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-//             <h2 style={{ 
-//               fontSize: '2.5rem', 
-//               fontWeight: '700', 
+//             <h2 style={{
+//               fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+//               fontWeight: '700',
 //               color: '#1F2937',
-//               marginBottom: '16px'
+//               marginBottom: '20px'
 //             }}>
 //               {t('howItWorks')}
 //             </h2>
-//             <p style={{ fontSize: '1.125rem', color: '#6B7280' }}>
+//             <p style={{ 
+//               fontSize: 'clamp(1.1rem, 4vw, 1.25rem)', 
+//               color: '#6B7280' 
+//             }}>
 //               {t('getStarted')}
 //             </p>
 //           </div>
-
-//           <div style={{ 
-//             display: 'flex', 
-//             flexDirection: 'column', 
-//             gap: '40px',
-//             maxWidth: '900px',
+          
+//           <div style={{
+//             display: 'flex',
+//             flexDirection: 'column',
+//             gap: '50px',
+//             maxWidth: '1000px',
 //             margin: '0 auto'
 //           }}>
 //             {[
-//               {
-//                 step: '01',
-//                 title: 'chooseSubject',
-//                 description: 'chooseSubject',
-//                 icon: '📚',
-//                 color: '#3B82F6'
-//               },
-//               {
-//                 step: '02',
-//                 title: 'startPracticing',
-//                 description: 'startPracticing',
-//                 icon: '✍️',
-//                 color: '#10B981'
-//               },
-//               {
-//                 step: '03',
-//                 title: 'trackProgress',
-//                 description: 'trackProgress',
-//                 icon: '📈',
-//                 color: '#F59E0B'
-//               }
+//               { step: '01', title: 'chooseSubject', description: 'chooseSubjectDesc', icon: '📚', color: '#3B82F6' },
+//               { step: '02', title: 'startPracticing', description: 'startPracticingDesc', icon: '✍️', color: '#10B981' },
+//               { step: '03', title: 'trackProgress', description: 'trackProgressDesc', icon: '📈', color: '#F59E0B' }
 //             ].map((item, index) => (
 //               <div
 //                 key={index}
+//                 className="step-item"
 //                 style={{
 //                   display: 'flex',
 //                   alignItems: 'center',
-//                   gap: '30px',
-//                   animation: `slideInLeft 0.6s ease-out ${index * 0.2}s both`,
+//                   gap: '35px',
 //                   flexWrap: 'wrap'
 //                 }}
 //               >
 //                 <div style={{
-//                   minWidth: '80px',
-//                   height: '80px',
+//                   minWidth: '90px',
+//                   height: '90px',
 //                   borderRadius: '50%',
 //                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
 //                   display: 'flex',
 //                   alignItems: 'center',
 //                   justifyContent: 'center',
-//                   fontSize: '36px',
-//                   boxShadow: `0 8px 16px ${item.color}40`,
-//                   animation: 'pulse 2s ease-in-out infinite'
+//                   fontSize: '40px',
+//                   boxShadow: `0 10px 25px ${item.color}40`,
+//                   flexShrink: 0
 //                 }}>
 //                   {item.icon}
 //                 </div>
-//                 <div style={{ flex: 1, minWidth: '250px' }}>
+//                 <div style={{ flex: 1, minWidth: '280px' }}>
 //                   <div style={{
-//                     fontSize: '3rem',
+//                     fontSize: '3.5rem',
 //                     fontWeight: '700',
 //                     color: '#E5E7EB',
-//                     marginBottom: '-10px'
+//                     marginBottom: '-15px'
 //                   }}>
 //                     {item.step}
 //                   </div>
 //                   <h3 style={{
-//                     fontSize: '1.5rem',
+//                     fontSize: '1.6rem',
 //                     fontWeight: '600',
 //                     color: '#1F2937',
-//                     marginBottom: '8px'
+//                     marginBottom: '12px'
 //                   }}>
 //                     {t(`steps.${item.title}`)}
 //                   </h3>
-//                   <p style={{ fontSize: '1rem', color: '#6B7280', lineHeight: '1.6' }}>
-//                     {t(`stepDescriptions.${item.description}`)}
+//                   <p style={{ 
+//                     fontSize: '1.15rem', 
+//                     color: '#6B7280', 
+//                     lineHeight: '1.7' 
+//                   }}>
+//                     {t(`steps.${item.description}`)}
 //                   </p>
 //                 </div>
 //               </div>
@@ -1076,7 +1267,7 @@
 
 //       {/* CTA Section */}
 //       <section style={{
-//         padding: '80px 20px',
+//         padding: '100px 20px',
 //         background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
 //         position: 'relative',
 //         overflow: 'hidden'
@@ -1101,22 +1292,27 @@
 //           borderRadius: '50%',
 //           animation: 'float 6s ease-in-out infinite reverse'
 //         }} />
-        
-//         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+       
+//         <div style={{ 
+//           maxWidth: '800px', 
+//           margin: '0 auto', 
+//           textAlign: 'center', 
+//           position: 'relative', 
+//           zIndex: 1 
+//         }}>
 //           <h2 style={{
-//             fontSize: '2.5rem',
+//             fontSize: 'clamp(2.2rem, 6vw, 3rem)',
 //             fontWeight: '700',
 //             color: '#FFFFFF',
-//             marginBottom: '20px',
-//             animation: 'fadeIn 1s ease-out'
+//             marginBottom: '24px'
 //           }}>
 //             {t('readyToExcel')}
 //           </h2>
 //           <p style={{
-//             fontSize: '1.25rem',
+//             fontSize: 'clamp(1.2rem, 4vw, 1.4rem)',
 //             color: 'rgba(255, 255, 255, 0.9)',
 //             marginBottom: '40px',
-//             animation: 'fadeIn 1s ease-out 0.2s both'
+//             lineHeight: '1.6'
 //           }}>
 //             {t('joinStudents')}
 //           </p>
@@ -1127,6 +1323,10 @@
 // };
 
 // export default Practice;
+
+
+
+
 
 
 
@@ -1250,11 +1450,11 @@ const SpinWheel = ({ onRewardWon }) => {
       let newRadius;
       
       if (screenWidth < 480) {
-        newRadius = Math.min(80, screenWidth * 0.25);
+        newRadius = Math.min(70, screenWidth * 0.25);
       } else if (screenWidth < 768) {
-        newRadius = Math.min(90, screenWidth * 0.22);
+        newRadius = Math.min(80, screenWidth * 0.22);
       } else if (screenWidth < 1024) {
-        newRadius = Math.min(110, screenWidth * 0.15);
+        newRadius = Math.min(100, screenWidth * 0.15);
       } else {
         newRadius = 100;
       }
@@ -1404,7 +1604,7 @@ const SpinWheel = ({ onRewardWon }) => {
       }}>
         <h3 style={{
           margin: 0,
-          fontSize: 'clamp(1.1rem, 4vw, 1.3rem)',
+          fontSize: 'clamp(1rem, 4vw, 1.3rem)',
           fontWeight: '700',
           color: '#1F2937'
         }}>
@@ -1443,7 +1643,7 @@ const SpinWheel = ({ onRewardWon }) => {
         justifyContent: 'center',
         alignItems: 'center',
         margin: '20px 0',
-        padding: '20px'
+        padding: '15px'
       }}>
         <Wheel
           mustStartSpinning={mustSpin}
@@ -1452,7 +1652,7 @@ const SpinWheel = ({ onRewardWon }) => {
           onStopSpinning={handleStopSpinning}
           backgroundColors={['#3e3e3e', '#df3428']}
           textColors={['#ffffff']}
-          fontSize={i18n.language === 'hi' ? 10 : 12}
+          fontSize={i18n.language === 'hi' ? 8 : 10}
           outerBorderColor="#333"
           outerBorderWidth={3}
           innerBorderColor="#333"
@@ -1477,8 +1677,8 @@ const SpinWheel = ({ onRewardWon }) => {
           top: '-10px',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '28px',
-          height: '35px',
+          width: '24px',
+          height: '30px',
           backgroundColor: '#333',
           clipPath: 'polygon(50% 100%, 0 0, 100% 0)',
           zIndex: 10,
@@ -1491,8 +1691,8 @@ const SpinWheel = ({ onRewardWon }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '45px',
-          height: '45px',
+          width: '40px',
+          height: '40px',
           backgroundColor: 'white',
           border: '3px solid #333',
           borderRadius: '50%',
@@ -1507,8 +1707,8 @@ const SpinWheel = ({ onRewardWon }) => {
         disabled={mustSpin || spinsLeft <= 0}
         style={{
           width: '100%',
-          padding: '16px 24px',
-          fontSize: 'clamp(1rem, 4vw, 1.1rem)',
+          padding: '14px 20px',
+          fontSize: 'clamp(0.9rem, 4vw, 1.1rem)',
           fontWeight: '700',
           color: 'white',
           background: mustSpin
@@ -1561,43 +1761,43 @@ const SpinWheel = ({ onRewardWon }) => {
           <div style={{
             background: 'white',
             borderRadius: '20px',
-            padding: '30px',
-            maxWidth: '350px',
+            padding: '25px',
+            maxWidth: '320px',
             width: '90%',
             textAlign: 'center',
             boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)',
             animation: 'scaleIn 0.3s ease-out'
           }}>
             <div style={{
-              fontSize: '3.5rem',
-              marginBottom: '20px',
+              fontSize: '3rem',
+              marginBottom: '15px',
               animation: 'bounce 0.6s ease-in-out'
             }}>
               🎉
             </div>
             <h3 style={{
-              fontSize: 'clamp(1.2rem, 5vw, 1.4rem)',
+              fontSize: 'clamp(1.1rem, 5vw, 1.3rem)',
               fontWeight: '700',
               color: '#1F2937',
-              marginBottom: '15px'
+              marginBottom: '12px'
             }}>
               {t('spinWheel.congratulations')}
             </h3>
             <p style={{
-              fontSize: 'clamp(1rem, 4vw, 1.1rem)',
+              fontSize: 'clamp(0.9rem, 4vw, 1rem)',
               color: '#6B7280',
-              marginBottom: '20px',
+              marginBottom: '15px',
               lineHeight: '1.6'
             }}>
               {t('spinWheel.youWon')} <strong style={{ color: reward.color }}>{reward.name}</strong>
             </p>
             {reward.value > 0 && (
               <p style={{
-                fontSize: '0.9rem',
+                fontSize: '0.8rem',
                 color: '#10B981',
                 fontWeight: '600',
-                marginBottom: '20px',
-                padding: '10px 18px',
+                marginBottom: '15px',
+                padding: '8px 15px',
                 background: '#ECFDF5',
                 borderRadius: '10px',
                 display: 'inline-block'
@@ -1607,11 +1807,11 @@ const SpinWheel = ({ onRewardWon }) => {
             )}
             {reward.id === 4 && (
               <p style={{
-                fontSize: '0.9rem',
+                fontSize: '0.8rem',
                 color: '#F59E0B',
                 fontWeight: '600',
-                marginBottom: '20px',
-                padding: '10px 18px',
+                marginBottom: '15px',
+                padding: '8px 15px',
                 background: '#FFFBEB',
                 borderRadius: '10px',
                 display: 'inline-block'
@@ -1622,8 +1822,8 @@ const SpinWheel = ({ onRewardWon }) => {
             <button
               onClick={() => setReward(null)}
               style={{
-                padding: '14px 28px',
-                fontSize: '1.1rem',
+                padding: '12px 24px',
+                fontSize: '1rem',
                 fontWeight: '600',
                 color: 'white',
                 background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
@@ -1631,7 +1831,7 @@ const SpinWheel = ({ onRewardWon }) => {
                 borderRadius: '10px',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                marginTop: '15px',
+                marginTop: '12px',
                 width: '100%'
               }}
             >
@@ -1644,7 +1844,7 @@ const SpinWheel = ({ onRewardWon }) => {
   );
 };
 
-// Main Practice Component with Mobile Responsiveness
+// Main Practice Component with Enhanced Mobile Responsiveness
 const Practice = () => {
   const { t } = useTranslation();
   const [animatedStats, setAnimatedStats] = useState({
@@ -1652,10 +1852,17 @@ const Practice = () => {
     studentsEnrolled: 0
   });
   const [flyingRewards, setFlyingRewards] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     document.title = "Practice | NOVYA - Your Smart Learning Platform";
     
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
     const handlePointsUpdate = () => {
       // This is handled by navbar component
     };
@@ -1678,6 +1885,7 @@ const Practice = () => {
     animateValue(0, 850, 2500, (val) => setAnimatedStats(prev => ({ ...prev, studentsEnrolled: val })));
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       window.removeEventListener('rewardPointsUpdated', handlePointsUpdate);
     };
   }, []);
@@ -1695,13 +1903,14 @@ const Practice = () => {
     setFlyingRewards(prev => prev.filter(r => r.id !== rewardId));
   };
 
+  const isMobile = windowWidth <= 768;
+
   return (
     <div className="practice-full-container" style={{ 
       fontFamily: 'system-ui, -apple-system, sans-serif',
       overflowX: 'hidden'
     }}>
-      {/* ... (rest of the Practice component remains exactly the same) */}
-      {/* All the CSS styles and JSX structure below remains identical to your original code */}
+      {/* CSS Animations */}
       <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
@@ -1737,220 +1946,126 @@ const Practice = () => {
           to { transform: scale(1); opacity: 1; }
         }
 
-        /* iPad Air Specific Styles (768px - 1024px) */
-        @media (min-width: 768px) and (max-width: 1024px) {
-          .hero-content-wrapper {
-            flex-direction: row !important;
-            text-align: left !important;
-            gap: 50px !important;
-            align-items: center !important;
-            justify-content: space-between !important;
+        /* Mobile First Responsive Design */
+        @media (max-width: 768px) {
+          .mobile-stats-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
           }
           
-          .hero-text {
-            order: 1 !important;
-            flex: 1 !important;
-            text-align: left !important;
-            min-width: 400px !important;
-            padding-right: 30px !important;
+          .mobile-feature-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
           }
           
-          .spin-wheel-section {
-            order: 2 !important;
-            flex: 0 0 340px !important;
-            margin: 0 !important;
-            max-width: 340px !important;
+          .mobile-subject-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
           }
           
-          .feature-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 25px !important;
-          }
-          
-          .subject-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
+          .mobile-step-item {
+            flex-direction: column !important;
+            text-align: center !important;
             gap: 20px !important;
           }
           
-          .step-item {
-            flex-direction: row !important;
-            text-align: left !important;
+          .mobile-hero-content {
+            flex-direction: column !important;
             gap: 30px !important;
+            text-align: center !important;
           }
-
-          .practice-hero {
-            padding: 70px 40px !important;
+          
+          .mobile-hero-text {
+            order: 2 !important;
+            padding: 0 !important;
           }
-
-          .stat-card {
-            padding: 25px !important;
-          }
-
-          .hero-text h1 {
-            font-size: 2.8rem !important;
-            line-height: 1.1 !important;
-          }
-
-          .hero-text p {
-            font-size: 1.2rem !important;
-            line-height: 1.7 !important;
+          
+          .mobile-wheel-section {
+            order: 1 !important;
+            margin: 0 auto !important;
+            max-width: 280px !important;
           }
         }
 
-        /* Small Phones (320px - 480px) */
+        /* Tablet Styles */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .mobile-hero-content {
+            flex-direction: row !important;
+            gap: 40px !important;
+            text-align: left !important;
+          }
+          
+          .mobile-hero-text {
+            order: 1 !important;
+            flex: 1 !important;
+          }
+          
+          .mobile-wheel-section {
+            order: 2 !important;
+            flex: 0 0 320px !important;
+          }
+          
+          .mobile-feature-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px !important;
+          }
+          
+          .mobile-subject-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 18px !important;
+          }
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 1025px) {
+          .mobile-hero-content {
+            flex-direction: row !important;
+            gap: 60px !important;
+            text-align: left !important;
+          }
+          
+          .mobile-feature-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 25px !important;
+          }
+          
+          .mobile-subject-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 20px !important;
+          }
+        }
+
+        /* Small Phones (below 480px) */
         @media (max-width: 480px) {
-          .hero-content-wrapper {
-            flex-direction: column;
-            text-align: center;
-            gap: 20px;
+          .mobile-hero {
+            padding: 40px 15px !important;
           }
           
-          .hero-text {
-            padding-top: 0;
-            padding-bottom: 0;
-            order: 2;
-            text-align: center;
+          .mobile-section {
+            padding: 50px 15px !important;
           }
           
-          .hero-text h1,
-          .hero-text p {
-            text-align: center;
+          .mobile-stat-card {
+            padding: 15px !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            text-align: center !important;
           }
           
-          .spin-wheel-section {
-            margin: 0 auto;
-            order: 1;
-            max-width: 280px;
+          .mobile-feature-card {
+            padding: 20px !important;
           }
           
-          .stat-card {
-            padding: 12px;
-            flex-direction: column;
-            text-align: center;
-            gap: 8px;
-          }
-          
-          .feature-grid {
-            grid-template-columns: 1fr;
-            gap: 15px;
-          }
-          
-          .subject-grid {
-            grid-template-columns: 1fr;
-            gap: 12px;
-          }
-          
-          .step-item {
-            flex-direction: column;
-            text-align: center;
-            gap: 15px;
-          }
-
-          .practice-hero {
-            padding: 20px 10px;
-          }
-
-          .hero-bg-1, .hero-bg-2 {
-            display: none;
-          }
-        }
-
-        /* Medium Phones (481px - 767px) */
-        @media (min-width: 481px) and (max-width: 767px) {
-          .hero-content-wrapper {
-            flex-direction: column;
-            text-align: center;
-            gap: 25px;
-          }
-          
-          .hero-text {
-            order: 2;
-            text-align: center;
-          }
-          
-          .hero-text h1,
-          .hero-text p {
-            text-align: center;
-          }
-          
-          .spin-wheel-section {
-            order: 1;
-            max-width: 300px;
-          }
-          
-          .stat-card {
-            padding: 14px;
-          }
-          
-          .feature-grid {
-            grid-template-columns: 1fr;
-            gap: 18px;
-          }
-          
-          .subject-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-          }
-        }
-
-        /* Large Tablets (1025px - 1200px) */
-        @media (min-width: 1025px) and (max-width: 1200px) {
-          .hero-content-wrapper {
-            flex-direction: row;
-            gap: 60px;
-          }
-          
-          .feature-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-          }
-          
-          .subject-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-          }
-        }
-
-        /* Very Small Phones (below 320px) */
-        @media (max-width: 320px) {
-          .hero-text h1 {
-            font-size: clamp(1.3rem, 6vw, 1.8rem);
-          }
-          
-          .stat-card {
-            padding: 10px;
-          }
-          
-          .subject-grid {
-            grid-template-columns: 1fr;
-            gap: 10px;
-          }
-          
-          .practice-hero {
-            padding: 15px 8px;
+          .mobile-subject-card {
+            padding: 25px 15px !important;
           }
         }
 
         /* Landscape Mode */
         @media (max-height: 500px) and (orientation: landscape) {
-          .practice-hero {
-            padding: 20px;
-            min-height: auto;
-          }
-          
-          .hero-content-wrapper {
-            flex-direction: row;
-            gap: 20px;
-          }
-          
-          .hero-text {
-            order: 1;
-            flex: 1;
-          }
-          
-          .spin-wheel-section {
-            order: 2;
-            flex: 0 0 250px;
+          .mobile-hero {
+            padding: 30px 20px !important;
+            min-height: auto !important;
           }
         }
       `}</style>
@@ -1966,12 +2081,12 @@ const Practice = () => {
 
       {/* Hero Section */}
       <section
-        className="practice-hero"
+        className="mobile-hero"
         style={{
           background: 'linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 100%)',
           position: 'relative',
           overflow: 'hidden',
-          padding: '80px 20px',
+          padding: isMobile ? '50px 20px' : '80px 20px',
           minHeight: 'auto'
         }}
       >
@@ -1981,8 +2096,8 @@ const Practice = () => {
             position: 'absolute',
             top: '-50%',
             right: '-20%',
-            width: '800px',
-            height: '800px',
+            width: isMobile ? '400px' : '800px',
+            height: isMobile ? '400px' : '800px',
             background: 'radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, transparent 70%)',
             borderRadius: '50%',
             animation: 'float 6s ease-in-out infinite'
@@ -1994,8 +2109,8 @@ const Practice = () => {
             position: 'absolute',
             top: '20%',
             left: '-10%',
-            width: '400px',
-            height: '400px',
+            width: isMobile ? '200px' : '400px',
+            height: isMobile ? '200px' : '400px',
             background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%)',
             borderRadius: '50%',
             animation: 'float 8s ease-in-out infinite reverse'
@@ -2008,31 +2123,30 @@ const Practice = () => {
           width: '100%'
         }}>
           <div
-            className="hero-content-wrapper"
+            className="mobile-hero-content"
             style={{
               display: 'flex',
-              flexDirection: 'row',
+              flexDirection: isMobile ? 'column' : 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              flexWrap: 'wrap',
               position: 'relative',
               zIndex: 1,
-              gap: '60px'
+              gap: isMobile ? '30px' : '60px'
             }}
           >
             <div
-              className="hero-text"
+              className="mobile-hero-text"
               style={{
-                flex: '1 1 600px',
-                minWidth: '400px',
-                paddingTop: '0'
+                flex: isMobile ? 'none' : '1 1 600px',
+                minWidth: isMobile ? '100%' : '400px',
+                textAlign: isMobile ? 'center' : 'left'
               }}
             >
               <h1 style={{
-                fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+                fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.5rem)' : 'clamp(2rem, 6vw, 3.5rem)',
                 fontWeight: '800',
                 color: '#1F2937',
-                marginBottom: '24px',
+                marginBottom: isMobile ? '16px' : '24px',
                 lineHeight: '1.2'
               }}>
                 {t('masterSubject')}
@@ -2040,7 +2154,8 @@ const Practice = () => {
                   background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  display: 'block'
+                  display: 'block',
+                  marginTop: isMobile ? '8px' : '12px'
                 }}>
                   {t('smartPractice')}
                 </span>
@@ -2048,82 +2163,96 @@ const Practice = () => {
               
               <p
                 style={{
-                  fontSize: 'clamp(1rem, 4vw, 1.25rem)',
+                  fontSize: isMobile ? 'clamp(0.95rem, 4vw, 1.1rem)' : 'clamp(1rem, 4vw, 1.25rem)',
                   color: '#6B7280',
-                  marginBottom: '40px',
-                  lineHeight: '1.7'
+                  marginBottom: isMobile ? '30px' : '40px',
+                  lineHeight: '1.6'
                 }}
               >
                 {t('challengeDescription')}
               </p>
               
-              <div style={{
+              <div className="mobile-stats-grid" style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                gap: '24px',
-                marginTop: '40px'
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: isMobile ? '12px' : '24px',
+                marginTop: isMobile ? '25px' : '40px'
               }}>
-                <div className="stat-card" style={{
+                <div className="mobile-stat-card" style={{
                   background: '#FFFFFF',
                   borderRadius: '16px',
-                  padding: '24px',
+                  padding: isMobile ? '15px' : '24px',
                   boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '16px'
+                  gap: isMobile ? '12px' : '16px',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  textAlign: isMobile ? 'center' : 'left'
                 }}>
                   <div style={{
                     background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
                     borderRadius: '12px',
-                    padding: '12px',
+                    padding: isMobile ? '10px' : '12px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <FileText size={24} color="#FFFFFF" />
+                    <FileText size={isMobile ? 20 : 24} color="#FFFFFF" />
                   </div>
                   <div>
                     <div style={{ 
-                      fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
+                      fontSize: isMobile ? '1.3rem' : 'clamp(1.4rem, 4vw, 1.8rem)', 
                       fontWeight: '700', 
                       color: '#1F2937' 
                     }}>
                       {animatedStats.totalTests.toLocaleString()}+
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>{t('practiceTests')}</div>
+                    <div style={{ 
+                      fontSize: isMobile ? '0.8rem' : '0.9rem', 
+                      color: '#6B7280' 
+                    }}>
+                      {t('practiceTests')}
+                    </div>
                   </div>
                 </div>
                 
-                <div className="stat-card" style={{
+                <div className="mobile-stat-card" style={{
                   background: '#FFFFFF',
                   borderRadius: '16px',
-                  padding: '24px',
+                  padding: isMobile ? '15px' : '24px',
                   boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '16px'
+                  gap: isMobile ? '12px' : '16px',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  textAlign: isMobile ? 'center' : 'left'
                 }}>
                   <div style={{
                     background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
                     borderRadius: '12px',
-                    padding: '12px',
+                    padding: isMobile ? '10px' : '12px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <Users size={24} color="#FFFFFF" />
+                    <Users size={isMobile ? 20 : 24} color="#FFFFFF" />
                   </div>
                   <div>
                     <div style={{ 
-                      fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
+                      fontSize: isMobile ? '1.3rem' : 'clamp(1.4rem, 4vw, 1.8rem)', 
                       fontWeight: '700', 
                       color: '#1F2937' 
                     }}>
                       {animatedStats.studentsEnrolled.toLocaleString()}+
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>{t('studentsLearning')}</div>
+                    <div style={{ 
+                      fontSize: isMobile ? '0.8rem' : '0.9rem', 
+                      color: '#6B7280' 
+                    }}>
+                      {t('studentsLearning')}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2131,15 +2260,15 @@ const Practice = () => {
 
             {/* Spin Wheel Section */}
             <div
-              className="spin-wheel-section"
+              className="mobile-wheel-section"
               style={{
-                flex: '0 0 auto',
-                maxWidth: '340px',
+                flex: isMobile ? 'none' : '0 0 auto',
+                maxWidth: isMobile ? '280px' : '340px',
                 width: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                margin: '0'
+                margin: isMobile ? '0 auto' : '0'
               }}
             >
               <SpinWheel onRewardWon={handleRewardWon} />
@@ -2149,31 +2278,38 @@ const Practice = () => {
       </section>
 
       {/* Features Section */}
-      <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
+      <section className="mobile-section" style={{ 
+        padding: isMobile ? '50px 20px' : '80px 20px', 
+        background: '#FFFFFF' 
+      }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <div style={{ 
+            textAlign: 'center', 
+            marginBottom: isMobile ? '40px' : '60px' 
+          }}>
             <h2 style={{
-              fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+              fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.2rem)' : 'clamp(2.2rem, 6vw, 3rem)',
               fontWeight: '700',
               color: '#1F2937',
-              marginBottom: '20px'
+              marginBottom: isMobile ? '16px' : '20px'
             }}>
               {t('whyChoose')}
             </h2>
             <p style={{
-              fontSize: 'clamp(1.1rem, 4vw, 1.25rem)',
+              fontSize: isMobile ? 'clamp(1rem, 4vw, 1.1rem)' : 'clamp(1.1rem, 4vw, 1.25rem)',
               color: '#6B7280',
               maxWidth: '700px',
-              margin: '0 auto'
+              margin: '0 auto',
+              lineHeight: '1.6'
             }}>
               {t('revolutionaryExperience')}
             </p>
           </div>
           
-          <div className="feature-grid" style={{
+          <div className="mobile-feature-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '30px'
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: isMobile ? '16px' : '30px'
           }}>
             {[
               { icon: '🎯', title: 'personalizedLearning', description: 'personalizedLearningDesc' },
@@ -2185,10 +2321,11 @@ const Practice = () => {
             ].map((feature, index) => (
               <div
                 key={index}
+                className="mobile-feature-card"
                 style={{
                   background: 'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
                   borderRadius: '20px',
-                  padding: '35px',
+                  padding: isMobile ? '20px' : '35px',
                   boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
                   transition: 'all 0.3s ease',
                   border: '1px solid #E5E7EB',
@@ -2196,22 +2333,22 @@ const Practice = () => {
                 }}
               >
                 <div style={{ 
-                  fontSize: '56px', 
-                  marginBottom: '20px',
+                  fontSize: isMobile ? '48px' : '56px', 
+                  marginBottom: isMobile ? '16px' : '20px',
                   display: 'inline-block'
                 }}>
                   {feature.icon}
                 </div>
                 <h3 style={{
-                  fontSize: '1.4rem',
+                  fontSize: isMobile ? '1.2rem' : '1.4rem',
                   fontWeight: '600',
                   color: '#1F2937',
-                  marginBottom: '16px'
+                  marginBottom: isMobile ? '12px' : '16px'
                 }}>
                   {t(`features.${feature.title}`)}
                 </h3>
                 <p style={{
-                  fontSize: '1.1rem',
+                  fontSize: isMobile ? '0.95rem' : '1.1rem',
                   color: '#6B7280',
                   lineHeight: '1.6'
                 }}>
@@ -2224,32 +2361,35 @@ const Practice = () => {
       </section>
 
       {/* Subject Categories */}
-      <section style={{
-        padding: '80px 20px',
+      <section className="mobile-section" style={{
+        padding: isMobile ? '50px 20px' : '80px 20px',
         background: 'linear-gradient(180deg, #F3F4F6 0%, #FFFFFF 100%)'
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <div style={{ 
+            textAlign: 'center', 
+            marginBottom: isMobile ? '40px' : '60px' 
+          }}>
             <h2 style={{
-              fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+              fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.2rem)' : 'clamp(2.2rem, 6vw, 3rem)',
               fontWeight: '700',
               color: '#1F2937',
-              marginBottom: '20px'
+              marginBottom: isMobile ? '16px' : '20px'
             }}>
               {t('exploreCategories')}
             </h2>
             <p style={{ 
-              fontSize: 'clamp(1.1rem, 4vw, 1.25rem)', 
+              fontSize: isMobile ? 'clamp(1rem, 4vw, 1.1rem)' : 'clamp(1.1rem, 4vw, 1.25rem)', 
               color: '#6B7280' 
             }}>
               {t('chooseSubjects')}
             </p>
           </div>
           
-          <div className="subject-grid" style={{
+          <div className="mobile-subject-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '25px',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: isMobile ? '12px' : '25px',
             maxWidth: '1100px',
             margin: '0 auto'
           }}>
@@ -2263,10 +2403,11 @@ const Practice = () => {
             ].map((subject, index) => (
               <div
                 key={index}
+                className="mobile-subject-card"
                 style={{
                   background: '#FFFFFF',
                   borderRadius: '20px',
-                  padding: '35px 25px',
+                  padding: isMobile ? '25px 15px' : '35px 25px',
                   textAlign: 'center',
                   boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
                   transition: 'all 0.3s ease',
@@ -2274,37 +2415,49 @@ const Practice = () => {
                   cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.borderColor = subject.color;
-                  e.currentTarget.style.boxShadow = `0 12px 35px ${subject.color}40`;
+                  if (windowWidth > 768) {
+                    e.currentTarget.style.transform = 'translateY(-8px)';
+                    e.currentTarget.style.borderColor = subject.color;
+                    e.currentTarget.style.boxShadow = `0 12px 35px ${subject.color}40`;
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.08)';
+                  if (windowWidth > 768) {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.borderColor = 'transparent';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.08)';
+                  }
+                }}
+                onClick={(e) => {
+                  if (windowWidth <= 768) {
+                    e.currentTarget.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }, 150);
+                  }
                 }}
               >
                 <div style={{ 
-                  fontSize: '72px', 
-                  marginBottom: '20px',
+                  fontSize: isMobile ? '60px' : '72px', 
+                  marginBottom: isMobile ? '16px' : '20px',
                   display: 'inline-block'
                 }}>
                   {subject.icon}
                 </div>
                 <h3 style={{
-                  fontSize: '1.4rem',
+                  fontSize: isMobile ? '1.2rem' : '1.4rem',
                   fontWeight: '600',
                   color: '#1F2937',
-                  marginBottom: '12px'
+                  marginBottom: isMobile ? '10px' : '12px'
                 }}>
                   {t(`subjects.${subject.name}`)}
                 </h3>
                 <p style={{ 
-                  fontSize: '1rem', 
+                  fontSize: isMobile ? '0.85rem' : '1rem', 
                   color: subject.color, 
                   fontWeight: '600',
                   background: `${subject.color}15`,
-                  padding: '8px 16px',
+                  padding: isMobile ? '6px 12px' : '8px 16px',
                   borderRadius: '25px',
                   display: 'inline-block'
                 }}>
@@ -2317,19 +2470,25 @@ const Practice = () => {
       </section>
 
       {/* How It Works */}
-      <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
+      <section className="mobile-section" style={{ 
+        padding: isMobile ? '50px 20px' : '80px 20px', 
+        background: '#FFFFFF' 
+      }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <div style={{ 
+            textAlign: 'center', 
+            marginBottom: isMobile ? '40px' : '60px' 
+          }}>
             <h2 style={{
-              fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+              fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.2rem)' : 'clamp(2.2rem, 6vw, 3rem)',
               fontWeight: '700',
               color: '#1F2937',
-              marginBottom: '20px'
+              marginBottom: isMobile ? '16px' : '20px'
             }}>
               {t('howItWorks')}
             </h2>
             <p style={{ 
-              fontSize: 'clamp(1.1rem, 4vw, 1.25rem)', 
+              fontSize: isMobile ? 'clamp(1rem, 4vw, 1.1rem)' : 'clamp(1.1rem, 4vw, 1.25rem)', 
               color: '#6B7280' 
             }}>
               {t('getStarted')}
@@ -2339,7 +2498,7 @@ const Practice = () => {
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '50px',
+            gap: isMobile ? '30px' : '50px',
             maxWidth: '1000px',
             margin: '0 auto'
           }}>
@@ -2350,47 +2509,53 @@ const Practice = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="step-item"
+                className="mobile-step-item"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '35px',
-                  flexWrap: 'wrap'
+                  gap: isMobile ? '20px' : '35px',
+                  flexWrap: 'wrap',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  textAlign: isMobile ? 'center' : 'left'
                 }}
               >
                 <div style={{
-                  minWidth: '90px',
-                  height: '90px',
+                  minWidth: isMobile ? '70px' : '90px',
+                  height: isMobile ? '70px' : '90px',
                   borderRadius: '50%',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '40px',
+                  fontSize: isMobile ? '32px' : '40px',
                   boxShadow: `0 10px 25px ${item.color}40`,
                   flexShrink: 0
                 }}>
                   {item.icon}
                 </div>
-                <div style={{ flex: 1, minWidth: '280px' }}>
+                <div style={{ 
+                  flex: 1, 
+                  minWidth: isMobile ? '100%' : '280px',
+                  textAlign: isMobile ? 'center' : 'left'
+                }}>
                   <div style={{
-                    fontSize: '3.5rem',
+                    fontSize: isMobile ? '2.5rem' : '3.5rem',
                     fontWeight: '700',
                     color: '#E5E7EB',
-                    marginBottom: '-15px'
+                    marginBottom: isMobile ? '-10px' : '-15px'
                   }}>
                     {item.step}
                   </div>
                   <h3 style={{
-                    fontSize: '1.6rem',
+                    fontSize: isMobile ? '1.3rem' : '1.6rem',
                     fontWeight: '600',
                     color: '#1F2937',
-                    marginBottom: '12px'
+                    marginBottom: isMobile ? '8px' : '12px'
                   }}>
                     {t(`steps.${item.title}`)}
                   </h3>
                   <p style={{ 
-                    fontSize: '1.15rem', 
+                    fontSize: isMobile ? '1rem' : '1.15rem', 
                     color: '#6B7280', 
                     lineHeight: '1.7' 
                   }}>
@@ -2405,7 +2570,7 @@ const Practice = () => {
 
       {/* CTA Section */}
       <section style={{
-        padding: '100px 20px',
+        padding: isMobile ? '60px 20px' : '100px 20px',
         background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
         position: 'relative',
         overflow: 'hidden'
@@ -2414,8 +2579,8 @@ const Practice = () => {
           position: 'absolute',
           top: '-100px',
           right: '-100px',
-          width: '300px',
-          height: '300px',
+          width: isMobile ? '200px' : '300px',
+          height: isMobile ? '200px' : '300px',
           background: 'rgba(255, 255, 255, 0.1)',
           borderRadius: '50%',
           animation: 'float 8s ease-in-out infinite'
@@ -2424,8 +2589,8 @@ const Practice = () => {
           position: 'absolute',
           bottom: '-50px',
           left: '-50px',
-          width: '200px',
-          height: '200px',
+          width: isMobile ? '150px' : '200px',
+          height: isMobile ? '150px' : '200px',
           background: 'rgba(255, 255, 255, 0.1)',
           borderRadius: '50%',
           animation: 'float 6s ease-in-out infinite reverse'
@@ -2439,17 +2604,17 @@ const Practice = () => {
           zIndex: 1 
         }}>
           <h2 style={{
-            fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+            fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.2rem)' : 'clamp(2.2rem, 6vw, 3rem)',
             fontWeight: '700',
             color: '#FFFFFF',
-            marginBottom: '24px'
+            marginBottom: isMobile ? '16px' : '24px'
           }}>
             {t('readyToExcel')}
           </h2>
           <p style={{
-            fontSize: 'clamp(1.2rem, 4vw, 1.4rem)',
+            fontSize: isMobile ? 'clamp(1rem, 4vw, 1.1rem)' : 'clamp(1.2rem, 4vw, 1.4rem)',
             color: 'rgba(255, 255, 255, 0.9)',
-            marginBottom: '40px',
+            marginBottom: isMobile ? '30px' : '40px',
             lineHeight: '1.6'
           }}>
             {t('joinStudents')}

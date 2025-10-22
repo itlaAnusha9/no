@@ -986,50 +986,56 @@
   "quiz_inactive": "क्विज़ समाप्त हो गया है।",
 
 
-   "home": "होम",
-  "class_room": "कक्षा कक्ष",
-  "class_7": "कक्षा 7",
-  "class_8": "कक्षा 8",
-  "class_9": "कक्षा 9",
-  "class_10": "कक्षा 10",
-  "practice": "अभ्यास",
-  "quick_practice": "त्वरित अभ्यास",
+   
+ "home": "होम",
+  "class_room": "क्लास रूम",
+  "class_7": "क्लास 7",
+  "class_8": "क्लास 8",
+  "class_9": "क्लास 9",
+  "class_10": "क्लास 10",
+  "practice": "प्रैक्टिस",
+  "quick_practice": "क्विक प्रैक्टिस",
   "mock_test": "मॉक टेस्ट",
   "career": "करियर",
-  "studyRoom": "अध्ययन कक्ष",
-  "language": "भाषा",
-  "calendar": {
-    "study_calendar": "अध्ययन कैलेंडर",
+ "studyRoom": "अध्ययन कक्ष",
+ 
+ "study_calendar": "अध्ययन कैलेंडर",
     "study_plans_for": "के लिए अध्ययन योजनाएं",
     "no_study_plans_scheduled": "कोई अध्ययन योजना निर्धारित नहीं है",
-    "days": {
-      "sun": "रवि",
-      "mon": "सोम",
-      "tue": "मंगल",
-      "wed": "बुध",
-      "thu": "गुरु",
-      "fri": "शुक्र",
-      "sat": "शनि"
-    }
-  },
-  "notifications": {
-    "title": "सूचनाएं",
+    "january": "जनवरी",
+    "february": "फरवरी",
+    "march": "मार्च",
+    "april": "अप्रैल",
+    "may": "मई",
+    "june": "जून",
+    "july": "जुलाई",
+    "august": "अगस्त",
+    "september": "सितंबर",
+    "october": "अक्टूबर",
+    "november": "नवंबर",
+    "december": "दिसंबर",
+    "sun": "रवि",
+    "mon": "सोम",
+    "tue": "मंगल",
+    "wed": "बुध",
+    "thu": "गुरु",
+    "fri": "शुक्र",
+    "sat": "शनि",
+   
+    "nav-notifications": "सूचनाएं",
     "mark_all_read": "सभी को पढ़ा हुआ चिह्नित करें",
     "clear_all": "सभी साफ करें",
     "no_notifications_yet": "अभी तक कोई सूचना नहीं",
     "study_plans_will_appear_here": "अध्ययन योजनाएं यहां दिखाई देंगी",
     "new_study_plan_created": "नई अध्ययन योजना बनाई गई",
-    "study_plan_added_to_calendar": "{{title}} के लिए अध्ययन योजना आपके कैलेंडर में जोड़ दी गई है"
-  },
-  "profile": {
+    "study_plan_added_to_calendar": "{{title}} के लिए अध्ययन योजना आपके कैलेंडर में जोड़ दी गई है",
+    "earn_more_points": "वीडियो और टेस्ट पूरा करके और अंक कमाएं!",
     "reward_points": "पुरस्कार अंक",
-    "earn_more_points": "वीडियो और टेस्ट पूरा करके और अधिक कमाएं!",
     "view_profile": "प्रोफाइल देखें",
-    "logout": "लॉगआउट"
-  },
+    "logout": "लॉगआउट",
+ 
 
 
-  
 
   "attendance_progress": "उपस्थिति प्रगति",
   "total_days": "कुल दिन",
@@ -1687,7 +1693,7 @@
   "platformName": "आपका स्मार्ट लर्निंग प्लेटफ़ॉर्म",
   "heading": "आपकी सीखने की यात्रा",
   "subheading": "सफलता के लिए एक सरल मार्गदर्शिका",
-  "steps": [
+  "stepss": [
     { "title": "खोज", "desc": "पाठ्यक्रमों का अन्वेषण करें और लक्ष्य निर्धारित करें", "color": "#4E7CFF" },
     { "title": "एआई ऑनबोर्डिंग", "desc": "व्यक्तिगत सीखने की योजना", "color": "#FF6B6B" },
     { "title": "मुख्य शिक्षण", "desc": "इंटरएक्टिव पाठ और प्रोजेक्ट्स", "color": "#6BCB77" },

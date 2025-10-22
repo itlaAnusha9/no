@@ -1,4039 +1,4 @@
-// // ////points working
-// // import { useState, useEffect } from "react";
-// // import './MockTest.css';
-// // import Navbar from "./Navbarrr";
-// // import { useQuiz } from "./QuizContext";
-// // import { useNavigate } from "react-router-dom";
-// // import { useTranslation } from 'react-i18next';
 
-// // function MockTest() {
-// //   const { t, i18n } = useTranslation();
-// //   const { updateMockTestResults } = useQuiz();
-// //   const navigate = useNavigate();
-// //   const [classes, setClasses] = useState([]);
-// //   const [subjects, setSubjects] = useState([]);
-// //   const [chapters, setChapters] = useState([]);
-// //   const [selectedChapter, setSelectedChapter] = useState(null);
-// //   const [quiz, setQuiz] = useState([]);
-// //   const [currentQ, setCurrentQ] = useState(0);
-// //   const [selected, setSelected] = useState(null);
-// //   const [score, setScore] = useState(0);
-// //   const [isFinished, setIsFinished] = useState(false);
-// //   const [selectedClass, setSelectedClass] = useState(null);
-// //   const [selectedSubject, setSelectedSubject] = useState(null);
-// //   const [loading, setLoading] = useState(false);
-// //   const [error, setError] = useState(null);
-// //   const [showAnswer, setShowAnswer] = useState(false);
-// //   const [timeLeft, setTimeLeft] = useState(20 * 60);
-// //   const [skippedQuestions, setSkippedQuestions] = useState([]);
-// //   const [userAnswers, setUserAnswers] = useState([]);
-// //   const [showInstructions, setShowInstructions] = useState(true);
-// //   const [isFullScreen, setIsFullScreen] = useState(false);
-// //   const [showReviewPopup, setShowReviewPopup] = useState(false);
-// //   const [isPassed, setIsPassed] = useState(false);
-// //   const [warningCount, setWarningCount] = useState(0);
-// //   const [showWarning, setShowWarning] = useState(false);
-// //   const [showAnswerKey, setShowAnswerKey] = useState(false);
-// //   const [selectedLanguage, setSelectedLanguage] = useState("English");
-// //   const [rewardPoints, setRewardPoints] = useState(0);
-// //   const [showHint, setShowHint] = useState(false);
-// //   const [currentHint, setCurrentHint] = useState('');
-// //   const [hintLoading, setHintLoading] = useState(false);
-// //   const [pointsBreakdown, setPointsBreakdown] = useState({ basePoints: 0, bonusPoints: 0, totalPoints: 0 });
-
-// //   const optionLabels = ["A", "B", "C", "D"];
-// //   const classIcons = ["🏫", "📚", "🎓", "💼", "🔬", "📊"];
-// //   const subjectIcons = ["📖", "🧮", "🔭", "🧪", "🌍", "📜", "💻", "🎨"];
-// //   const chapterIcons = ["📝", "🔍", "💡", "⚡", "🌟", "🎯", "📊", "🔬"];
-
-// //   // MARK: UPDATED - Load reward points from localStorage with proper synchronization
-// //   useEffect(() => {
-// //     const loadRewardPoints = () => {
-// //       const savedPoints = parseInt(localStorage.getItem('rewardPoints')) || 0;
-// //       setRewardPoints(savedPoints);
-// //     };
-
-// //     loadRewardPoints();
-
-// //     // Listen for reward points updates from other components
-// //     const handleRewardPointsUpdate = (event) => {
-// //       if (event.detail && event.detail.rewardPoints !== undefined) {
-// //         setRewardPoints(event.detail.rewardPoints);
-// //       }
-// //     };
-
-// //     const handleStorageChange = (e) => {
-// //       if (e.key === 'rewardPoints') {
-// //         loadRewardPoints();
-// //       }
-// //     };
-
-// //     window.addEventListener('rewardPointsUpdated', handleRewardPointsUpdate);
-// //     window.addEventListener('storage', handleStorageChange);
-
-// //     return () => {
-// //       window.removeEventListener('rewardPointsUpdated', handleRewardPointsUpdate);
-// //       window.removeEventListener('storage', handleStorageChange);
-// //     };
-// //   }, []);
-
-// //   // MARK: UPDATED - Save reward points to localStorage and notify other components
-// //   const updateRewardPoints = (newPoints) => {
-// //     localStorage.setItem('rewardPoints', newPoints.toString());
-// //     setRewardPoints(newPoints);
-// //     window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
-// //       detail: { rewardPoints: newPoints } 
-// //     }));
-// //   };
-
-// //   // Hide chatbot widget
-// //   useEffect(() => {
-// //     const chatWidget = document.querySelector('iframe[src*="tawk"], iframe[src*="crisp"], iframe[src*="chat"], iframe[src*="bot"], iframe[src*="dialogflow"]');
-// //     if (chatWidget) {
-// //       chatWidget.style.display = "none";
-// //     }
-
-// //     const chatButton = document.querySelector('div[style*="z-index"][style*="bottom"][style*="right"]');
-// //     if (chatButton && chatButton.querySelector("svg, img")) {
-// //       chatButton.style.display = "none";
-// //     }
-
-// //     return () => {
-// //       if (chatWidget) {
-// //         chatWidget.style.display = "block";
-// //       }
-// //       if (chatButton) {
-// //         chatButton.style.display = "block";
-// //       }
-// //     };
-// //   }, []);
-
-// //   // Fetch classes
-// //   useEffect(() => {
-// //     fetch("http://127.0.0.1:8000/classes")
-// //       .then(res => {
-// //         if (!res.ok) throw new Error("Failed to fetch classes");
-// //         return res.json();
-// //       })
-// //       .then(data => setClasses(data.classes || []))
-// //       .catch(() => setError("Failed to load classes"));
-// //   }, []);
-
-// //   // Handle visibility change
-// //   useEffect(() => {
-// //     if (!quiz.length || isFinished || showInstructions) return;
-
-// //     const handleVisibilityChange = () => {
-// //       if (document.hidden) {
-// //         setWarningCount((prev) => {
-// //           const newCount = prev + 1;
-// //           if (newCount >= 3) {
-// //             finishQuiz();
-// //             return newCount;
-// //           } else {
-// //             setShowWarning(true);
-// //             return newCount;
-// //           }
-// //         });
-// //       }
-// //     };
-
-// //     document.addEventListener("visibilitychange", handleVisibilityChange);
-// //     return () => {
-// //       document.removeEventListener("visibilitychange", handleVisibilityChange);
-// //     };
-// //   }, [quiz, isFinished, showInstructions]);
-
-// //   // Handle full-screen change
-// //   useEffect(() => {
-// //     const handleFullScreenChange = () => {
-// //       const isCurrentlyFullScreen = !!document.fullscreenElement || !!document.webkitFullscreenElement || !!document.mozFullScreenElement || !!document.msFullscreenElement;
-// //       setIsFullScreen(isCurrentlyFullScreen);
-
-// //       if (!isCurrentlyFullScreen && quiz.length > 0 && !isFinished && !showInstructions) {
-// //         setWarningCount((prev) => {
-// //           const newCount = prev + 1;
-// //           if (newCount >= 3) {
-// //             finishQuiz();
-// //             return newCount;
-// //           } else {
-// //             setShowWarning(true);
-// //             enterFullScreen();
-// //             return newCount;
-// //           }
-// //         });
-// //       }
-// //     };
-
-// //     document.addEventListener("fullscreenchange", handleFullScreenChange);
-// //     document.addEventListener("webkitfullscreenchange", handleFullScreenChange);
-// //     document.addEventListener("mozfullscreenchange", handleFullScreenChange);
-// //     document.addEventListener("MSFullscreenChange", handleFullScreenChange);
-
-// //     return () => {
-// //       document.removeEventListener("fullscreenchange", handleFullScreenChange);
-// //       document.removeEventListener("webkitfullscreenchange", handleFullScreenChange);
-// //       document.removeEventListener("mozfullscreenchange", handleFullScreenChange);
-// //       document.removeEventListener("MSFullscreenChange", handleFullScreenChange);
-// //     };
-// //   }, [quiz, isFinished, showInstructions]);
-
-// //   // Auto-hide warning
-// //   useEffect(() => {
-// //     if (showWarning) {
-// //       const timer = setTimeout(() => {
-// //         setShowWarning(false);
-// //       }, 3000);
-// //       return () => clearTimeout(timer);
-// //     };
-// //   }, [showWarning]);
-
-// //   // Timer for quiz
-// //   useEffect(() => {
-// //     if (quiz.length > 0 && !isFinished && timeLeft > 0) {
-// //       const timer = setInterval(() => {
-// //         setTimeLeft(prev => {
-// //           if (prev <= 1) {
-// //             clearInterval(timer);
-// //             finishQuiz();
-// //             return 0;
-// //           }
-// //           return prev - 1;
-// //         });
-// //       }, 1000);
-// //       return () => clearInterval(timer);
-// //     }
-// //   }, [quiz, isFinished, timeLeft]);
-
-// //   // MARK: UPDATED - finishQuiz function with proper points handling
-// //   const finishQuiz = () => {
-// //     const passed = score > 20; // Changed from 2 to 20 for 50 questions
-// //     setIsPassed(passed);
-// //     setIsFinished(true);
-    
-// //     // Calculate reward points - only if user passed (score > 20)
-// //     let pointsEarned = 0;
-// //     let bonusPoints = 0;
-    
-// //     if (passed) {
-// //       // 1 mark for 1 question (only for passed tests)
-// //       pointsEarned = score;
-      
-// //       // Add bonus points for scoring >= 80%
-// //       const percentage = (score / quiz.length) * 100;
-// //       if (percentage >= 80) {
-// //         bonusPoints = 15;
-// //         pointsEarned += bonusPoints;
-// //       }
-// //     }
-    
-// //     // Store points breakdown for display
-// //     setPointsBreakdown({
-// //       basePoints: score,
-// //       bonusPoints: bonusPoints,
-// //       totalPoints: pointsEarned
-// //     });
-    
-// //     // MARK: UPDATED - Use the centralized update function
-// //     if (pointsEarned > 0) {
-// //       const newTotalPoints = rewardPoints + pointsEarned;
-// //       updateRewardPoints(newTotalPoints);
-// //     }
-    
-// //     exitFullScreen();
-// //     setShowWarning(false);
-// //   };
-
-// //   // MARK: UPDATED - fetchAIHint with proper points deduction
-// //   const fetchAIHint = async () => {
-// //     if (rewardPoints < 5) {
-// //       alert('Not enough reward points! You need 5 points to use a hint.');
-// //       return;
-// //     }
-
-// //     setHintLoading(true);
-// //     try {
-// //       const currentQuestion = quiz[currentQ];
-// //       const response = await fetch('http://127.0.0.1:8000/get_hint', {
-// //         method: 'POST',
-// //         headers: {
-// //           'Content-Type': 'application/json',
-// //         },
-// //         body: JSON.stringify({
-// //           question: currentQuestion.question,
-// //           options: currentQuestion.options,
-// //           subject: selectedSubject,
-// //           chapter: selectedChapter,
-// //           class: selectedClass
-// //         })
-// //       });
-
-// //       if (!response.ok) {
-// //         throw new Error('Failed to fetch hint');
-// //       }
-
-// //       const data = await response.json();
-// //       setCurrentHint(data.hint || 'No hint available for this question.');
-// //       setShowHint(true);
-      
-// //       // MARK: UPDATED - Use centralized update function for points deduction
-// //       const newPoints = rewardPoints - 5;
-// //       updateRewardPoints(newPoints);
-// //     } catch (error) {
-// //       console.error('Error fetching hint:', error);
-// //       alert('Failed to get hint. Please try again.');
-// //     } finally {
-// //       setHintLoading(false);
-// //     }
-// //   };
-
-// //   const handleHint = () => {
-// //     fetchAIHint();
-// //   };
-
-// //   const fetchSubjects = (className) => {
-// //     setLoading(true);
-// //     setError(null);
-// //     fetch(`http://127.0.0.1:8000/mock_subjects?class_name=${className}`)
-// //       .then(res => {
-// //         if (!res.ok) throw new Error("Failed to fetch subjects");
-// //         return res.json();
-// //       })
-// //       .then(data => {
-// //         setSubjects(data.subjects || []);
-// //         setChapters([]);
-// //         setSelectedSubject(null);
-// //         setSelectedChapter(null);
-// //         setQuiz([]);
-// //         setLoading(false);
-// //       })
-// //       .catch((err) => {
-// //         setError("Failed to load subjects: " + err.message);
-// //         setLoading(false);
-// //       });
-// //   };
-
-// //   const fetchChapters = (className, subject) => {
-// //     setLoading(true);
-// //     setError(null);
-// //     fetch(`http://127.0.0.1:8000/mock_chapters?class_name=${className}&subject=${encodeURIComponent(subject)}`)
-// //       .then(res => {
-// //         if (!res.ok) throw new Error("Failed to fetch chapters");
-// //         return res.json();
-// //       })
-// //       .then(data => {
-// //         const chaptersData = Array.isArray(data.chapters) ? data.chapters : [];
-// //         setChapters(chaptersData);
-// //         setSelectedChapter(null);
-// //         setQuiz([]);
-// //         setLoading(false);
-// //       })
-// //       .catch((err) => {
-// //         setError("Failed to load chapters: " + err.message);
-// //         setChapters([]);
-// //         setLoading(false);
-// //       });
-// //   };
-
-// //   const fetchMockTest = (chapter, difficulty = "normal", retry = false) => {
-// //     setLoading(true);
-// //     setError(null);
-// //     setShowInstructions(false);
-// //     setTimeLeft(20 * 60);
-// //     setSkippedQuestions([]);
-// //     setUserAnswers(Array(50).fill(null));
-// //     setShowHint(false);
-// //     setCurrentHint('');
-   
-// //     fetch(
-// //       `http://127.0.0.1:8000/mock_test?class_name=${selectedClass}&subject=${encodeURIComponent(
-// //         selectedSubject
-// //       )}&chapter=${encodeURIComponent(chapter)}&difficulty=${difficulty}&retry=${retry}&language=${encodeURIComponent(selectedLanguage)}&num_questions=50`
-// //     )
-// //       .then(res => {
-// //         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-// //         return res.json();
-// //       })
-// //       .then(data => {
-// //         let questions = [];
-       
-// //         if (Array.isArray(data)) {
-// //           questions = data;
-// //         } else if (data && Array.isArray(data.questions)) {
-// //           questions = data.questions;
-// //         } else if (data && Array.isArray(data.quiz)) {
-// //           questions = data.quiz;
-// //         } else if (data && data.questions) {
-// //           questions = Object.values(data.questions);
-// //         } else {
-// //           throw new Error("Invalid response format: " + JSON.stringify(data));
-// //         }
-       
-// //         if (questions.length === 0) {
-// //           throw new Error("No questions received from server");
-// //         }
-
-// //         const validQuestions = questions
-// //           .filter(q => q && q.question && q.answer && q.options)
-// //           .map((q, index) => ({
-// //             id: index,
-// //             question: q.question.trim(),
-// //             options: q.options,
-// //             answer: q.answer
-// //           }))
-// //           .slice(0, 50);
-
-// //         while (validQuestions.length < 50) {
-// //           validQuestions.push({
-// //             id: validQuestions.length,
-// //             question: `Placeholder Question ${validQuestions.length + 1}`,
-// //             options: { A: "Option A", B: "Option B", C: "Option C", D: "Option D" },
-// //             answer: "A"
-// //           });
-// //         }
-
-// //         setQuiz(validQuestions);
-// //         setCurrentQ(0);
-// //         setSelected(null);
-// //         setScore(0);
-// //         setIsFinished(false);
-// //         setIsPassed(false);
-// //         setShowAnswer(false);
-// //         setShowReviewPopup(false);
-// //         setWarningCount(0);
-// //         setShowWarning(false);
-// //         setShowAnswerKey(false);
-// //         setLoading(false);
-// //       })
-// //       .catch((err) => {
-// //         console.error("Fetch error:", err);
-// //         setError("Failed to load mock test: " + err.message);
-// //         setLoading(false);
-// //         setQuiz([]);
-// //         setShowInstructions(true);
-// //       });
-// //   };
-
-// //   const handleClassClick = (className) => {
-// //     setSelectedClass(className);
-// //     setSelectedSubject(null);
-// //     setSelectedChapter(null);
-// //     setSubjects([]);
-// //     setChapters([]);
-// //     setQuiz([]);
-// //     setShowInstructions(true);
-// //     fetchSubjects(className);
-// //   };
-
-// //   const handleSubjectClick = (subject) => {
-// //     setSelectedSubject(subject);
-// //     setSelectedChapter(null);
-// //     setChapters([]);
-// //     setQuiz([]);
-// //     setShowInstructions(true);
-// //     fetchChapters(selectedClass, subject);
-// //   };
-
-// //   const handleChapterClick = (chapter) => {
-// //     setSelectedChapter(chapter);
-// //     setShowInstructions(true);
-// //   };
-
-// //   const startQuiz = () => {
-// //     setShowInstructions(false);
-// //     if (quiz.length === 0) {
-// //       fetchMockTest(selectedChapter);
-// //       enterFullScreen();
-// //     }
-// //   };
-
-// //   const handleAnswer = (label) => {
-// //     setSelected(label);
-// //     const newUserAnswers = [...userAnswers];
-// //     newUserAnswers[currentQ] = label;
-// //     setUserAnswers(newUserAnswers);
-
-// //     const newSkipped = skippedQuestions.filter(q => q !== currentQ);
-// //     setSkippedQuestions(newSkipped);
-
-// //     if (label === quiz[currentQ]?.answer) {
-// //       setScore(score + 1);
-// //     }
-// //   };
-
-// //   const handleAnswerKeyClick = (correctAnswer) => {
-// //     setSelected(correctAnswer);
-// //     const newUserAnswers = [...userAnswers];
-// //     newUserAnswers[currentQ] = correctAnswer;
-// //     setUserAnswers(newUserAnswers);
-
-// //     const newSkipped = skippedQuestions.filter(q => q !== currentQ);
-// //     setSkippedQuestions(newSkipped);
-
-// //     if (correctAnswer === quiz[currentQ]?.answer) {
-// //       setScore(score + 1);
-// //     }
-// //   };
-
-// //   const nextQuestion = () => {
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //     if (currentQ < quiz.length - 1) {
-// //       setCurrentQ(currentQ + 1);
-// //       setSelected(userAnswers[currentQ + 1] || null);
-// //       setShowAnswer(false);
-// //       setShowAnswerKey(false);
-// //     } else {
-// //       finishQuiz();
-// //     }
-// //   };
-
-// //   const prevQuestion = () => {
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //     if (currentQ > 0) {
-// //       setCurrentQ(currentQ - 1);
-// //       setSelected(userAnswers[currentQ - 1] || null);
-// //       setShowAnswer(false);
-// //       setShowAnswerKey(false);
-// //     }
-// //   };
-
-// //   const skipQuestion = () => {
-// //     const newSkipped = [...skippedQuestions];
-// //     if (!newSkipped.includes(currentQ)) {
-// //       newSkipped.push(currentQ);
-// //       setSkippedQuestions(newSkipped);
-// //     }
-   
-// //     const newUserAnswers = [...userAnswers];
-// //     newUserAnswers[currentQ] = null;
-// //     setUserAnswers(newUserAnswers);
-// //     setSelected(null);
-   
-// //     nextQuestion();
-// //   };
-
-// //   const goToQuestion = (index) => {
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //     setCurrentQ(index);
-// //     setSelected(userAnswers[index] || null);
-// //     setShowAnswer(false);
-// //     setShowAnswerKey(false);
-// //   };
-
-// //   const retryQuiz = () => {
-// //     setWarningCount(0);
-// //     setShowWarning(false);
-// //     fetchMockTest(selectedChapter, "normal", true);
-// //     enterFullScreen();
-// //   };
-
-// //   const nextLevel = () => {
-// //     if (isPassed) {
-// //       setWarningCount(0);
-// //       setShowWarning(false);
-// //       fetchMockTest(selectedChapter, "hard");
-// //       enterFullScreen();
-// //     }
-// //   };
-
-// //   const backToChapters = () => {
-// //     setSelectedChapter(null);
-// //     setQuiz([]);
-// //     setCurrentQ(0);
-// //     setSelected(null);
-// //     setScore(0);
-// //     setIsFinished(false);
-// //     setIsPassed(false);
-// //     setShowAnswer(false);
-// //     setUserAnswers([]);
-// //     setShowInstructions(true);
-// //     setShowReviewPopup(false);
-// //     setWarningCount(0);
-// //     setShowWarning(false);
-// //     setShowAnswerKey(false);
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //     exitFullScreen();
-// //   };
-
-// //   const backToSubjects = () => {
-// //     setSelectedSubject(null);
-// //     setSelectedChapter(null);
-// //     setChapters([]);
-// //     setQuiz([]);
-// //     setShowInstructions(true);
-// //   };
-
-// //   const backToClasses = () => {
-// //     setSelectedClass(null);
-// //     setSelectedSubject(null);
-// //     setSelectedChapter(null);
-// //     setSubjects([]);
-// //     setChapters([]);
-// //     setQuiz([]);
-// //     setShowInstructions(true);
-// //   };
-
-// //   const backToPractice = () => {
-// //     navigate('/practice');
-// //   };
-
-// //   const enterFullScreen = () => {
-// //     const elem = document.documentElement;
-// //     if (elem.requestFullscreen) {
-// //       elem.requestFullscreen().catch(() => {});
-// //     } else if (elem.mozRequestFullScreen) {
-// //       elem.mozRequestFullScreen();
-// //     } else if (elem.webkitRequestFullscreen) {
-// //       elem.webkitRequestfullscreen();
-// //     } else if (elem.msRequestFullscreen) {
-// //       elem.msRequestFullscreen();
-// //     }
-// //     setIsFullScreen(true);
-// //   };
-
-// //   const exitFullScreen = () => {
-// //     if (document.exitFullscreen) {
-// //       document.exitFullscreen().catch(() => {});
-// //     } else if (document.mozCancelFullScreen) {
-// //       document.mozCancelFullScreen();
-// //     } else if (document.webkitExitFullscreen) {
-// //       document.webkitExitFullscreen();
-// //     } else if (document.msExitFullscreen) {
-// //       document.msExitFullscreen();
-// //     }
-// //     setIsFullScreen(false);
-// //   };
-
-// //   const formatTime = (seconds) => {
-// //     const mins = Math.floor(seconds / 60);
-// //     const secs = seconds % 60;
-// //     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-// //   };
-
-// //   const toggleReviewPopup = () => {
-// //     setShowReviewPopup(!showReviewPopup);
-// //   };
-
-// //   const toggleAnswerKey = () => {
-// //     setShowAnswerKey(!showAnswerKey);
-// //   };
-
-// //   const getBackButtonConfig = () => {
-// //     if (quiz.length > 0 && !isFinished && !showInstructions) {
-// //         return null;
-// //     }
-   
-// //     if (selectedSubject && !selectedChapter) {
-// //         return {
-// //             text: t('backToSubjects'),
-// //             action: backToSubjects
-// //         };
-// //     }
-   
-// //     if (selectedClass && !selectedSubject) {
-// //         return {
-// //             text: t('backToClasses'),
-// //             action: backToClasses
-// //         };
-// //     }
-   
-// //     if (!selectedClass) {
-// //         return {
-// //             text: t('backToPractice'),
-// //             action: backToPractice
-// //         };
-// //     }
-// //   };
-
-// //   const backButtonConfig = getBackButtonConfig();
-
-// //   if (loading) return (
-// //     <div className="loading-container">
-// //       <div className="edu-loader">
-// //         <span role="img" aria-label="book" className="edu-icon">📚</span>
-// //         <span role="img" aria-label="graduation" className="edu-icon">🎓</span>
-// //         <span role="img" aria-label="lightbulb" className="edu-icon">💡</span>
-// //       </div>
-// //       <p style={{ color: "black" }}>
-// //         Preparing your test in {selectedLanguage}...
-// //       </p>
-// //     </div>
-// //   );
-
-// //   return (
-// //     <>
-// //       <Navbar 
-// //         isFullScreen={isFullScreen && quiz.length > 0 && !showInstructions} 
-// //         rewardPoints={rewardPoints}
-// //       />
-     
-// //       {!isFullScreen && backButtonConfig && (
-// //         <div className="navbar-back-wrapper">
-// //           <div className="navbar-back-container">
-// //             <button
-// //               className="navbar-back-button"
-// //               onClick={backButtonConfig.action}
-// //             >
-// //               <span className="back-arrow">←</span>
-// //               {backButtonConfig.text}
-// //             </button>
-// //           </div>
-// //         </div>
-// //       )}
-     
-// //       {error && !showInstructions && (
-// //         <div className="error-container">
-// //           <div className="error-icon">⚠️</div>
-// //           <p>{error}</p>
-// //           <button className="retry-btn" onClick={() => window.location.reload()}>
-// //             Try Again
-// //           </button>
-// //         </div>
-// //       )}
-// //       {showWarning && !isFinished && (
-// //         <div className="warning-container">
-// //           <div className="warning-icon">⚠️</div>
-// //           <p>
-// //             Warning {warningCount} of 3: Please stay on the test tab or in full-screen mode. The test will end after 3 warnings.
-// //           </p>
-// //         </div>
-// //       )}
-// //       {!selectedClass && !error && (
-// //         <div className="selection-container">
-// //           <div className="header">
-// //             <h2>{t('selectClassTitle')}</h2>
-// //             <p>{t('selectClassSubtitle')}</p>
-// //           </div>
-// //           <div className="cards-grid">
-// //             {classes.map((cl, i) => (
-// //               <div
-// //                 key={i}
-// //                 className="selection-card"
-// //                 onClick={() => handleClassClick(cl)}
-// //               >
-// //                 <div className="card-icon">{classIcons[i % classIcons.length]}</div>
-// //                 <h3>{t(`classes.${cl}`)}</h3>
-// //                 <p>{t('classCardDesc')}</p>
-// //                 <div className="card-hover"></div>
-// //               </div>
-// //             ))}
-// //           </div>
-// //         </div>
-// //       )}
-// //       {!selectedSubject && selectedClass && !error && (
-// //         <div className="selection-container">
-// //           <div className="header">
-// //             <h2>{t('selectSubjectTitle')}</h2>
-// //             <p>{t('selectSubjectSubtitle', { class: t(`classes.${selectedClass}`) })}</p>
-// //           </div>
-// //           <div className="cards-grid">
-// //             {subjects.map((sub, i) => (
-// //               <div
-// //                 key={i}
-// //                 className="selection-card subject-card"
-// //                 onClick={() => handleSubjectClick(sub)}
-// //               >
-// //                 <div className="card-icon">{subjectIcons[i % subjectIcons.length]}</div>
-// //                 <h3>{t(`${sub.toLowerCase()}`)}</h3>
-// //                 <p>{t('subjectCardDesc')}</p>
-// //                 <div className="card-hover"></div>
-// //               </div>
-// //             ))}
-// //           </div>
-// //         </div>
-// //       )}
-// //       {!selectedChapter && selectedSubject && !error && (
-// //         <div className="selection-container chapter-select">
-// //           <div className="header">
-// //             <h2>{t('selectChapterTitle')}</h2>
-// //             <p>{t('selectChapterSubtitle', { selectedSubject: t(`subjects.${selectedSubject.toLowerCase()}`) })}</p>
-// //           </div>
-// //           <div className="cards-grid">
-// //             {Array.isArray(chapters) && chapters.map((chap, i) => (
-// //               <div
-// //                 key={i}
-// //                 className={`selection-card chapter-card ${selectedChapter === chap ? 'selected' : ''}`}
-// //                 onClick={() => handleChapterClick(chap)}
-// //               >
-// //                 <div className="card-icon">{chapterIcons[i % chapterIcons.length]}</div>
-// //                 <h3>{chap}</h3>
-// //                 <p>{selectedChapter === chap ? t('chapterSelected') : t('chapterCardDesc')}</p>
-// //                 <div className="card-hover"></div>
-// //               </div>
-// //             ))}
-// //           </div>
-// //         </div>
-// //       )}
-
-// //       {(quiz.length === 0 || showInstructions) && !error && selectedChapter && (
-// //         <div style={{
-// //           minHeight: "100vh",
-// //           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-// //           display: "flex",
-// //           alignItems: "center",
-// //           justifyContent: "center",
-// //           padding: "2rem"
-// //         }}>
-// //           <div style={{
-// //             background: "white",
-// //             borderRadius: "20px",
-// //             padding: "3rem",
-// //             boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-// //             maxWidth: "800px",
-// //             width: "100%",
-// //             margin: "2rem"
-// //           }}>
-// //             <div style={{
-// //               textAlign: "center",
-// //               fontSize: "4rem",
-// //               marginBottom: "1rem"
-// //             }}>📋</div>
-           
-// //             <h2 style={{
-// //               textAlign: "center",
-// //               color: "#2d3748",
-// //               marginBottom: "2rem",
-// //               fontSize: "2rem",
-// //               fontWeight: "700"
-// //             }}>{t('instructionsTitle')}</h2>
-           
-// //             <div style={{
-// //               marginBottom: "2rem"
-// //             }}>
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>⏱️</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('timeLimitTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('timeLimitDesc')}</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>❓</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('questionFormatTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('questionFormatDesc')}</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>📊</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('passingCriteriaTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('passingCriteriaDesc')}</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>⏭️</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('skippingQuestionsTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('skippingQuestionsDesc')}</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>📝</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('scoringTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('scoringDesc')}</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>🔑</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('answerKeyTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('answerKeyDesc')}</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>🌐</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('languageTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('languageDesc')}</p>
-// //                 </div>
-// //               </div>
-// //             </div>
-
-// //             <div style={{
-// //               background: "#f7fafc",
-// //               padding: "1.5rem",
-// //               borderRadius: "12px",
-// //               marginBottom: "2rem",
-// //               border: "1px solid #e2e8f0"
-// //             }}>
-// //               <h3 style={{
-// //                 margin: "0 0 1rem 0",
-// //                 color: "#2d3748",
-// //                 fontWeight: "600"
-// //               }}>{t('testDetailsTitle')}</h3>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testClass')}</strong> {t(`classes.${selectedClass}`)}
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testSubject')}</strong> {t(`subjects.${selectedSubject.toLowerCase()}`)}
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testChapter')}</strong> {selectedChapter}
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testTotalQuestions')}</strong> 50
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testPassingScore')}</strong>
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testLanguage')}</strong> {selectedLanguage}
-// //               </p>
-// //             </div>
-
-// //             <div style={{
-// //               display: "flex",
-// //               alignItems: "center",
-// //               justifyContent: "center",
-// //               marginBottom: "2rem",
-// //               gap: "1rem"
-// //             }}>
-// //               <label htmlFor="language" style={{
-// //                 fontWeight: "600",
-// //                 fontSize: "16px",
-// //                 color: "#2d3748"
-// //               }}>
-// //                 {t('languageSelectLabel')}
-// //               </label>
-// //               <select
-// //                 id="language"
-// //                 value={selectedLanguage}
-// //                 onChange={(e) => setSelectedLanguage(e.target.value)}
-// //                 style={{
-// //                   padding: "10px 15px",
-// //                   fontSize: "15px",
-// //                   borderRadius: "8px",
-// //                   border: "2px solid #007bff",
-// //                   backgroundColor: "white",
-// //                   cursor: "pointer",
-// //                   minWidth: "180px",
-// //                   fontWeight: "500"
-// //                 }}
-// //               >
-// //                 <option value="English">English</option>
-// //                 <option value="Telugu">తెలుగు (Telugu)</option>
-// //                 <option value="Hindi">हिंदी (Hindi)</option>
-// //                 <option value="Tamil">தமிழ் (Tamil)</option>
-// //                 <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
-// //                 <option value="Malayalam">മലയാളം (Malayalam)</option>
-// //               </select>
-// //             </div>
-
-// //             <div style={{
-// //               display: "flex",
-// //               justifyContent: "center",
-// //               gap: "1rem",
-// //               marginTop: "2rem"
-// //             }}>
-// //               <button
-// //                 onClick={backToChapters}
-// //                 style={{
-// //                   padding: "12px 24px",
-// //                   border: "2px solid #4a5568",
-// //                   background: "transparent",
-// //                   color: "#4a5568",
-// //                   borderRadius: "8px",
-// //                   cursor: "pointer",
-// //                   fontWeight: "600",
-// //                   fontSize: "16px",
-// //                   transition: "all 0.3s ease"
-// //                 }}
-// //                 onMouseEnter={(e) => {
-// //                   e.target.style.background = "#4a5568";
-// //                   e.target.style.color = "white";
-// //                 }}
-// //                 onMouseLeave={(e) => {
-// //                   e.target.style.background = "transparent";
-// //                   e.target.style.color = "#4a5568";
-// //                 }}
-// //               >
-// //                 {t('backToChapters')}
-// //               </button>
-             
-// //               <button
-// //                 onClick={startQuiz}
-// //                 style={{
-// //                   padding: "12px 24px",
-// //                   border: "none",
-// //                   background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-// //                   color: "white",
-// //                   borderRadius: "8px",
-// //                   cursor: "pointer",
-// //                   fontWeight: "600",
-// //                   fontSize: "16px",
-// //                   transition: "all 0.3s ease",
-// //                   boxShadow: "0 4px 12px rgba(102, 126, 234, 0.4)"
-// //                 }}
-// //                 onMouseEnter={(e) => {
-// //                   e.target.style.transform = "translateY(-2px)";
-// //                   e.target.style.boxShadow = "0 6px 15px rgba(102, 126, 234, 0.6)";
-// //                 }}
-// //                 onMouseLeave={(e) => {
-// //                   e.target.style.transform = "translateY(0)";
-// //                   e.target.style.boxShadow = "0 4px 12px rgba(102, 126, 234, 0.4)";
-// //                 }}
-// //               >
-// //                 {t('startTestNow')}
-// //               </button>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       )}
-
-// //       {isFinished && !error && (
-// //         <div className={`finished-container ${isFullScreen ? "fullscreen-mode" : ""}`}>
-// //           <div className="result-card">
-// //             <div className={`result-icon ${isPassed ? 'pass' : 'fail'}`}>
-// //               {isPassed ? '🎉' : '😔'}
-// //             </div>
-// //             <h2>{isPassed ? 'Congratulations! You Passed!' : 'Quiz Completed - Try Again'}</h2>
-           
-// //             <div className={`status-badge ${isPassed ? 'pass-badge' : 'fail-badge'}`}>
-// //               {isPassed ? 'PASS' : 'FAIL'}
-// //             </div>
-           
-// //             <div className="score-display">
-// //               <div className={`score-circle ${isPassed ? 'pass-score' : 'fail-score'}`}>
-// //                 <span className="score">{score}</span>
-// //                 <span className="total">/{quiz.length}</span>
-// //               </div>
-// //               <p>{Math.round((score / quiz.length) * 100)}% Correct</p>
-// //               <p className={`pass-fail-text ${isPassed ? 'pass-text' : 'fail-text'}`}>
-// //                 {isPassed
-// //                   ? `You scored ${score} which is greater than 20. You are eligible for next level!`
-// //                   : `You scored ${score} which is less than or equal to 20. Please retry the same level.`}
-// //               </p>
-// //               <p className="language-info">Test taken in: <strong>{selectedLanguage}</strong></p>
-              
-// //               {isPassed ? (
-// //                 <>
-// //                   <div className="points-breakdown">
-// //                     <div className="points-item">
-// //                       <span>Base Points:</span>
-// //                       <strong>{pointsBreakdown.basePoints} points</strong>
-// //                       <span>(1 point per correct answer)</span>
-// //                     </div>
-// //                     {pointsBreakdown.bonusPoints > 0 && (
-// //                       <>
-// //                         <div className="points-item bonus">
-// //                           <span>Bonus Points:</span>
-// //                           <strong>+{pointsBreakdown.bonusPoints} points</strong>
-// //                           <span>(Scored 80% or higher!)</span>
-// //                         </div>
-// //                         <div className="bonus-congrats">
-// //                           <span className="bonus-icon">🎉</span>
-// //                           <p>Amazing! You scored over 80% and earned bonus points!</p>
-// //                         </div>
-// //                       </>
-// //                     )}
-// //                     <div className="points-item total">
-// //                       <span>Total Points Earned:</span>
-// //                       <strong>{pointsBreakdown.totalPoints} points</strong>
-// //                     </div>
-// //                   </div>
-// //                 </>
-// //               ) : (
-// //                 <p className="reward-info no-points">
-// //                   No points awarded - Score below passing mark (20)
-// //                 </p>
-// //               )}
-// //               <p className="overall-reward">Total Reward Points: <strong>{rewardPoints}</strong></p>
-// //             </div>
-           
-// //             <div className="time-result">
-// //               <p>Time Taken: {formatTime(20 * 60 - timeLeft)}</p>
-// //             </div>
-           
-// //             <div className="result-actions">
-// //               <button className="review-btn" onClick={toggleReviewPopup}>
-// //                 📋 Review Questions & Answers
-// //               </button>
-// //               <button className="retry-btn" onClick={retryQuiz}>
-// //                 🔄 Retry Same Level
-// //               </button>
-// //               {isPassed && (
-// //                 <button className="next-btn" onClick={nextLevel}>
-// //                   🚀 Next Level
-// //                 </button>
-// //               )}
-// //               <button className="chapters-btn" onClick={backToChapters}>
-// //                 📚 Back to Chapters
-// //               </button>
-// //             </div>
-           
-// //             <div className="answers-section">
-// //               <h3>Quick Review:</h3>
-// //               <div className="answers-grid">
-// //                 {quiz.slice(0, 10).map((q, i) => (
-// //                   <div key={i} className={`answer-item ${userAnswers[i] === q.answer ? 'correct' : 'incorrect'}`}>
-// //                     <span className="q-number">Q{i + 1}</span>
-// //                     <span className="correct-answer">{q.answer}</span>
-// //                     <span className="user-answer">{userAnswers[i] || 'Skipped'}</span>
-// //                   </div>
-// //                 ))}
-// //               </div>
-// //               <button className="view-all-btn" onClick={toggleReviewPopup}>
-// //                 View All Questions & Answers
-// //               </button>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       )}
-// //       {quiz.length > 0 && !isFinished && !showInstructions && !error && (
-// //         <div className={`quiz-container ${isFullScreen ? "fullscreen-mode" : ""}`}>
-// //           <div className="quiz-header">
-// //             <div className="quiz-info">
-// //               <div className="progress-bar">
-// //                 <div
-// //                   className="progress-fill"
-// //                   style={{width: `${((currentQ + 1) / quiz.length) * 100}%`}}
-// //                 ></div>
-// //               </div>
-// //               <div className="quiz-stats">
-// //                 <span>Question {currentQ + 1} of {quiz.length}</span>
-// //                 <span className="timer">⏱️ {formatTime(timeLeft)}</span>
-// //                 <span className="language-badge">🌐 {selectedLanguage}</span>
-// //                 <span className="reward-badge">⭐ {rewardPoints} pts</span>
-// //               </div>
-// //             </div>
-           
-// //           </div>
-// //           <div className="question-nav">
-// //             {quiz.map((_, index) => (
-// //               <button
-// //                 key={index}
-// //                 className={`nav-dot ${index === currentQ ? 'active' : ''} ${
-// //                   userAnswers[index] ? 'answered' : ''
-// //                 } ${skippedQuestions.includes(index) ? 'skipped' : ''}`}
-// //                 onClick={() => goToQuestion(index)}
-// //               >
-// //                 {index + 1}
-// //               </button>
-// //             ))}
-// //           </div>
-// //           <div className="question-section">
-// //             <h3 className="question">{currentQ + 1}. {quiz[currentQ].question}</h3>
-            
-// //             {/* Hint Box */}
-// //             {showHint && (
-// //               <div className="hint-box">
-// //                 <div className="hint-header">
-// //                   <span className="hint-icon">💡</span>
-// //                   <strong>AI Hint</strong>
-// //                   <span className="hint-cost">-5 pts</span>
-// //                 </div>
-// //                 <p className="hint-text">{currentHint}</p>
-// //                 <button onClick={() => setShowHint(false)} className="close-hint-btn">
-// //                   Close Hint
-// //                 </button>
-// //               </div>
-// //             )}
-            
-// //             {/* Hint Button */}
-// //             <button 
-// //               className={`hint-btn ${rewardPoints < 5 ? 'disabled' : ''}`} 
-// //               onClick={handleHint} 
-// //               disabled={rewardPoints < 5 || hintLoading}
-// //             >
-// //               {hintLoading ? 'Loading Hint...' : `💡 Use Hint (-5 pts) ${rewardPoints < 5 ? '(Insufficient points)' : ''}`}
-// //             </button>
-
-// //             <div className="options-grid">
-// //               {quiz[currentQ].options && Object.entries(quiz[currentQ].options).map(([label, opt]) => (
-// //                 <button
-// //                   key={label}
-// //                   className={`option-card ${
-// //                     selected === label ? 'selected' : ''
-// //                   } ${showAnswer || showAnswerKey ? (label === quiz[currentQ].answer ? 'correct-answer' : '') : ''}`}
-// //                   onClick={() => handleAnswer(label)}
-// //                   disabled={showAnswer}
-// //                 >
-// //                   <span className="option-text">{opt}</span>
-// //                   {(showAnswer || showAnswerKey) && label === quiz[currentQ].answer && (
-// //                     <span className="correct-indicator">✓</span>
-// //                   )}
-// //                 </button>
-// //               ))}
-// //             </div>
-// //           </div>
-// //           <div className="quiz-navigation">
-// //             <button
-// //               className="nav-btn prev-btn"
-// //               onClick={prevQuestion}
-// //               disabled={currentQ === 0}
-// //             >
-// //               ← Previous
-// //             </button>
-// //             <button
-// //               className="nav-btn skip-btn"
-// //               onClick={skipQuestion}
-// //             >
-// //               Skip →
-// //             </button>
-// //             <button
-// //               className="nav-btn next-btn"
-// //               onClick={nextQuestion}
-// //             >
-// //               {currentQ < quiz.length - 1 ? 'Next →' : 'Finish'}
-// //             </button>
-// //           </div>
-// //         </div>
-// //       )}
-// //       {showReviewPopup && (
-// //         <div className="popup-overlay">
-// //           <div className="review-popup">
-// //             <div className="popup-header">
-// //               <h2>Questions & Answers Review</h2>
-// //               <button className="close-popup" onClick={toggleReviewPopup}>×</button>
-// //             </div>
-// //             <div className="popup-content">
-// //               <div className="review-summary">
-// //                 <p><strong>Class:</strong> {selectedClass} | <strong>Subject:</strong> {selectedSubject} | <strong>Chapter:</strong> {selectedChapter}</p>
-// //                 <p><strong>Language:</strong> {selectedLanguage}</p>
-// //                 <p><strong>Score:</strong> {score}/{quiz.length} ({Math.round((score / quiz.length) * 100)}%)</p>
-// //                 <p><strong>Status:</strong> <span className={isPassed ? 'pass-text' : 'fail-text'}>{isPassed ? 'PASSED' : 'FAILED'}</span></p>
-// //                 <p><strong>Total Reward Points:</strong> {rewardPoints}</p>
-// //               </div>
-// //               <div className="questions-review">
-// //                 {quiz.map((q, index) => (
-// //                   <div key={index} className="question-review-item">
-// //                     <div className="question-review-header">
-// //                       <span className="question-number">Question {index + 1}:</span>
-// //                       <span className={`answer-status ${userAnswers[index] === q.answer ? 'correct' : 'incorrect'}`}>
-// //                         {userAnswers[index] === q.answer ? '✓ Correct' : userAnswers[index] ? '✗ Incorrect' : '⏭️ Skipped'}
-// //                       </span>
-// //                     </div>
-// //                     <p className="review-question">{q.question}</p>
-// //                     <div className="review-options">
-// //                       {Object.entries(q.options).map(([label, option]) => (
-// //                         <div
-// //                           key={label}
-// //                           className={`review-option ${
-// //                             label === q.answer ? 'correct-answer' :
-// //                             label === userAnswers[index] && label !== q.answer ? 'user-incorrect' : ''
-// //                           }`}
-// //                         >
-// //                           <span className="option-label">{label}:</span>
-// //                           <span className="option-text">{option}</span>
-// //                           {label === q.answer && <span className="correct-mark"> ✓ Correct Answer</span>}
-// //                           {label === userAnswers[index] && label !== q.answer && <span className="incorrect-mark"> ✗ Your Answer</span>}
-// //                         </div>
-// //                       ))}
-// //                     </div>
-// //                   </div>
-// //                 ))}
-// //               </div>
-// //             </div>
-// //             <div className="popup-actions">
-// //               <button className="popup-close-btn" onClick={toggleReviewPopup}>
-// //                 Close Review
-// //               </button>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       )}
-// //     </>
-// //   );
-// // }
-
-// // export default MockTest;
-
-
-
-
-
-
-
-// // //points not reducing
-// // import { useState, useEffect } from "react";
-// // import './MockTest.css';
-// // import Navbar from "./Navbarrr";
-// // import { useQuiz } from "./QuizContext";
-// // import { useNavigate } from "react-router-dom";
-// // import { useTranslation } from 'react-i18next';
-
-// // function MockTest() {
-// //   const { t, i18n } = useTranslation();
-// //   const { updateMockTestResults } = useQuiz();
-// //   const navigate = useNavigate();
-// //   const [classes, setClasses] = useState([]);
-// //   const [subjects, setSubjects] = useState([]);
-// //   const [chapters, setChapters] = useState([]);
-// //   const [selectedChapter, setSelectedChapter] = useState(null);
-// //   const [quiz, setQuiz] = useState([]);
-// //   const [currentQ, setCurrentQ] = useState(0);
-// //   const [selected, setSelected] = useState(null);
-// //   const [score, setScore] = useState(0);
-// //   const [isFinished, setIsFinished] = useState(false);
-// //   const [selectedClass, setSelectedClass] = useState(null);
-// //   const [selectedSubject, setSelectedSubject] = useState(null);
-// //   const [loading, setLoading] = useState(false);
-// //   const [error, setError] = useState(null);
-// //   const [showAnswer, setShowAnswer] = useState(false);
-// //   const [timeLeft, setTimeLeft] = useState(20 * 60);
-// //   const [skippedQuestions, setSkippedQuestions] = useState([]);
-// //   const [userAnswers, setUserAnswers] = useState([]);
-// //   const [showInstructions, setShowInstructions] = useState(true);
-// //   const [isFullScreen, setIsFullScreen] = useState(false);
-// //   const [showReviewPopup, setShowReviewPopup] = useState(false);
-// //   const [isPassed, setIsPassed] = useState(false);
-// //   const [warningCount, setWarningCount] = useState(0);
-// //   const [showWarning, setShowWarning] = useState(false);
-// //   const [showAnswerKey, setShowAnswerKey] = useState(false);
-// //   const [selectedLanguage, setSelectedLanguage] = useState("English");
-// //   const [rewardPoints, setRewardPoints] = useState(0);
-// //   const [showHint, setShowHint] = useState(false);
-// //   const [currentHint, setCurrentHint] = useState('');
-// //   const [hintLoading, setHintLoading] = useState(false);
-// //   const [pointsBreakdown, setPointsBreakdown] = useState({ basePoints: 0, bonusPoints: 0, totalPoints: 0 });
-
-// //   const optionLabels = ["A", "B", "C", "D"];
-// //   const classIcons = ["🏫", "📚", "🎓", "💼", "🔬", "📊"];
-// //   const subjectIcons = ["📖", "🧮", "🔭", "🧪", "🌍", "📜", "💻", "🎨"];
-// //   const chapterIcons = ["📝", "🔍", "💡", "⚡", "🌟", "🎯", "📊", "🔬"];
-
-// //   // Load reward points from localStorage
-// //   useEffect(() => {
-// //     const loadRewardPoints = () => {
-// //       const savedPoints = parseInt(localStorage.getItem('rewardPoints')) || 0;
-// //       setRewardPoints(savedPoints);
-// //     };
-
-// //     loadRewardPoints();
-
-// //     const handleRewardPointsUpdate = (event) => {
-// //       if (event.detail && event.detail.rewardPoints !== undefined) {
-// //         setRewardPoints(event.detail.rewardPoints);
-// //       }
-// //     };
-
-// //     const handleStorageChange = (e) => {
-// //       if (e.key === 'rewardPoints') {
-// //         loadRewardPoints();
-// //       }
-// //     };
-
-// //     window.addEventListener('rewardPointsUpdated', handleRewardPointsUpdate);
-// //     window.addEventListener('storage', handleStorageChange);
-
-// //     return () => {
-// //       window.removeEventListener('rewardPointsUpdated', handleRewardPointsUpdate);
-// //       window.removeEventListener('storage', handleStorageChange);
-// //     };
-// //   }, []);
-
-// //   // Update reward points
-// //   const updateRewardPoints = (newPoints) => {
-// //     localStorage.setItem('rewardPoints', newPoints.toString());
-// //     setRewardPoints(newPoints);
-// //     window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
-// //       detail: { rewardPoints: newPoints } 
-// //     }));
-// //   };
-
-// //   // Hide chatbot widget
-// //   useEffect(() => {
-// //     const chatWidget = document.querySelector('iframe[src*="tawk"], iframe[src*="crisp"], iframe[src*="chat"], iframe[src*="bot"], iframe[src*="dialogflow"]');
-// //     if (chatWidget) {
-// //       chatWidget.style.display = "none";
-// //     }
-
-// //     const chatButton = document.querySelector('div[style*="z-index"][style*="bottom"][style*="right"]');
-// //     if (chatButton && chatButton.querySelector("svg, img")) {
-// //       chatButton.style.display = "none";
-// //     }
-
-// //     return () => {
-// //       if (chatWidget) {
-// //         chatWidget.style.display = "block";
-// //       }
-// //       if (chatButton) {
-// //         chatButton.style.display = "block";
-// //       }
-// //     };
-// //   }, []);
-
-// //   // Fetch classes
-// //   useEffect(() => {
-// //     fetch("http://127.0.0.1:8000/classes")
-// //       .then(res => {
-// //         if (!res.ok) throw new Error("Failed to fetch classes");
-// //         return res.json();
-// //       })
-// //       .then(data => setClasses(data.classes || []))
-// //       .catch(() => setError("Failed to load classes"));
-// //   }, []);
-
-// //   // Handle visibility change
-// //   useEffect(() => {
-// //     if (!quiz.length || isFinished || showInstructions) return;
-
-// //     const handleVisibilityChange = () => {
-// //       if (document.hidden) {
-// //         setWarningCount((prev) => {
-// //           const newCount = prev + 1;
-// //           if (newCount >= 3) {
-// //             finishQuiz();
-// //             return newCount;
-// //           } else {
-// //             setShowWarning(true);
-// //             return newCount;
-// //           }
-// //         });
-// //       }
-// //     };
-
-// //     document.addEventListener("visibilitychange", handleVisibilityChange);
-// //     return () => {
-// //       document.removeEventListener("visibilitychange", handleVisibilityChange);
-// //     };
-// //   }, [quiz, isFinished, showInstructions]);
-
-// //   // Handle full-screen change
-// //   useEffect(() => {
-// //     const handleFullScreenChange = () => {
-// //       const isCurrentlyFullScreen = !!document.fullscreenElement || !!document.webkitFullscreenElement || !!document.mozFullScreenElement || !!document.msFullscreenElement;
-// //       setIsFullScreen(isCurrentlyFullScreen);
-
-// //       if (!isCurrentlyFullScreen && quiz.length > 0 && !isFinished && !showInstructions) {
-// //         setWarningCount((prev) => {
-// //           const newCount = prev + 1;
-// //           if (newCount >= 3) {
-// //             finishQuiz();
-// //             return newCount;
-// //           } else {
-// //             setShowWarning(true);
-// //             enterFullScreen();
-// //             return newCount;
-// //           }
-// //         });
-// //       }
-// //     };
-
-// //     document.addEventListener("fullscreenchange", handleFullScreenChange);
-// //     document.addEventListener("webkitfullscreenchange", handleFullScreenChange);
-// //     document.addEventListener("mozfullscreenchange", handleFullScreenChange);
-// //     document.addEventListener("MSFullscreenChange", handleFullScreenChange);
-
-// //     return () => {
-// //       document.removeEventListener("fullscreenchange", handleFullScreenChange);
-// //       document.removeEventListener("webkitfullscreenchange", handleFullScreenChange);
-// //       document.removeEventListener("mozfullscreenchange", handleFullScreenChange);
-// //       document.removeEventListener("MSFullscreenChange", handleFullScreenChange);
-// //     };
-// //   }, [quiz, isFinished, showInstructions]);
-
-// //   // Auto-hide warning
-// //   useEffect(() => {
-// //     if (showWarning) {
-// //       const timer = setTimeout(() => {
-// //         setShowWarning(false);
-// //       }, 3000);
-// //       return () => clearTimeout(timer);
-// //     };
-// //   }, [showWarning]);
-
-// //   // Timer for quiz
-// //   useEffect(() => {
-// //     if (quiz.length > 0 && !isFinished && timeLeft > 0) {
-// //       const timer = setInterval(() => {
-// //         setTimeLeft(prev => {
-// //           if (prev <= 1) {
-// //             clearInterval(timer);
-// //             finishQuiz();
-// //             return 0;
-// //           }
-// //           return prev - 1;
-// //         });
-// //       }, 1000);
-// //       return () => clearInterval(timer);
-// //     }
-// //   }, [quiz, isFinished, timeLeft]);
-
-// //   // Finish quiz function
-// //   const finishQuiz = () => {
-// //     const passed = score > 20;
-// //     setIsPassed(passed);
-// //     setIsFinished(true);
-    
-// //     let pointsEarned = 0;
-// //     let bonusPoints = 0;
-    
-// //     if (passed) {
-// //       pointsEarned = score;
-      
-// //       const percentage = (score / quiz.length) * 100;
-// //       if (percentage >= 80) {
-// //         bonusPoints = 15;
-// //         pointsEarned += bonusPoints;
-// //       }
-// //     }
-    
-// //     setPointsBreakdown({
-// //       basePoints: score,
-// //       bonusPoints: bonusPoints,
-// //       totalPoints: pointsEarned
-// //     });
-    
-// //     if (pointsEarned > 0) {
-// //       const newTotalPoints = rewardPoints + pointsEarned;
-// //       updateRewardPoints(newTotalPoints);
-// //     }
-    
-// //     exitFullScreen();
-// //     setShowWarning(false);
-// //   };
-
-// //   // ENHANCED: Handle Hint function using your implementation
-// //   const handleHint = () => {
-// //     if (rewardPoints < 5) {
-// //       alert('Not enough reward points! You need 5 points to use a hint.');
-// //       return;
-// //     }
-
-// //     setHintLoading(true);
-// //     try {
-// //       const currentQuestion = quiz[currentQ];
-// //       // Check if hint already exists in the question data from backend
-// //       if (currentQuestion.hint) {
-// //         setCurrentHint(currentQuestion.hint);
-// //         setShowHint(true);
-// //         // Deduct 5 points for using hint - ENHANCED
-// //         setRewardPoints(prev => {
-// //           const newPoints = Math.max(0, prev - 5); // Ensure points don't go negative
-// //           console.log('Deducting points for hint:', { prev, newPoints });
-// //           return newPoints;
-// //         });
-// //       } else {
-// //         // Fallback: If no hint in data, show default message
-// //         setCurrentHint('No hint available for this question. Try to think about the key concepts related to the topic.');
-// //         setShowHint(true);
-// //         setRewardPoints(prev => {
-// //           const newPoints = Math.max(0, prev - 5);
-// //           console.log('Deducting points for hint (fallback):', { prev, newPoints });
-// //           return newPoints;
-// //         });
-// //       }
-// //     } catch (error) {
-// //       console.error('Error getting hint:', error);
-// //       alert('Failed to get hint. Please try again.');
-// //     } finally {
-// //       setHintLoading(false);
-// //     }
-// //   };
-
-// //   // Close hint function
-// //   const closeHint = () => {
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //   };
-
-// //   const fetchSubjects = (className) => {
-// //     setLoading(true);
-// //     setError(null);
-// //     fetch(`http://127.0.0.1:8000/mock_subjects?class_name=${className}`)
-// //       .then(res => {
-// //         if (!res.ok) throw new Error("Failed to fetch subjects");
-// //         return res.json();
-// //       })
-// //       .then(data => {
-// //         setSubjects(data.subjects || []);
-// //         setChapters([]);
-// //         setSelectedSubject(null);
-// //         setSelectedChapter(null);
-// //         setQuiz([]);
-// //         setLoading(false);
-// //       })
-// //       .catch((err) => {
-// //         setError("Failed to load subjects: " + err.message);
-// //         setLoading(false);
-// //       });
-// //   };
-
-// //   const fetchChapters = (className, subject) => {
-// //     setLoading(true);
-// //     setError(null);
-// //     fetch(`http://127.0.0.1:8000/mock_chapters?class_name=${className}&subject=${encodeURIComponent(subject)}`)
-// //       .then(res => {
-// //         if (!res.ok) throw new Error("Failed to fetch chapters");
-// //         return res.json();
-// //       })
-// //       .then(data => {
-// //         const chaptersData = Array.isArray(data.chapters) ? data.chapters : [];
-// //         setChapters(chaptersData);
-// //         setSelectedChapter(null);
-// //         setQuiz([]);
-// //         setLoading(false);
-// //       })
-// //       .catch((err) => {
-// //         setError("Failed to load chapters: " + err.message);
-// //         setChapters([]);
-// //         setLoading(false);
-// //       });
-// //   };
-
-// //   const fetchMockTest = (chapter, difficulty = "normal", retry = false) => {
-// //     setLoading(true);
-// //     setError(null);
-// //     setShowInstructions(false);
-// //     setTimeLeft(20 * 60);
-// //     setSkippedQuestions([]);
-// //     setUserAnswers(Array(50).fill(null));
-// //     setShowHint(false);
-// //     setCurrentHint('');
-   
-// //     fetch(
-// //       `http://127.0.0.1:8000/mock_test?class_name=${selectedClass}&subject=${encodeURIComponent(
-// //         selectedSubject
-// //       )}&chapter=${encodeURIComponent(chapter)}&difficulty=${difficulty}&retry=${retry}&language=${encodeURIComponent(selectedLanguage)}`
-// //     )
-// //       .then(res => {
-// //         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-// //         return res.json();
-// //       })
-// //       .then(data => {
-// //         let questions = [];
-       
-// //         if (Array.isArray(data)) {
-// //           questions = data;
-// //         } else if (data && Array.isArray(data.questions)) {
-// //           questions = data.questions;
-// //         } else if (data && Array.isArray(data.quiz)) {
-// //           questions = data.quiz;
-// //         } else if (data && data.questions) {
-// //           questions = Object.values(data.questions);
-// //         } else {
-// //           throw new Error("Invalid response format: " + JSON.stringify(data));
-// //         }
-       
-// //         if (questions.length === 0) {
-// //           throw new Error("No questions received from server");
-// //         }
-
-// //         const validQuestions = questions
-// //           .filter(q => q && q.question && q.answer && q.options)
-// //           .map((q, index) => ({
-// //             id: index,
-// //             question: q.question.trim(),
-// //             options: q.options,
-// //             answer: q.answer,
-// //             hint: q.hint // Include hint from backend response
-// //           }))
-// //           .slice(0, 50);
-
-// //         while (validQuestions.length < 50) {
-// //           validQuestions.push({
-// //             id: validQuestions.length,
-// //             question: `Placeholder Question ${validQuestions.length + 1}`,
-// //             options: { A: "Option A", B: "Option B", C: "Option C", D: "Option D" },
-// //             answer: "A",
-// //             hint: "Review the key concepts from this chapter to find the correct answer."
-// //           });
-// //         }
-
-// //         setQuiz(validQuestions);
-// //         setCurrentQ(0);
-// //         setSelected(null);
-// //         setScore(0);
-// //         setIsFinished(false);
-// //         setIsPassed(false);
-// //         setShowAnswer(false);
-// //         setShowReviewPopup(false);
-// //         setWarningCount(0);
-// //         setShowWarning(false);
-// //         setShowAnswerKey(false);
-// //         setLoading(false);
-// //       })
-// //       .catch((err) => {
-// //         console.error("Fetch error:", err);
-// //         setError("Failed to load mock test: " + err.message);
-// //         setLoading(false);
-// //         setQuiz([]);
-// //         setShowInstructions(true);
-// //       });
-// //   };
-
-// //   const handleClassClick = (className) => {
-// //     setSelectedClass(className);
-// //     setSelectedSubject(null);
-// //     setSelectedChapter(null);
-// //     setSubjects([]);
-// //     setChapters([]);
-// //     setQuiz([]);
-// //     setShowInstructions(true);
-// //     fetchSubjects(className);
-// //   };
-
-// //   const handleSubjectClick = (subject) => {
-// //     setSelectedSubject(subject);
-// //     setSelectedChapter(null);
-// //     setChapters([]);
-// //     setQuiz([]);
-// //     setShowInstructions(true);
-// //     fetchChapters(selectedClass, subject);
-// //   };
-
-// //   const handleChapterClick = (chapter) => {
-// //     setSelectedChapter(chapter);
-// //     setShowInstructions(true);
-// //   };
-
-// //   const startQuiz = () => {
-// //     setShowInstructions(false);
-// //     if (quiz.length === 0) {
-// //       fetchMockTest(selectedChapter);
-// //       enterFullScreen();
-// //     }
-// //   };
-
-// //   const handleAnswer = (label) => {
-// //     setSelected(label);
-// //     const newUserAnswers = [...userAnswers];
-// //     newUserAnswers[currentQ] = label;
-// //     setUserAnswers(newUserAnswers);
-
-// //     const newSkipped = skippedQuestions.filter(q => q !== currentQ);
-// //     setSkippedQuestions(newSkipped);
-
-// //     if (label === quiz[currentQ]?.answer) {
-// //       setScore(score + 1);
-// //     }
-// //   };
-
-// //   const nextQuestion = () => {
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //     if (currentQ < quiz.length - 1) {
-// //       setCurrentQ(currentQ + 1);
-// //       setSelected(userAnswers[currentQ + 1] || null);
-// //       setShowAnswer(false);
-// //       setShowAnswerKey(false);
-// //     } else {
-// //       finishQuiz();
-// //     }
-// //   };
-
-// //   const prevQuestion = () => {
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //     if (currentQ > 0) {
-// //       setCurrentQ(currentQ - 1);
-// //       setSelected(userAnswers[currentQ - 1] || null);
-// //       setShowAnswer(false);
-// //       setShowAnswerKey(false);
-// //     }
-// //   };
-
-// //   const skipQuestion = () => {
-// //     const newSkipped = [...skippedQuestions];
-// //     if (!newSkipped.includes(currentQ)) {
-// //       newSkipped.push(currentQ);
-// //       setSkippedQuestions(newSkipped);
-// //     }
-   
-// //     const newUserAnswers = [...userAnswers];
-// //     newUserAnswers[currentQ] = null;
-// //     setUserAnswers(newUserAnswers);
-// //     setSelected(null);
-   
-// //     nextQuestion();
-// //   };
-
-// //   const goToQuestion = (index) => {
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //     setCurrentQ(index);
-// //     setSelected(userAnswers[index] || null);
-// //     setShowAnswer(false);
-// //     setShowAnswerKey(false);
-// //   };
-
-// //   const retryQuiz = () => {
-// //     setWarningCount(0);
-// //     setShowWarning(false);
-// //     fetchMockTest(selectedChapter, "normal", true);
-// //     enterFullScreen();
-// //   };
-
-// //   const nextLevel = () => {
-// //     if (isPassed) {
-// //       setWarningCount(0);
-// //       setShowWarning(false);
-// //       fetchMockTest(selectedChapter, "hard");
-// //       enterFullScreen();
-// //     }
-// //   };
-
-// //   const backToChapters = () => {
-// //     setSelectedChapter(null);
-// //     setQuiz([]);
-// //     setCurrentQ(0);
-// //     setSelected(null);
-// //     setScore(0);
-// //     setIsFinished(false);
-// //     setIsPassed(false);
-// //     setShowAnswer(false);
-// //     setUserAnswers([]);
-// //     setShowInstructions(true);
-// //     setShowReviewPopup(false);
-// //     setWarningCount(0);
-// //     setShowWarning(false);
-// //     setShowAnswerKey(false);
-// //     setShowHint(false);
-// //     setCurrentHint('');
-// //     exitFullScreen();
-// //   };
-
-// //   const backToSubjects = () => {
-// //     setSelectedSubject(null);
-// //     setSelectedChapter(null);
-// //     setChapters([]);
-// //     setQuiz([]);
-// //     setShowInstructions(true);
-// //   };
-
-// //   const backToClasses = () => {
-// //     setSelectedClass(null);
-// //     setSelectedSubject(null);
-// //     setSelectedChapter(null);
-// //     setSubjects([]);
-// //     setChapters([]);
-// //     setQuiz([]);
-// //     setShowInstructions(true);
-// //   };
-
-// //   const backToPractice = () => {
-// //     navigate('/practice');
-// //   };
-
-// //   const enterFullScreen = () => {
-// //     const elem = document.documentElement;
-// //     if (elem.requestFullscreen) {
-// //       elem.requestFullscreen().catch(() => {});
-// //     } else if (elem.mozRequestFullScreen) {
-// //       elem.mozRequestFullScreen();
-// //     } else if (elem.webkitRequestFullscreen) {
-// //       elem.webkitRequestfullscreen();
-// //     } else if (elem.msRequestFullscreen) {
-// //       elem.msRequestFullscreen();
-// //     }
-// //     setIsFullScreen(true);
-// //   };
-
-// //   const exitFullScreen = () => {
-// //     if (document.exitFullscreen) {
-// //       document.exitFullscreen().catch(() => {});
-// //     } else if (document.mozCancelFullScreen) {
-// //       document.mozCancelFullScreen();
-// //     } else if (document.webkitExitFullscreen) {
-// //       document.webkitExitFullscreen();
-// //     } else if (document.msExitFullscreen) {
-// //       document.msExitFullscreen();
-// //     }
-// //     setIsFullScreen(false);
-// //   };
-
-// //   const formatTime = (seconds) => {
-// //     const mins = Math.floor(seconds / 60);
-// //     const secs = seconds % 60;
-// //     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-// //   };
-
-// //   const toggleReviewPopup = () => {
-// //     setShowReviewPopup(!showReviewPopup);
-// //   };
-
-// //   const getBackButtonConfig = () => {
-// //     if (quiz.length > 0 && !isFinished && !showInstructions) {
-// //         return null;
-// //     }
-   
-// //     if (selectedSubject && !selectedChapter) {
-// //         return {
-// //             text: t('backToSubjects'),
-// //             action: backToSubjects
-// //         };
-// //     }
-   
-// //     if (selectedClass && !selectedSubject) {
-// //         return {
-// //             text: t('backToClasses'),
-// //             action: backToClasses
-// //         };
-// //     }
-   
-// //     if (!selectedClass) {
-// //         return {
-// //             text: t('backToPractice'),
-// //             action: backToPractice
-// //         };
-// //     }
-// //   };
-
-// //   const backButtonConfig = getBackButtonConfig();
-
-// //   if (loading) return (
-// //     <div className="loading-container">
-// //       <div className="edu-loader">
-// //         <span role="img" aria-label="book" className="edu-icon">📚</span>
-// //         <span role="img" aria-label="graduation" className="edu-icon">🎓</span>
-// //         <span role="img" aria-label="lightbulb" className="edu-icon">💡</span>
-// //       </div>
-// //       <p style={{ color: "black" }}>
-// //         Preparing your test in {selectedLanguage}...
-// //       </p>
-// //     </div>
-// //   );
-
-// //   return (
-// //     <>
-// //       <Navbar 
-// //         isFullScreen={isFullScreen && quiz.length > 0 && !showInstructions} 
-// //         rewardPoints={rewardPoints}
-// //       />
-     
-// //       {!isFullScreen && backButtonConfig && (
-// //         <div className="navbar-back-wrapper">
-// //           <div className="navbar-back-container">
-// //             <button
-// //               className="navbar-back-button"
-// //               onClick={backButtonConfig.action}
-// //             >
-// //               <span className="back-arrow">←</span>
-// //               {backButtonConfig.text}
-// //             </button>
-// //           </div>
-// //         </div>
-// //       )}
-     
-// //       {error && !showInstructions && (
-// //         <div className="error-container">
-// //           <div className="error-icon">⚠️</div>
-// //           <p>{error}</p>
-// //           <button className="retry-btn" onClick={() => window.location.reload()}>
-// //             Try Again
-// //           </button>
-// //         </div>
-// //       )}
-// //       {showWarning && !isFinished && (
-// //         <div className="warning-container">
-// //           <div className="warning-icon">⚠️</div>
-// //           <p>
-// //             Warning {warningCount} of 3: Please stay on the test tab or in full-screen mode. The test will end after 3 warnings.
-// //           </p>
-// //         </div>
-// //       )}
-// //       {!selectedClass && !error && (
-// //         <div className="selection-container">
-// //           <div className="header">
-// //             <h2>{t('selectClassTitle')}</h2>
-// //             <p>{t('selectClassSubtitle')}</p>
-// //           </div>
-// //           <div className="cards-grid">
-// //             {classes.map((cl, i) => (
-// //               <div
-// //                 key={i}
-// //                 className="selection-card"
-// //                 onClick={() => handleClassClick(cl)}
-// //               >
-// //                 <div className="card-icon">{classIcons[i % classIcons.length]}</div>
-// //                 <h3>{t(`classes.${cl}`)}</h3>
-// //                 <p>{t('classCardDesc')}</p>
-// //                 <div className="card-hover"></div>
-// //               </div>
-// //             ))}
-// //           </div>
-// //         </div>
-// //       )}
-// //       {!selectedSubject && selectedClass && !error && (
-// //         <div className="selection-container">
-// //           <div className="header">
-// //             <h2>{t('selectSubjectTitle')}</h2>
-// //             <p>{t('selectSubjectSubtitle', { class: t(`classes.${selectedClass}`) })}</p>
-// //           </div>
-// //           <div className="cards-grid">
-// //             {subjects.map((sub, i) => (
-// //               <div
-// //                 key={i}
-// //                 className="selection-card subject-card"
-// //                 onClick={() => handleSubjectClick(sub)}
-// //               >
-// //                 <div className="card-icon">{subjectIcons[i % subjectIcons.length]}</div>
-// //                 <h3>{t(`${sub.toLowerCase()}`)}</h3>
-// //                 <p>{t('subjectCardDesc')}</p>
-// //                 <div className="card-hover"></div>
-// //               </div>
-// //             ))}
-// //           </div>
-// //         </div>
-// //       )}
-// //       {!selectedChapter && selectedSubject && !error && (
-// //         <div className="selection-container chapter-select">
-// //           <div className="header">
-// //             <h2>{t('selectChapterTitle')}</h2>
-// //             <p>{t('selectChapterSubtitle', { selectedSubject: t(`subjects.${selectedSubject.toLowerCase()}`) })}</p>
-// //           </div>
-// //           <div className="cards-grid">
-// //             {Array.isArray(chapters) && chapters.map((chap, i) => (
-// //               <div
-// //                 key={i}
-// //                 className={`selection-card chapter-card ${selectedChapter === chap ? 'selected' : ''}`}
-// //                 onClick={() => handleChapterClick(chap)}
-// //               >
-// //                 <div className="card-icon">{chapterIcons[i % chapterIcons.length]}</div>
-// //                 <h3>{chap}</h3>
-// //                 <p>{selectedChapter === chap ? t('chapterSelected') : t('chapterCardDesc')}</p>
-// //                 <div className="card-hover"></div>
-// //               </div>
-// //             ))}
-// //           </div>
-// //         </div>
-// //       )}
-
-// //       {(quiz.length === 0 || showInstructions) && !error && selectedChapter && (
-// //         <div style={{
-// //           minHeight: "100vh",
-// //           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-// //           display: "flex",
-// //           alignItems: "center",
-// //           justifyContent: "center",
-// //           padding: "2rem"
-// //         }}>
-// //           <div style={{
-// //             background: "white",
-// //             borderRadius: "20px",
-// //             padding: "3rem",
-// //             boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-// //             maxWidth: "800px",
-// //             width: "100%",
-// //             margin: "2rem"
-// //           }}>
-// //             <div style={{
-// //               textAlign: "center",
-// //               fontSize: "4rem",
-// //               marginBottom: "1rem"
-// //             }}>📋</div>
-           
-// //             <h2 style={{
-// //               textAlign: "center",
-// //               color: "#2d3748",
-// //               marginBottom: "2rem",
-// //               fontSize: "2rem",
-// //               fontWeight: "700"
-// //             }}>{t('instructionsTitle')}</h2>
-           
-// //             <div style={{
-// //               marginBottom: "2rem"
-// //             }}>
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>💡</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>Hint Feature</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>Get AI-powered hints during the test for 5 reward points per hint. Hints will guide you without revealing the direct answer.</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>⏱️</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('timeLimitTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('timeLimitDesc')}</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>❓</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('questionFormatTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('questionFormatDesc')}</p>
-// //                 </div>
-// //               </div>
-
-// //               <div style={{
-// //                 display: "flex",
-// //                 alignItems: "flex-start",
-// //                 marginBottom: "1.5rem",
-// //                 padding: "1rem",
-// //                 borderRadius: "12px",
-// //                 transition: "all 0.3s ease",
-// //                 border: "1px solid #e2e8f0"
-// //               }}>
-// //                 <span style={{
-// //                   fontSize: "1.5rem",
-// //                   marginRight: "1rem",
-// //                   marginTop: "0.25rem"
-// //                 }}>📊</span>
-// //                 <div>
-// //                   <h3 style={{
-// //                     margin: "0 0 0.5rem 0",
-// //                     color: "#2d3748",
-// //                     fontWeight: "600"
-// //                   }}>{t('passingCriteriaTitle')}</h3>
-// //                   <p style={{
-// //                     margin: "0",
-// //                     color: "#4a5568",
-// //                     lineHeight: "1.6"
-// //                   }}>{t('passingCriteriaDesc')}</p>
-// //                 </div>
-// //               </div>
-// //             </div>
-
-// //             <div style={{
-// //               background: "#f7fafc",
-// //               padding: "1.5rem",
-// //               borderRadius: "12px",
-// //               marginBottom: "2rem",
-// //               border: "1px solid #e2e8f0"
-// //             }}>
-// //               <h3 style={{
-// //                 margin: "0 0 1rem 0",
-// //                 color: "#2d3748",
-// //                 fontWeight: "600"
-// //               }}>{t('testDetailsTitle')}</h3>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testClass')}</strong> {t(`classes.${selectedClass}`)}
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testSubject')}</strong> {t(`subjects.${selectedSubject.toLowerCase()}`)}
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testChapter')}</strong> {selectedChapter}
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testTotalQuestions')}</strong> 50
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testPassingScore')}</strong> 20+
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>{t('testLanguage')}</strong> {selectedLanguage}
-// //               </p>
-// //               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-// //                 <strong style={{ color: "#2d3748" }}>Current Reward Points:</strong> {rewardPoints}
-// //               </p>
-// //             </div>
-
-// //             <div style={{
-// //               display: "flex",
-// //               alignItems: "center",
-// //               justifyContent: "center",
-// //               marginBottom: "2rem",
-// //               gap: "1rem"
-// //             }}>
-// //               <label htmlFor="language" style={{
-// //                 fontWeight: "600",
-// //                 fontSize: "16px",
-// //                 color: "#2d3748"
-// //               }}>
-// //                 {t('languageSelectLabel')}
-// //               </label>
-// //               <select
-// //                 id="language"
-// //                 value={selectedLanguage}
-// //                 onChange={(e) => setSelectedLanguage(e.target.value)}
-// //                 style={{
-// //                   padding: "10px 15px",
-// //                   fontSize: "15px",
-// //                   borderRadius: "8px",
-// //                   border: "2px solid #007bff",
-// //                   backgroundColor: "white",
-// //                   cursor: "pointer",
-// //                   minWidth: "180px",
-// //                   fontWeight: "500"
-// //                 }}
-// //               >
-// //                 <option value="English">English</option>
-// //                 <option value="Telugu">తెలుగు (Telugu)</option>
-// //                 <option value="Hindi">हिंदी (Hindi)</option>
-// //                 <option value="Tamil">தமிழ் (Tamil)</option>
-// //                 <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
-// //                 <option value="Malayalam">മലയാളം (Malayalam)</option>
-// //               </select>
-// //             </div>
-
-// //             <div style={{
-// //               display: "flex",
-// //               justifyContent: "center",
-// //               gap: "1rem",
-// //               marginTop: "2rem"
-// //             }}>
-// //               <button
-// //                 onClick={backToChapters}
-// //                 style={{
-// //                   padding: "12px 24px",
-// //                   border: "2px solid #4a5568",
-// //                   background: "transparent",
-// //                   color: "#4a5568",
-// //                   borderRadius: "8px",
-// //                   cursor: "pointer",
-// //                   fontWeight: "600",
-// //                   fontSize: "16px",
-// //                   transition: "all 0.3s ease"
-// //                 }}
-// //                 onMouseEnter={(e) => {
-// //                   e.target.style.background = "#4a5568";
-// //                   e.target.style.color = "white";
-// //                 }}
-// //                 onMouseLeave={(e) => {
-// //                   e.target.style.background = "transparent";
-// //                   e.target.style.color = "#4a5568";
-// //                 }}
-// //               >
-// //                 {t('backToChapters')}
-// //               </button>
-             
-// //               <button
-// //                 onClick={startQuiz}
-// //                 style={{
-// //                   padding: "12px 24px",
-// //                   border: "none",
-// //                   background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-// //                   color: "white",
-// //                   borderRadius: "8px",
-// //                   cursor: "pointer",
-// //                   fontWeight: "600",
-// //                   fontSize: "16px",
-// //                   transition: "all 0.3s ease",
-// //                   boxShadow: "0 4px 12px rgba(102, 126, 234, 0.4)"
-// //                 }}
-// //                 onMouseEnter={(e) => {
-// //                   e.target.style.transform = "translateY(-2px)";
-// //                   e.target.style.boxShadow = "0 6px 15px rgba(102, 126, 234, 0.6)";
-// //                 }}
-// //                 onMouseLeave={(e) => {
-// //                   e.target.style.transform = "translateY(0)";
-// //                   e.target.style.boxShadow = "0 4px 12px rgba(102, 126, 234, 0.4)";
-// //                 }}
-// //               >
-// //                 {t('startTestNow')}
-// //               </button>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       )}
-
-// //       {isFinished && !error && (
-// //         <div className={`finished-container ${isFullScreen ? "fullscreen-mode" : ""}`}>
-// //           <div className="result-card">
-// //             <div className={`result-icon ${isPassed ? 'pass' : 'fail'}`}>
-// //               {isPassed ? '🎉' : '😔'}
-// //             </div>
-// //             <h2>{isPassed ? 'Congratulations! You Passed!' : 'Quiz Completed - Try Again'}</h2>
-           
-// //             <div className={`status-badge ${isPassed ? 'pass-badge' : 'fail-badge'}`}>
-// //               {isPassed ? 'PASS' : 'FAIL'}
-// //             </div>
-           
-// //             <div className="score-display">
-// //               <div className={`score-circle ${isPassed ? 'pass-score' : 'fail-score'}`}>
-// //                 <span className="score">{score}</span>
-// //                 <span className="total">/{quiz.length}</span>
-// //               </div>
-// //               <p>{Math.round((score / quiz.length) * 100)}% Correct</p>
-// //               <p className={`pass-fail-text ${isPassed ? 'pass-text' : 'fail-text'}`}>
-// //                 {isPassed
-// //                   ? `You scored ${score} which is greater than 20. You are eligible for next level!`
-// //                   : `You scored ${score} which is less than or equal to 20. Please retry the same level.`}
-// //               </p>
-// //               <p className="language-info">Test taken in: <strong>{selectedLanguage}</strong></p>
-              
-// //               {isPassed ? (
-// //                 <>
-// //                   <div className="points-breakdown">
-// //                     <div className="points-item">
-// //                       <span>Base Points:</span>
-// //                       <strong>{pointsBreakdown.basePoints} points</strong>
-// //                       <span>(1 point per correct answer)</span>
-// //                     </div>
-// //                     {pointsBreakdown.bonusPoints > 0 && (
-// //                       <>
-// //                         <div className="points-item bonus">
-// //                           <span>Bonus Points:</span>
-// //                           <strong>+{pointsBreakdown.bonusPoints} points</strong>
-// //                           <span>(Scored 80% or higher!)</span>
-// //                         </div>
-// //                         <div className="bonus-congrats">
-// //                           <span className="bonus-icon">🎉</span>
-// //                           <p>Amazing! You scored over 80% and earned bonus points!</p>
-// //                         </div>
-// //                       </>
-// //                     )}
-// //                     <div className="points-item total">
-// //                       <span>Total Points Earned:</span>
-// //                       <strong>{pointsBreakdown.totalPoints} points</strong>
-// //                     </div>
-// //                   </div>
-// //                 </>
-// //               ) : (
-// //                 <p className="reward-info no-points">
-// //                   No points awarded - Score below passing mark (20)
-// //                 </p>
-// //               )}
-// //               <p className="overall-reward">Total Reward Points: <strong>{rewardPoints}</strong></p>
-// //             </div>
-           
-// //             <div className="time-result">
-// //               <p>Time Taken: {formatTime(20 * 60 - timeLeft)}</p>
-// //             </div>
-           
-// //             <div className="result-actions">
-// //               <button className="review-btn" onClick={toggleReviewPopup}>
-// //                 📋 Review Questions & Answers
-// //               </button>
-// //               <button className="retry-btn" onClick={retryQuiz}>
-// //                 🔄 Retry Same Level
-// //               </button>
-// //               {isPassed && (
-// //                 <button className="next-btn" onClick={nextLevel}>
-// //                   🚀 Next Level
-// //                 </button>
-// //               )}
-// //               <button className="chapters-btn" onClick={backToChapters}>
-// //                 📚 Back to Chapters
-// //               </button>
-// //             </div>
-
-// //                         <div className="answers-section">
-// //               <h3>Quick Review:</h3>
-// //               <div className="answers-grid">
-// //                 {quiz.slice(0, 10).map((q, i) => (
-// //                   <div key={i} className={`answer-item ${userAnswers[i] === q.answer ? 'correct' : 'incorrect'}`}>
-// //                     <span className="q-number">Q{i + 1}</span>
-// //                     <span className="correct-answer">{q.answer}</span>
-// //                     <span className="user-answer">{userAnswers[i] || 'Skipped'}</span>
-// //                   </div>
-// //                 ))}
-// //               </div>
-// //               <button className="view-all-btn" onClick={toggleReviewPopup}>
-// //                 View All Questions & Answers
-// //               </button>
-// //             </div>
-
-
-
-// //           </div>
-// //         </div>
-// //       )}
-// //       {quiz.length > 0 && !isFinished && !showInstructions && !error && (
-// //         <div className={`quiz-container ${isFullScreen ? "fullscreen-mode" : ""}`}>
-// //           <div className="quiz-header">
-// //             <div className="quiz-info">
-// //               <div className="progress-bar">
-// //                 <div
-// //                   className="progress-fill"
-// //                   style={{width: `${((currentQ + 1) / quiz.length) * 100}%`}}
-// //                 ></div>
-// //               </div>
-// //               <div className="quiz-stats">
-// //                 <span>Question {currentQ + 1} of {quiz.length}</span>
-// //                 <span className="timer">⏱️ {formatTime(timeLeft)}</span>
-// //                 <span className="language-badge">🌐 {selectedLanguage}</span>
-// //                 <span className="reward-badge">⭐ {rewardPoints} pts</span>
-// //               </div>
-// //             </div>
-// //           </div>
-// //           <div className="question-nav">
-// //             {quiz.map((_, index) => (
-// //               <button
-// //                 key={index}
-// //                 className={`nav-dot ${index === currentQ ? 'active' : ''} ${
-// //                   userAnswers[index] ? 'answered' : ''
-// //                 } ${skippedQuestions.includes(index) ? 'skipped' : ''}`}
-// //                 onClick={() => goToQuestion(index)}
-// //               >
-// //                 {index + 1}
-// //               </button>
-// //             ))}
-// //           </div>
-// //           <div className="question-section">
-// //             <h3 className="question">{currentQ + 1}. {quiz[currentQ].question}</h3>
-            
-// //             {/* Hint Box */}
-// //             {showHint && (
-// //               <div className="hint-box">
-// //                 <div className="hint-header">
-// //                   <span className="hint-icon">💡</span>
-// //                   <strong>AI Hint</strong>
-// //                   <span className="hint-cost">-5 pts</span>
-// //                 </div>
-// //                 <p className="hint-text">{currentHint}</p>
-// //                 <button onClick={closeHint} className="close-hint-btn">
-// //                   Close Hint
-// //                 </button>
-// //               </div>
-// //             )}
-            
-// //             {/* Hint Button */}
-// //             <button 
-// //               className={`hint-btn ${rewardPoints < 5 ? 'disabled' : ''}`} 
-// //               onClick={handleHint} 
-// //               disabled={rewardPoints < 5 || hintLoading}
-// //             >
-// //               {hintLoading ? 'Loading Hint...' : `💡 Use Hint (-5 pts) ${rewardPoints < 5 ? '(Insufficient points)' : ''}`}
-// //             </button>
-
-// //             <div className="options-grid">
-// //               {quiz[currentQ].options && Object.entries(quiz[currentQ].options).map(([label, opt]) => (
-// //                 <button
-// //                   key={label}
-// //                   className={`option-card ${
-// //                     selected === label ? 'selected' : ''
-// //                   } ${showAnswer ? (label === quiz[currentQ].answer ? 'correct-answer' : '') : ''}`}
-// //                   onClick={() => handleAnswer(label)}
-// //                   disabled={showAnswer}
-// //                 >
-// //                   <span className="option-text">{opt}</span>
-// //                   {showAnswer && label === quiz[currentQ].answer && (
-// //                     <span className="correct-indicator">✓</span>
-// //                   )}
-// //                 </button>
-// //               ))}
-// //             </div>
-// //           </div>
-// //           <div className="quiz-navigation">
-// //             <button
-// //               className="nav-btn prev-btn"
-// //               onClick={prevQuestion}
-// //               disabled={currentQ === 0}
-// //             >
-// //               ← Previous
-// //             </button>
-// //             <button
-// //               className="nav-btn skip-btn"
-// //               onClick={skipQuestion}
-// //             >
-// //               Skip →
-// //             </button>
-// //             <button
-// //               className="nav-btn next-btn"
-// //               onClick={nextQuestion}
-// //             >
-// //               {currentQ < quiz.length - 1 ? 'Next →' : 'Finish'}
-// //             </button>
-// //           </div>
-// //         </div>
-// //       )}
-// //       {showReviewPopup && (
-// //         <div className="popup-overlay">
-// //           <div className="review-popup">
-// //             <div className="popup-header">
-// //               <h2>Questions & Answers Review</h2>
-// //               <button className="close-popup" onClick={toggleReviewPopup}>×</button>
-// //             </div>
-// //             <div className="popup-content">
-// //               <div className="review-summary">
-// //                 <p><strong>Class:</strong> {selectedClass} | <strong>Subject:</strong> {selectedSubject} | <strong>Chapter:</strong> {selectedChapter}</p>
-// //                 <p><strong>Language:</strong> {selectedLanguage}</p>
-// //                 <p><strong>Score:</strong> {score}/{quiz.length} ({Math.round((score / quiz.length) * 100)}%)</p>
-// //                 <p><strong>Status:</strong> <span className={isPassed ? 'pass-text' : 'fail-text'}>{isPassed ? 'PASSED' : 'FAILED'}</span></p>
-// //                 <p><strong>Total Reward Points:</strong> {rewardPoints}</p>
-// //               </div>
-// //               <div className="questions-review">
-// //                 {quiz.map((q, index) => (
-// //                   <div key={index} className="question-review-item">
-// //                     <div className="question-review-header">
-// //                       <span className="question-number">Question {index + 1}:</span>
-// //                       <span className={`answer-status ${userAnswers[index] === q.answer ? 'correct' : 'incorrect'}`}>
-// //                         {userAnswers[index] === q.answer ? '✓ Correct' : userAnswers[index] ? '✗ Incorrect' : '⏭️ Skipped'}
-// //                       </span>
-// //                     </div>
-// //                     <p className="review-question">{q.question}</p>
-// //                     {q.hint && (
-// //                       <div className="review-hint">
-// //                         <strong>Hint:</strong> {q.hint}
-// //                       </div>
-// //                     )}
-// //                     <div className="review-options">
-// //                       {Object.entries(q.options).map(([label, option]) => (
-// //                         <div
-// //                           key={label}
-// //                           className={`review-option ${
-// //                             label === q.answer ? 'correct-answer' :
-// //                             label === userAnswers[index] && label !== q.answer ? 'user-incorrect' : ''
-// //                           }`}
-// //                         >
-// //                           <span className="option-label">{label}:</span>
-// //                           <span className="option-text">{option}</span>
-// //                           {label === q.answer && <span className="correct-mark"> ✓ Correct Answer</span>}
-// //                           {label === userAnswers[index] && label !== q.answer && <span className="incorrect-mark"> ✗ Your Answer</span>}
-// //                         </div>
-// //                       ))}
-// //                     </div>
-// //                   </div>
-// //                 ))}
-// //               </div>
-// //             </div>
-// //             <div className="popup-actions">
-// //               <button className="popup-close-btn" onClick={toggleReviewPopup}>
-// //                 Close Review
-// //               </button>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       )}
-// //     </>
-// //   );
-// // }
-
-// // export default MockTest;
-
-
-
-
-
-
-
-
-
-// //points not reducing
-// import { useState, useEffect } from "react";
-// import './MockTest.css';
-// import Navbar from "./Navbarrr";
-// import { useQuiz } from "./QuizContext";
-// import { useNavigate } from "react-router-dom";
-// import { useTranslation } from 'react-i18next';
-
-// function MockTest() {
-//   const { t, i18n } = useTranslation();
-//   const { updateMockTestResults } = useQuiz();
-//   const navigate = useNavigate();
-//   const [classes, setClasses] = useState([]);
-//   const [subjects, setSubjects] = useState([]);
-//   const [chapters, setChapters] = useState([]);
-//   const [selectedChapter, setSelectedChapter] = useState(null);
-//   const [quiz, setQuiz] = useState([]);
-//   const [currentQ, setCurrentQ] = useState(0);
-//   const [selected, setSelected] = useState(null);
-//   const [score, setScore] = useState(0);
-//   const [isFinished, setIsFinished] = useState(false);
-//   const [selectedClass, setSelectedClass] = useState(null);
-//   const [selectedSubject, setSelectedSubject] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-//   const [showAnswer, setShowAnswer] = useState(false);
-//   const [timeLeft, setTimeLeft] = useState(20 * 60);
-//   const [skippedQuestions, setSkippedQuestions] = useState([]);
-//   const [userAnswers, setUserAnswers] = useState([]);
-//   const [showInstructions, setShowInstructions] = useState(true);
-//   const [isFullScreen, setIsFullScreen] = useState(false);
-//   const [showReviewPopup, setShowReviewPopup] = useState(false);
-//   const [isPassed, setIsPassed] = useState(false);
-//   const [warningCount, setWarningCount] = useState(0);
-//   const [showWarning, setShowWarning] = useState(false);
-//   const [showAnswerKey, setShowAnswerKey] = useState(false);
-//   const [selectedLanguage, setSelectedLanguage] = useState("English");
-//   const [rewardPoints, setRewardPoints] = useState(0);
-//   const [showHint, setShowHint] = useState(false);
-//   const [currentHint, setCurrentHint] = useState('');
-//   const [hintLoading, setHintLoading] = useState(false);
-//   const [pointsBreakdown, setPointsBreakdown] = useState({ basePoints: 0, bonusPoints: 0, totalPoints: 0 });
-
-//   const optionLabels = ["A", "B", "C", "D"];
-//   const classIcons = ["🏫", "📚", "🎓", "💼", "🔬", "📊"];
-//   const subjectIcons = ["📖", "🧮", "🔭", "🧪", "🌍", "📜", "💻", "🎨"];
-//   const chapterIcons = ["📝", "🔍", "💡", "⚡", "🌟", "🎯", "📊", "🔬"];
-
-//   // Load reward points from localStorage
-//   useEffect(() => {
-//     const loadRewardPoints = () => {
-//       const savedPoints = parseInt(localStorage.getItem('rewardPoints')) || 0;
-//       setRewardPoints(savedPoints);
-//     };
-
-//     loadRewardPoints();
-
-//     const handleRewardPointsUpdate = (event) => {
-//       if (event.detail && event.detail.rewardPoints !== undefined) {
-//         setRewardPoints(event.detail.rewardPoints);
-//       }
-//     };
-
-//     const handleStorageChange = (e) => {
-//       if (e.key === 'rewardPoints') {
-//         loadRewardPoints();
-//       }
-//     };
-
-//     window.addEventListener('rewardPointsUpdated', handleRewardPointsUpdate);
-//     window.addEventListener('storage', handleStorageChange);
-
-//     return () => {
-//       window.removeEventListener('rewardPointsUpdated', handleRewardPointsUpdate);
-//       window.removeEventListener('storage', handleStorageChange);
-//     };
-//   }, []);
-
-//   // Update reward points
-//   const updateRewardPoints = (newPoints) => {
-//     localStorage.setItem('rewardPoints', newPoints.toString());
-//     setRewardPoints(newPoints);
-//     window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
-//       detail: { rewardPoints: newPoints } 
-//     }));
-//   };
-
-//   // Hide chatbot widget
-//   useEffect(() => {
-//     const chatWidget = document.querySelector('iframe[src*="tawk"], iframe[src*="crisp"], iframe[src*="chat"], iframe[src*="bot"], iframe[src*="dialogflow"]');
-//     if (chatWidget) {
-//       chatWidget.style.display = "none";
-//     }
-
-//     const chatButton = document.querySelector('div[style*="z-index"][style*="bottom"][style*="right"]');
-//     if (chatButton && chatButton.querySelector("svg, img")) {
-//       chatButton.style.display = "none";
-//     }
-
-//     return () => {
-//       if (chatWidget) {
-//         chatWidget.style.display = "block";
-//       }
-//       if (chatButton) {
-//         chatButton.style.display = "block";
-//       }
-//     };
-//   }, []);
-
-//   // Fetch classes
-//   useEffect(() => {
-//     fetch("http://127.0.0.1:8000/classes")
-//       .then(res => {
-//         if (!res.ok) throw new Error("Failed to fetch classes");
-//         return res.json();
-//       })
-//       .then(data => setClasses(data.classes || []))
-//       .catch(() => setError("Failed to load classes"));
-//   }, []);
-
-//   // Handle visibility change
-//   useEffect(() => {
-//     if (!quiz.length || isFinished || showInstructions) return;
-
-//     const handleVisibilityChange = () => {
-//       if (document.hidden) {
-//         setWarningCount((prev) => {
-//           const newCount = prev + 1;
-//           if (newCount >= 3) {
-//             finishQuiz();
-//             return newCount;
-//           } else {
-//             setShowWarning(true);
-//             return newCount;
-//           }
-//         });
-//       }
-//     };
-
-//     document.addEventListener("visibilitychange", handleVisibilityChange);
-//     return () => {
-//       document.removeEventListener("visibilitychange", handleVisibilityChange);
-//     };
-//   }, [quiz, isFinished, showInstructions]);
-
-//   // Handle full-screen change
-//   useEffect(() => {
-//     const handleFullScreenChange = () => {
-//       const isCurrentlyFullScreen = !!document.fullscreenElement || !!document.webkitFullscreenElement || !!document.mozFullScreenElement || !!document.msFullscreenElement;
-//       setIsFullScreen(isCurrentlyFullScreen);
-
-//       if (!isCurrentlyFullScreen && quiz.length > 0 && !isFinished && !showInstructions) {
-//         setWarningCount((prev) => {
-//           const newCount = prev + 1;
-//           if (newCount >= 3) {
-//             finishQuiz();
-//             return newCount;
-//           } else {
-//             setShowWarning(true);
-//             enterFullScreen();
-//             return newCount;
-//           }
-//         });
-//       }
-//     };
-
-//     document.addEventListener("fullscreenchange", handleFullScreenChange);
-//     document.addEventListener("webkitfullscreenchange", handleFullScreenChange);
-//     document.addEventListener("mozfullscreenchange", handleFullScreenChange);
-//     document.addEventListener("MSFullscreenChange", handleFullScreenChange);
-
-//     return () => {
-//       document.removeEventListener("fullscreenchange", handleFullScreenChange);
-//       document.removeEventListener("webkitfullscreenchange", handleFullScreenChange);
-//       document.removeEventListener("mozfullscreenchange", handleFullScreenChange);
-//       document.removeEventListener("MSFullscreenChange", handleFullScreenChange);
-//     };
-//   }, [quiz, isFinished, showInstructions]);
-
-//   // Auto-hide warning
-//   useEffect(() => {
-//     if (showWarning) {
-//       const timer = setTimeout(() => {
-//         setShowWarning(false);
-//       }, 3000);
-//       return () => clearTimeout(timer);
-//     };
-//   }, [showWarning]);
-
-//   // Timer for quiz
-//   useEffect(() => {
-//     if (quiz.length > 0 && !isFinished && timeLeft > 0) {
-//       const timer = setInterval(() => {
-//         setTimeLeft(prev => {
-//           if (prev <= 1) {
-//             clearInterval(timer);
-//             finishQuiz();
-//             return 0;
-//           }
-//           return prev - 1;
-//         });
-//       }, 1000);
-//       return () => clearInterval(timer);
-//     }
-//   }, [quiz, isFinished, timeLeft]);
-
-//   // Finish quiz function
-//   // const finishQuiz = () => {
-//   //   const passed = score > 20;
-//   //   setIsPassed(passed);
-//   //   setIsFinished(true);
-    
-//   //   let pointsEarned = 0;
-//   //   let bonusPoints = 0;
-    
-//   //   if (passed) {
-//   //     // Base points: 10 points for passing
-//   //     pointsEarned = 10;
-      
-//   //     // Bonus points: 10 additional points for scoring >= 80%
-//   //     const percentage = (score / quiz.length) * 100;
-//   //     if (percentage >= 80) {
-//   //       bonusPoints = 10;
-//   //       pointsEarned += bonusPoints;
-//   //     }
-//   //   }
-    
-//   //   setPointsBreakdown({
-//   //     basePoints: score,
-//   //     bonusPoints: bonusPoints,
-//   //     totalPoints: pointsEarned
-//   //   });
-    
-//   //   if (pointsEarned > 0) {
-//   //     const newTotalPoints = rewardPoints + pointsEarned;
-//   //     updateRewardPoints(newTotalPoints);
-//   //   }
-    
-//   //   exitFullScreen();
-//   //   setShowWarning(false);
-//   // };
-
-// // Finish quiz function - FIXED
-// const finishQuiz = () => {
-//   const passed = score > 20;
-//   setIsPassed(passed);
-//   setIsFinished(true);
-  
-//   let pointsEarned = 0;
-//   let bonusPoints = 0;
-//   const percentage = (score / quiz.length) * 100;
-  
-//   if (passed) {
-//     // Base points: actual score value
-//     pointsEarned = score;
-    
-//     // Bonus points: 10 additional points for scoring >= 80%
-//     if (percentage >= 80) {
-//       bonusPoints = 10;
-//       pointsEarned += bonusPoints;
-//     }
-//   }
-  
-//   setPointsBreakdown({
-//     basePoints: score,
-//     bonusPoints: bonusPoints,
-//     totalPoints: pointsEarned
-//   });
-  
-//   if (pointsEarned > 0) {
-//     const newTotalPoints = rewardPoints + pointsEarned;
-//     updateRewardPoints(newTotalPoints);
-//   }
-  
-//   exitFullScreen();
-//   setShowWarning(false);
-// };
-
-
-//   // ENHANCED: Handle Hint function using your implementation
-//   const handleHint = () => {
-//     if (rewardPoints < 5) {
-//       alert('Not enough reward points! You need 5 points to use a hint.');
-//       return;
-//     }
-
-//     setHintLoading(true);
-//     try {
-//       const currentQuestion = quiz[currentQ];
-//       // Check if hint already exists in the question data from backend
-//       if (currentQuestion.hint) {
-//         setCurrentHint(currentQuestion.hint);
-//         setShowHint(true);
-//         // Deduct 5 points for using hint - ENHANCED
-//         setRewardPoints(prev => {
-//           const newPoints = Math.max(0, prev - 5); // Ensure points don't go negative
-//           console.log('Deducting points for hint:', { prev, newPoints });
-//           return newPoints;
-//         });
-//       } else {
-//         // Fallback: If no hint in data, show default message
-//         setCurrentHint('No hint available for this question. Try to think about the key concepts related to the topic.');
-//         setShowHint(true);
-//         setRewardPoints(prev => {
-//           const newPoints = Math.max(0, prev - 5);
-//           console.log('Deducting points for hint (fallback):', { prev, newPoints });
-//           return newPoints;
-//         });
-//       }
-//     } catch (error) {
-//       console.error('Error getting hint:', error);
-//       alert('Failed to get hint. Please try again.');
-//     } finally {
-//       setHintLoading(false);
-//     }
-//   };
-
-//   // Close hint function
-//   const closeHint = () => {
-//     setShowHint(false);
-//     setCurrentHint('');
-//   };
-
-//   const fetchSubjects = (className) => {
-//     setLoading(true);
-//     setError(null);
-//     fetch(`http://127.0.0.1:8000/mock_subjects?class_name=${className}`)
-//       .then(res => {
-//         if (!res.ok) throw new Error("Failed to fetch subjects");
-//         return res.json();
-//       })
-//       .then(data => {
-//         setSubjects(data.subjects || []);
-//         setChapters([]);
-//         setSelectedSubject(null);
-//         setSelectedChapter(null);
-//         setQuiz([]);
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         setError("Failed to load subjects: " + err.message);
-//         setLoading(false);
-//       });
-//   };
-
-//   const fetchChapters = (className, subject) => {
-//     setLoading(true);
-//     setError(null);
-//     fetch(`http://127.0.0.1:8000/mock_chapters?class_name=${className}&subject=${encodeURIComponent(subject)}`)
-//       .then(res => {
-//         if (!res.ok) throw new Error("Failed to fetch chapters");
-//         return res.json();
-//       })
-//       .then(data => {
-//         const chaptersData = Array.isArray(data.chapters) ? data.chapters : [];
-//         setChapters(chaptersData);
-//         setSelectedChapter(null);
-//         setQuiz([]);
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         setError("Failed to load chapters: " + err.message);
-//         setChapters([]);
-//         setLoading(false);
-//       });
-//   };
-
-//   const fetchMockTest = (chapter, difficulty = "normal", retry = false) => {
-//     setLoading(true);
-//     setError(null);
-//     setShowInstructions(false);
-//     setTimeLeft(20 * 60);
-//     setSkippedQuestions([]);
-//     setUserAnswers(Array(50).fill(null));
-//     setShowHint(false);
-//     setCurrentHint('');
-   
-//     fetch(
-//       `http://127.0.0.1:8000/mock_test?class_name=${selectedClass}&subject=${encodeURIComponent(
-//         selectedSubject
-//       )}&chapter=${encodeURIComponent(chapter)}&difficulty=${difficulty}&retry=${retry}&language=${encodeURIComponent(selectedLanguage)}`
-//     )
-//       .then(res => {
-//         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-//         return res.json();
-//       })
-//       .then(data => {
-//         let questions = [];
-       
-//         if (Array.isArray(data)) {
-//           questions = data;
-//         } else if (data && Array.isArray(data.questions)) {
-//           questions = data.questions;
-//         } else if (data && Array.isArray(data.quiz)) {
-//           questions = data.quiz;
-//         } else if (data && data.questions) {
-//           questions = Object.values(data.questions);
-//         } else {
-//           throw new Error("Invalid response format: " + JSON.stringify(data));
-//         }
-       
-//         if (questions.length === 0) {
-//           throw new Error("No questions received from server");
-//         }
-
-//         const validQuestions = questions
-//           .filter(q => q && q.question && q.answer && q.options)
-//           .map((q, index) => ({
-//             id: index,
-//             question: q.question.trim(),
-//             options: q.options,
-//             answer: q.answer,
-//             hint: q.hint // Include hint from backend response
-//           }))
-//           .slice(0, 50);
-
-//         while (validQuestions.length < 50) {
-//           validQuestions.push({
-//             id: validQuestions.length,
-//             question: `Placeholder Question ${validQuestions.length + 1}`,
-//             options: { A: "Option A", B: "Option B", C: "Option C", D: "Option D" },
-//             answer: "A",
-//             hint: "Review the key concepts from this chapter to find the correct answer."
-//           });
-//         }
-
-//         setQuiz(validQuestions);
-//         setCurrentQ(0);
-//         setSelected(null);
-//         setScore(0);
-//         setIsFinished(false);
-//         setIsPassed(false);
-//         setShowAnswer(false);
-//         setShowReviewPopup(false);
-//         setWarningCount(0);
-//         setShowWarning(false);
-//         setShowAnswerKey(false);
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         console.error("Fetch error:", err);
-//         setError("Failed to load mock test: " + err.message);
-//         setLoading(false);
-//         setQuiz([]);
-//         setShowInstructions(true);
-//       });
-//   };
-
-//   const handleClassClick = (className) => {
-//     setSelectedClass(className);
-//     setSelectedSubject(null);
-//     setSelectedChapter(null);
-//     setSubjects([]);
-//     setChapters([]);
-//     setQuiz([]);
-//     setShowInstructions(true);
-//     fetchSubjects(className);
-//   };
-
-//   const handleSubjectClick = (subject) => {
-//     setSelectedSubject(subject);
-//     setSelectedChapter(null);
-//     setChapters([]);
-//     setQuiz([]);
-//     setShowInstructions(true);
-//     fetchChapters(selectedClass, subject);
-//   };
-
-//   const handleChapterClick = (chapter) => {
-//     setSelectedChapter(chapter);
-//     setShowInstructions(true);
-//   };
-
-//   const startQuiz = () => {
-//     setShowInstructions(false);
-//     if (quiz.length === 0) {
-//       fetchMockTest(selectedChapter);
-//       enterFullScreen();
-//     }
-//   };
-
-//   const handleAnswer = (label) => {
-//     setSelected(label);
-//     const newUserAnswers = [...userAnswers];
-//     newUserAnswers[currentQ] = label;
-//     setUserAnswers(newUserAnswers);
-
-//     const newSkipped = skippedQuestions.filter(q => q !== currentQ);
-//     setSkippedQuestions(newSkipped);
-
-//     if (label === quiz[currentQ]?.answer) {
-//       setScore(score + 1);
-//     }
-//   };
-
-//   const nextQuestion = () => {
-//     setShowHint(false);
-//     setCurrentHint('');
-//     if (currentQ < quiz.length - 1) {
-//       setCurrentQ(currentQ + 1);
-//       setSelected(userAnswers[currentQ + 1] || null);
-//       setShowAnswer(false);
-//       setShowAnswerKey(false);
-//     } else {
-//       finishQuiz();
-//     }
-//   };
-
-//   const prevQuestion = () => {
-//     setShowHint(false);
-//     setCurrentHint('');
-//     if (currentQ > 0) {
-//       setCurrentQ(currentQ - 1);
-//       setSelected(userAnswers[currentQ - 1] || null);
-//       setShowAnswer(false);
-//       setShowAnswerKey(false);
-//     }
-//   };
-
-//   const skipQuestion = () => {
-//     const newSkipped = [...skippedQuestions];
-//     if (!newSkipped.includes(currentQ)) {
-//       newSkipped.push(currentQ);
-//       setSkippedQuestions(newSkipped);
-//     }
-   
-//     const newUserAnswers = [...userAnswers];
-//     newUserAnswers[currentQ] = null;
-//     setUserAnswers(newUserAnswers);
-//     setSelected(null);
-   
-//     nextQuestion();
-//   };
-
-//   const goToQuestion = (index) => {
-//     setShowHint(false);
-//     setCurrentHint('');
-//     setCurrentQ(index);
-//     setSelected(userAnswers[index] || null);
-//     setShowAnswer(false);
-//     setShowAnswerKey(false);
-//   };
-
-//   const retryQuiz = () => {
-//     setWarningCount(0);
-//     setShowWarning(false);
-//     fetchMockTest(selectedChapter, "normal", true);
-//     enterFullScreen();
-//   };
-
-//   const nextLevel = () => {
-//     if (isPassed) {
-//       setWarningCount(0);
-//       setShowWarning(false);
-//       fetchMockTest(selectedChapter, "hard");
-//       enterFullScreen();
-//     }
-//   };
-
-//   const backToChapters = () => {
-//     setSelectedChapter(null);
-//     setQuiz([]);
-//     setCurrentQ(0);
-//     setSelected(null);
-//     setScore(0);
-//     setIsFinished(false);
-//     setIsPassed(false);
-//     setShowAnswer(false);
-//     setUserAnswers([]);
-//     setShowInstructions(true);
-//     setShowReviewPopup(false);
-//     setWarningCount(0);
-//     setShowWarning(false);
-//     setShowAnswerKey(false);
-//     setShowHint(false);
-//     setCurrentHint('');
-//     exitFullScreen();
-//   };
-
-//   const backToSubjects = () => {
-//     setSelectedSubject(null);
-//     setSelectedChapter(null);
-//     setChapters([]);
-//     setQuiz([]);
-//     setShowInstructions(true);
-//   };
-
-//   const backToClasses = () => {
-//     setSelectedClass(null);
-//     setSelectedSubject(null);
-//     setSelectedChapter(null);
-//     setSubjects([]);
-//     setChapters([]);
-//     setQuiz([]);
-//     setShowInstructions(true);
-//   };
-
-//   const backToPractice = () => {
-//     navigate('/practice');
-//   };
-
-//   const enterFullScreen = () => {
-//     const elem = document.documentElement;
-//     if (elem.requestFullscreen) {
-//       elem.requestFullscreen().catch(() => {});
-//     } else if (elem.mozRequestFullScreen) {
-//       elem.mozRequestFullScreen();
-//     } else if (elem.webkitRequestFullscreen) {
-//       elem.webkitRequestfullscreen();
-//     } else if (elem.msRequestFullscreen) {
-//       elem.msRequestFullscreen();
-//     }
-//     setIsFullScreen(true);
-//   };
-
-//   const exitFullScreen = () => {
-//     if (document.exitFullscreen) {
-//       document.exitFullscreen().catch(() => {});
-//     } else if (document.mozCancelFullScreen) {
-//       document.mozCancelFullScreen();
-//     } else if (document.webkitExitFullscreen) {
-//       document.webkitExitFullscreen();
-//     } else if (document.msExitFullscreen) {
-//       document.msExitFullscreen();
-//     }
-//     setIsFullScreen(false);
-//   };
-
-//   const formatTime = (seconds) => {
-//     const mins = Math.floor(seconds / 60);
-//     const secs = seconds % 60;
-//     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-//   };
-
-//   const toggleReviewPopup = () => {
-//     setShowReviewPopup(!showReviewPopup);
-//   };
-
-//   const getBackButtonConfig = () => {
-//     if (quiz.length > 0 && !isFinished && !showInstructions) {
-//         return null;
-//     }
-   
-//     if (selectedSubject && !selectedChapter) {
-//         return {
-//             text: t('backToSubjects'),
-//             action: backToSubjects
-//         };
-//     }
-   
-//     if (selectedClass && !selectedSubject) {
-//         return {
-//             text: t('backToClasses'),
-//             action: backToClasses
-//         };
-//     }
-   
-//     if (!selectedClass) {
-//         return {
-//             text: t('backToPractice'),
-//             action: backToPractice
-//         };
-//     }
-//   };
-
-//   const backButtonConfig = getBackButtonConfig();
-
-//   if (loading) return (
-//     <div className="loading-container">
-//       <div className="edu-loader">
-//         <span role="img" aria-label="book" className="edu-icon">📚</span>
-//         <span role="img" aria-label="graduation" className="edu-icon">🎓</span>
-//         <span role="img" aria-label="lightbulb" className="edu-icon">💡</span>
-//       </div>
-//       <p style={{ color: "black" }}>
-//         Preparing your test in {selectedLanguage}...
-//       </p>
-//     </div>
-//   );
-
-//   return (
-//     <>
-//       <Navbar 
-//         isFullScreen={isFullScreen && quiz.length > 0 && !showInstructions} 
-//         rewardPoints={rewardPoints}
-//       />
-     
-//       {!isFullScreen && backButtonConfig && (
-//         <div className="navbar-back-wrapper">
-//           <div className="navbar-back-container">
-//             <button
-//               className="navbar-back-button"
-//               onClick={backButtonConfig.action}
-//             >
-//               <span className="back-arrow">←</span>
-//               {backButtonConfig.text}
-//             </button>
-//           </div>
-//         </div>
-//       )}
-     
-//       {error && !showInstructions && (
-//         <div className="error-container">
-//           <div className="error-icon">⚠️</div>
-//           <p>{error}</p>
-//           <button className="retry-btn" onClick={() => window.location.reload()}>
-//             Try Again
-//           </button>
-//         </div>
-//       )}
-//       {showWarning && !isFinished && (
-//         <div className="warning-container">
-//           <div className="warning-icon">⚠️</div>
-//           <p>
-//             Warning {warningCount} of 3: Please stay on the test tab or in full-screen mode. The test will end after 3 warnings.
-//           </p>
-//         </div>
-//       )}
-//       {!selectedClass && !error && (
-//         <div className="selection-container">
-//           <div className="header">
-//             <h2>{t('selectClassTitle')}</h2>
-//             <p>{t('selectClassSubtitle')}</p>
-//           </div>
-//           <div className="cards-grid">
-//             {classes.map((cl, i) => (
-//               <div
-//                 key={i}
-//                 className="selection-card"
-//                 onClick={() => handleClassClick(cl)}
-//               >
-//                 <div className="card-icon">{classIcons[i % classIcons.length]}</div>
-//                 <h3>{t(`classes.${cl}`)}</h3>
-//                 <p>{t('classCardDesc')}</p>
-//                 <div className="card-hover"></div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-//       {!selectedSubject && selectedClass && !error && (
-//         <div className="selection-container">
-//           <div className="header">
-//             <h2>{t('selectSubjectTitle')}</h2>
-//             <p>{t('selectSubjectSubtitle', { class: t(`classes.${selectedClass}`) })}</p>
-//           </div>
-//           <div className="cards-grid">
-//             {subjects.map((sub, i) => (
-//               <div
-//                 key={i}
-//                 className="selection-card subject-card"
-//                 onClick={() => handleSubjectClick(sub)}
-//               >
-//                 <div className="card-icon">{subjectIcons[i % subjectIcons.length]}</div>
-//                 <h3>{t(`${sub.toLowerCase()}`)}</h3>
-//                 <p>{t('subjectCardDesc')}</p>
-//                 <div className="card-hover"></div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-//       {!selectedChapter && selectedSubject && !error && (
-//         <div className="selection-container chapter-select">
-//           <div className="header">
-//             <h2>{t('selectChapterTitle')}</h2>
-//             <p>{t('selectChapterSubtitle', { selectedSubject: t(`subjects.${selectedSubject.toLowerCase()}`) })}</p>
-//           </div>
-//           <div className="cards-grid">
-//             {Array.isArray(chapters) && chapters.map((chap, i) => (
-//               <div
-//                 key={i}
-//                 className={`selection-card chapter-card ${selectedChapter === chap ? 'selected' : ''}`}
-//                 onClick={() => handleChapterClick(chap)}
-//               >
-//                 <div className="card-icon">{chapterIcons[i % chapterIcons.length]}</div>
-//                 <h3>{chap}</h3>
-//                 <p>{selectedChapter === chap ? t('chapterSelected') : t('chapterCardDesc')}</p>
-//                 <div className="card-hover"></div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-
-//       {(quiz.length === 0 || showInstructions) && !error && selectedChapter && (
-//         <div style={{
-//           minHeight: "100vh",
-//           background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-//           display: "flex",
-//           alignItems: "center",
-//           justifyContent: "center",
-//           padding: "2rem"
-//         }}>
-//           <div style={{
-//             background: "white",
-//             borderRadius: "20px",
-//             padding: "3rem",
-//             boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-//             maxWidth: "800px",
-//             width: "100%",
-//             margin: "2rem"
-//           }}>
-//             <div style={{
-//               textAlign: "center",
-//               fontSize: "4rem",
-//               marginBottom: "1rem"
-//             }}>📋</div>
-           
-//             <h2 style={{
-//               textAlign: "center",
-//               color: "#2d3748",
-//               marginBottom: "2rem",
-//               fontSize: "2rem",
-//               fontWeight: "700"
-//             }}>{t('instructionsTitle')}</h2>
-           
-//             <div style={{
-//               marginBottom: "2rem"
-//             }}>
-//               <div style={{
-//                 display: "flex",
-//                 alignItems: "flex-start",
-//                 marginBottom: "1.5rem",
-//                 padding: "1rem",
-//                 borderRadius: "12px",
-//                 transition: "all 0.3s ease",
-//                 border: "1px solid #e2e8f0"
-//               }}>
-//                 <span style={{
-//                   fontSize: "1.5rem",
-//                   marginRight: "1rem",
-//                   marginTop: "0.25rem"
-//                 }}>💡</span>
-//                 <div>
-//                   <h3 style={{
-//                     margin: "0 0 0.5rem 0",
-//                     color: "#2d3748",
-//                     fontWeight: "600"
-//                   }}>Hint Feature</h3>
-//                   <p style={{
-//                     margin: "0",
-//                     color: "#4a5568",
-//                     lineHeight: "1.6"
-//                   }}>Get AI-powered hints during the test for 5 reward points per hint. Hints will guide you without revealing the direct answer.</p>
-//                 </div>
-//               </div>
-
-//               <div style={{
-//                 display: "flex",
-//                 alignItems: "flex-start",
-//                 marginBottom: "1.5rem",
-//                 padding: "1rem",
-//                 borderRadius: "12px",
-//                 transition: "all 0.3s ease",
-//                 border: "1px solid #e2e8f0"
-//               }}>
-//                 <span style={{
-//                   fontSize: "1.5rem",
-//                   marginRight: "1rem",
-//                   marginTop: "0.25rem"
-//                 }}>⏱️</span>
-//                 <div>
-//                   <h3 style={{
-//                     margin: "0 0 0.5rem 0",
-//                     color: "#2d3748",
-//                     fontWeight: "600"
-//                   }}>{t('timeLimitTitle')}</h3>
-//                   <p style={{
-//                     margin: "0",
-//                     color: "#4a5568",
-//                     lineHeight: "1.6"
-//                   }}>{t('timeLimitDesc')}</p>
-//                 </div>
-//               </div>
-
-//               <div style={{
-//                 display: "flex",
-//                 alignItems: "flex-start",
-//                 marginBottom: "1.5rem",
-//                 padding: "1rem",
-//                 borderRadius: "12px",
-//                 transition: "all 0.3s ease",
-//                 border: "1px solid #e2e8f0"
-//               }}>
-//                 <span style={{
-//                   fontSize: "1.5rem",
-//                   marginRight: "1rem",
-//                   marginTop: "0.25rem"
-//                 }}>❓</span>
-//                 <div>
-//                   <h3 style={{
-//                     margin: "0 0 0.5rem 0",
-//                     color: "#2d3748",
-//                     fontWeight: "600"
-//                   }}>{t('questionFormatTitle')}</h3>
-//                   <p style={{
-//                     margin: "0",
-//                     color: "#4a5568",
-//                     lineHeight: "1.6"
-//                   }}>{t('questionFormatDesc')}</p>
-//                 </div>
-//               </div>
-
-//               <div style={{
-//                 display: "flex",
-//                 alignItems: "flex-start",
-//                 marginBottom: "1.5rem",
-//                 padding: "1rem",
-//                 borderRadius: "12px",
-//                 transition: "all 0.3s ease",
-//                 border: "1px solid #e2e8f0"
-//               }}>
-//                 <span style={{
-//                   fontSize: "1.5rem",
-//                   marginRight: "1rem",
-//                   marginTop: "0.25rem"
-//                 }}>📊</span>
-//                 <div>
-//                   <h3 style={{
-//                     margin: "0 0 0.5rem 0",
-//                     color: "#2d3748",
-//                     fontWeight: "600"
-//                   }}>{t('passingCriteriaTitle')}</h3>
-//                   <p style={{
-//                     margin: "0",
-//                     color: "#4a5568",
-//                     lineHeight: "1.6"
-//                   }}>{t('passingCriteriaDesc')}</p>
-//                 </div>
-//               </div>
-//             </div>
-
-//             <div style={{
-//               background: "#f7fafc",
-//               padding: "1.5rem",
-//               borderRadius: "12px",
-//               marginBottom: "2rem",
-//               border: "1px solid #e2e8f0"
-//             }}>
-//               <h3 style={{
-//                 margin: "0 0 1rem 0",
-//                 color: "#2d3748",
-//                 fontWeight: "600"
-//               }}>{t('testDetailsTitle')}</h3>
-//               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-//                 <strong style={{ color: "#2d3748" }}>{t('testClass')}</strong> {t(`classes.${selectedClass}`)}
-//               </p>
-//               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-//                 <strong style={{ color: "#2d3748" }}>{t('testSubject')}</strong> {t(`subjects.${selectedSubject.toLowerCase()}`)}
-//               </p>
-//               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-//                 <strong style={{ color: "#2d3748" }}>{t('testChapter')}</strong> {selectedChapter}
-//               </p>
-//               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-//                 <strong style={{ color: "#2d3748" }}>{t('testTotalQuestions')}</strong> 50
-//               </p>
-//               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-//                 <strong style={{ color: "#2d3748" }}>{t('testPassingScore')}</strong> 20+
-//               </p>
-//               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-//                 <strong style={{ color: "#2d3748" }}>{t('testLanguage')}</strong> {selectedLanguage}
-//               </p>
-//               <p style={{ margin: "0.5rem 0", color: "#4a5568" }}>
-//                 <strong style={{ color: "#2d3748" }}>Current Reward Points:</strong> {rewardPoints}
-//               </p>
-//             </div>
-
-//             <div style={{
-//               display: "flex",
-//               alignItems: "center",
-//               justifyContent: "center",
-//               marginBottom: "2rem",
-//               gap: "1rem"
-//             }}>
-//               <label htmlFor="language" style={{
-//                 fontWeight: "600",
-//                 fontSize: "16px",
-//                 color: "#2d3748"
-//               }}>
-//                 {t('languageSelectLabel')}
-//               </label>
-//               <select
-//                 id="language"
-//                 value={selectedLanguage}
-//                 onChange={(e) => setSelectedLanguage(e.target.value)}
-//                 style={{
-//                   padding: "10px 15px",
-//                   fontSize: "15px",
-//                   borderRadius: "8px",
-//                   border: "2px solid #007bff",
-//                   backgroundColor: "white",
-//                   cursor: "pointer",
-//                   minWidth: "180px",
-//                   fontWeight: "500"
-//                 }}
-//               >
-//                 <option value="English">English</option>
-//                 <option value="Telugu">తెలుగు (Telugu)</option>
-//                 <option value="Hindi">हिंदी (Hindi)</option>
-//                 <option value="Tamil">தமிழ் (Tamil)</option>
-//                 <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
-//                 <option value="Malayalam">മലയാളം (Malayalam)</option>
-//               </select>
-//             </div>
-
-//             <div style={{
-//               display: "flex",
-//               justifyContent: "center",
-//               gap: "1rem",
-//               marginTop: "2rem"
-//             }}>
-//               <button
-//                 onClick={backToChapters}
-//                 style={{
-//                   padding: "12px 24px",
-//                   border: "2px solid #4a5568",
-//                   background: "transparent",
-//                   color: "#4a5568",
-//                   borderRadius: "8px",
-//                   cursor: "pointer",
-//                   fontWeight: "600",
-//                   fontSize: "16px",
-//                   transition: "all 0.3s ease"
-//                 }}
-//                 onMouseEnter={(e) => {
-//                   e.target.style.background = "#4a5568";
-//                   e.target.style.color = "white";
-//                 }}
-//                 onMouseLeave={(e) => {
-//                   e.target.style.background = "transparent";
-//                   e.target.style.color = "#4a5568";
-//                 }}
-//               >
-//                 {t('backToChapters')}
-//               </button>
-             
-//               <button
-//                 onClick={startQuiz}
-//                 style={{
-//                   padding: "12px 24px",
-//                   border: "none",
-//                   background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-//                   color: "white",
-//                   borderRadius: "8px",
-//                   cursor: "pointer",
-//                   fontWeight: "600",
-//                   fontSize: "16px",
-//                   transition: "all 0.3s ease",
-//                   boxShadow: "0 4px 12px rgba(102, 126, 234, 0.4)"
-//                 }}
-//                 onMouseEnter={(e) => {
-//                   e.target.style.transform = "translateY(-2px)";
-//                   e.target.style.boxShadow = "0 6px 15px rgba(102, 126, 234, 0.6)";
-//                 }}
-//                 onMouseLeave={(e) => {
-//                   e.target.style.transform = "translateY(0)";
-//                   e.target.style.boxShadow = "0 4px 12px rgba(102, 126, 234, 0.4)";
-//                 }}
-//               >
-//                 {t('startTestNow')}
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       {isFinished && !error && (
-//         <div className={`finished-container ${isFullScreen ? "fullscreen-mode" : ""}`}>
-//           <div className="result-card">
-//             <div className={`result-icon ${isPassed ? 'pass' : 'fail'}`}>
-//               {isPassed ? '🎉' : '😔'}
-//             </div>
-//             <h2>{isPassed ? 'Congratulations! You Passed!' : 'Quiz Completed - Try Again'}</h2>
-           
-//             <div className={`status-badge ${isPassed ? 'pass-badge' : 'fail-badge'}`}>
-//               {isPassed ? 'PASS' : 'FAIL'}
-//             </div>
-           
-//             <div className="score-display">
-//               <div className={`score-circle ${isPassed ? 'pass-score' : 'fail-score'}`}>
-//                 <span className="score">{score}</span>
-//                 <span className="total">/{quiz.length}</span>
-//               </div>
-//               <p>{Math.round((score / quiz.length) * 100)}% Correct</p>
-//               <p className={`pass-fail-text ${isPassed ? 'pass-text' : 'fail-text'}`}>
-//                 {isPassed
-//                   ? `You scored ${score} which is greater than 20. You are eligible for next level!`
-//                   : `You scored ${score} which is less than or equal to 20. Please retry the same level.`}
-//               </p>
-//               <p className="language-info">Test taken in: <strong>{selectedLanguage}</strong></p>
-              
-//               {isPassed ? (
-//                 <>
-//                   <div className="points-breakdown">
-//                     <div className="points-item">
-//                       <span>Base Points:</span>
-//                       <strong>{pointsBreakdown.basePoints} points</strong>
-//                       <span>(For passing the test)</span>
-//                     </div>
-//                     {pointsBreakdown.bonusPoints > 0 && (
-//                       <>
-//                         <div className="points-item bonus">
-//                           <span>Bonus Points:</span>
-//                           <strong>+{pointsBreakdown.bonusPoints} points</strong>
-//                           <span>(Scored 80% or higher!)</span>
-//                         </div>
-//                         <div className="bonus-congrats">
-//                           <span className="bonus-icon">🎉</span>
-//                           <p>Amazing! You scored over 80% and earned bonus points!</p>
-//                         </div>
-//                       </>
-//                     )}
-//                     <div className="points-item total">
-//                       <span>Total Points Earned:</span>
-//                       <strong>{pointsBreakdown.totalPoints} points</strong>
-//                     </div>
-//                   </div>
-//                 </>
-//               ) : (
-//                 <p className="reward-info no-points">
-//                   No points awarded - Score below passing mark (20)
-//                 </p>
-//               )}
-//               <p className="overall-reward">Total Reward Points: <strong>{rewardPoints}</strong></p>
-//             </div>
-           
-//             <div className="time-result">
-//               <p>Time Taken: {formatTime(20 * 60 - timeLeft)}</p>
-//             </div>
-           
-//             <div className="result-actions">
-//               <button className="review-btn" onClick={toggleReviewPopup}>
-//                 📋 Review Questions & Answers
-//               </button>
-//               <button className="retry-btn" onClick={retryQuiz}>
-//                 🔄 Retry Same Level
-//               </button>
-//               {isPassed && (
-//                 <button className="next-btn" onClick={nextLevel}>
-//                   🚀 Next Level
-//                 </button>
-//               )}
-//               <button className="chapters-btn" onClick={backToChapters}>
-//                 📚 Back to Chapters
-//               </button>
-//             </div>
-
-//                         <div className="answers-section">
-//               <h3>Quick Review:</h3>
-//               <div className="answers-grid">
-//                 {quiz.slice(0, 10).map((q, i) => (
-//                   <div key={i} className={`answer-item ${userAnswers[i] === q.answer ? 'correct' : 'incorrect'}`}>
-//                     <span className="q-number">Q{i + 1}</span>
-//                     <span className="correct-answer">{q.answer}</span>
-//                     <span className="user-answer">{userAnswers[i] || 'Skipped'}</span>
-//                   </div>
-//                 ))}
-//               </div>
-//               <button className="view-all-btn" onClick={toggleReviewPopup}>
-//                 View All Questions & Answers
-//               </button>
-//             </div>
-
-
-
-//           </div>
-//         </div>
-//       )}
-//       {quiz.length > 0 && !isFinished && !showInstructions && !error && (
-//         <div className={`quiz-container ${isFullScreen ? "fullscreen-mode" : ""}`}>
-//           <div className="quiz-header">
-//             <div className="quiz-info">
-//               <div className="progress-bar">
-//                 <div
-//                   className="progress-fill"
-//                   style={{width: `${((currentQ + 1) / quiz.length) * 100}%`}}
-//                 ></div>
-//               </div>
-//               <div className="quiz-stats">
-//                 <span>Question {currentQ + 1} of {quiz.length}</span>
-//                 <span className="timer">⏱️ {formatTime(timeLeft)}</span>
-//                 <span className="language-badge">🌐 {selectedLanguage}</span>
-//                 <span className="reward-badge">⭐ {rewardPoints} pts</span>
-//               </div>
-//             </div>
-//           </div>
-//           <div className="question-nav">
-//             {quiz.map((_, index) => (
-//               <button
-//                 key={index}
-//                 className={`nav-dot ${index === currentQ ? 'active' : ''} ${
-//                   userAnswers[index] ? 'answered' : ''
-//                 } ${skippedQuestions.includes(index) ? 'skipped' : ''}`}
-//                 onClick={() => goToQuestion(index)}
-//               >
-//                 {index + 1}
-//               </button>
-//             ))}
-//           </div>
-//           <div className="question-section">
-//             <h3 className="question">{currentQ + 1}. {quiz[currentQ].question}</h3>
-            
-//             {/* Hint Box */}
-//             {showHint && (
-//               <div className="hint-box">
-//                 <div className="hint-header">
-//                   <span className="hint-icon">💡</span>
-//                   <strong>AI Hint</strong>
-//                   <span className="hint-cost">-5 pts</span>
-//                 </div>
-//                 <p className="hint-text">{currentHint}</p>
-//                 <button onClick={closeHint} className="close-hint-btn">
-//                   Close Hint
-//                 </button>
-//               </div>
-//             )}
-            
-//             {/* Hint Button */}
-//             <button 
-//               className={`hint-btn ${rewardPoints < 5 ? 'disabled' : ''}`} 
-//               onClick={handleHint} 
-//               disabled={rewardPoints < 5 || hintLoading}
-//             >
-//               {hintLoading ? 'Loading Hint...' : `💡 Use Hint (-5 pts) ${rewardPoints < 5 ? '(Insufficient points)' : ''}`}
-//             </button>
-
-//             <div className="options-grid">
-//               {quiz[currentQ].options && Object.entries(quiz[currentQ].options).map(([label, opt]) => (
-//                 <button
-//                   key={label}
-//                   className={`option-card ${
-//                     selected === label ? 'selected' : ''
-//                   } ${showAnswer ? (label === quiz[currentQ].answer ? 'correct-answer' : '') : ''}`}
-//                   onClick={() => handleAnswer(label)}
-//                   disabled={showAnswer}
-//                 >
-//                   <span className="option-text">{opt}</span>
-//                   {showAnswer && label === quiz[currentQ].answer && (
-//                     <span className="correct-indicator">✓</span>
-//                   )}
-//                 </button>
-//               ))}
-//             </div>
-//           </div>
-//           <div className="quiz-navigation">
-//             <button
-//               className="nav-btn prev-btn"
-//               onClick={prevQuestion}
-//               disabled={currentQ === 0}
-//             >
-//               ← Previous
-//             </button>
-//             <button
-//               className="nav-btn skip-btn"
-//               onClick={skipQuestion}
-//             >
-//               Skip →
-//             </button>
-//             <button
-//               className="nav-btn next-btn"
-//               onClick={nextQuestion}
-//             >
-//               {currentQ < quiz.length - 1 ? 'Next →' : 'Finish'}
-//             </button>
-//           </div>
-//         </div>
-//       )}
-//       {showReviewPopup && (
-//         <div className="popup-overlay">
-//           <div className="review-popup">
-//             <div className="popup-header">
-//               <h2>Questions & Answers Review</h2>
-//               <button className="close-popup" onClick={toggleReviewPopup}>×</button>
-//             </div>
-//             <div className="popup-content">
-//               <div className="review-summary">
-//                 <p><strong>Class:</strong> {selectedClass} | <strong>Subject:</strong> {selectedSubject} | <strong>Chapter:</strong> {selectedChapter}</p>
-//                 <p><strong>Language:</strong> {selectedLanguage}</p>
-//                 <p><strong>Score:</strong> {score}/{quiz.length} ({Math.round((score / quiz.length) * 100)}%)</p>
-//                 <p><strong>Status:</strong> <span className={isPassed ? 'pass-text' : 'fail-text'}>{isPassed ? 'PASSED' : 'FAILED'}</span></p>
-//                 <p><strong>Total Reward Points:</strong> {rewardPoints}</p>
-//               </div>
-//               <div className="questions-review">
-//                 {quiz.map((q, index) => (
-//                   <div key={index} className="question-review-item">
-//                     <div className="question-review-header">
-//                       <span className="question-number">Question {index + 1}:</span>
-//                       <span className={`answer-status ${userAnswers[index] === q.answer ? 'correct' : 'incorrect'}`}>
-//                         {userAnswers[index] === q.answer ? '✓ Correct' : userAnswers[index] ? '✗ Incorrect' : '⏭️ Skipped'}
-//                       </span>
-//                     </div>
-//                     <p className="review-question">{q.question}</p>
-//                     {q.hint && (
-//                       <div className="review-hint">
-//                         <strong>Hint:</strong> {q.hint}
-//                       </div>
-//                     )}
-//                     <div className="review-options">
-//                       {Object.entries(q.options).map(([label, option]) => (
-//                         <div
-//                           key={label}
-//                           className={`review-option ${
-//                             label === q.answer ? 'correct-answer' :
-//                             label === userAnswers[index] && label !== q.answer ? 'user-incorrect' : ''
-//                           }`}
-//                         >
-//                           <span className="option-label">{label}:</span>
-//                           <span className="option-text">{option}</span>
-//                           {label === q.answer && <span className="correct-mark"> ✓ Correct Answer</span>}
-//                           {label === userAnswers[index] && label !== q.answer && <span className="incorrect-mark"> ✗ Your Answer</span>}
-//                         </div>
-//                       ))}
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-//             <div className="popup-actions">
-//               <button className="popup-close-btn" onClick={toggleReviewPopup}>
-//                 Close Review
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// }
-
-// export default MockTest;
-
-
-
-
-
-// ////points working
 // import { useState, useEffect } from "react";
 // import './MockTest.css';
 // import Navbar from "./Navbarrr";
@@ -4271,6 +236,9 @@
 //       const newTotalPoints = rewardPoints + pointsEarned;
 //       updateRewardPoints(newTotalPoints);
 //     }
+
+//     // Update mock test results in context
+//     updateMockTestResults(score, quiz.length, selectedClass, selectedSubject, selectedChapter);
     
 //     exitFullScreen();
 //     setShowWarning(false);
@@ -4739,7 +707,7 @@
 //       )}
 //       {!selectedSubject && selectedClass && !error && (
 //         <div className="selection-container">
-//           <div className="header">
+//           <div className="header"><br></br><br></br><br></br><br></br><br></br>
 //             <h2>{t('selectSubjectTitle')}</h2>
 //             <p>{t('selectSubjectSubtitle', { class: t(`classes.${selectedClass}`) })}</p>
 //           </div>
@@ -4761,7 +729,7 @@
 //       )}
 //       {!selectedChapter && selectedSubject && !error && (
 //         <div className="selection-container chapter-select">
-//           <div className="header">
+//           <div className="header"><br></br><br></br><br></br><br></br><br></br>
 //             <h2>{t('selectChapterTitle')}</h2>
 //             <p>{t('selectChapterSubtitle', { selectedSubject: t(`subjects.${selectedSubject.toLowerCase()}`) })}</p>
 //           </div>
@@ -5337,6 +1305,9 @@
 
 
 
+
+
+
 import { useState, useEffect } from "react";
 import './MockTest.css';
 import Navbar from "./Navbarrr";
@@ -5378,11 +1349,96 @@ function MockTest() {
   const [currentHint, setCurrentHint] = useState('');
   const [hintLoading, setHintLoading] = useState(false);
   const [pointsBreakdown, setPointsBreakdown] = useState({ basePoints: 0, bonusPoints: 0, totalPoints: 0 });
+  const [explanations, setExplanations] = useState([]);
+  const [explanationsLoading, setExplanationsLoading] = useState(false);
 
   const optionLabels = ["A", "B", "C", "D"];
   const classIcons = ["🏫", "📚", "🎓", "💼", "🔬", "📊"];
   const subjectIcons = ["📖", "🧮", "🔭", "🧪", "🌍", "📜", "💻", "🎨"];
   const chapterIcons = ["📝", "🔍", "💡", "⚡", "🌟", "🎯", "📊", "🔬"];
+
+  // Image Share Function
+  const shareAsImage = () => {
+    const percentage = Math.round((score / quiz.length) * 100);
+    const status = isPassed ? 'passed' : 'failed';
+    const subjectName = t(`subjects.${selectedSubject.toLowerCase()}`);
+    const className = t(`classes.${selectedClass}`);
+    
+    // Create a canvas element to generate the image
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas dimensions
+    canvas.width = 800;
+    canvas.height = 600;
+    
+    // Background gradient
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#667eea');
+    gradient.addColorStop(1, '#764ba2');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Add header
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 40px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('🎯 QuizApp Results', canvas.width / 2, 80);
+    
+    // Add result status
+    ctx.font = 'bold 32px Arial';
+    ctx.fillText(isPassed ? 'Congratulations! You Passed!' : 'Quiz Completed', canvas.width / 2, 140);
+    
+    // Add score circle
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, 250, 80, 0, 2 * Math.PI);
+    ctx.fillStyle = isPassed ? '#4CAF50' : '#f44336';
+    ctx.fill();
+    
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 36px Arial';
+    ctx.fillText(`${score}/${quiz.length}`, canvas.width / 2 - 20, 255);
+    
+    ctx.font = '20px Arial';
+    ctx.fillText(`${percentage}%`, canvas.width / 2 - 15, 285);
+    
+    // Add details
+    ctx.font = '24px Arial';
+    ctx.fillText(`Class: ${className}`, canvas.width / 2, 350);
+    ctx.fillText(`Subject: ${subjectName}`, canvas.width / 2, 390);
+    ctx.fillText(`Chapter: ${selectedChapter}`, canvas.width / 2, 430);
+    ctx.fillText(`Language: ${selectedLanguage}`, canvas.width / 2, 470);
+    
+    // Add status
+    ctx.font = 'bold 28px Arial';
+    ctx.fillStyle = isPassed ? '#4CAF50' : '#f44336';
+    ctx.fillText(isPassed ? 'PASSED 🎉' : 'TRY AGAIN 💪', canvas.width / 2, 520);
+    
+    // Convert canvas to image and share
+    canvas.toBlob((blob) => {
+      const file = new File([blob], 'quiz-results.png', { type: 'image/png' });
+      
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        // Use native share API if available
+        navigator.share({
+          files: [file],
+          title: 'My Quiz Results',
+          text: `I scored ${score}/${quiz.length} (${percentage}%) in ${subjectName} quiz!`
+        });
+      } else {
+        // Fallback to WhatsApp sharing with text
+        const shareText = `🎯 I just ${status} my ${className} ${subjectName} mock test on QuizApp!\n\n` +
+                         `📊 Score: ${score}/${quiz.length} (${percentage}%)\n` +
+                         `📚 Chapter: ${selectedChapter}\n` +
+                         `🌐 Language: ${selectedLanguage}\n` +
+                         `${isPassed ? '🎉 Congratulations to me!' : '💪 I will try again!'}\n\n` +
+                         `Try the quiz yourself and test your knowledge!`;
+        
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+        window.open(whatsappUrl, '_blank');
+      }
+    }, 'image/png');
+  };
 
   // Load reward points from localStorage
   useEffect(() => {
@@ -5419,9 +1475,76 @@ function MockTest() {
     const points = Math.max(0, newPoints); // Ensure points don't go negative
     localStorage.setItem('rewardPoints', points.toString());
     setRewardPoints(points);
-    window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
-      detail: { rewardPoints: points } 
+    window.dispatchEvent(new CustomEvent('rewardPointsUpdated', {
+      detail: { rewardPoints: points }
     }));
+  };
+
+  // Generate explanations when review popup is opened or after finishing quiz
+  const generateExplanations = async () => {
+    if (!quiz.length || explanations.length > 0 || explanationsLoading) return;
+   
+    setExplanationsLoading(true);
+    try {
+      const questionsWithUserAnswers = quiz.map((q, index) => ({
+        question: q.question,
+        options: Object.values(q.options),
+        correct_answer: q.options[q.answer], // Send the actual answer text
+        user_answer: userAnswers[index] ? q.options[userAnswers[index]] : 'Not attempted'
+      }));
+
+      console.log('Sending questions for explanations:', questionsWithUserAnswers);
+
+      const response = await fetch('http://localhost:8000/generate-explanations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          questions: questionsWithUserAnswers,
+          class_level: selectedClass,
+          subject: selectedSubject,
+          chapter: selectedChapter
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Explanations response:', data);
+     
+      if (data.success && data.explanations) {
+        setExplanations(data.explanations);
+      } else {
+        console.error('Failed to generate explanations:', data);
+        // Create fallback explanations
+        const fallbackExplanations = quiz.map((q, index) => ({
+          question_index: index,
+          question: q.question,
+          correct_answer: q.options[q.answer],
+          user_answer: userAnswers[index] ? q.options[userAnswers[index]] : 'Not attempted',
+          explanation: `The correct answer is "${q.options[q.answer]}" because it aligns with the key concepts from ${selectedChapter}. Review the chapter material to understand why this is the right choice.`,
+          is_correct: userAnswers[index] === q.answer
+        }));
+        setExplanations(fallbackExplanations);
+      }
+    } catch (error) {
+      console.error('Error generating explanations:', error);
+      // Fallback: Generate basic explanations
+      const fallbackExplanations = quiz.map((q, index) => ({
+        question_index: index,
+        question: q.question,
+        correct_answer: q.options[q.answer],
+        user_answer: userAnswers[index] ? q.options[userAnswers[index]] : 'Not attempted',
+        explanation: `Correct answer: "${q.options[q.answer]}". Focus on understanding why this answer aligns with the chapter concepts from ${selectedChapter}.`,
+        is_correct: userAnswers[index] === q.answer
+      }));
+      setExplanations(fallbackExplanations);
+    } finally {
+      setExplanationsLoading(false);
+    }
   };
 
   // Hide chatbot widget
@@ -5543,33 +1666,33 @@ function MockTest() {
     }
   }, [quiz, isFinished, timeLeft]);
 
-  // Finish quiz function - FIXED
-  const finishQuiz = () => {
+  // Finish quiz function - UPDATED to fetch explanations after finishing
+  const finishQuiz = async () => {
     const passed = score > 20;
     setIsPassed(passed);
     setIsFinished(true);
-    
+   
     let pointsEarned = 0;
     let bonusPoints = 0;
     const percentage = (score / quiz.length) * 100;
-    
+   
     if (passed) {
       // Base points: actual score value
       pointsEarned = score;
-      
+     
       // Bonus points: 10 additional points for scoring >= 80%
       if (percentage >= 80) {
         bonusPoints = 10;
         pointsEarned += bonusPoints;
       }
     }
-    
+   
     setPointsBreakdown({
       basePoints: score,
       bonusPoints: bonusPoints,
       totalPoints: pointsEarned
     });
-    
+   
     if (pointsEarned > 0) {
       const newTotalPoints = rewardPoints + pointsEarned;
       updateRewardPoints(newTotalPoints);
@@ -5577,7 +1700,10 @@ function MockTest() {
 
     // Update mock test results in context
     updateMockTestResults(score, quiz.length, selectedClass, selectedSubject, selectedChapter);
-    
+   
+    // Fetch explanations after finishing the quiz for all questions
+    await generateExplanations();
+   
     exitFullScreen();
     setShowWarning(false);
   };
@@ -5599,7 +1725,7 @@ function MockTest() {
         // Deduct 5 points for using hint - FIXED: Immediate persistence
         const newPoints = Math.max(0, rewardPoints - 5);
         console.log('Deducting points for hint:', { prev: rewardPoints, newPoints });
-        
+       
         // Update both state and localStorage immediately
         updateRewardPoints(newPoints);
       } else {
@@ -5608,7 +1734,7 @@ function MockTest() {
         setShowHint(true);
         const newPoints = Math.max(0, rewardPoints - 5);
         console.log('Deducting points for hint (fallback):', { prev: rewardPoints, newPoints });
-        
+       
         // Update both state and localStorage immediately
         updateRewardPoints(newPoints);
       }
@@ -5679,6 +1805,7 @@ function MockTest() {
     setUserAnswers(Array(50).fill(null));
     setShowHint(false);
     setCurrentHint('');
+    setExplanations([]); // Reset explanations when new test starts
    
     fetch(
       `http://127.0.0.1:8000/mock_test?class_name=${selectedClass}&subject=${encodeURIComponent(
@@ -5879,6 +2006,7 @@ function MockTest() {
     setShowAnswerKey(false);
     setShowHint(false);
     setCurrentHint('');
+    setExplanations([]);
     exitFullScreen();
   };
 
@@ -5888,6 +2016,7 @@ function MockTest() {
     setChapters([]);
     setQuiz([]);
     setShowInstructions(true);
+    setExplanations([]);
   };
 
   const backToClasses = () => {
@@ -5898,6 +2027,7 @@ function MockTest() {
     setChapters([]);
     setQuiz([]);
     setShowInstructions(true);
+    setExplanations([]);
   };
 
   const backToPractice = () => {
@@ -5939,6 +2069,9 @@ function MockTest() {
 
   const toggleReviewPopup = () => {
     setShowReviewPopup(!showReviewPopup);
+    if (!showReviewPopup && explanations.length === 0) {
+      generateExplanations();
+    }
   };
 
   const getBackButtonConfig = () => {
@@ -5977,16 +2110,17 @@ function MockTest() {
         <span role="img" aria-label="graduation" className="edu-icon">🎓</span>
         <span role="img" aria-label="lightbulb" className="edu-icon">💡</span>
       </div>
-      <p style={{ color: "black" }}>
-        Preparing your test in {selectedLanguage}...
-      </p>
+     <p style={{ color: "black", fontWeight: "bold" }}>
+  Preparing your test in {selectedLanguage}...
+</p>
+
     </div>
   );
 
   return (
     <>
-      <Navbar 
-        isFullScreen={isFullScreen && quiz.length > 0 && !showInstructions} 
+      <Navbar
+        isFullScreen={isFullScreen && quiz.length > 0 && !showInstructions}
         rewardPoints={rewardPoints}
       />
      
@@ -6383,9 +2517,18 @@ function MockTest() {
             </div>
            
             <div className="score-display">
-              <div className={`score-circle ${isPassed ? 'pass-score' : 'fail-score'}`}>
-                <span className="score">{score}</span>
-                <span className="total">/{quiz.length}</span>
+              <div className="score-section">
+                <div className={`score-circle ${isPassed ? 'pass-score' : 'fail-score'}`}>
+                  <span className="score">{score}</span>
+                  <span className="total">/{quiz.length}</span>
+                </div>
+                {/* Share Button placed beside the score */}
+                <button 
+                  className="share-btn whatsapp-share"
+                  onClick={shareAsImage}
+                >
+                  📤 Share Result
+                </button>
               </div>
               <p>{Math.round((score / quiz.length) * 100)}% Correct</p>
               <p className={`pass-fail-text ${isPassed ? 'pass-text' : 'fail-text'}`}>
@@ -6394,7 +2537,7 @@ function MockTest() {
                   : `You scored ${score} which is less than or equal to 20. Please retry the same level.`}
               </p>
               <p className="language-info">Test taken in: <strong>{selectedLanguage}</strong></p>
-              
+             
               {isPassed ? (
                 <>
                   <div className="points-breakdown">
@@ -6436,7 +2579,7 @@ function MockTest() {
            
             <div className="result-actions">
               <button className="review-btn" onClick={toggleReviewPopup}>
-                📋 Review Questions & Answers
+                📋 Review Questions & Explanations
               </button>
               <button className="retry-btn" onClick={retryQuiz}>
                 🔄 Retry Same Level
@@ -6451,7 +2594,7 @@ function MockTest() {
               </button>
             </div>
 
-                        <div className="answers-section">
+            <div className="answers-section">
               <h3>Quick Review:</h3>
               <div className="answers-grid">
                 {quiz.slice(0, 10).map((q, i) => (
@@ -6463,11 +2606,9 @@ function MockTest() {
                 ))}
               </div>
               <button className="view-all-btn" onClick={toggleReviewPopup}>
-                View All Questions & Answers
+                View All Questions & Explanations
               </button>
             </div>
-
-
 
           </div>
         </div>
@@ -6505,7 +2646,7 @@ function MockTest() {
           </div>
           <div className="question-section">
             <h3 className="question">{currentQ + 1}. {quiz[currentQ].question}</h3>
-            
+           
             {/* Hint Box */}
             {showHint && (
               <div className="hint-box">
@@ -6520,11 +2661,11 @@ function MockTest() {
                 </button>
               </div>
             )}
-            
+           
             {/* Hint Button */}
-            <button 
-              className={`hint-btn ${rewardPoints < 5 ? 'disabled' : ''}`} 
-              onClick={handleHint} 
+            <button
+              className={`hint-btn ${rewardPoints < 5 ? 'disabled' : ''}`}
+              onClick={handleHint}
               disabled={rewardPoints < 5 || hintLoading}
             >
               {hintLoading ? 'Loading Hint...' : `💡 Use Hint (-5 pts) ${rewardPoints < 5 ? '(Insufficient points)' : ''}`}
@@ -6575,7 +2716,7 @@ function MockTest() {
         <div className="popup-overlay">
           <div className="review-popup">
             <div className="popup-header">
-              <h2>Questions & Answers Review</h2>
+              <h2>Questions & Explanations Review</h2>
               <button className="close-popup" onClick={toggleReviewPopup}>×</button>
             </div>
             <div className="popup-content">
@@ -6586,40 +2727,75 @@ function MockTest() {
                 <p><strong>Status:</strong> <span className={isPassed ? 'pass-text' : 'fail-text'}>{isPassed ? 'PASSED' : 'FAILED'}</span></p>
                 <p><strong>Total Reward Points:</strong> {rewardPoints}</p>
               </div>
-              <div className="questions-review">
-                {quiz.map((q, index) => (
-                  <div key={index} className="question-review-item">
-                    <div className="question-review-header">
-                      <span className="question-number">Question {index + 1}:</span>
-                      <span className={`answer-status ${userAnswers[index] === q.answer ? 'correct' : 'incorrect'}`}>
-                        {userAnswers[index] === q.answer ? '✓ Correct' : userAnswers[index] ? '✗ Incorrect' : '⏭️ Skipped'}
-                      </span>
-                    </div>
-                    <p className="review-question">{q.question}</p>
-                    {q.hint && (
-                      <div className="review-hint">
-                        <strong>Hint:</strong> {q.hint}
-                      </div>
-                    )}
-                    <div className="review-options">
-                      {Object.entries(q.options).map(([label, option]) => (
-                        <div
-                          key={label}
-                          className={`review-option ${
-                            label === q.answer ? 'correct-answer' :
-                            label === userAnswers[index] && label !== q.answer ? 'user-incorrect' : ''
-                          }`}
-                        >
-                          <span className="option-label">{label}:</span>
-                          <span className="option-text">{option}</span>
-                          {label === q.answer && <span className="correct-mark"> ✓ Correct Answer</span>}
-                          {label === userAnswers[index] && label !== q.answer && <span className="incorrect-mark"> ✗ Your Answer</span>}
+             
+              {explanationsLoading ? (
+                <div className="explanations-loading">
+                  <div className="loading-spinner"></div>
+                  <p>Generating AI-powered explanations...</p>
+                  <p className="loading-subtext">This will help you understand why answers are correct</p>
+                </div>
+              ) : (
+                <div className="questions-review">
+                  {quiz.map((q, index) => {
+                    const explanation = explanations.find(exp => exp.question_index === index);
+                    const userAnswerText = userAnswers[index] ? q.options[userAnswers[index]] : 'Not attempted';
+                    const correctAnswerText = q.options[q.answer];
+                   
+                    return (
+                      <div key={index} className="question-review-item">
+                        <div className="question-review-header">
+                          <span className="question-number">Question {index + 1}:</span>
+                          <span className={`answer-status ${userAnswers[index] === q.answer ? 'correct' : 'incorrect'}`}>
+                            {userAnswers[index] === q.answer ? '✓ Correct' : userAnswers[index] ? '✗ Incorrect' : '⏭️ Skipped'}
+                          </span>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                        <p className="review-question">{q.question}</p>
+                       
+                        {/* Explanation Section */}
+                        <div className="explanation-section">
+                          <div className="explanation-header">
+                            <strong>📝 AI Explanation:</strong>
+                          </div>
+                          <div className="explanation-text">
+                            {explanation ? (
+                              <div>
+                                {explanation.explanation.split('\n').map((line, i) => (
+                                  <p key={i} className="explanation-line">{line}</p>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="fallback-explanation">
+                                <p><strong>Correct Answer:</strong> {correctAnswerText}</p>
+                                <p><strong>Your Answer:</strong> {userAnswerText}</p>
+                                <p className="fallback-text">
+                                  Detailed explanation is being generated. This will help you understand why the correct answer is right and the concepts behind this question.
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                       
+                        <div className="review-options">
+                          {Object.entries(q.options).map(([label, option]) => (
+                            <div
+                              key={label}
+                              className={`review-option ${
+                                label === q.answer ? 'correct-answer' :
+                                label === userAnswers[index] && label !== q.answer ? 'user-incorrect' : ''
+                              }`}
+                            >
+                              <span className="option-label">{label}:</span>
+                              <span className="option-text">{option}</span>
+                              {label === q.answer && <span className="correct-mark"> ✓ Correct Answer</span>}
+                              {label === userAnswers[index] && label !== q.answer && <span className="incorrect-mark"> ✗ Your Answer</span>}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             <div className="popup-actions">
               <button className="popup-close-btn" onClick={toggleReviewPopup}>

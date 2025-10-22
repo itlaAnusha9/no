@@ -1000,38 +1000,48 @@
   "quick_practice": "Quick Practice",
   "mock_test": "Mock Test",
   "career": "Career",
-  "studyRoom": "Study Room",
-  "language": "Language",
-  "calendar": {
-    "study_calendar": "Study Calendar",
+"studyRoom": "Study Room",
+ 
+"study_calendar": "Study Calendar",
     "study_plans_for": "Study Plans for",
     "no_study_plans_scheduled": "No study plans scheduled",
-    "days": {
-      "sun": "Sun",
-      "mon": "Mon",
-      "tue": "Tue",
-      "wed": "Wed",
-      "thu": "Thu",
-      "fri": "Fri",
-      "sat": "Sat"
-    }
-  },
-  "notifications": {
-    "title": "Notifications",
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December",
+    "sun": "Sun",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat",
+   
+    "nav-notifications": "Notifications",
     "mark_all_read": "Mark all read",
     "clear_all": "Clear all",
     "no_notifications_yet": "No notifications yet",
     "study_plans_will_appear_here": "Study plans will appear here",
     "new_study_plan_created": "New Study Plan Created",
-    "study_plan_added_to_calendar": "Study plan for {{title}} has been added to your calendar"
-  },
-  "profile": {
-    "reward_points": "Reward Points",
+    "study_plan_added_to_calendar": "Study plan for {{title}} has been added to your calendar",
     "earn_more_points": "Earn more by completing videos and tests!",
+    "reward_points": "Reward Points",
     "view_profile": "View Profile",
-    "logout": "Logout"
-  },
-  
+    "logout": "Logout",
+
+
+
+
+
+
   "attendance_progress": "Attendance Progress",
   "total_days": "Total Days",
   "logged_in_days": "Logged In Days",
@@ -1646,7 +1656,7 @@
   "platformName": "Your Smart Learning Platform",
   "heading": "Your Learning Journey",
   "subheading": "Explore a simplified roadmap to success",
-  "steps": [
+  "stepss": [
     { "title": "Discovery", "desc": "Explore courses and set goals", "color": "#4E7CFF" },
     { "title": "AI Onboarding", "desc": "Personalized learning plan", "color": "#FF6B6B" },
     { "title": "Core Learning", "desc": "Interactive lessons & projects", "color": "#6BCB77" },

@@ -310,7 +310,8 @@
   100% { background-position: 0% center; }
 }
 
-@media (max-width: 992px) {
+/* MARK: UPDATED - Mobile responsive styles */
+@media (max-width: 768px) {
   .navbar-desktop-links {
     display: none;
   }
@@ -320,7 +321,30 @@
   }
 
   .navbar-container {
-    justify-content: space-between;
+    justify-content: flex-start;
+  }
+
+  .navbar-mobile-menu {
+    order: 1;
+    margin-right: 10px;
+  }
+
+  .navbar-brand {
+    order: 2;
+    margin-left: 10px;
+  }
+
+  .navbar-end {
+    order: 3;
+    margin-left: auto;
+  }
+
+  .language-selector-desktop {
+    display: none !important;
+  }
+
+  .navbar-avatar-container span {
+    display: none;
   }
 }
 
@@ -429,5 +453,10 @@
   .reward-points-display svg {
     width: 14px;
     height: 14px;
+  }
+  
+  /* MARK: UPDATED - Hide language selector in mobile */
+  .language-selector-desktop {
+    display: none !important;
   }
 }

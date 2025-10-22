@@ -1,4 +1,4 @@
-/* Enhanced Chatbox CSS */
+/* Enhanced Chatbox CSS with Mobile Responsiveness */
 .chatbox-container {
   position: fixed;
   bottom: 20px;
@@ -56,7 +56,7 @@
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
-  color: white; /* Changed to white */
+  color: white;
 }
 
 .status {
@@ -64,7 +64,7 @@
   align-items: center;
   font-size: 0.8rem;
   margin-top: 2px;
-  color: white; /* Changed to white */
+  color: white;
 }
 
 .status-indicator {
@@ -121,17 +121,17 @@
 
 .message.user .message-content {
   background-color: #4a6bff;
-  color: white !important; /* User messages text color changed to white with !important */
+  color: white !important;
   border-bottom-right-radius: 4px;
 }
 
 .message.user .message-content p {
-  color: white !important; /* Ensure paragraph text is also white */
+  color: white !important;
 }
 
 .message.bot .message-content {
   background-color: #ffffff;
-  color: #000000; /* Bot messages text color changed to black */
+  color: #000000;
   border-bottom-left-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -272,4 +272,267 @@
 
 .chatbox-messages::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .chatbox-container {
+    bottom: 15px;
+    right: 15px;
+    left: 15px;
+  }
+
+  .chatbox-popup.mobile-view {
+    width: 100%;
+    height: 70vh;
+    max-height: 600px;
+    min-height: 400px;
+    margin-bottom: 15px;
+    border-radius: 16px;
+  }
+
+  .chatbox-icon.mobile-icon {
+    width: 55px;
+    height: 55px;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .chatbox-header {
+    padding: 15px 20px;
+  }
+
+  .chatbox-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .status {
+    font-size: 0.9rem;
+  }
+
+  .close-btn {
+    font-size: 1.8rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chatbox-messages {
+    padding: 12px;
+  }
+
+  .message.mobile-message {
+    max-width: 85%;
+    margin-bottom: 15px;
+  }
+
+  .message-content {
+    padding: 12px 16px;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .message-time {
+    font-size: 0.75rem;
+    margin-top: 6px;
+  }
+
+  .quick-questions.mobile-quick-questions {
+    padding: 12px 15px;
+  }
+
+  .quick-questions.mobile-quick-questions p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  .quick-questions-grid.mobile-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .quick-question-btn.mobile-quick-btn {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .chatbox-input.mobile-input {
+    padding: 15px;
+  }
+
+  .chatbox-input.mobile-input input {
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 25px;
+  }
+
+  .chatbox-input button.mobile-send-btn {
+    width: 45px;
+    height: 45px;
+    margin-left: 12px;
+  }
+
+  .typing-indicator {
+    padding: 12px 16px;
+  }
+
+  .typing-indicator span {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Small Mobile Devices (below 480px) */
+@media (max-width: 480px) {
+  .chatbox-container {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+  }
+
+  .chatbox-popup.mobile-view {
+    height: 65vh;
+    max-height: 500px;
+    min-height: 350px;
+    border-radius: 14px;
+  }
+
+  .chatbox-icon.mobile-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .chatbox-header {
+    padding: 12px 15px;
+  }
+
+  .chatbox-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .message.mobile-message {
+    max-width: 90%;
+  }
+
+  .message-content {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
+
+  .quick-questions.mobile-quick-questions {
+    padding: 10px 12px;
+  }
+
+  .quick-question-btn.mobile-quick-btn {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .chatbox-input.mobile-input {
+    padding: 12px;
+  }
+
+  .chatbox-input.mobile-input input {
+    padding: 10px 14px;
+  }
+}
+
+/* Landscape Mode for Mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .chatbox-popup.mobile-view {
+    height: 80vh;
+    max-height: 400px;
+  }
+
+  .quick-questions.mobile-quick-questions {
+    max-height: 80px;
+    overflow-y: auto;
+  }
+
+  .quick-questions-grid.mobile-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Very Small Screens (below 320px) */
+@media (max-width: 320px) {
+  .chatbox-container {
+    bottom: 5px;
+    right: 5px;
+    left: 5px;
+  }
+
+  .chatbox-popup.mobile-view {
+    height: 60vh;
+    border-radius: 12px;
+  }
+
+  .chatbox-header {
+    padding: 10px 12px;
+  }
+
+  .chatbox-header h3 {
+    font-size: 1rem;
+  }
+
+  .chatbox-messages {
+    padding: 10px;
+  }
+
+  .message.mobile-message {
+    max-width: 95%;
+  }
+
+  .quick-questions.mobile-quick-questions {
+    padding: 8px 10px;
+  }
+
+  .quick-questions-grid.mobile-grid {
+    gap: 6px;
+  }
+
+  .quick-question-btn.mobile-quick-btn {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .chatbox-icon:hover {
+    transform: none;
+  }
+
+  .quick-question-btn:hover {
+    background-color: #e9ecff;
+    color: #3a4da3;
+  }
+
+  .quick-question-btn:active {
+    background-color: #4a6bff;
+    color: white;
+  }
+
+  .chatbox-input button:hover {
+    background-color: #4a6bff;
+  }
+
+  .chatbox-input button:active {
+    background-color: #3a5bef;
+  }
+}
+
+/* High DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .chatbox-popup {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+  }
+  
+  .chatbox-icon {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  }
 }
