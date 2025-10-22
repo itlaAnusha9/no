@@ -946,7 +946,7 @@
 
 
 
-
+////old full working
 import { useState, useEffect } from "react";
 import QuizGrade from "./QuizGrade";
 import QuizSubject from "./QuizSubject";
@@ -1292,3 +1292,16 @@ function Quiz() {
 }
 
 export default Quiz;
+
+
+
+
+
+
+
+
+
+
+
+
+

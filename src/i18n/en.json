@@ -1,31 +1,26 @@
 
 {
+   
+  "performance": {
+    "title": "Career Performance Dashboard",
+    "subtitle": "Track your progress across different metrics and discover your strengths",
+    "academic": "Academic Performance",
+    "quiz": "Quiz Performance",
+    "mock": "Mock Test Performance"
+  },
   "hero": {
     "title": {
       "shape": "Shape",
       "your": "Your",
       "future": "Future"
     },
-    "subtitle": "Track your academic performance, quiz results, and mock test outcomes to maximize your future opportunities.",
+    "subtitle": "Discover your career path through personalized performance analysis and expert recommendations",
     "cta": {
-      "viewDashboard": "View Dashboard"
+      "viewDashboard": "View Performance Dashboard"
     }
   },
-  "stats": {
-    "studentsTracked": "Students Tracked",
-    "improvementRate": "Improvement Rate",
-    "metricsTracked": "Metrics Tracked",
-    "hoursAnalyzed": "Hours Analyzed"
-  },
-  "performance": {
-    "title": "Your Performance Metrics",
-    "subtitle": "Comprehensive analysis of your academic, quiz, and mock test performance",
-    "academic": "Academic Performance",
-    "quiz": "Quiz Performance",
-    "mock": "Mock Test Performance"
-  },
   "metrics": {
-    "gpa": "GPA",
+    "gpa": "GPA Score",
     "testScores": "Test Scores",
     "courseRigor": "Course Rigor",
     "totalQuizzes": "Total Quizzes",
@@ -33,50 +28,87 @@
     "totalQuestions": "Total Questions",
     "totalTests": "Total Tests"
   },
-  "viewDetails": "View Details",
   "scale": {
     "title": "Performance Scale",
-    "subtitle": "Understand how your metrics compare to benchmarks",
+    "subtitle": "Understand what your scores mean and where you stand",
     "excellent": "Excellent",
-    "excellentPercent": "Top 10%",
-    "excellentDesc": "Performance significantly exceeds expectations. Demonstrates mastery of skills and concepts.",
     "good": "Good",
-    "goodPercent": "Top 25%",
-    "goodDesc": "Performance exceeds expectations. Shows strong understanding with minor areas for improvement.",
     "average": "Average",
-    "averagePercent": "Middle 50%",
-    "averageDesc": "Meets expectations. Demonstrates adequate understanding with room for growth.",
     "developing": "Developing",
-    "developingPercent": "Lower 25%",
-    "developingDesc": "Approaching expectations. Needs targeted support in key areas.",
     "needsWork": "Needs Work",
-    "needsWorkPercent": "Bottom 10%",
-    "needsWorkDesc": "Below expectations. Requires significant intervention and support."
+    "excellentPercent": "90-100%",
+    "goodPercent": "75-89%",
+    "averagePercent": "50-74%",
+    "developingPercent": "25-49%",
+    "needsWorkPercent": "0-24%",
+    "excellentDesc": "Outstanding performance with consistent excellence",
+    "goodDesc": "Strong performance with good understanding",
+    "averageDesc": "Satisfactory performance with room for growth",
+    "developingDesc": "Developing skills, needs focused practice",
+    "needsWorkDesc": "Requires significant improvement and support"
   },
+  "studentsTracked": "Students Tracked",
+  "improvementRate": "Improvement Rate",
+  "metricsTracked": "Careers Tracked",
+  "hoursAnalyzed": "Hours Analyzed",
+  "viewDetails": "View Details",
   "cta": {
-    "title": "Ready to Analyze Your Performance?",
-    "subtitle": "Get detailed insights into your strengths and areas for improvement with our comprehensive performance analysis.",
-    "viewReport": "View Full Report"
+    "title": "Ready to Unlock Your Potential?",
+    "subtitle": "Start your journey towards academic excellence and career success with personalized insights",
+    "viewReport": "View Detailed Report"
+  },
+  "profile": {
+    "grade": "Grade 8 Student",
+    "interests": "Interests",
+    "achievements": "Recent Achievements",
+    "hobbies": "Hobbies & Activities",
+    "interestsList": [
+      "Computer Science",
+      "Mathematics",
+      "Robotics",
+      "Space Exploration"
+    ],
+    "strengthsList": [
+      "Problem Solving",
+      "Critical Thinking",
+      "Logical Reasoning"
+    ],
+    "hobbiesList": [
+      "Coding Projects",
+      "Playing Piano",
+      "Digital Art",
+      "Public Speaking"
+    ],
+    "recentAchievements": [
+      "Math Olympiad Regional Winner",
+      "Science Fair 1st Place",
+      "Coding Competition Finalist"
+    ]
+  },
+  "modal": {
+    "strengths": "Key Strengths",
+    "keyMetrics": "Performance Metrics",
+    "recommendations": "Personalized Recommendations"
   },
   "academic": {
-    "description": "Your academic performance shows strong results across all subjects with particular strengths in STEM fields.",
+    "description": "Strong academic foundation with excellent performance in STEM subjects",
     "strengths": [
-      "Consistent high achiever in Mathematics and Science",
-      "Excellent problem-solving skills",
-      "Strong analytical abilities"
+      "Exceptional mathematical reasoning skills",
+      "Strong scientific inquiry abilities",
+      "Consistent academic performance across subjects"
     ],
     "recommendations": [
-      "Consider advanced placement courses in Math and Science",
-      "Participate in academic competitions to challenge yourself",
-      "Explore research opportunities in your areas of strength"
+      "Consider advanced mathematics courses",
+      "Explore STEM competitions and olympiads",
+      "Develop research project experience"
     ],
     "chart": {
       "labels": {
-        "math": "Math",
+        "math": "Mathematics",
         "science": "Science",
         "english": "English",
         "history": "History",
-        "foreignLang": "Foreign Lang"
+        "foreignLang": "Foreign Language"
       },
       "datasets": {
         "yourScores": "Your Scores",
@@ -85,70 +117,52 @@
     }
   },
   "quiz": {
-    "description": "Your performance across all quizzes taken on the platform.",
+    "description": "Consistent quiz performance showing strong knowledge retention",
     "strengths": [
-      "Consistent practice",
-      "Completed quizzes in {{count}} levels",
-      "Building knowledge base"
+      "Quick learning and adaptation",
+      "Strong performance across {{count}} difficulty levels",
+      "Excellent time management in quizzes"
     ],
     "recommendations": [
-      "Attempt more quizzes in higher levels",
-      "Review incorrect answers",
-      "Set daily quiz goals"
+      "Focus on weak areas identified in quizzes",
+      "Increase quiz frequency for better retention",
+      "Try more challenging difficulty levels"
     ],
     "chart": {
-      "label": "Quizzes per Level"
+      "label": "Quiz Scores by Level",
+      "noData": "Beginner"
     }
   },
   "mock": {
-    "description": "Your performance in mock tests simulating real exam conditions.",
+    "description": "Solid test-taking skills with good time management",
     "strengths": [
-      "Exam readiness",
-      "Time management",
-      "Pressure handling"
+      "Consistent performance under pressure",
+      "Good question selection strategy",
+      "Effective time allocation"
     ],
     "recommendations": [
-      "Take regular mock tests",
-      "Analyze time spent per question",
-      "Focus on weak subjects"
+      "Practice with full-length mock tests",
+      "Work on speed and accuracy balance",
+      "Review incorrect answers thoroughly"
     ],
     "chart": {
-      "label": "Average Score"
+      "label": "Mock Test Performance"
     }
   },
-  "profile": {
-    "grade": "8th Grade",
-    "interests": "Interests",
-    "achievements": "Recent Achievements",
-    "interestsList": [
-      "Robotics",
-      "Creative Writing",
-      "Basketball",
-      "Debate"
-    ],
-    "strengthsList": [
-      "Mathematical Reasoning",
-      "Scientific Inquiry",
-      "Logical Analysis"
-    ],
-    "hobbies": [
-      "Coding",
-      "Music",
-      "Art",
-      "Public Speaking"
-    ],
-    "recentAchievements": [
-      "1st Place in Regional Math Olympiad",
-      "Published short story in school magazine",
-      "Elected as class representative",
-      "Perfect attendance award"
-    ]
+  "quizHistory": {
+    "title": "Recent Quizzes Taken",
+    "empty": "No quizzes taken yet. Start practicing to see your performance history."
   },
-  "modal": {
-    "keyMetrics": "Key Metrics",
-    "strengths": "Strengths",
-    "recommendations": "Recommendations"
+  "mockHistory": {
+    "title": "Recent Mock Tests Taken",
+    "empty": "No mock tests taken yet. Start practicing to see your performance history."
   },
+
+  
+
+
+  
+  
 
 
 
@@ -382,8 +396,6 @@
 
 
 
-
- 
   "MockTestSubjectPage": {
     "subjectNotFound": "Subject not found",
     "back": "Back",
@@ -505,6 +517,9 @@
 
 
 
+
+
+
     "faqs": {
     "title": "FAQs",
     "header": "❓ Frequently Asked Questions",
@@ -538,8 +553,6 @@
       }
     ]
   },
-
-
 
 
 
@@ -910,6 +923,20 @@
     }
   
 },
+"feedback": {
+    "title": "Share Your Feedback",
+    "subtitle": "We value your opinion — help us improve your learning experience!",
+    "rewardMessage": "Earn +20 Reward Points for your first feedback!",
+    "rewardReceived": "✅ One-time reward already received",
+    "satisfactionQuestion": "How satisfied are you with the platform?",
+    "placeholder": "Share your thoughts or suggestions...",
+    "submit": "Submit Feedback",
+    "submitted": "✅ Feedback Submitted",
+    "changeFeedback": "Change Feedback",
+     "labels": ["1 ⭐ Not at all", "2 ⭐ Not Really", "3 ⭐ Somewhat", "4 ⭐ To a great extent", "5 ⭐ Absolutely"]
+  },
+"onDate": "on",
+
 
 
 
@@ -959,7 +986,11 @@
   "quiz_test_page": "Quiz Test Page",
   "quiz_active": "The quiz is currently active.",
   "quiz_inactive": "The quiz has ended.",
-  "home": "Home",
+
+
+
+
+ "home": "Home",
   "class_room": "Class Room",
   "class_7": "Class 7",
   "class_8": "Class 8",
@@ -969,8 +1000,38 @@
   "quick_practice": "Quick Practice",
   "mock_test": "Mock Test",
   "career": "Career",
-  "mentorship": "Mentorship",
- 
+  "studyRoom": "Study Room",
+  "language": "Language",
+  "calendar": {
+    "study_calendar": "Study Calendar",
+    "study_plans_for": "Study Plans for",
+    "no_study_plans_scheduled": "No study plans scheduled",
+    "days": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "mark_all_read": "Mark all read",
+    "clear_all": "Clear all",
+    "no_notifications_yet": "No notifications yet",
+    "study_plans_will_appear_here": "Study plans will appear here",
+    "new_study_plan_created": "New Study Plan Created",
+    "study_plan_added_to_calendar": "Study plan for {{title}} has been added to your calendar"
+  },
+  "profile": {
+    "reward_points": "Reward Points",
+    "earn_more_points": "Earn more by completing videos and tests!",
+    "view_profile": "View Profile",
+    "logout": "Logout"
+  },
+  
   "attendance_progress": "Attendance Progress",
   "total_days": "Total Days",
   "logged_in_days": "Logged In Days",
@@ -1017,137 +1078,109 @@
  
 
 
-  "parentdashboard": {
-
-    "title": "Parent Dashboard",
-
-    "welcome": "Welcome back, {{name}}!",
-
-    "greeting": {
-
-      "morning": "Good Morning",
-
-      "afternoon": "Good Afternoon",
-
-      "evening": "Good Evening"
-
-    },
-
-    "subtitle": "Track your child's learning journey",
-
-    "overview": "Quick Overview",
-
-    "features": "What Makes NOVYA Special",
-
-    "platform": "Your Smart Learning Platform",
  
-    "featuresList": {
-
-      "aiLearning": {
-
-        "title": "AI-Powered Learning",
-
-        "description": "Personalized learning paths adapted to your child's unique learning style and pace."
-
-      },
-
-      "analytics": {
-
-        "title": "Real-time Analytics",
-
-        "description": "Track progress with detailed insights and performance metrics updated in real-time."
-
-      },
-
-      "goalLearning": {
-
-        "title": "Goal-based Learning",
-
-        "description": "Set and achieve learning goals with milestone tracking and celebration of achievements."
-
-      }
-
-    }
-
+  
+  "common": {
+    "logout": "Logout",
+    "notifications": "Notifications",
+    "clear": "Clear All",
+    "noNotifications": "No notifications",
+    "settings": "Settings",
+    "darkMode": "Dark Mode",
+    "language": "Language",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "editProfile": "Edit Profile",
+    "role": "Role",
+    "parent": "Parent",
+    "notProvided": "Not provided"
   },
- 
   "sections": {
-
-    "home": "Dashboard",
-
+    "home": "Home",
     "profile": "Child Profile",
-
     "attendance": "Attendance",
-
-    "progress": "Progress",
-
+    "progress": "Progress & Grades",
     "assignments": "Assignments",
-
     "mockTests": "Mock Tests",
-
-    "studyPlan": "Study Plan",
-
-    "contact": "Contact us"
-
+    "studyPlan": "Study Planner",
+    "contact": "Contact Us"
   },
- 
-  "stats": {
-
-    "overallProgress": "Overall Progress",
-
-    "attendanceRate": "Attendance Rate",
-
-    "achievements": "Achievements",
-
-    "assignments": "Assignments",
-
-    "thisWeek": "this week",
-
-    "thisMonth": "this month",
-
-    "pending": "pending"
-
+  "parentdashboard": {
+    "title": "Parent Dashboard",
+    "platform": "Learning Platform",
+    "welcome": "Welcome back, {{name}}!",
+    "subtitle": "Track your child's learning journey",
+    "overview": "Overview",
+    "features": "Key Features",
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "featuresList": {
+      "aiLearning": {
+        "title": "AI-Powered Learning",
+        "description": "Personalized learning paths adapted to your child's progress and learning style"
+      },
+      "analytics": {
+        "title": "Detailed Analytics",
+        "description": "Comprehensive reports and insights into your child's academic performance"
+      },
+      "goalLearning": {
+        "title": "Goal-Oriented Learning",
+        "description": "Set and track learning objectives with milestone-based achievements"
+      }
+    }
   },
-
-
-
- 
-
-
   "typewriter": {
-    "monitorProgress": "Monitor academic progress in real-time",
-    "stayConnected": "Stay connected with teachers and assignments",
-    "celebrateMilestones": "Celebrate every milestone and achievement",
-    "supportJourney": "Support your child's educational journey"
+    "monitorProgress": "Monitor your child's academic progress...",
+    "stayConnected": "Stay connected with teachers and school...",
+    "celebrateMilestones": "Celebrate learning milestones together...",
+    "supportJourney": "Support your child's educational journey..."
+  },
+  "stats": {
+    "overallProgress": "Overall Progress",
+    "attendanceRate": "Attendance Rate",
+    "achievements": "Achievements",
+    "assignments": "Assignments Completed",
+    "thisWeek": "this week",
+    "thisMonth": "this month",
+    "pending": "pending"
   },
   "notifications": {
     "newAssignment": "New Assignment",
-    "assignmentMessage": "Math homework assigned to your child",
+    "assignmentMessage": "Math homework assigned for tomorrow",
     "progressReport": "Progress Report",
-    "progressMessage": "Weekly progress report is available",
+    "progressMessage": "Weekly progress report is now available",
     "parentMeeting": "Parent-Teacher Meeting",
-    "meetingMessage": "Reminder: Meeting scheduled for tomorrow",
-    "attendance": "Attendance",
-    "attendanceMessage": "Warning: Missed two classes",
+    "meetingMessage": "Schedule meeting for next week",
+    "attendance": "Attendance Alert",
+    "attendanceMessage": "Attendance below 90% this month",
     "hoursAgo": "{{count}} hour ago",
     "hoursAgo_plural": "{{count}} hours ago",
     "daysAgo": "{{count}} day ago",
     "daysAgo_plural": "{{count}} days ago"
   },
-  "common": {
-    "logout": "Logout",
-    "notifications": "Notifications",
-    "clear": "Clear",
-    "noNotifications": "No notifications",
-    "settings": "Settings",
-    "language": "Language",
-    "role": "Role",
-    "parent": "Parent",
-    "cancel": "Cancel",
-    "saveChanges": "Save Changes",
-    "editProfile": "Edit Profile",
-    "notProvided": "Not provided"
+  "profile": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "contact": "Contact Number",
+    "username": "Username",
+    "address": "Address"
   },
+ 
+
+
+
+
+
+
+
+
+
+
+
   "profile": {
     "firstName": "First Name",
     "lastName": "Last Name",
@@ -1461,15 +1494,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
   "assignments": "Assignments",
   "trackHomework": "Track your homework and stay updated",
   "mathTask": "Math Assignment",
@@ -1548,62 +1572,89 @@
 
 
   
-  "masterSubject": "Master Every Subject with",
-  "smartPractice": "Smart Practice",
+ "masterSubject": "Master Every Subject",
+  "smartPractice": "With Smart Practice",
   "challengeDescription": "Challenge yourself with comprehensive practice modules. Built for students with instant feedback and detailed analytics.",
   "practiceTests": "Practice Tests",
   "studentsLearning": "Students Learning",
   "whyChoose": "Why Choose NOVYA Practice?",
-  "revolutionaryExperience": "Experience a revolutionary way to practice and master your subjects",
+  "revolutionaryExperience": "Experience the revolutionary way to practice and master your subjects",
+  "exploreCategories": "Explore Practice Categories",
+  "chooseSubjects": "Choose from our comprehensive collection of subjects",
+  "howItWorks": "How It Works",
+  "getStarted": "Get started in just three easy steps",
+  "readyToExcel": "Ready to Excel in Your Studies?",
+  "joinStudents": "Join thousands of students improving their grades with NOVYA",
+  "practiceTestsCount": "Practice Tests",
   "features": {
     "personalizedLearning": "Personalized Learning",
     "instantFeedback": "Instant Feedback",
     "progressAnalytics": "Progress Analytics",
     "gamifiedExperience": "Gamified Experience",
     "vastQuestionBank": "Vast Question Bank",
-    "expertCrafted": "Expert Crafted"
+    "expertCrafted": "Expert Crafted",
+    "personalizedLearningDesc": "AI-based recommendations based on your performance and learning style",
+    "instantFeedbackDesc": "Get instant explanations and improvements for every question",
+    "progressAnalyticsDesc": "Track your progress with detailed insights and performance metrics",
+    "gamifiedExperienceDesc": "Earn badges, climb leaderboards, and compete with peers",
+    "vastQuestionBankDesc": "Access thousands of curated questions across all subjects and difficulty levels",
+    "expertCraftedDesc": "Content designed by subject experts and experienced educators"
   },
-  "featureDescriptions": {
-    "personalizedLearning": "AI-powered recommendations based on your performance and learning style",
-    "instantFeedback": "Get real-time explanations and corrections to improve faster",
-    "progressAnalytics": "Track your improvement with detailed insights and performance metrics",
-    "gamifiedExperience": "Earn badges, climb leaderboards, and compete with peers",
-    "vastQuestionBank": "Access thousands of curated questions across all subjects",
-    "expertCrafted": "Content designed by subject matter experts and educators"
-  },
-  "exploreCategories": "Explore Practice Categories",
-  "chooseSubjects": "Choose from our comprehensive collection of subjects",
   "subjects": {
     "English": "English",
     "Telugu": "Telugu",
     "Mathematics": "Mathematics",
-    "Social": "Social",
+    "Social": "Social Studies",
     "Science": "Science",
-    "Computers": "Computers"
+    "Computers": "Computer Science"
   },
-  "practiceTestsCount": "Practice Tests",
-  "howItWorks": "How It Works",
-  "getStarted": "Get started in just three simple steps",
   "steps": {
     "chooseSubject": "Choose Your Subject",
     "startPracticing": "Start Practicing",
-    "trackProgress": "Track Progress"
+    "trackProgress": "Track Progress",
+    "chooseSubjectDesc": "Select from our comprehensive range of subjects and difficulty levels tailored to your needs",
+    "startPracticingDesc": "Answer questions with instant feedback and detailed explanations to enhance your learning",
+    "trackProgressDesc": "Monitor your improvement with comprehensive analytics and personalized insights"
   },
-  "stepDescriptions": {
-    "chooseSubject": "Select from our wide range of subjects and difficulty levels",
-    "startPracticing": "Answer questions with real-time feedback and detailed explanations",
-    "trackProgress": "Monitor your improvement with comprehensive analytics and insights"
+  "spinWheel": {
+    "dailyRewards": "Daily Rewards",
+    "spins": "Spins",
+    "spinButton": "SPIN & GET REWARD",
+    "spinning": "Spinning...",
+    "comeBackTomorrow": "Come Back Tomorrow",
+    "congratulations": "Congratulations!",
+    "youWon": "You won:",
+    "pointsAdded": "points added to your account!",
+    "bonusSpin": "You earned an extra spin!",
+    "awesome": "Awesome!",
+    "rewards": {
+      "10Points": "10 Points",
+      "20Points": "20 Points",
+      "05Points": "05 Points",
+      "bonusSpin": "Bonus Spin",
+      "15Points": "15 Points",
+      "betterLuck": "Better luck"
+    }
   },
-  "readyToExcel": "Ready to Excel in Your Studies?",
-  "joinStudents": "Join thousands of students who are already improving their grades with NOVYA"
 
 
 
 
 
+  
+  "pageTitle": "Roadmap",
+  "platformName": "Your Smart Learning Platform",
+  "heading": "Your Learning Journey",
+  "subheading": "Explore a simplified roadmap to success",
+  "steps": [
+    { "title": "Discovery", "desc": "Explore courses and set goals", "color": "#4E7CFF" },
+    { "title": "AI Onboarding", "desc": "Personalized learning plan", "color": "#FF6B6B" },
+    { "title": "Core Learning", "desc": "Interactive lessons & projects", "color": "#6BCB77" },
+    { "title": "Graduation", "desc": "Earn your certification", "color": "#FF9F45" }
+  ]
 
- 
+
+  
+
 }
-
-
 

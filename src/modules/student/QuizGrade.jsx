@@ -1,8 +1,4 @@
 
-
-
-
-
 // import { useNavigate } from 'react-router-dom';
  
 // function QuizGrade({ classes, onClassClick }) {
@@ -248,7 +244,7 @@
 
 
 
-
+////old working
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
  
@@ -476,3 +472,5 @@ function QuizGrade({ classes, onClassClick }) {
  
 export default QuizGrade;
  
+
+

@@ -1,3 +1,4 @@
+// ////old code
 // import React, { useState, useEffect, useRef } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { useTranslation } from 'react-i18next';
@@ -105,8 +106,8 @@
 //       faq: t('sections.contact')
 //     };
 //     document.title = selectedSection && titles[selectedSection]
-//       ? `${titles[selectedSection]} | NOVYA - ${t('dashboard.platform')}`
-//       : `${t('dashboard.title')} | NOVYA - ${t('dashboard.platform')}`;
+//       ? `${titles[selectedSection]} | NOVYA - ${t('parentdashboard.platform')}`
+//       : `${t('parentdashboard.title')} | NOVYA - ${t('parentdashboard.platform')}`;
 //   }, [selectedSection, t]);
 
 //   useEffect(() => {
@@ -245,9 +246,9 @@
 
 //   const getGreeting = () => {
 //     const hour = currentTime.getHours();
-//     if (hour < 12) return t('dashboard.greeting.morning');
-//     if (hour < 17) return t('dashboard.greeting.afternoon');
-//     return t('dashboard.greeting.evening');
+//     if (hour < 12) return t('parentdashboard.greeting.morning');
+//     if (hour < 17) return t('parentdashboard.greeting.afternoon');
+//     return t('parentdashboard.greeting.evening');
 //   };
 
 //   const markNotificationAsRead = (id) => {
@@ -297,9 +298,10 @@
 //             <div className="welcome-section">
 //               <div className="welcome-content">
 //                 <div className="welcome-text">
-//                   <h1>{t('dashboard.welcome', { name: parentName })}</h1>
+//                   <h1>{t('parentdashboard.welcome', { name: parentName })}</h1>
 //                   <div className="typewriter-container">
 //                     <Typewriter
+//                       key={i18n.language}
 //                       words={[
 //                         t('typewriter.monitorProgress'),
 //                         t('typewriter.stayConnected'),
@@ -325,7 +327,7 @@
 //             </div>
 
 //             <div className="stats-section">
-//               <h2>{t('dashboard.overview')}</h2>
+//               <h2>{t('parentdashboard.overview')}</h2>
 //               <div className="stats-grid">
 //                 <div className="stat-card">
 //                   <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
@@ -373,26 +375,27 @@
 //               </div>
 //             </div>
 
-//             <div className="features-section">
-//               <h2>{t('dashboard.features')}</h2>
-//               <div className="features-grid">
-//                 <div className="feature-card">
-//                   <div className="feature-icon">🧠</div>
-//                   <h3>{t('features.aiLearning.title')}</h3>
-//                   <p>{t('features.aiLearning.description')}</p>
-//                 </div>
-//                 <div className="feature-card">
-//                   <div className="feature-icon">📊</div>
-//                   <h3>{t('features.analytics.title')}</h3>
-//                   <p>{t('features.analytics.description')}</p>
-//                 </div>
-//                 <div className="feature-card">
-//                   <div className="feature-icon">🎯</div>
-//                   <h3>{t('features.goalLearning.title')}</h3>
-//                   <p>{t('features.goalLearning.description')}</p>
-//                 </div>
-//               </div>
-//             </div>
+//   <div className="features-section">
+//   <h2>{t('parentdashboard.features')}</h2>
+//   <div className="features-grid">
+//     <div className="feature-card">
+//       <div className="feature-icon">🧠</div>
+//       <h3>{t('parentdashboard.featuresList.aiLearning.title')}</h3>
+//       <p>{t('parentdashboard.featuresList.aiLearning.description')}</p>
+//     </div>
+//     <div className="feature-card">
+//       <div className="feature-icon">📊</div>
+//       <h3>{t('parentdashboard.featuresList.analytics.title')}</h3>
+//       <p>{t('parentdashboard.featuresList.analytics.description')}</p>
+//     </div>
+//     <div className="feature-card">
+//       <div className="feature-icon">🎯</div>
+//       <h3>{t('parentdashboard.featuresList.goalLearning.title')}</h3>
+//       <p>{t('parentdashboard.featuresList.goalLearning.description')}</p>
+//     </div>
+//   </div>
+// </div>
+ 
 //           </div>
 //         );
 //     }
@@ -463,7 +466,7 @@
 //             </button>
 //             <div className="header-title">
 //               <h1>{selectedSection ? sections.find(s => s.key === selectedSection)?.label || t('sections.home') : t('sections.home')}</h1>
-//               <p>{getGreeting()}! {t('dashboard.subtitle')}</p>
+//               <p>{getGreeting()}! {t('parentdashboard.subtitle')}</p>
 //             </div>
 //           </div>
          
@@ -2112,6 +2115,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -2166,11 +2181,28 @@ const ParentDashboard = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const mainContentRef = useRef(null);
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
  
   const { t, i18n } = useTranslation();
+
+  // Handle window resize for responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+     
+      // Auto-close mobile menu when resizing to desktop
+      if (window.innerWidth >= 768 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 100);
@@ -2292,52 +2324,61 @@ const ParentDashboard = () => {
     setIsEditingProfile(false);
   };
 
+  // Translated sections with proper translation keys
   const sections = [
     {
       key: '',
       label: t('sections.home'),
+      translationKey: 'home',
       icon: HiOutlineHome,
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     },
     {
       key: 'profile',
       label: t('sections.profile'),
+      translationKey: 'profile',
       icon: HiOutlineUserCircle,
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     },
     {
       key: 'attendance',
       label: t('sections.attendance'),
+      translationKey: 'attendance',
       icon: HiOutlineCalendarDays,
       gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
     },
     {
       key: 'grades',
       label: t('sections.progress'),
+      translationKey: 'progress',
       icon: HiOutlineChartBarSquare,
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
     },
     {
       key: 'homework',
       label: t('sections.assignments'),
+      translationKey: 'assignments',
       icon: HiOutlineAcademicCap,
       gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
     },
     {
       key: 'mockreports',
       label: t('sections.mockTests'),
+      translationKey: 'mockTests',
       icon: HiOutlineClipboardDocumentList,
       gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
     },
     {
       key: 'studyplanner',
       label: t('sections.studyPlan'),
+      translationKey: 'studyPlan',
       icon: HiOutlineLightBulb,
       gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
     },
     {
       key: 'faq',
       label: t('sections.contact'),
+      translationKey: 'contact',
       icon: FaPhoneAlt,
       gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
     }
@@ -2395,6 +2436,24 @@ const ParentDashboard = () => {
     setSelectedSection(sectionKey);
     setMobileMenuOpen(false);
   };
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showNotifications && !event.target.closest('.notification-container')) {
+        setShowNotifications(false);
+      }
+      if (showSettings && !event.target.closest('.settings-container')) {
+        setShowSettings(false);
+      }
+      if (showLanguageDropdown && !event.target.closest('.language-container')) {
+        setShowLanguageDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showNotifications, showSettings, showLanguageDropdown]);
 
   const renderSection = () => {
     switch (selectedSection) {
@@ -2488,27 +2547,26 @@ const ParentDashboard = () => {
               </div>
             </div>
 
-  <div className="features-section">
-  <h2>{t('parentdashboard.features')}</h2>
-  <div className="features-grid">
-    <div className="feature-card">
-      <div className="feature-icon">🧠</div>
-      <h3>{t('parentdashboard.featuresList.aiLearning.title')}</h3>
-      <p>{t('parentdashboard.featuresList.aiLearning.description')}</p>
-    </div>
-    <div className="feature-card">
-      <div className="feature-icon">📊</div>
-      <h3>{t('parentdashboard.featuresList.analytics.title')}</h3>
-      <p>{t('parentdashboard.featuresList.analytics.description')}</p>
-    </div>
-    <div className="feature-card">
-      <div className="feature-icon">🎯</div>
-      <h3>{t('parentdashboard.featuresList.goalLearning.title')}</h3>
-      <p>{t('parentdashboard.featuresList.goalLearning.description')}</p>
-    </div>
-  </div>
-</div>
- 
+            <div className="features-section">
+              <h2>{t('parentdashboard.features')}</h2>
+              <div className="features-grid">
+                <div className="feature-card">
+                  <div className="feature-icon">🧠</div>
+                  <h3>{t('parentdashboard.featuresList.aiLearning.title')}</h3>
+                  <p>{t('parentdashboard.featuresList.aiLearning.description')}</p>
+                </div>
+                <div className="feature-card">
+                  <div className="feature-icon">📊</div>
+                  <h3>{t('parentdashboard.featuresList.analytics.title')}</h3>
+                  <p>{t('parentdashboard.featuresList.analytics.description')}</p>
+                </div>
+                <div className="feature-card">
+                  <div className="feature-icon">🎯</div>
+                  <h3>{t('parentdashboard.featuresList.goalLearning.title')}</h3>
+                  <p>{t('parentdashboard.featuresList.goalLearning.description')}</p>
+                </div>
+              </div>
+            </div>
           </div>
         );
     }
@@ -2517,7 +2575,12 @@ const ParentDashboard = () => {
   return (
     <div className={`parent-dashboard ${darkMode ? 'dark-mode' : ''}`}>
       {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && <div className="mobile-overlay" onClick={() => setMobileMenuOpen(false)}></div>}
+      {mobileMenuOpen && (
+        <div
+          className="mobile-overlay"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
      
       {/* Sidebar */}
       <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
@@ -2578,16 +2641,23 @@ const ParentDashboard = () => {
               <FiMenu />
             </button>
             <div className="header-title">
-              <h1>{selectedSection ? sections.find(s => s.key === selectedSection)?.label || t('sections.home') : t('sections.home')}</h1>
+              <h1>
+                {selectedSection
+                  ? sections.find(s => s.key === selectedSection)?.label || t('sections.home')
+                  : t('sections.home')
+                }
+              </h1>
               <p>{getGreeting()}! {t('parentdashboard.subtitle')}</p>
             </div>
           </div>
          
           <div className="header-right">
-            <div className="time-display">
-              <div className="current-time">{formatTime(currentTime)}</div>
-              <div className="current-date">{currentTime.toLocaleDateString(i18n.language, { weekday: 'long', month: 'short', day: 'numeric' })}</div>
-            </div>
+            {!isMobile && (
+              <div className="time-display">
+                <div className="current-time">{formatTime(currentTime)}</div>
+                <div className="current-date">{currentTime.toLocaleDateString(i18n.language, { weekday: 'long', month: 'short', day: 'numeric' })}</div>
+              </div>
+            )}
 
             <div className="header-actions">
               {/* Language Selector */}
@@ -2648,9 +2718,9 @@ const ParentDashboard = () => {
 
                 {showNotifications && (
                   <div className="notification-dropdown">
-                    <div className="dropdown-header" style={{ alignItems: "center" }}>
-                      <h3 style={{ margin: 0, flex: 1 }}>{t('common.notifications')}</h3>
-                      <div className="header-actions-right" style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                    <div className="dropdown-header">
+                      <h3>{t('common.notifications')}</h3>
+                      <div className="header-actions-right">
                         <button
                           className="clear-all-btn"
                           onClick={() => setNotifications([])}
@@ -2660,7 +2730,6 @@ const ParentDashboard = () => {
                         <button
                           className="close-dropdown-btn"
                           onClick={() => setShowNotifications(false)}
-                          style={{ fontSize: "1.2rem" }}
                         >
                           <FiX />
                         </button>
@@ -2717,10 +2786,9 @@ const ParentDashboard = () => {
                    
                     <div className="settings-option">
                       <div className="settings-label">
-                        <span>{t('common.language')}</span>
+                        <span>{t('common.darkMode')}</span>
                       </div>
                       <div className="theme-toggle">
-                        <span>{darkMode ? t('common.darkMode') : t('common.lightMode')}</span>
                         <label className="switch">
                           <input
                             type="checkbox"
@@ -2731,6 +2799,15 @@ const ParentDashboard = () => {
                         </label>
                       </div>
                     </div>
+
+                    <div className="settings-option">
+                      <div className="settings-label">
+                        <span>{t('common.language')}</span>
+                      </div>
+                      <div className="language-preview">
+                        <span>{languages.find(lang => lang.code === i18n.language)?.nativeName}</span>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -2738,7 +2815,6 @@ const ParentDashboard = () => {
               {/* User Profile */}
               <div
                 className="user-profile"
-                style={{ cursor: "pointer" }}
                 onClick={() => setShowProfile(true)}
               >
                 <img
@@ -2746,55 +2822,28 @@ const ParentDashboard = () => {
                   alt="Parent"
                   className="profile-avatar"
                 />
-                <div className="profile-info">
-                  <span className="profile-name">{parentName}</span>
-                  <span className="profile-role">{t('common.role')}: {t('common.parent')}</span>
-                </div>
+                {!isMobile && (
+                  <div className="profile-info">
+                    <span className="profile-name">{parentName}</span>
+                    <span className="profile-role">{t('common.role')}: {t('common.parent')}</span>
+                  </div>
+                )}
               </div>
 
               {showProfile && (
                 <div
-                  style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100vw",
-                    height: "100vh",
-                    background: "rgba(0,0,0,0.3)",
-                    zIndex: 2000,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
+                  className="profile-modal-overlay"
                   onClick={() => {
                     setShowProfile(false);
                     setIsEditingProfile(false);
                   }}
                 >
                   <div
-                    style={{
-                      background: "#fff",
-                      borderRadius: "16px",
-                      boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-                      padding: "2rem",
-                      minWidth: "320px",
-                      maxWidth: "90vw",
-                      position: "relative",
-                      maxHeight: "90vh",
-                      overflowY: "auto"
-                    }}
+                    className="profile-modal-content"
                     onClick={e => e.stopPropagation()}
                   >
                     <button
-                      style={{
-                        position: "absolute",
-                        top: 12,
-                        right: 12,
-                        background: "transparent",
-                        border: "none",
-                        fontSize: "1.5rem",
-                        cursor: "pointer"
-                      }}
+                      className="profile-close-btn"
                       onClick={() => {
                         setShowProfile(false);
                         setIsEditingProfile(false);
@@ -2804,128 +2853,79 @@ const ParentDashboard = () => {
                       ×
                     </button>
 
-                    <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+                    <div className="profile-modal-header">
                       <img
                         src="https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/d92aaad8-daf4-48e8-9313-bc4d45f82b91.png"
                         alt="Parent"
-                        style={{
-                          width: 80,
-                          height: 80,
-                          borderRadius: "50%",
-                          marginBottom: "0.5rem",
-                          objectFit: "cover"
-                        }}
+                        className="profile-modal-avatar"
                       />
                       {isEditingProfile ? (
-                        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1rem" }}>
+                        <div className="profile-edit-inputs">
                           <input
                             type="text"
                             value={editedParentData.firstName}
                             onChange={(e) => handleInputChange("firstName", e.target.value)}
                             placeholder={t('profile.firstName')}
-                            style={{
-                              padding: "0.5rem",
-                              border: "1px solid #ddd",
-                              borderRadius: "4px",
-                              fontSize: "1rem"
-                            }}
+                            className="profile-input"
                           />
                           <input
                             type="text"
                             value={editedParentData.lastName}
                             onChange={(e) => handleInputChange("lastName", e.target.value)}
                             placeholder={t('profile.lastName')}
-                            style={{
-                              padding: "0.5rem",
-                              border: "1px solid #ddd",
-                              borderRadius: "4px",
-                              fontSize: "1rem"
-                            }}
+                            className="profile-input"
                           />
                         </div>
                       ) : (
-                        <div>
-                          <h3 style={{ margin: "0.5rem 0" }}>
+                        <div className="profile-modal-info">
+                          <h3>
                             {editedParentData.firstName || t('common.parent')} {editedParentData.lastName || ""}
                           </h3>
-                          <p style={{ margin: 0, color: "#666" }}>{t('common.role')}: {t('common.parent')}</p>
+                          <p>{t('common.role')}: {t('common.parent')}</p>
                         </div>
                       )}
                     </div>
 
-                    <div style={{ marginTop: "1rem", lineHeight: "1.6" }}>
+                    <div className="profile-modal-details">
                       {isEditingProfile ? (
                         <>
-                          <div style={{ marginBottom: "1rem" }}>
-                            <label style={{ display: "block", fontWeight: "bold", marginBottom: "0.25rem" }}>
-                              {t('profile.email')}:
-                            </label>
+                          <div className="profile-input-group">
+                            <label>{t('profile.email')}:</label>
                             <input
                               type="email"
                               value={editedParentData.email}
                               onChange={(e) => handleInputChange("email", e.target.value)}
-                              style={{
-                                width: "100%",
-                                padding: "0.5rem",
-                                border: "1px solid #ddd",
-                                borderRadius: "4px",
-                                fontSize: "1rem"
-                              }}
+                              className="profile-input"
                             />
                           </div>
                          
-                          <div style={{ marginBottom: "1rem" }}>
-                            <label style={{ display: "block", fontWeight: "bold", marginBottom: "0.25rem" }}>
-                              {t('profile.contact')}:
-                            </label>
+                          <div className="profile-input-group">
+                            <label>{t('profile.contact')}:</label>
                             <input
                               type="tel"
                               value={editedParentData.phone}
                               onChange={(e) => handleInputChange("phone", e.target.value)}
-                              style={{
-                                width: "100%",
-                                padding: "0.5rem",
-                                border: "1px solid #ddd",
-                                borderRadius: "4px",
-                                fontSize: "1rem"
-                              }}
+                              className="profile-input"
                             />
                           </div>
                          
-                          <div style={{ marginBottom: "1rem" }}>
-                            <label style={{ display: "block", fontWeight: "bold", marginBottom: "0.25rem" }}>
-                              {t('profile.username')}:
-                            </label>
+                          <div className="profile-input-group">
+                            <label>{t('profile.username')}:</label>
                             <input
                               type="text"
                               value={editedParentData.userName}
                               onChange={(e) => handleInputChange("userName", e.target.value)}
-                              style={{
-                                width: "100%",
-                                padding: "0.5rem",
-                                border: "1px solid #ddd",
-                                borderRadius: "4px",
-                                fontSize: "1rem"
-                              }}
+                              className="profile-input"
                             />
                           </div>
                          
-                          <div style={{ marginBottom: "1.5rem" }}>
-                            <label style={{ display: "block", fontWeight: "bold", marginBottom: "0.25rem" }}>
-                              {t('profile.address')}:
-                            </label>
+                          <div className="profile-input-group">
+                            <label>{t('profile.address')}:</label>
                             <textarea
                               value={editedParentData.address}
                               onChange={(e) => handleInputChange("address", e.target.value)}
                               rows="3"
-                              style={{
-                                width: "100%",
-                                padding: "0.5rem",
-                                border: "1px solid #ddd",
-                                borderRadius: "4px",
-                                fontSize: "1rem",
-                                resize: "vertical"
-                              }}
+                              className="profile-textarea"
                             />
                           </div>
                         </>
@@ -2947,31 +2947,18 @@ const ParentDashboard = () => {
                       )}
                     </div>
 
-                    <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", marginTop: "1.5rem" }}>
+                    <div className="profile-modal-actions">
                       {isEditingProfile ? (
                         <>
                           <button
                             onClick={handleCancelEdit}
-                            style={{
-                              padding: "0.5rem 1rem",
-                              background: "#f1f5f9",
-                              border: "1px solid #ddd",
-                              borderRadius: "4px",
-                              cursor: "pointer"
-                            }}
+                            className="profile-btn profile-btn-cancel"
                           >
                             {t('common.cancel')}
                           </button>
                           <button
                             onClick={handleSaveProfile}
-                            style={{
-                              padding: "0.5rem 1rem",
-                              background: "#6366f1",
-                              color: "white",
-                              border: "none",
-                              borderRadius: "4px",
-                              cursor: "pointer"
-                            }}
+                            className="profile-btn profile-btn-save"
                           >
                             {t('common.saveChanges')}
                           </button>
@@ -2979,14 +2966,7 @@ const ParentDashboard = () => {
                       ) : (
                         <button
                           onClick={handleEditProfile}
-                          style={{
-                            padding: "0.5rem 1rem",
-                            background: "#6366f1",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "4px",
-                            cursor: "pointer"
-                          }}
+                          className="profile-btn profile-btn-edit"
                         >
                           {t('common.editProfile')}
                         </button>
@@ -3038,105 +3018,6 @@ const ParentDashboard = () => {
           }
         }
 
-        /* Language Dropdown Styles */
-        .language-container {
-          position: relative;
-        }
-
-        .language-dropdown {
-          position: absolute;
-          top: 100%;
-          right: 0;
-          width: 200px;
-          background: #ffffff;
-          border: 1px solid #e2e8f0;
-          border-radius: 12px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-          z-index: 1000;
-          margin-top: 10px;
-          padding: 1rem;
-        }
-
-        .dark-mode .language-dropdown {
-          background: #1e293b;
-          border: 1px solid #334155;
-        }
-
-        .language-options {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .language-option {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0.75rem;
-          border: none;
-          background: transparent;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          text-align: left;
-          width: 100%;
-        }
-
-        .language-option:hover {
-          background: #f1f5f9;
-        }
-
-        .dark-mode .language-option:hover {
-          background: #334155;
-        }
-
-        .language-option.active {
-          background: #667eea;
-          color: white;
-        }
-
-        .language-native {
-          font-weight: 600;
-          font-size: 0.9rem;
-        }
-
-        .language-name {
-          font-size: 0.8rem;
-          opacity: 0.8;
-        }
-
-        /* Custom scrollbar styles */
-        .sidebar-nav::-webkit-scrollbar,
-        .notification-list::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        .sidebar-nav::-webkit-scrollbar-track,
-        .notification-list::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        .sidebar-nav::-webkit-scrollbar-thumb,
-        .notification-list::-webkit-scrollbar-thumb {
-          background: rgba(0, 0, 0, 0.2);
-          border-radius: 3px;
-        }
-
-        .dark-mode .sidebar-nav::-webkit-scrollbar-thumb,
-        .dark-mode .notification-list::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.2);
-        }
-
-        .sidebar-nav::-webkit-scrollbar-thumb:hover,
-        .notification-list::-webkit-scrollbar-thumb:hover {
-          background: rgba(0, 0, 0, 0.3);
-        }
-
-        .dark-mode .sidebar-nav::-webkit-scrollbar-thumb:hover,
-        .dark-mode .notification-list::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.3);
-        }
-
         /* Sidebar Styles */
         .sidebar {
           width: 280px;
@@ -3158,6 +3039,27 @@ const ParentDashboard = () => {
         .dark-mode .sidebar {
           background: #1e293b;
           border-right: 1px solid #334155;
+        }
+
+        /* Mobile Sidebar */
+        @media (max-width: 768px) {
+          .sidebar {
+            left: -280px;
+            transition: left 0.3s ease;
+          }
+         
+          .sidebar.mobile-open {
+            left: 0;
+          }
+         
+          .sidebar.collapsed {
+            width: 280px;
+            left: -280px;
+          }
+         
+          .sidebar.collapsed.mobile-open {
+            left: 0;
+          }
         }
 
         .sidebar-header {
@@ -3291,11 +3193,6 @@ const ParentDashboard = () => {
           font-size: 0.9rem;
         }
 
-        .nav-description {
-          font-size: 0.75rem;
-          opacity: 0.7;
-        }
-
         .sidebar-footer {
           padding: 1rem;
           border-top: 1px solid #e2e8f0;
@@ -3338,6 +3235,16 @@ const ParentDashboard = () => {
           margin-left: 70px;
         }
 
+        @media (max-width: 768px) {
+          .main-container {
+            margin-left: 0;
+          }
+         
+          .sidebar.collapsed + .main-container {
+            margin-left: 0;
+          }
+        }
+
         /* Mobile Menu Button */
         .mobile-menu-btn {
           background: #f1f5f9;
@@ -3368,11 +3275,17 @@ const ParentDashboard = () => {
           background: #475569;
         }
 
+        @media (max-width: 768px) {
+          .mobile-menu-btn {
+            display: flex;
+          }
+        }
+
         /* Top Header */
         .top-header {
           background: #ffffff;
           border-bottom: 1px solid #e2e8f0;
-          padding: 1.5rem 2rem;
+          padding: 1rem 1.5rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -3387,6 +3300,12 @@ const ParentDashboard = () => {
           border-bottom: 1px solid #334155;
         }
 
+        @media (max-width: 768px) {
+          .top-header {
+            padding: 0.75rem 1rem;
+          }
+        }
+
         .header-left {
           display: flex;
           align-items: center;
@@ -3394,12 +3313,24 @@ const ParentDashboard = () => {
         }
 
         .header-title h1 {
-          font-size: 1.75rem;
+          font-size: 1.5rem;
           font-weight: 800;
           margin: 0;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+          .header-title h1 {
+            font-size: 1.25rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .header-title h1 {
+            font-size: 1.1rem;
+          }
         }
 
         .header-title p {
@@ -3412,10 +3343,22 @@ const ParentDashboard = () => {
           color: #94a3b8;
         }
 
+        @media (max-width: 768px) {
+          .header-title p {
+            font-size: 0.8rem;
+          }
+        }
+
         .header-right {
           display: flex;
           align-items: center;
-          gap: 1.5rem;
+          gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+          .header-right {
+            gap: 0.5rem;
+          }
         }
 
         .time-display {
@@ -3429,6 +3372,12 @@ const ParentDashboard = () => {
         .dark-mode .time-display {
           background: #334155;
           border: 1px solid #475569;
+        }
+
+        @media (max-width: 768px) {
+          .time-display {
+            display: none;
+          }
         }
 
         .current-time {
@@ -3454,8 +3403,14 @@ const ParentDashboard = () => {
         .header-actions {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 0.75rem;
           position: relative;
+        }
+
+        @media (max-width: 768px) {
+          .header-actions {
+            gap: 0.5rem;
+          }
         }
 
         .action-btn {
@@ -3488,6 +3443,13 @@ const ParentDashboard = () => {
           background: #475569;
         }
 
+        @media (max-width: 480px) {
+          .action-btn {
+            width: 38px;
+            height: 38px;
+          }
+        }
+
         .notification-badge {
           position: absolute;
           top: -6px;
@@ -3508,6 +3470,8 @@ const ParentDashboard = () => {
           background: #f8fafc;
           border-radius: 12px;
           border: 1px solid #e2e8f0;
+          cursor: pointer;
+          transition: all 0.3s ease;
         }
 
         .dark-mode .user-profile {
@@ -3515,11 +3479,43 @@ const ParentDashboard = () => {
           border: 1px solid #475569;
         }
 
+        .user-profile:hover {
+          background: #e2e8f0;
+        }
+
+        .dark-mode .user-profile:hover {
+          background: #475569;
+        }
+
+        @media (max-width: 768px) {
+          .user-profile {
+            padding: 0.5rem;
+          }
+        }
+
         .profile-avatar {
           width: 36px;
           height: 36px;
           border-radius: 50%;
           object-fit: cover;
+        }
+
+        @media (max-width: 480px) {
+          .profile-avatar {
+            width: 32px;
+            height: 32px;
+          }
+        }
+
+        .profile-info {
+          display: flex;
+          flex-direction: column;
+        }
+
+        @media (max-width: 768px) {
+          .profile-info {
+            display: none;
+          }
         }
 
         .profile-name {
@@ -3569,11 +3565,50 @@ const ParentDashboard = () => {
           padding: 1rem;
         }
 
+        .language-dropdown {
+          width: 200px;
+          padding: 1rem;
+        }
+
         .dark-mode .notification-dropdown,
         .dark-mode .settings-dropdown,
         .dark-mode .language-dropdown {
           background: #1e293b;
           border: 1px solid #334155;
+        }
+
+        /* Mobile Dropdown Positioning */
+        @media (max-width: 768px) {
+          .notification-dropdown, .settings-dropdown, .language-dropdown {
+            position: fixed;
+            top: 70px !important;
+            left: 1rem !important;
+            right: 1rem !important;
+            width: auto !important;
+            max-width: none !important;
+            margin-top: 0 !important;
+            z-index: 1100 !important;
+            transform: translateY(-10px);
+            animation: slideDown 0.3s ease forwards;
+          }
+         
+          @keyframes slideDown {
+            to {
+              transform: translateY(0);
+            }
+          }
+        }
+
+        @media (max-width: 480px) {
+          .notification-dropdown, .settings-dropdown, .language-dropdown {
+            left: 0.5rem !important;
+            right: 0.5rem !important;
+            top: 65px !important;
+          }
+         
+          .notification-dropdown {
+            width: calc(100vw - 1rem) !important;
+          }
         }
 
         .dropdown-header {
@@ -3587,6 +3622,11 @@ const ParentDashboard = () => {
 
         .dark-mode .dropdown-header {
           border-bottom: 1px solid #334155;
+        }
+
+        .dropdown-header h3 {
+          margin: 0;
+          font-size: 1.1rem;
         }
 
         .header-actions-right {
@@ -3642,7 +3682,7 @@ const ParentDashboard = () => {
         .notification-item {
           display: flex;
           justify-content: space-between;
-          padding: 0.5rem 0;
+          padding: 0.75rem 0;
           border-bottom: 1px solid #e2e8f0;
           cursor: pointer;
           transition: background 0.2s ease;
@@ -3662,6 +3702,10 @@ const ParentDashboard = () => {
 
         .notification-item.unread {
           font-weight: 600;
+        }
+
+        .notification-content {
+          flex: 1;
         }
 
         .notification-content h4 {
@@ -3708,6 +3752,49 @@ const ParentDashboard = () => {
           color: #94a3b8;
         }
 
+        .language-options {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .language-option {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem;
+          border: none;
+          background: transparent;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-align: left;
+          width: 100%;
+        }
+
+        .language-option:hover {
+          background: #f1f5f9;
+        }
+
+        .dark-mode .language-option:hover {
+          background: #334155;
+        }
+
+        .language-option.active {
+          background: #667eea;
+          color: white;
+        }
+
+        .language-native {
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+
+        .language-name {
+          font-size: 0.8rem;
+          opacity: 0.8;
+        }
+
         .settings-option {
           display: flex;
           align-items: center;
@@ -3731,11 +3818,15 @@ const ParentDashboard = () => {
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          font-size: 0.85rem;
-          color: #64748b;
         }
 
-        .dark-mode .theme-toggle {
+        .language-preview {
+          font-size: 0.9rem;
+          color: #64748b;
+          font-weight: 500;
+        }
+
+        .dark-mode .language-preview {
           color: #94a3b8;
         }
 
@@ -3784,38 +3875,278 @@ const ParentDashboard = () => {
           transform: translateX(18px);
         }
 
+        /* Profile Modal Styles */
+        .profile-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0,0,0,0.3);
+          z-index: 2000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+        }
+
+        .profile-modal-content {
+          background: #fff;
+          border-radius: 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+          padding: 1.5rem;
+          min-width: 320px;
+          max-width: 90vw;
+          position: relative;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+
+        .dark-mode .profile-modal-content {
+          background: #1e293b;
+          color: #e2e8f0;
+        }
+
+        @media (max-width: 480px) {
+          .profile-modal-content {
+            padding: 1rem;
+            min-width: 280px;
+          }
+        }
+
+        .profile-close-btn {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: transparent;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #64748b;
+        }
+
+        .profile-close-btn:hover {
+          color: #1e293b;
+        }
+
+        .dark-mode .profile-close-btn:hover {
+          color: #e2e8f0;
+        }
+
+        .profile-modal-header {
+          text-align: center;
+          margin-bottom: 1.5rem;
+        }
+
+        .profile-modal-avatar {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          margin-bottom: 0.5rem;
+          object-fit: cover;
+        }
+
+        @media (max-width: 480px) {
+          .profile-modal-avatar {
+            width: 60px;
+            height: 60px;
+          }
+        }
+
+        .profile-edit-inputs {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .profile-modal-info h3 {
+          margin: 0.5rem 0;
+          font-size: 1.3rem;
+        }
+
+        .profile-modal-info p {
+          margin: 0;
+          color: #666;
+        }
+
+        .dark-mode .profile-modal-info p {
+          color: #94a3b8;
+        }
+
+        .profile-modal-details {
+          margin-top: 1rem;
+          line-height: 1.6;
+        }
+
+        .profile-input-group {
+          margin-bottom: 1rem;
+        }
+
+        .profile-input-group label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 0.25rem;
+          color: #1e293b;
+        }
+
+        .dark-mode .profile-input-group label {
+          color: #e2e8f0;
+        }
+
+        .profile-input, .profile-textarea {
+          width: 100%;
+          padding: 0.5rem;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 1rem;
+          background: white;
+          color: #1e293b;
+        }
+
+        .dark-mode .profile-input, .dark-mode .profile-textarea {
+          background: #334155;
+          border: 1px solid #475569;
+          color: #e2e8f0;
+        }
+
+        .profile-textarea {
+          resize: vertical;
+        }
+
+        .profile-modal-actions {
+          display: flex;
+          gap: 0.5rem;
+          justify-content: flex-end;
+          margin-top: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+          .profile-modal-actions {
+            flex-direction: column;
+          }
+        }
+
+        .profile-btn {
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.9rem;
+          transition: all 0.3s ease;
+        }
+
+        .profile-btn-cancel {
+          background: #f1f5f9;
+          border: 1px solid #ddd;
+          color: #64748b;
+        }
+
+        .dark-mode .profile-btn-cancel {
+          background: #334155;
+          border: 1px solid #475569;
+          color: #94a3b8;
+        }
+
+        .profile-btn-save, .profile-btn-edit {
+          background: #6366f1;
+          color: white;
+        }
+
+        .profile-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Content Area */
+        .content-area {
+          flex: 1;
+          overflow-y: auto;
+        }
+
         /* Dashboard Home Styles */
         .dashboard-home {
-          padding: 2rem;
+          padding: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+          .dashboard-home {
+            padding: 1rem;
+          }
         }
 
         .welcome-section {
-          margin-bottom: 3rem;
+          margin-bottom: 2rem;
         }
 
         .welcome-content {
           display: flex;
           align-items: center;
-          gap: 3rem;
+          gap: 2rem;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           border-radius: 20px;
-          padding: 2.5rem;
+          padding: 2rem;
           color: white;
           position: relative;
           overflow: hidden;
         }
 
+        @media (max-width: 1024px) {
+          .welcome-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 1.5rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .welcome-content {
+            padding: 1.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .welcome-content {
+            padding: 1rem;
+            border-radius: 16px;
+          }
+        }
+
         .welcome-text h1 {
-          font-size: 2.5rem;
+          font-size: 2rem;
           font-weight: 800;
           margin-bottom: 1rem;
           color: white;
         }
 
+        @media (max-width: 768px) {
+          .welcome-text h1 {
+            font-size: 1.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .welcome-text h1 {
+            font-size: 1.25rem;
+          }
+        }
+
         .typewriter-container {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           opacity: 0.9;
           min-height: 2rem;
+        }
+
+        @media (max-width: 768px) {
+          .typewriter-container {
+            font-size: 1rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .typewriter-container {
+            font-size: 0.9rem;
+          }
         }
 
         .welcome-image {
@@ -3824,18 +4155,18 @@ const ParentDashboard = () => {
         }
 
         .parent-child-image {
-          width: 400px;
-          height: 300px;
+          width: 100%;
+          max-width: 400px;
+          height: auto;
           object-fit: cover;
           border-radius: 15px;
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-          transition: all 0.5s ease;
-          transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
         }
 
-        .welcome-image:hover .parent-child-image {
-          transform: perspective(1000px) rotateY(0) rotateX(0) scale(1.05);
-          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        @media (max-width: 480px) {
+          .parent-child-image {
+            border-radius: 12px;
+          }
         }
 
         .image-overlay {
@@ -3859,11 +4190,11 @@ const ParentDashboard = () => {
         }
 
         .stats-section {
-          margin-bottom: 3rem;
+          margin-bottom: 2rem;
         }
 
         .stats-section h2 {
-          font-size: 1.8rem;
+          font-size: 1.5rem;
           margin-bottom: 1.5rem;
           color: #1e293b;
         }
@@ -3872,10 +4203,23 @@ const ParentDashboard = () => {
           color: #e2e8f0;
         }
 
+        @media (max-width: 768px) {
+          .stats-section h2 {
+            font-size: 1.3rem;
+          }
+        }
+
         .stats-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           gap: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+          .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
         }
 
         .stat-card {
@@ -3903,6 +4247,12 @@ const ParentDashboard = () => {
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
+        @media (max-width: 480px) {
+          .stat-card {
+            padding: 1rem;
+          }
+        }
+
         .stat-icon {
           width: 60px;
           height: 60px;
@@ -3914,12 +4264,20 @@ const ParentDashboard = () => {
           font-size: 1.5rem;
         }
 
+        @media (max-width: 480px) {
+          .stat-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.25rem;
+          }
+        }
+
         .stat-content {
           flex: 1;
         }
 
         .stat-value {
-          font-size: 1.8rem;
+          font-size: 1.5rem;
           font-weight: 800;
           color: #1e293b;
           margin-bottom: 0.25rem;
@@ -3927,6 +4285,12 @@ const ParentDashboard = () => {
 
         .dark-mode .stat-value {
           color: #e2e8f0;
+        }
+
+        @media (max-width: 480px) {
+          .stat-value {
+            font-size: 1.3rem;
+          }
         }
 
         .stat-label {
@@ -3953,7 +4317,7 @@ const ParentDashboard = () => {
         }
 
         .features-section h2 {
-          font-size: 1.8rem;
+          font-size: 1.5rem;
           margin-bottom: 1.5rem;
           color: #1e293b;
         }
@@ -3962,16 +4326,29 @@ const ParentDashboard = () => {
           color: #e2e8f0;
         }
 
+        @media (max-width: 768px) {
+          .features-section h2 {
+            font-size: 1.3rem;
+          }
+        }
+
         .features-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 2rem;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+          .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
         }
 
         .feature-card {
           background: #ffffff;
           border-radius: 16px;
-          padding: 2rem;
+          padding: 1.5rem;
           text-align: center;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           transition: all 0.3s ease;
@@ -3991,13 +4368,25 @@ const ParentDashboard = () => {
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
+        @media (max-width: 480px) {
+          .feature-card {
+            padding: 1rem;
+          }
+        }
+
         .feature-icon {
-          font-size: 3rem;
+          font-size: 2.5rem;
           margin-bottom: 1rem;
         }
 
+        @media (max-width: 480px) {
+          .feature-icon {
+            font-size: 2rem;
+          }
+        }
+
         .feature-card h3 {
-          font-size: 1.3rem;
+          font-size: 1.2rem;
           margin-bottom: 1rem;
           color: #1e293b;
         }
@@ -4006,217 +4395,81 @@ const ParentDashboard = () => {
           color: #e2e8f0;
         }
 
+        @media (max-width: 480px) {
+          .feature-card h3 {
+            font-size: 1.1rem;
+          }
+        }
+
         .feature-card p {
           color: #64748b;
           line-height: 1.6;
+          font-size: 0.9rem;
         }
 
         .dark-mode .feature-card p {
           color: #94a3b8;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 1200px) {
-          .welcome-content {
-            flex-direction: column;
-            text-align: center;
-          }
-         
-          .parent-child-image {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-          }
+        /* Custom scrollbar styles */
+        .sidebar-nav::-webkit-scrollbar,
+        .notification-list::-webkit-scrollbar {
+          width: 6px;
         }
 
-        @media (max-width: 768px) {
-          /* Mobile Sidebar Styles */
-          .sidebar {
-            left: -280px;
-            transition: left 0.3s ease;
-          }
-         
-          .sidebar.mobile-open {
-            left: 0;
-          }
-         
-          .sidebar.collapsed {
-            width: 280px;
-            left: -280px;
-          }
-         
-          .sidebar.collapsed.mobile-open {
-            left: 0;
-          }
-         
-          /* Mobile Main Container */
-          .main-container {
-            margin-left: 0;
-          }
-         
-          .sidebar.collapsed + .main-container {
-            margin-left: 0;
-          }
-         
-          /* Show Mobile Menu Button */
-          .mobile-menu-btn {
-            display: flex;
-          }
-         
-          /* Mobile Header Adjustments */
-          .top-header {
-            padding: 1rem;
-          }
-         
-          .header-right {
-            gap: 0.75rem;
-          }
-         
-          .time-display {
-            display: none;
-          }
-         
-          .user-profile .profile-info {
-            display: none;
-          }
-         
-          .notification-dropdown, .settings-dropdown, .language-dropdown {
-            width: 280px;
-            right: -1rem;
-          }
-         
-          /* Mobile Dashboard Content */
-          .dashboard-home {
-            padding: 1rem;
-          }
-         
-          .welcome-text h1 {
-            font-size: 2rem;
-          }
-         
-          .typewriter-container {
-            font-size: 1rem;
-          }
-         
-          .welcome-content {
-            padding: 1.5rem;
-            gap: 1.5rem;
-          }
-         
-          .stats-grid {
-            grid-template-columns: 1fr;
-          }
-         
-          .features-grid {
-            grid-template-columns: 1fr;
-          }
-         
-          .header-title h1 {
-            font-size: 1.5rem;
-          }
-         
-          .header-title p {
-            font-size: 0.8rem;
-          }
+        .sidebar-nav::-webkit-scrollbar-track,
+        .notification-list::-webkit-scrollbar-track {
+          background: transparent;
         }
 
-        @media (max-width: 480px) {
-          .top-header {
-            padding: 0.75rem;
-          }
-         
-          .welcome-text h1 {
-            font-size: 1.75rem;
-          }
-         
-          .welcome-content {
-            padding: 1rem;
-          }
-         
-          .stat-card {
-            padding: 1rem;
-          }
-         
-          .feature-card {
-            padding: 1.5rem;
-          }
-         
-          .notification-dropdown, .settings-dropdown, .language-dropdown {
-            width: calc(100vw - 2rem);
-            left: 1rem;
-            right: 1rem;
-          }
+        .sidebar-nav::-webkit-scrollbar-thumb,
+        .notification-list::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 3px;
         }
 
-        /* Mobile Dropdown Fixes */
-        @media (max-width: 768px) {
-          .notification-dropdown, .settings-dropdown, .language-dropdown {
-            position: fixed !important;
-            top: 70px !important;
-            left: 1rem !important;
-            right: 1rem !important;
-            width: auto !important;
-            max-width: none !important;
-            margin-top: 0 !important;
-            z-index: 1100 !important;
-            transform: translateY(-10px) !important;
-            animation: slideDown 0.3s ease forwards !important;
-          }
-         
-          @keyframes slideDown {
-            to {
-              transform: translateY(0) !important;
-            }
-          }
+        .dark-mode .sidebar-nav::-webkit-scrollbar-thumb,
+        .dark-mode .notification-list::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
         }
 
-        @media (max-width: 480px) {
-          .notification-dropdown, .settings-dropdown, .language-dropdown {
-            left: 0.5rem !important;
-            right: 0.5rem !important;
-            top: 65px !important;
-            font-size: 0.9rem !important;
-          }
-         
-          .dropdown-header h3 {
-            font-size: 1.1rem !important;
-          }
-         
-          .notification-item {
-            padding: 0.75rem 0 !important;
-          }
-         
-          .settings-option {
-            margin-bottom: 1.5rem !important;
-          }
+        .sidebar-nav::-webkit-scrollbar-thumb:hover,
+        .notification-list::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 0, 0, 0.3);
         }
 
+        .dark-mode .sidebar-nav::-webkit-scrollbar-thumb:hover,
+        .dark-mode .notification-list::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Dark mode text color fixes */
         .dark-mode .sidebar {
-          color: white !important;
+          color: white;
         }
 
         .dark-mode .nav-item {
-          color: white !important;
+          color: white;
         }
 
         .dark-mode .nav-icon {
-          color: white !important;
+          color: white;
         }
 
         .dark-mode .sidebar-logo {
-          color: white !important;
+          color: white;
         }
 
         .dark-mode .sidebar-footer {
-          color: white !important;
+          color: white;
         }
 
         .dark-mode .logout-btn {
-          color: white !important;
+          color: white;
         }
 
         .dark-mode .stats-section > h2 {
-          color: #e2e8f0 !important;
+          color: #e2e8f0;
         }
       `}</style>
     </div>
