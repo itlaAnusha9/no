@@ -1,35 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
- 
-
-
- 
 // import React from 'react';
 // import {
 //   FaChartLine, FaMedal, FaExclamationTriangle, FaArrowUp

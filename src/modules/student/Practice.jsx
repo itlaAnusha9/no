@@ -1,4 +1,17 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import React, { useState, useRef, useEffect } from 'react';
 // import { useTranslation } from 'react-i18next';
 // import { Users, FileText } from 'lucide-react';
@@ -112,11 +125,11 @@
 //       let newRadius;
       
 //       if (screenWidth < 480) {
-//         newRadius = Math.min(80, screenWidth * 0.25);
+//         newRadius = Math.min(70, screenWidth * 0.25);
 //       } else if (screenWidth < 768) {
-//         newRadius = Math.min(90, screenWidth * 0.22);
+//         newRadius = Math.min(80, screenWidth * 0.22);
 //       } else if (screenWidth < 1024) {
-//         newRadius = Math.min(110, screenWidth * 0.15);
+//         newRadius = Math.min(100, screenWidth * 0.15);
 //       } else {
 //         newRadius = 100;
 //       }
@@ -266,7 +279,7 @@
 //       }}>
 //         <h3 style={{
 //           margin: 0,
-//           fontSize: 'clamp(1.1rem, 4vw, 1.3rem)',
+//           fontSize: 'clamp(1rem, 4vw, 1.3rem)',
 //           fontWeight: '700',
 //           color: '#1F2937'
 //         }}>
@@ -305,7 +318,7 @@
 //         justifyContent: 'center',
 //         alignItems: 'center',
 //         margin: '20px 0',
-//         padding: '20px'
+//         padding: '15px'
 //       }}>
 //         <Wheel
 //           mustStartSpinning={mustSpin}
@@ -314,7 +327,7 @@
 //           onStopSpinning={handleStopSpinning}
 //           backgroundColors={['#3e3e3e', '#df3428']}
 //           textColors={['#ffffff']}
-//           fontSize={i18n.language === 'hi' ? 10 : 12}
+//           fontSize={i18n.language === 'hi' ? 8 : 10}
 //           outerBorderColor="#333"
 //           outerBorderWidth={3}
 //           innerBorderColor="#333"
@@ -339,8 +352,8 @@
 //           top: '-10px',
 //           left: '50%',
 //           transform: 'translateX(-50%)',
-//           width: '28px',
-//           height: '35px',
+//           width: '24px',
+//           height: '30px',
 //           backgroundColor: '#333',
 //           clipPath: 'polygon(50% 100%, 0 0, 100% 0)',
 //           zIndex: 10,
@@ -353,8 +366,8 @@
 //           top: '50%',
 //           left: '50%',
 //           transform: 'translate(-50%, -50%)',
-//           width: '45px',
-//           height: '45px',
+//           width: '40px',
+//           height: '40px',
 //           backgroundColor: 'white',
 //           border: '3px solid #333',
 //           borderRadius: '50%',
@@ -369,8 +382,8 @@
 //         disabled={mustSpin || spinsLeft <= 0}
 //         style={{
 //           width: '100%',
-//           padding: '16px 24px',
-//           fontSize: 'clamp(1rem, 4vw, 1.1rem)',
+//           padding: '14px 20px',
+//           fontSize: 'clamp(0.9rem, 4vw, 1.1rem)',
 //           fontWeight: '700',
 //           color: 'white',
 //           background: mustSpin
@@ -423,43 +436,43 @@
 //           <div style={{
 //             background: 'white',
 //             borderRadius: '20px',
-//             padding: '30px',
-//             maxWidth: '350px',
+//             padding: '25px',
+//             maxWidth: '320px',
 //             width: '90%',
 //             textAlign: 'center',
 //             boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3)',
 //             animation: 'scaleIn 0.3s ease-out'
 //           }}>
 //             <div style={{
-//               fontSize: '3.5rem',
-//               marginBottom: '20px',
+//               fontSize: '3rem',
+//               marginBottom: '15px',
 //               animation: 'bounce 0.6s ease-in-out'
 //             }}>
 //               🎉
 //             </div>
 //             <h3 style={{
-//               fontSize: 'clamp(1.2rem, 5vw, 1.4rem)',
+//               fontSize: 'clamp(1.1rem, 5vw, 1.3rem)',
 //               fontWeight: '700',
 //               color: '#1F2937',
-//               marginBottom: '15px'
+//               marginBottom: '12px'
 //             }}>
 //               {t('spinWheel.congratulations')}
 //             </h3>
 //             <p style={{
-//               fontSize: 'clamp(1rem, 4vw, 1.1rem)',
+//               fontSize: 'clamp(0.9rem, 4vw, 1rem)',
 //               color: '#6B7280',
-//               marginBottom: '20px',
+//               marginBottom: '15px',
 //               lineHeight: '1.6'
 //             }}>
 //               {t('spinWheel.youWon')} <strong style={{ color: reward.color }}>{reward.name}</strong>
 //             </p>
 //             {reward.value > 0 && (
 //               <p style={{
-//                 fontSize: '0.9rem',
+//                 fontSize: '0.8rem',
 //                 color: '#10B981',
 //                 fontWeight: '600',
-//                 marginBottom: '20px',
-//                 padding: '10px 18px',
+//                 marginBottom: '15px',
+//                 padding: '8px 15px',
 //                 background: '#ECFDF5',
 //                 borderRadius: '10px',
 //                 display: 'inline-block'
@@ -469,11 +482,11 @@
 //             )}
 //             {reward.id === 4 && (
 //               <p style={{
-//                 fontSize: '0.9rem',
+//                 fontSize: '0.8rem',
 //                 color: '#F59E0B',
 //                 fontWeight: '600',
-//                 marginBottom: '20px',
-//                 padding: '10px 18px',
+//                 marginBottom: '15px',
+//                 padding: '8px 15px',
 //                 background: '#FFFBEB',
 //                 borderRadius: '10px',
 //                 display: 'inline-block'
@@ -484,8 +497,8 @@
 //             <button
 //               onClick={() => setReward(null)}
 //               style={{
-//                 padding: '14px 28px',
-//                 fontSize: '1.1rem',
+//                 padding: '12px 24px',
+//                 fontSize: '1rem',
 //                 fontWeight: '600',
 //                 color: 'white',
 //                 background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
@@ -493,7 +506,7 @@
 //                 borderRadius: '10px',
 //                 cursor: 'pointer',
 //                 transition: 'all 0.3s ease',
-//                 marginTop: '15px',
+//                 marginTop: '12px',
 //                 width: '100%'
 //               }}
 //             >
@@ -506,7 +519,7 @@
 //   );
 // };
 
-// // Main Practice Component with Mobile Responsiveness
+// // Main Practice Component with Enhanced Mobile Responsiveness
 // const Practice = () => {
 //   const { t } = useTranslation();
 //   const [animatedStats, setAnimatedStats] = useState({
@@ -514,10 +527,17 @@
 //     studentsEnrolled: 0
 //   });
 //   const [flyingRewards, setFlyingRewards] = useState([]);
+//   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 //   useEffect(() => {
 //     document.title = "Practice | NOVYA - Your Smart Learning Platform";
     
+//     const handleResize = () => {
+//       setWindowWidth(window.innerWidth);
+//     };
+
+//     window.addEventListener('resize', handleResize);
+
 //     const handlePointsUpdate = () => {
 //       // This is handled by navbar component
 //     };
@@ -540,6 +560,7 @@
 //     animateValue(0, 850, 2500, (val) => setAnimatedStats(prev => ({ ...prev, studentsEnrolled: val })));
 
 //     return () => {
+//       window.removeEventListener('resize', handleResize);
 //       window.removeEventListener('rewardPointsUpdated', handlePointsUpdate);
 //     };
 //   }, []);
@@ -557,13 +578,14 @@
 //     setFlyingRewards(prev => prev.filter(r => r.id !== rewardId));
 //   };
 
+//   const isMobile = windowWidth <= 768;
+
 //   return (
 //     <div className="practice-full-container" style={{ 
 //       fontFamily: 'system-ui, -apple-system, sans-serif',
 //       overflowX: 'hidden'
 //     }}>
-//       {/* ... (rest of the Practice component remains exactly the same) */}
-//       {/* All the CSS styles and JSX structure below remains identical to your original code */}
+//       {/* CSS Animations */}
 //       <style>{`
 //         @keyframes float {
 //           0%, 100% { transform: translateY(0px); }
@@ -599,220 +621,126 @@
 //           to { transform: scale(1); opacity: 1; }
 //         }
 
-//         /* iPad Air Specific Styles (768px - 1024px) */
-//         @media (min-width: 768px) and (max-width: 1024px) {
-//           .hero-content-wrapper {
-//             flex-direction: row !important;
-//             text-align: left !important;
-//             gap: 50px !important;
-//             align-items: center !important;
-//             justify-content: space-between !important;
+//         /* Mobile First Responsive Design */
+//         @media (max-width: 768px) {
+//           .mobile-stats-grid {
+//             grid-template-columns: 1fr !important;
+//             gap: 12px !important;
 //           }
           
-//           .hero-text {
-//             order: 1 !important;
-//             flex: 1 !important;
-//             text-align: left !important;
-//             min-width: 400px !important;
-//             padding-right: 30px !important;
+//           .mobile-feature-grid {
+//             grid-template-columns: 1fr !important;
+//             gap: 16px !important;
 //           }
           
-//           .spin-wheel-section {
-//             order: 2 !important;
-//             flex: 0 0 340px !important;
-//             margin: 0 !important;
-//             max-width: 340px !important;
+//           .mobile-subject-grid {
+//             grid-template-columns: 1fr !important;
+//             gap: 12px !important;
 //           }
           
-//           .feature-grid {
-//             grid-template-columns: repeat(2, 1fr) !important;
-//             gap: 25px !important;
-//           }
-          
-//           .subject-grid {
-//             grid-template-columns: repeat(3, 1fr) !important;
+//           .mobile-step-item {
+//             flex-direction: column !important;
+//             text-align: center !important;
 //             gap: 20px !important;
 //           }
           
-//           .step-item {
-//             flex-direction: row !important;
-//             text-align: left !important;
+//           .mobile-hero-content {
+//             flex-direction: column !important;
 //             gap: 30px !important;
+//             text-align: center !important;
 //           }
-
-//           .practice-hero {
-//             padding: 70px 40px !important;
+          
+//           .mobile-hero-text {
+//             order: 2 !important;
+//             padding: 0 !important;
 //           }
-
-//           .stat-card {
-//             padding: 25px !important;
-//           }
-
-//           .hero-text h1 {
-//             font-size: 2.8rem !important;
-//             line-height: 1.1 !important;
-//           }
-
-//           .hero-text p {
-//             font-size: 1.2rem !important;
-//             line-height: 1.7 !important;
+          
+//           .mobile-wheel-section {
+//             order: 1 !important;
+//             margin: 0 auto !important;
+//             max-width: 280px !important;
 //           }
 //         }
 
-//         /* Small Phones (320px - 480px) */
+//         /* Tablet Styles */
+//         @media (min-width: 769px) and (max-width: 1024px) {
+//           .mobile-hero-content {
+//             flex-direction: row !important;
+//             gap: 40px !important;
+//             text-align: left !important;
+//           }
+          
+//           .mobile-hero-text {
+//             order: 1 !important;
+//             flex: 1 !important;
+//           }
+          
+//           .mobile-wheel-section {
+//             order: 2 !important;
+//             flex: 0 0 320px !important;
+//           }
+          
+//           .mobile-feature-grid {
+//             grid-template-columns: repeat(2, 1fr) !important;
+//             gap: 20px !important;
+//           }
+          
+//           .mobile-subject-grid {
+//             grid-template-columns: repeat(2, 1fr) !important;
+//             gap: 18px !important;
+//           }
+//         }
+
+//         /* Desktop Styles */
+//         @media (min-width: 1025px) {
+//           .mobile-hero-content {
+//             flex-direction: row !important;
+//             gap: 60px !important;
+//             text-align: left !important;
+//           }
+          
+//           .mobile-feature-grid {
+//             grid-template-columns: repeat(3, 1fr) !important;
+//             gap: 25px !important;
+//           }
+          
+//           .mobile-subject-grid {
+//             grid-template-columns: repeat(3, 1fr) !important;
+//             gap: 20px !important;
+//           }
+//         }
+
+//         /* Small Phones (below 480px) */
 //         @media (max-width: 480px) {
-//           .hero-content-wrapper {
-//             flex-direction: column;
-//             text-align: center;
-//             gap: 20px;
+//           .mobile-hero {
+//             padding: 40px 15px !important;
 //           }
           
-//           .hero-text {
-//             padding-top: 0;
-//             padding-bottom: 0;
-//             order: 2;
-//             text-align: center;
+//           .mobile-section {
+//             padding: 50px 15px !important;
 //           }
           
-//           .hero-text h1,
-//           .hero-text p {
-//             text-align: center;
+//           .mobile-stat-card {
+//             padding: 15px !important;
+//             flex-direction: column !important;
+//             gap: 10px !important;
+//             text-align: center !important;
 //           }
           
-//           .spin-wheel-section {
-//             margin: 0 auto;
-//             order: 1;
-//             max-width: 280px;
+//           .mobile-feature-card {
+//             padding: 20px !important;
 //           }
           
-//           .stat-card {
-//             padding: 12px;
-//             flex-direction: column;
-//             text-align: center;
-//             gap: 8px;
-//           }
-          
-//           .feature-grid {
-//             grid-template-columns: 1fr;
-//             gap: 15px;
-//           }
-          
-//           .subject-grid {
-//             grid-template-columns: 1fr;
-//             gap: 12px;
-//           }
-          
-//           .step-item {
-//             flex-direction: column;
-//             text-align: center;
-//             gap: 15px;
-//           }
-
-//           .practice-hero {
-//             padding: 20px 10px;
-//           }
-
-//           .hero-bg-1, .hero-bg-2 {
-//             display: none;
-//           }
-//         }
-
-//         /* Medium Phones (481px - 767px) */
-//         @media (min-width: 481px) and (max-width: 767px) {
-//           .hero-content-wrapper {
-//             flex-direction: column;
-//             text-align: center;
-//             gap: 25px;
-//           }
-          
-//           .hero-text {
-//             order: 2;
-//             text-align: center;
-//           }
-          
-//           .hero-text h1,
-//           .hero-text p {
-//             text-align: center;
-//           }
-          
-//           .spin-wheel-section {
-//             order: 1;
-//             max-width: 300px;
-//           }
-          
-//           .stat-card {
-//             padding: 14px;
-//           }
-          
-//           .feature-grid {
-//             grid-template-columns: 1fr;
-//             gap: 18px;
-//           }
-          
-//           .subject-grid {
-//             grid-template-columns: repeat(2, 1fr);
-//             gap: 15px;
-//           }
-//         }
-
-//         /* Large Tablets (1025px - 1200px) */
-//         @media (min-width: 1025px) and (max-width: 1200px) {
-//           .hero-content-wrapper {
-//             flex-direction: row;
-//             gap: 60px;
-//           }
-          
-//           .feature-grid {
-//             grid-template-columns: repeat(3, 1fr);
-//             gap: 25px;
-//           }
-          
-//           .subject-grid {
-//             grid-template-columns: repeat(3, 1fr);
-//             gap: 20px;
-//           }
-//         }
-
-//         /* Very Small Phones (below 320px) */
-//         @media (max-width: 320px) {
-//           .hero-text h1 {
-//             font-size: clamp(1.3rem, 6vw, 1.8rem);
-//           }
-          
-//           .stat-card {
-//             padding: 10px;
-//           }
-          
-//           .subject-grid {
-//             grid-template-columns: 1fr;
-//             gap: 10px;
-//           }
-          
-//           .practice-hero {
-//             padding: 15px 8px;
+//           .mobile-subject-card {
+//             padding: 25px 15px !important;
 //           }
 //         }
 
 //         /* Landscape Mode */
 //         @media (max-height: 500px) and (orientation: landscape) {
-//           .practice-hero {
-//             padding: 20px;
-//             min-height: auto;
-//           }
-          
-//           .hero-content-wrapper {
-//             flex-direction: row;
-//             gap: 20px;
-//           }
-          
-//           .hero-text {
-//             order: 1;
-//             flex: 1;
-//           }
-          
-//           .spin-wheel-section {
-//             order: 2;
-//             flex: 0 0 250px;
+//           .mobile-hero {
+//             padding: 30px 20px !important;
+//             min-height: auto !important;
 //           }
 //         }
 //       `}</style>
@@ -828,12 +756,12 @@
 
 //       {/* Hero Section */}
 //       <section
-//         className="practice-hero"
+//         className="mobile-hero"
 //         style={{
 //           background: 'linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 100%)',
 //           position: 'relative',
 //           overflow: 'hidden',
-//           padding: '80px 20px',
+//           padding: isMobile ? '50px 20px' : '80px 20px',
 //           minHeight: 'auto'
 //         }}
 //       >
@@ -843,8 +771,8 @@
 //             position: 'absolute',
 //             top: '-50%',
 //             right: '-20%',
-//             width: '800px',
-//             height: '800px',
+//             width: isMobile ? '400px' : '800px',
+//             height: isMobile ? '400px' : '800px',
 //             background: 'radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, transparent 70%)',
 //             borderRadius: '50%',
 //             animation: 'float 6s ease-in-out infinite'
@@ -856,8 +784,8 @@
 //             position: 'absolute',
 //             top: '20%',
 //             left: '-10%',
-//             width: '400px',
-//             height: '400px',
+//             width: isMobile ? '200px' : '400px',
+//             height: isMobile ? '200px' : '400px',
 //             background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%)',
 //             borderRadius: '50%',
 //             animation: 'float 8s ease-in-out infinite reverse'
@@ -870,31 +798,30 @@
 //           width: '100%'
 //         }}>
 //           <div
-//             className="hero-content-wrapper"
+//             className="mobile-hero-content"
 //             style={{
 //               display: 'flex',
-//               flexDirection: 'row',
+//               flexDirection: isMobile ? 'column' : 'row',
 //               justifyContent: 'space-between',
 //               alignItems: 'center',
-//               flexWrap: 'wrap',
 //               position: 'relative',
 //               zIndex: 1,
-//               gap: '60px'
+//               gap: isMobile ? '30px' : '60px'
 //             }}
 //           >
 //             <div
-//               className="hero-text"
+//               className="mobile-hero-text"
 //               style={{
-//                 flex: '1 1 600px',
-//                 minWidth: '400px',
-//                 paddingTop: '0'
+//                 flex: isMobile ? 'none' : '1 1 600px',
+//                 minWidth: isMobile ? '100%' : '400px',
+//                 textAlign: isMobile ? 'center' : 'left'
 //               }}
 //             >
 //               <h1 style={{
-//                 fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+//                 fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.5rem)' : 'clamp(2rem, 6vw, 3.5rem)',
 //                 fontWeight: '800',
 //                 color: '#1F2937',
-//                 marginBottom: '24px',
+//                 marginBottom: isMobile ? '16px' : '24px',
 //                 lineHeight: '1.2'
 //               }}>
 //                 {t('masterSubject')}
@@ -902,7 +829,8 @@
 //                   background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
 //                   WebkitBackgroundClip: 'text',
 //                   WebkitTextFillColor: 'transparent',
-//                   display: 'block'
+//                   display: 'block',
+//                   marginTop: isMobile ? '8px' : '12px'
 //                 }}>
 //                   {t('smartPractice')}
 //                 </span>
@@ -910,82 +838,96 @@
               
 //               <p
 //                 style={{
-//                   fontSize: 'clamp(1rem, 4vw, 1.25rem)',
+//                   fontSize: isMobile ? 'clamp(0.95rem, 4vw, 1.1rem)' : 'clamp(1rem, 4vw, 1.25rem)',
 //                   color: '#6B7280',
-//                   marginBottom: '40px',
-//                   lineHeight: '1.7'
+//                   marginBottom: isMobile ? '30px' : '40px',
+//                   lineHeight: '1.6'
 //                 }}
 //               >
 //                 {t('challengeDescription')}
 //               </p>
               
-//               <div style={{
+//               <div className="mobile-stats-grid" style={{
 //                 display: 'grid',
-//                 gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-//                 gap: '24px',
-//                 marginTop: '40px'
+//                 gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(200px, 1fr))',
+//                 gap: isMobile ? '12px' : '24px',
+//                 marginTop: isMobile ? '25px' : '40px'
 //               }}>
-//                 <div className="stat-card" style={{
+//                 <div className="mobile-stat-card" style={{
 //                   background: '#FFFFFF',
 //                   borderRadius: '16px',
-//                   padding: '24px',
+//                   padding: isMobile ? '15px' : '24px',
 //                   boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
 //                   display: 'flex',
 //                   alignItems: 'center',
-//                   gap: '16px'
+//                   gap: isMobile ? '12px' : '16px',
+//                   flexDirection: isMobile ? 'column' : 'row',
+//                   textAlign: isMobile ? 'center' : 'left'
 //                 }}>
 //                   <div style={{
 //                     background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
 //                     borderRadius: '12px',
-//                     padding: '12px',
+//                     padding: isMobile ? '10px' : '12px',
 //                     display: 'flex',
 //                     alignItems: 'center',
 //                     justifyContent: 'center',
 //                     flexShrink: 0
 //                   }}>
-//                     <FileText size={24} color="#FFFFFF" />
+//                     <FileText size={isMobile ? 20 : 24} color="#FFFFFF" />
 //                   </div>
 //                   <div>
 //                     <div style={{ 
-//                       fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
+//                       fontSize: isMobile ? '1.3rem' : 'clamp(1.4rem, 4vw, 1.8rem)', 
 //                       fontWeight: '700', 
 //                       color: '#1F2937' 
 //                     }}>
 //                       {animatedStats.totalTests.toLocaleString()}+
 //                     </div>
-//                     <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>{t('practiceTests')}</div>
+//                     <div style={{ 
+//                       fontSize: isMobile ? '0.8rem' : '0.9rem', 
+//                       color: '#6B7280' 
+//                     }}>
+//                       {t('practiceTests')}
+//                     </div>
 //                   </div>
 //                 </div>
                 
-//                 <div className="stat-card" style={{
+//                 <div className="mobile-stat-card" style={{
 //                   background: '#FFFFFF',
 //                   borderRadius: '16px',
-//                   padding: '24px',
+//                   padding: isMobile ? '15px' : '24px',
 //                   boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
 //                   display: 'flex',
 //                   alignItems: 'center',
-//                   gap: '16px'
+//                   gap: isMobile ? '12px' : '16px',
+//                   flexDirection: isMobile ? 'column' : 'row',
+//                   textAlign: isMobile ? 'center' : 'left'
 //                 }}>
 //                   <div style={{
 //                     background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
 //                     borderRadius: '12px',
-//                     padding: '12px',
+//                     padding: isMobile ? '10px' : '12px',
 //                     display: 'flex',
 //                     alignItems: 'center',
 //                     justifyContent: 'center',
 //                     flexShrink: 0
 //                   }}>
-//                     <Users size={24} color="#FFFFFF" />
+//                     <Users size={isMobile ? 20 : 24} color="#FFFFFF" />
 //                   </div>
 //                   <div>
 //                     <div style={{ 
-//                       fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', 
+//                       fontSize: isMobile ? '1.3rem' : 'clamp(1.4rem, 4vw, 1.8rem)', 
 //                       fontWeight: '700', 
 //                       color: '#1F2937' 
 //                     }}>
 //                       {animatedStats.studentsEnrolled.toLocaleString()}+
 //                     </div>
-//                     <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>{t('studentsLearning')}</div>
+//                     <div style={{ 
+//                       fontSize: isMobile ? '0.8rem' : '0.9rem', 
+//                       color: '#6B7280' 
+//                     }}>
+//                       {t('studentsLearning')}
+//                     </div>
 //                   </div>
 //                 </div>
 //               </div>
@@ -993,15 +935,15 @@
 
 //             {/* Spin Wheel Section */}
 //             <div
-//               className="spin-wheel-section"
+//               className="mobile-wheel-section"
 //               style={{
-//                 flex: '0 0 auto',
-//                 maxWidth: '340px',
+//                 flex: isMobile ? 'none' : '0 0 auto',
+//                 maxWidth: isMobile ? '280px' : '340px',
 //                 width: '100%',
 //                 display: 'flex',
 //                 flexDirection: 'column',
 //                 alignItems: 'center',
-//                 margin: '0'
+//                 margin: isMobile ? '0 auto' : '0'
 //               }}
 //             >
 //               <SpinWheel onRewardWon={handleRewardWon} />
@@ -1011,31 +953,38 @@
 //       </section>
 
 //       {/* Features Section */}
-//       <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
+//       <section className="mobile-section" style={{ 
+//         padding: isMobile ? '50px 20px' : '80px 20px', 
+//         background: '#FFFFFF' 
+//       }}>
 //         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-//           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+//           <div style={{ 
+//             textAlign: 'center', 
+//             marginBottom: isMobile ? '40px' : '60px' 
+//           }}>
 //             <h2 style={{
-//               fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+//               fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.2rem)' : 'clamp(2.2rem, 6vw, 3rem)',
 //               fontWeight: '700',
 //               color: '#1F2937',
-//               marginBottom: '20px'
+//               marginBottom: isMobile ? '16px' : '20px'
 //             }}>
 //               {t('whyChoose')}
 //             </h2>
 //             <p style={{
-//               fontSize: 'clamp(1.1rem, 4vw, 1.25rem)',
+//               fontSize: isMobile ? 'clamp(1rem, 4vw, 1.1rem)' : 'clamp(1.1rem, 4vw, 1.25rem)',
 //               color: '#6B7280',
 //               maxWidth: '700px',
-//               margin: '0 auto'
+//               margin: '0 auto',
+//               lineHeight: '1.6'
 //             }}>
 //               {t('revolutionaryExperience')}
 //             </p>
 //           </div>
           
-//           <div className="feature-grid" style={{
+//           <div className="mobile-feature-grid" style={{
 //             display: 'grid',
-//             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-//             gap: '30px'
+//             gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(320px, 1fr))',
+//             gap: isMobile ? '16px' : '30px'
 //           }}>
 //             {[
 //               { icon: '🎯', title: 'personalizedLearning', description: 'personalizedLearningDesc' },
@@ -1047,10 +996,11 @@
 //             ].map((feature, index) => (
 //               <div
 //                 key={index}
+//                 className="mobile-feature-card"
 //                 style={{
 //                   background: 'linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)',
 //                   borderRadius: '20px',
-//                   padding: '35px',
+//                   padding: isMobile ? '20px' : '35px',
 //                   boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
 //                   transition: 'all 0.3s ease',
 //                   border: '1px solid #E5E7EB',
@@ -1058,22 +1008,22 @@
 //                 }}
 //               >
 //                 <div style={{ 
-//                   fontSize: '56px', 
-//                   marginBottom: '20px',
+//                   fontSize: isMobile ? '48px' : '56px', 
+//                   marginBottom: isMobile ? '16px' : '20px',
 //                   display: 'inline-block'
 //                 }}>
 //                   {feature.icon}
 //                 </div>
 //                 <h3 style={{
-//                   fontSize: '1.4rem',
+//                   fontSize: isMobile ? '1.2rem' : '1.4rem',
 //                   fontWeight: '600',
 //                   color: '#1F2937',
-//                   marginBottom: '16px'
+//                   marginBottom: isMobile ? '12px' : '16px'
 //                 }}>
 //                   {t(`features.${feature.title}`)}
 //                 </h3>
 //                 <p style={{
-//                   fontSize: '1.1rem',
+//                   fontSize: isMobile ? '0.95rem' : '1.1rem',
 //                   color: '#6B7280',
 //                   lineHeight: '1.6'
 //                 }}>
@@ -1086,32 +1036,35 @@
 //       </section>
 
 //       {/* Subject Categories */}
-//       <section style={{
-//         padding: '80px 20px',
+//       <section className="mobile-section" style={{
+//         padding: isMobile ? '50px 20px' : '80px 20px',
 //         background: 'linear-gradient(180deg, #F3F4F6 0%, #FFFFFF 100%)'
 //       }}>
 //         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-//           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+//           <div style={{ 
+//             textAlign: 'center', 
+//             marginBottom: isMobile ? '40px' : '60px' 
+//           }}>
 //             <h2 style={{
-//               fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+//               fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.2rem)' : 'clamp(2.2rem, 6vw, 3rem)',
 //               fontWeight: '700',
 //               color: '#1F2937',
-//               marginBottom: '20px'
+//               marginBottom: isMobile ? '16px' : '20px'
 //             }}>
 //               {t('exploreCategories')}
 //             </h2>
 //             <p style={{ 
-//               fontSize: 'clamp(1.1rem, 4vw, 1.25rem)', 
+//               fontSize: isMobile ? 'clamp(1rem, 4vw, 1.1rem)' : 'clamp(1.1rem, 4vw, 1.25rem)', 
 //               color: '#6B7280' 
 //             }}>
 //               {t('chooseSubjects')}
 //             </p>
 //           </div>
           
-//           <div className="subject-grid" style={{
+//           <div className="mobile-subject-grid" style={{
 //             display: 'grid',
-//             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-//             gap: '25px',
+//             gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))',
+//             gap: isMobile ? '12px' : '25px',
 //             maxWidth: '1100px',
 //             margin: '0 auto'
 //           }}>
@@ -1125,10 +1078,11 @@
 //             ].map((subject, index) => (
 //               <div
 //                 key={index}
+//                 className="mobile-subject-card"
 //                 style={{
 //                   background: '#FFFFFF',
 //                   borderRadius: '20px',
-//                   padding: '35px 25px',
+//                   padding: isMobile ? '25px 15px' : '35px 25px',
 //                   textAlign: 'center',
 //                   boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
 //                   transition: 'all 0.3s ease',
@@ -1136,37 +1090,49 @@
 //                   cursor: 'pointer'
 //                 }}
 //                 onMouseEnter={(e) => {
-//                   e.currentTarget.style.transform = 'translateY(-8px)';
-//                   e.currentTarget.style.borderColor = subject.color;
-//                   e.currentTarget.style.boxShadow = `0 12px 35px ${subject.color}40`;
+//                   if (windowWidth > 768) {
+//                     e.currentTarget.style.transform = 'translateY(-8px)';
+//                     e.currentTarget.style.borderColor = subject.color;
+//                     e.currentTarget.style.boxShadow = `0 12px 35px ${subject.color}40`;
+//                   }
 //                 }}
 //                 onMouseLeave={(e) => {
-//                   e.currentTarget.style.transform = 'translateY(0)';
-//                   e.currentTarget.style.borderColor = 'transparent';
-//                   e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.08)';
+//                   if (windowWidth > 768) {
+//                     e.currentTarget.style.transform = 'translateY(0)';
+//                     e.currentTarget.style.borderColor = 'transparent';
+//                     e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.08)';
+//                   }
+//                 }}
+//                 onClick={(e) => {
+//                   if (windowWidth <= 768) {
+//                     e.currentTarget.style.transform = 'scale(0.98)';
+//                     setTimeout(() => {
+//                       e.currentTarget.style.transform = 'scale(1)';
+//                     }, 150);
+//                   }
 //                 }}
 //               >
 //                 <div style={{ 
-//                   fontSize: '72px', 
-//                   marginBottom: '20px',
+//                   fontSize: isMobile ? '60px' : '72px', 
+//                   marginBottom: isMobile ? '16px' : '20px',
 //                   display: 'inline-block'
 //                 }}>
 //                   {subject.icon}
 //                 </div>
 //                 <h3 style={{
-//                   fontSize: '1.4rem',
+//                   fontSize: isMobile ? '1.2rem' : '1.4rem',
 //                   fontWeight: '600',
 //                   color: '#1F2937',
-//                   marginBottom: '12px'
+//                   marginBottom: isMobile ? '10px' : '12px'
 //                 }}>
 //                   {t(`subjects.${subject.name}`)}
 //                 </h3>
 //                 <p style={{ 
-//                   fontSize: '1rem', 
+//                   fontSize: isMobile ? '0.85rem' : '1rem', 
 //                   color: subject.color, 
 //                   fontWeight: '600',
 //                   background: `${subject.color}15`,
-//                   padding: '8px 16px',
+//                   padding: isMobile ? '6px 12px' : '8px 16px',
 //                   borderRadius: '25px',
 //                   display: 'inline-block'
 //                 }}>
@@ -1179,19 +1145,25 @@
 //       </section>
 
 //       {/* How It Works */}
-//       <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
+//       <section className="mobile-section" style={{ 
+//         padding: isMobile ? '50px 20px' : '80px 20px', 
+//         background: '#FFFFFF' 
+//       }}>
 //         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-//           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+//           <div style={{ 
+//             textAlign: 'center', 
+//             marginBottom: isMobile ? '40px' : '60px' 
+//           }}>
 //             <h2 style={{
-//               fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+//               fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.2rem)' : 'clamp(2.2rem, 6vw, 3rem)',
 //               fontWeight: '700',
 //               color: '#1F2937',
-//               marginBottom: '20px'
+//               marginBottom: isMobile ? '16px' : '20px'
 //             }}>
 //               {t('howItWorks')}
 //             </h2>
 //             <p style={{ 
-//               fontSize: 'clamp(1.1rem, 4vw, 1.25rem)', 
+//               fontSize: isMobile ? 'clamp(1rem, 4vw, 1.1rem)' : 'clamp(1.1rem, 4vw, 1.25rem)', 
 //               color: '#6B7280' 
 //             }}>
 //               {t('getStarted')}
@@ -1201,7 +1173,7 @@
 //           <div style={{
 //             display: 'flex',
 //             flexDirection: 'column',
-//             gap: '50px',
+//             gap: isMobile ? '30px' : '50px',
 //             maxWidth: '1000px',
 //             margin: '0 auto'
 //           }}>
@@ -1212,47 +1184,53 @@
 //             ].map((item, index) => (
 //               <div
 //                 key={index}
-//                 className="step-item"
+//                 className="mobile-step-item"
 //                 style={{
 //                   display: 'flex',
 //                   alignItems: 'center',
-//                   gap: '35px',
-//                   flexWrap: 'wrap'
+//                   gap: isMobile ? '20px' : '35px',
+//                   flexWrap: 'wrap',
+//                   flexDirection: isMobile ? 'column' : 'row',
+//                   textAlign: isMobile ? 'center' : 'left'
 //                 }}
 //               >
 //                 <div style={{
-//                   minWidth: '90px',
-//                   height: '90px',
+//                   minWidth: isMobile ? '70px' : '90px',
+//                   height: isMobile ? '70px' : '90px',
 //                   borderRadius: '50%',
 //                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
 //                   display: 'flex',
 //                   alignItems: 'center',
 //                   justifyContent: 'center',
-//                   fontSize: '40px',
+//                   fontSize: isMobile ? '32px' : '40px',
 //                   boxShadow: `0 10px 25px ${item.color}40`,
 //                   flexShrink: 0
 //                 }}>
 //                   {item.icon}
 //                 </div>
-//                 <div style={{ flex: 1, minWidth: '280px' }}>
+//                 <div style={{ 
+//                   flex: 1, 
+//                   minWidth: isMobile ? '100%' : '280px',
+//                   textAlign: isMobile ? 'center' : 'left'
+//                 }}>
 //                   <div style={{
-//                     fontSize: '3.5rem',
+//                     fontSize: isMobile ? '2.5rem' : '3.5rem',
 //                     fontWeight: '700',
 //                     color: '#E5E7EB',
-//                     marginBottom: '-15px'
+//                     marginBottom: isMobile ? '-10px' : '-15px'
 //                   }}>
 //                     {item.step}
 //                   </div>
 //                   <h3 style={{
-//                     fontSize: '1.6rem',
+//                     fontSize: isMobile ? '1.3rem' : '1.6rem',
 //                     fontWeight: '600',
 //                     color: '#1F2937',
-//                     marginBottom: '12px'
+//                     marginBottom: isMobile ? '8px' : '12px'
 //                   }}>
 //                     {t(`steps.${item.title}`)}
 //                   </h3>
 //                   <p style={{ 
-//                     fontSize: '1.15rem', 
+//                     fontSize: isMobile ? '1rem' : '1.15rem', 
 //                     color: '#6B7280', 
 //                     lineHeight: '1.7' 
 //                   }}>
@@ -1267,7 +1245,7 @@
 
 //       {/* CTA Section */}
 //       <section style={{
-//         padding: '100px 20px',
+//         padding: isMobile ? '60px 20px' : '100px 20px',
 //         background: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
 //         position: 'relative',
 //         overflow: 'hidden'
@@ -1276,8 +1254,8 @@
 //           position: 'absolute',
 //           top: '-100px',
 //           right: '-100px',
-//           width: '300px',
-//           height: '300px',
+//           width: isMobile ? '200px' : '300px',
+//           height: isMobile ? '200px' : '300px',
 //           background: 'rgba(255, 255, 255, 0.1)',
 //           borderRadius: '50%',
 //           animation: 'float 8s ease-in-out infinite'
@@ -1286,8 +1264,8 @@
 //           position: 'absolute',
 //           bottom: '-50px',
 //           left: '-50px',
-//           width: '200px',
-//           height: '200px',
+//           width: isMobile ? '150px' : '200px',
+//           height: isMobile ? '150px' : '200px',
 //           background: 'rgba(255, 255, 255, 0.1)',
 //           borderRadius: '50%',
 //           animation: 'float 6s ease-in-out infinite reverse'
@@ -1301,17 +1279,17 @@
 //           zIndex: 1 
 //         }}>
 //           <h2 style={{
-//             fontSize: 'clamp(2.2rem, 6vw, 3rem)',
+//             fontSize: isMobile ? 'clamp(1.8rem, 6vw, 2.2rem)' : 'clamp(2.2rem, 6vw, 3rem)',
 //             fontWeight: '700',
 //             color: '#FFFFFF',
-//             marginBottom: '24px'
+//             marginBottom: isMobile ? '16px' : '24px'
 //           }}>
 //             {t('readyToExcel')}
 //           </h2>
 //           <p style={{
-//             fontSize: 'clamp(1.2rem, 4vw, 1.4rem)',
+//             fontSize: isMobile ? 'clamp(1rem, 4vw, 1.1rem)' : 'clamp(1.2rem, 4vw, 1.4rem)',
 //             color: 'rgba(255, 255, 255, 0.9)',
-//             marginBottom: '40px',
+//             marginBottom: isMobile ? '30px' : '40px',
 //             lineHeight: '1.6'
 //           }}>
 //             {t('joinStudents')}
@@ -1323,13 +1301,6 @@
 // };
 
 // export default Practice;
-
-
-
-
-
-
-
 
 
 
@@ -1403,6 +1374,40 @@ const FlyingReward = ({ reward, onComplete }) => {
       {reward.name}
     </div>
   );
+};
+
+// MARK: UPDATED - Add reward points with history tracking function
+const addRewardPointsWithHistory = (points, reason, source = 'spin_wheel') => {
+  const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
+  const newPoints = currentPoints + points;
+  
+  // Update points in localStorage
+  localStorage.setItem('rewardPoints', newPoints.toString());
+  
+  // Add to rewards history
+  const historyEntry = {
+    id: `reward_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    points: points,
+    totalPoints: newPoints,
+    reason: reason,
+    source: source,
+    timestamp: new Date().toISOString()
+  };
+  
+  const existingHistory = JSON.parse(localStorage.getItem('rewardsHistory') || '[]');
+  const updatedHistory = [historyEntry, ...existingHistory];
+  localStorage.setItem('rewardsHistory', JSON.stringify(updatedHistory));
+  
+  // Dispatch event to update navbar and other components
+  window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
+    detail: { 
+      rewardPoints: newPoints,
+      addedPoints: points,
+      source: source
+    } 
+  }));
+  
+  return historyEntry;
 };
 
 // Spin Wheel Component with full internationalization
@@ -1508,20 +1513,14 @@ const SpinWheel = ({ onRewardWon }) => {
     }
   };
 
-  const updateUserPoints = (rewardValue) => {
+  // MARK: UPDATED - Reward points update function to use history tracking
+  const updateUserPoints = (rewardValue, rewardName) => {
     if (rewardValue > 0) {
-      const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
-      const newPoints = currentPoints + rewardValue;
-     
-      localStorage.setItem('rewardPoints', newPoints.toString());
-     
-      window.dispatchEvent(new CustomEvent('rewardPointsUpdated', {
-        detail: { rewardPoints: newPoints, addedPoints: rewardValue }
-      }));
-     
-      return newPoints;
+      // Use the centralized function to add points with history
+      addRewardPointsWithHistory(rewardValue, `Spin Wheel: ${rewardName}`, 'spin_wheel');
+      return true;
     }
-    return parseInt(localStorage.getItem('rewardPoints') || '0');
+    return false;
   };
 
   const handleSpinClick = () => {
@@ -1553,9 +1552,9 @@ const SpinWheel = ({ onRewardWon }) => {
     userRewards.push(rewardWithId);
     localStorage.setItem('userRewards', JSON.stringify(userRewards));
     
-    // Update points if reward has value
+    // MARK: UPDATED - Update points if reward has value using the new function
     if (wonReward.value > 0) {
-      updateUserPoints(wonReward.value);
+      updateUserPoints(wonReward.value, wonReward.name);
     }
     
     // Handle bonus spin (refund one spin)
@@ -1571,7 +1570,13 @@ const SpinWheel = ({ onRewardWon }) => {
         };
         localStorage.setItem('spinData', JSON.stringify(newSpinData));
         setSpinsLeft(3 - updatedSpinsUsed);
+        
+        // MARK: ADDED - Add bonus spin to history
+        addRewardPointsWithHistory(0, "Spin Wheel: Bonus Spin Awarded", 'spin_wheel');
       }
+    } else if (wonReward.id === 6) {
+      // MARK: ADDED - Add better luck to history
+      addRewardPointsWithHistory(0, "Spin Wheel: Better Luck Next Time", 'spin_wheel');
     }
     
     // Call the callback function

@@ -1,4 +1,15 @@
-// ////old code
+
+
+
+
+
+
+
+
+
+
+
+
 // import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import { motion, useAnimation } from 'framer-motion';
@@ -32,7 +43,6 @@
 //   const [hasReceivedFeedbackReward, setHasReceivedFeedbackReward] = useState(false);
 
 //   const emojis = ["😡", "😕", "😐", "😊", "🤩"];
-//   const labels = ["1 ⭐ Not at all","2 ⭐ Not Really","3 ⭐ Somewhat","4 ⭐ To a great extent","5 ⭐ Absolutely"];
 //   const [feedbackRating, setFeedbackRating] = useState(0);
 //   const [feedbackComment, setFeedbackComment] = useState("");
 //   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -151,7 +161,7 @@
 
 //   const handleFeedbackSubmit = () => {
 //     if (feedbackRating === 0 || feedbackComment.trim() === "") {
-//       alert("Please provide both a rating and a comment.");
+//       alert(t('feedback.alertMessage'));
 //       return;
 //     }
 
@@ -285,12 +295,22 @@
 //   const controls = useAnimation();
 //   const [ref, inView] = useInView();
 
+//   // MARK: FIXED - Updated subject map to handle navigation properly
 //   const subjectMap = {
 //     [t('dashboard.categories.mathematics')]: 'Maths',
 //     [t('dashboard.categories.science')]: 'Science',
 //     [t('dashboard.categories.languages')]: 'English',
-//     [t('dashboard.categories.social')]: 'Social',
+//     [t('dashboard.categories.socialStudies')]: 'Social',
 //     [t('dashboard.categories.technology')]: 'Computer',
+//   };
+
+//   // MARK: FIXED - Function to handle navigation to specific class and subject
+//   const navigateToClassSubject = (subject) => {
+//     const classNumber = activeClass; // This is '7', '8', '9', or '10'
+//     const subjectKey = subjectMap[subject] || subject;
+    
+//     // Navigate to the correct class page with the subject
+//     navigate(`/learn/class${classNumber}?subject=${subjectKey}`);
 //   };
 
 //   useEffect(() => {
@@ -478,7 +498,7 @@
 //               boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
 //             }}
 //           >
-//             🎉 Welcome Back! +5 Reward Points! 🎉
+//             🎉 {t('welcome.message')} 🎉
 //           </motion.div>
 //         </div>
 //       )}
@@ -614,9 +634,10 @@
 //                 whileTap={{ scale: 0.95 }}
 //                 animate={controls}
 //               >
+//                 {/* MARK: FIXED - Updated navigation for continue learning button */}
 //                 <button
 //                   className="btn btn-primary"
-//                   onClick={() => navigate(`/learn/class${activeClass}?subject=Maths`)}
+//                   onClick={() => navigateToClassSubject(t('dashboard.categories.mathematics'))}
 //                 >
 //                   {t('dashboard.hero.continueLearning')}
 //                 </button>
@@ -740,11 +761,12 @@
 //                   </div>
 //                 </div>
 //                 <div className="course-actions mt-4">
+//                   {/* MARK: FIXED - Updated navigation for view syllabus button */}
 //                   <motion.button
 //                     className="btn btn-outline"
 //                     whileHover={{ scale: 1.03 }}
 //                     whileTap={{ scale: 0.98 }}
-//                     onClick={() => navigate(`/learn/class${activeClass}?subject=Maths`)}
+//                     onClick={() => navigateToClassSubject(t('dashboard.categories.mathematics'))}
 //                   >
 //                     {t('dashboard.viewSyllabus')}
 //                   </motion.button>
@@ -834,7 +856,7 @@
 //             </div>
 //           </div>
 //           <div className="tabs">
-//             {['7th', '8th', '9th', '10th'].map((cls) => (
+//             {['7', '8', '9', '10'].map((cls) => (
 //               <motion.button
 //                 key={cls}
 //                 className={activeClass === cls ? 'active' : ''}
@@ -845,7 +867,7 @@
 //                 animate={{ opacity: 1, y: 0 }}
 //                 transition={{ delay: 0.3 }}
 //               >
-//                 {t(`classes.${cls}`)}
+//                 {t(`classes.${cls}th`)}
 //               </motion.button>
 //             ))}
 //           </div>
@@ -894,11 +916,12 @@
 //                       <span><i className="fas fa-book-open"></i> {t('dashboard.lessons')}</span>
 //                       <span><i className="fas fa-clock"></i> {t('dashboard.hours')}</span>
 //                     </div>
+//                     {/* MARK: FIXED - Updated navigation for continue button */}
 //                     <motion.button
 //                       className="btn btn-primary w-100 mt-3"
 //                       whileHover={{ scale: 1.02, boxShadow: "0 5px 15px rgba(45, 93, 123, 0.4)" }}
 //                       whileTap={{ scale: 0.98 }}
-//                       onClick={() => navigate(`/learn/class${activeClass}?subject=${subjectMap[course.category]}`)}
+//                       onClick={() => navigateToClassSubject(course.category)}
 //                     >
 //                       {t('dashboard.continue')}
 //                     </motion.button>
@@ -924,10 +947,10 @@
 //             >
 //               <div style={{ marginBottom: "25px" }}>
 //                 <h2 style={{ fontWeight: "700", color: "#2D5D7B", marginBottom: "10px" }}>
-//                   Share Your Feedback
+//                   {t('feedback.title')}
 //                 </h2>
 //                 <p style={{ color: "#555", fontSize: "16px" }}>
-//                   We value your opinion — help us improve your learning experience!
+//                   {t('feedback.subtitle')}
 //                 </p>
                 
 //                 {/* MARK: UPDATED - Dynamic reward message based on eligibility */}
@@ -948,7 +971,7 @@
 //                     whileHover={{ scale: 1.05 }}
 //                   >
 //                     <FaCoins size={16} />
-//                     <span>Earn +20 Reward Points for your first feedback!</span>
+//                     <span>{t('feedback.rewardMessage')}</span>
 //                   </motion.div>
 //                 ) : (
 //                   <motion.div
@@ -967,7 +990,7 @@
 //                   >
 //                     <FaCoins size={16} />
 //                     <span>
-//                       ✅ One-time reward already received {firstFeedbackDate && `on ${firstFeedbackDate}`}
+//                       {t('feedback.rewardReceived')}{firstFeedbackDate && ` ${t('onDate')} ${firstFeedbackDate}`}
 //                     </span>
 //                   </motion.div>
 //                 )}
@@ -988,7 +1011,7 @@
 //                 {!isSubmitted ? (
 //                   <>
 //                     <h5 style={{ marginBottom: "20px", color: "#2D5D7B", fontWeight: "600" }}>
-//                       How satisfied are you with the platform?
+//                       {t('feedback.satisfactionQuestion')}
 //                     </h5>
 
 //                     <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginBottom: "15px" }}>
@@ -1014,13 +1037,13 @@
 //                     {/* Show label only for selected emoji */}
 //                     {feedbackRating > 0 && (
 //                       <div style={{ marginBottom: "15px", color: "#2D5D7B", fontWeight: "600" }}>
-//                         {labels[feedbackRating - 1]}
+//                         {t(`feedback.labels.${feedbackRating - 1}`)}
 //                       </div>
 //                     )}
 
 //                     <textarea
 //                       rows="4"
-//                       placeholder="Share your thoughts or suggestions..."
+//                       placeholder={t('feedback.placeholder')}
 //                       value={feedbackComment}
 //                       onChange={(e) => setFeedbackComment(e.target.value)}
 //                       style={{
@@ -1053,7 +1076,7 @@
 //                         fontSize: "16px",
 //                       }}
 //                     >
-//                       Submit Feedback
+//                       {t('feedback.submit')}
 //                     </motion.button>
 //                   </>
 //                 ) : (
@@ -1070,7 +1093,7 @@
 //                       }}
 //                       whileHover={{ scale: 1.02 }}
 //                     >
-//                       ✅ Feedback Submitted
+//                       {t('feedback.submitted')}
 //                     </motion.div>
                     
 //                     {/* MARK: UPDATED - Show change feedback button always */}
@@ -1089,7 +1112,7 @@
 //                         fontSize: "14px",
 //                       }}
 //                     >
-//                       Change Feedback
+//                       {t('feedback.changeFeedback')}
 //                     </motion.button>
 //                   </div>
 //                 )}
@@ -1103,13 +1126,6 @@
 // };
 
 // export default Home1;
-
-
-
-
-
-
-
 
 
 
@@ -1191,17 +1207,50 @@ const Home1 = () => {
     setHasReceivedFeedbackReward(true);
   };
 
+  // MARK: UPDATED - Function to add reward points with history tracking
+  const addRewardPointsWithHistory = (points, reason, source = 'system') => {
+    const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
+    const newPoints = currentPoints + points;
+    
+    // Update points in localStorage
+    localStorage.setItem('rewardPoints', newPoints.toString());
+    
+    // Add to history
+    const historyEntry = {
+      id: `reward_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      points: points,
+      totalPoints: newPoints,
+      reason: reason,
+      source: source,
+      timestamp: new Date().toISOString()
+    };
+    
+    const existingHistory = JSON.parse(localStorage.getItem('rewardsHistory') || '[]');
+    const updatedHistory = [historyEntry, ...existingHistory];
+    localStorage.setItem('rewardsHistory', JSON.stringify(updatedHistory));
+    
+    // Dispatch event to update other components
+    window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
+      detail: { rewardPoints: newPoints } 
+    }));
+    
+    // Also dispatch storage event for cross-tab synchronization
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'rewardPoints',
+      newValue: newPoints.toString(),
+      oldValue: currentPoints.toString()
+    }));
+    
+    return historyEntry;
+  };
+
   // MARK: UPDATED - Function to trigger flying coins for first feedback reward only (persistent)
   const triggerFeedbackReward = () => {
     // Show flying coins animation for first-time reward
     setShowFeedbackCoins(true);
     
-    // Calculate current reward points
-    const currentPoints = parseInt(localStorage.getItem('rewardPoints')) || 0;
-    const newPoints = currentPoints + 20;
-    
-    // Update reward points in localStorage
-    localStorage.setItem('rewardPoints', newPoints.toString());
+    // MARK: UPDATED - Use the centralized function to add points with history
+    const rewardHistory = addRewardPointsWithHistory(20, "First feedback submission", 'feedback');
     
     // MARK: UPDATED - Mark reward as given for this user (persistent)
     markRewardAsGiven();
@@ -1219,24 +1268,13 @@ const Home1 = () => {
           date: new Date().toISOString(),
           rating: feedbackRating,
           comment: feedbackComment,
-          pointsAwarded: 20
+          pointsAwarded: 20,
+          rewardHistoryId: rewardHistory.id // Link to rewards history
         }
       ]
     };
     localStorage.setItem('userFeedbackData', JSON.stringify(userFeedbackData));
     
-    // Dispatch custom event to notify navbar about points update
-    window.dispatchEvent(new CustomEvent('rewardPointsUpdated', {
-      detail: { rewardPoints: newPoints }
-    }));
-    
-    // Also dispatch storage event for cross-tab synchronization
-    window.dispatchEvent(new StorageEvent('storage', {
-      key: 'rewardPoints',
-      newValue: newPoints.toString(),
-      oldValue: currentPoints.toString()
-    }));
-
     // Hide coins after animation
     setTimeout(() => {
       setShowFeedbackCoins(false);
@@ -1281,10 +1319,10 @@ const Home1 = () => {
     
     // MARK: UPDATED - Check if this is the first feedback for reward (persistent check)
     if (!hasReceivedFeedbackReward) {
-      // First feedback - give reward points
+      // First feedback - give reward points with history tracking
       const rewardGiven = triggerFeedbackReward();
       if (rewardGiven) {
-        console.log("🎉 Reward points awarded for first feedback!");
+        console.log("🎉 Reward points awarded for first feedback and added to history!");
       }
     } else {
       // Subsequent feedback - save without reward

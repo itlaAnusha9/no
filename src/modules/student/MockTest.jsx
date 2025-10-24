@@ -1,4 +1,48 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import { useState, useEffect } from "react";
 // import './MockTest.css';
 // import Navbar from "./Navbarrr";
@@ -40,11 +84,34 @@
 //   const [currentHint, setCurrentHint] = useState('');
 //   const [hintLoading, setHintLoading] = useState(false);
 //   const [pointsBreakdown, setPointsBreakdown] = useState({ basePoints: 0, bonusPoints: 0, totalPoints: 0 });
+//   const [explanations, setExplanations] = useState([]);
+//   const [explanationsLoading, setExplanationsLoading] = useState(false);
 
 //   const optionLabels = ["A", "B", "C", "D"];
 //   const classIcons = ["🏫", "📚", "🎓", "💼", "🔬", "📊"];
 //   const subjectIcons = ["📖", "🧮", "🔭", "🧪", "🌍", "📜", "💻", "🎨"];
 //   const chapterIcons = ["📝", "🔍", "💡", "⚡", "🌟", "🎯", "📊", "🔬"];
+
+//   // WhatsApp Share Function - Direct to WhatsApp app or web
+//   const shareViaWhatsApp = () => {
+//     const percentage = Math.round((score / quiz.length) * 100);
+//     const status = isPassed ? 'passed' : 'failed';
+//     const subjectName = t(`subjects.${selectedSubject.toLowerCase()}`);
+//     const className = t(`classes.${selectedClass}`);
+    
+//     const shareText = `🎯 I just ${status} my ${className} ${subjectName} mock test on QuizApp!\n\n` +
+//                      `📊 Score: ${score}/${quiz.length} (${percentage}%)\n` +
+//                      `📚 Chapter: ${selectedChapter}\n` +
+//                      `🌐 Language: ${selectedLanguage}\n` +
+//                      `${isPassed ? '🎉 Congratulations to me!' : '💪 I will try again!'}\n\n` +
+//                      `Try the quiz yourself and test your knowledge!`;
+    
+//     // Create WhatsApp share URL that opens app directly or falls back to web
+//     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    
+//     // Open WhatsApp - will open app if installed, otherwise WhatsApp web
+//     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+//   };
 
 //   // Load reward points from localStorage
 //   useEffect(() => {
@@ -81,9 +148,76 @@
 //     const points = Math.max(0, newPoints); // Ensure points don't go negative
 //     localStorage.setItem('rewardPoints', points.toString());
 //     setRewardPoints(points);
-//     window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
-//       detail: { rewardPoints: points } 
+//     window.dispatchEvent(new CustomEvent('rewardPointsUpdated', {
+//       detail: { rewardPoints: points }
 //     }));
+//   };
+
+//   // Generate explanations when review popup is opened or after finishing quiz
+//   const generateExplanations = async () => {
+//     if (!quiz.length || explanations.length > 0 || explanationsLoading) return;
+   
+//     setExplanationsLoading(true);
+//     try {
+//       const questionsWithUserAnswers = quiz.map((q, index) => ({
+//         question: q.question,
+//         options: Object.values(q.options),
+//         correct_answer: q.options[q.answer], // Send the actual answer text
+//         user_answer: userAnswers[index] ? q.options[userAnswers[index]] : 'Not attempted'
+//       }));
+
+//       console.log('Sending questions for explanations:', questionsWithUserAnswers);
+
+//       const response = await fetch('http://localhost:8000/generate-explanations', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           questions: questionsWithUserAnswers,
+//           class_level: selectedClass,
+//           subject: selectedSubject,
+//           chapter: selectedChapter
+//         })
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//       }
+
+//       const data = await response.json();
+//       console.log('Explanations response:', data);
+     
+//       if (data.success && data.explanations) {
+//         setExplanations(data.explanations);
+//       } else {
+//         console.error('Failed to generate explanations:', data);
+//         // Create fallback explanations
+//         const fallbackExplanations = quiz.map((q, index) => ({
+//           question_index: index,
+//           question: q.question,
+//           correct_answer: q.options[q.answer],
+//           user_answer: userAnswers[index] ? q.options[userAnswers[index]] : 'Not attempted',
+//           explanation: `The correct answer is "${q.options[q.answer]}" because it aligns with the key concepts from ${selectedChapter}. Review the chapter material to understand why this is the right choice.`,
+//           is_correct: userAnswers[index] === q.answer
+//         }));
+//         setExplanations(fallbackExplanations);
+//       }
+//     } catch (error) {
+//       console.error('Error generating explanations:', error);
+//       // Fallback: Generate basic explanations
+//       const fallbackExplanations = quiz.map((q, index) => ({
+//         question_index: index,
+//         question: q.question,
+//         correct_answer: q.options[q.answer],
+//         user_answer: userAnswers[index] ? q.options[userAnswers[index]] : 'Not attempted',
+//         explanation: `Correct answer: "${q.options[q.answer]}". Focus on understanding why this answer aligns with the chapter concepts from ${selectedChapter}.`,
+//         is_correct: userAnswers[index] === q.answer
+//       }));
+//       setExplanations(fallbackExplanations);
+//     } finally {
+//       setExplanationsLoading(false);
+//     }
 //   };
 
 //   // Hide chatbot widget
@@ -205,33 +339,33 @@
 //     }
 //   }, [quiz, isFinished, timeLeft]);
 
-//   // Finish quiz function - FIXED
-//   const finishQuiz = () => {
+//   // Finish quiz function - UPDATED to fetch explanations after finishing
+//   const finishQuiz = async () => {
 //     const passed = score > 20;
 //     setIsPassed(passed);
 //     setIsFinished(true);
-    
+   
 //     let pointsEarned = 0;
 //     let bonusPoints = 0;
 //     const percentage = (score / quiz.length) * 100;
-    
+   
 //     if (passed) {
 //       // Base points: actual score value
 //       pointsEarned = score;
-      
+     
 //       // Bonus points: 10 additional points for scoring >= 80%
 //       if (percentage >= 80) {
 //         bonusPoints = 10;
 //         pointsEarned += bonusPoints;
 //       }
 //     }
-    
+   
 //     setPointsBreakdown({
 //       basePoints: score,
 //       bonusPoints: bonusPoints,
 //       totalPoints: pointsEarned
 //     });
-    
+   
 //     if (pointsEarned > 0) {
 //       const newTotalPoints = rewardPoints + pointsEarned;
 //       updateRewardPoints(newTotalPoints);
@@ -239,7 +373,10 @@
 
 //     // Update mock test results in context
 //     updateMockTestResults(score, quiz.length, selectedClass, selectedSubject, selectedChapter);
-    
+   
+//     // Fetch explanations after finishing the quiz for all questions
+//     await generateExplanations();
+   
 //     exitFullScreen();
 //     setShowWarning(false);
 //   };
@@ -261,7 +398,7 @@
 //         // Deduct 5 points for using hint - FIXED: Immediate persistence
 //         const newPoints = Math.max(0, rewardPoints - 5);
 //         console.log('Deducting points for hint:', { prev: rewardPoints, newPoints });
-        
+       
 //         // Update both state and localStorage immediately
 //         updateRewardPoints(newPoints);
 //       } else {
@@ -270,7 +407,7 @@
 //         setShowHint(true);
 //         const newPoints = Math.max(0, rewardPoints - 5);
 //         console.log('Deducting points for hint (fallback):', { prev: rewardPoints, newPoints });
-        
+       
 //         // Update both state and localStorage immediately
 //         updateRewardPoints(newPoints);
 //       }
@@ -341,6 +478,7 @@
 //     setUserAnswers(Array(50).fill(null));
 //     setShowHint(false);
 //     setCurrentHint('');
+//     setExplanations([]); // Reset explanations when new test starts
    
 //     fetch(
 //       `http://127.0.0.1:8000/mock_test?class_name=${selectedClass}&subject=${encodeURIComponent(
@@ -541,6 +679,7 @@
 //     setShowAnswerKey(false);
 //     setShowHint(false);
 //     setCurrentHint('');
+//     setExplanations([]);
 //     exitFullScreen();
 //   };
 
@@ -550,6 +689,7 @@
 //     setChapters([]);
 //     setQuiz([]);
 //     setShowInstructions(true);
+//     setExplanations([]);
 //   };
 
 //   const backToClasses = () => {
@@ -560,6 +700,7 @@
 //     setChapters([]);
 //     setQuiz([]);
 //     setShowInstructions(true);
+//     setExplanations([]);
 //   };
 
 //   const backToPractice = () => {
@@ -601,6 +742,9 @@
 
 //   const toggleReviewPopup = () => {
 //     setShowReviewPopup(!showReviewPopup);
+//     if (!showReviewPopup && explanations.length === 0) {
+//       generateExplanations();
+//     }
 //   };
 
 //   const getBackButtonConfig = () => {
@@ -639,16 +783,17 @@
 //         <span role="img" aria-label="graduation" className="edu-icon">🎓</span>
 //         <span role="img" aria-label="lightbulb" className="edu-icon">💡</span>
 //       </div>
-//       <p style={{ color: "black" }}>
-//         Preparing your test in {selectedLanguage}...
-//       </p>
+//      <p style={{ color: "black", fontWeight: "bold" }}>
+//   Preparing your test in {selectedLanguage}...
+// </p>
+
 //     </div>
 //   );
 
 //   return (
 //     <>
-//       <Navbar 
-//         isFullScreen={isFullScreen && quiz.length > 0 && !showInstructions} 
+//       <Navbar
+//         isFullScreen={isFullScreen && quiz.length > 0 && !showInstructions}
 //         rewardPoints={rewardPoints}
 //       />
      
@@ -1045,9 +1190,18 @@
 //             </div>
            
 //             <div className="score-display">
-//               <div className={`score-circle ${isPassed ? 'pass-score' : 'fail-score'}`}>
-//                 <span className="score">{score}</span>
-//                 <span className="total">/{quiz.length}</span>
+//               <div className="score-section">
+//                 <div className={`score-circle ${isPassed ? 'pass-score' : 'fail-score'}`}>
+//                   <span className="score">{score}</span>
+//                   <span className="total">/{quiz.length}</span>
+//                 </div>
+//                 {/* WhatsApp Share Button placed beside the score */}
+//                 <button 
+//                   className="share-btn whatsapp-share"
+//                   onClick={shareViaWhatsApp}
+//                 >
+//                   💬 Share via WhatsApp
+//                 </button>
 //               </div>
 //               <p>{Math.round((score / quiz.length) * 100)}% Correct</p>
 //               <p className={`pass-fail-text ${isPassed ? 'pass-text' : 'fail-text'}`}>
@@ -1056,7 +1210,7 @@
 //                   : `You scored ${score} which is less than or equal to 20. Please retry the same level.`}
 //               </p>
 //               <p className="language-info">Test taken in: <strong>{selectedLanguage}</strong></p>
-              
+             
 //               {isPassed ? (
 //                 <>
 //                   <div className="points-breakdown">
@@ -1098,7 +1252,7 @@
            
 //             <div className="result-actions">
 //               <button className="review-btn" onClick={toggleReviewPopup}>
-//                 📋 Review Questions & Answers
+//                 📋 Review Questions & Explanations
 //               </button>
 //               <button className="retry-btn" onClick={retryQuiz}>
 //                 🔄 Retry Same Level
@@ -1113,7 +1267,7 @@
 //               </button>
 //             </div>
 
-//                         <div className="answers-section">
+//             <div className="answers-section">
 //               <h3>Quick Review:</h3>
 //               <div className="answers-grid">
 //                 {quiz.slice(0, 10).map((q, i) => (
@@ -1125,11 +1279,9 @@
 //                 ))}
 //               </div>
 //               <button className="view-all-btn" onClick={toggleReviewPopup}>
-//                 View All Questions & Answers
+//                 View All Questions & Explanations
 //               </button>
 //             </div>
-
-
 
 //           </div>
 //         </div>
@@ -1167,7 +1319,7 @@
 //           </div>
 //           <div className="question-section">
 //             <h3 className="question">{currentQ + 1}. {quiz[currentQ].question}</h3>
-            
+           
 //             {/* Hint Box */}
 //             {showHint && (
 //               <div className="hint-box">
@@ -1182,11 +1334,11 @@
 //                 </button>
 //               </div>
 //             )}
-            
+           
 //             {/* Hint Button */}
-//             <button 
-//               className={`hint-btn ${rewardPoints < 5 ? 'disabled' : ''}`} 
-//               onClick={handleHint} 
+//             <button
+//               className={`hint-btn ${rewardPoints < 5 ? 'disabled' : ''}`}
+//               onClick={handleHint}
 //               disabled={rewardPoints < 5 || hintLoading}
 //             >
 //               {hintLoading ? 'Loading Hint...' : `💡 Use Hint (-5 pts) ${rewardPoints < 5 ? '(Insufficient points)' : ''}`}
@@ -1237,7 +1389,7 @@
 //         <div className="popup-overlay">
 //           <div className="review-popup">
 //             <div className="popup-header">
-//               <h2>Questions & Answers Review</h2>
+//               <h2>Questions & Explanations Review</h2>
 //               <button className="close-popup" onClick={toggleReviewPopup}>×</button>
 //             </div>
 //             <div className="popup-content">
@@ -1248,40 +1400,75 @@
 //                 <p><strong>Status:</strong> <span className={isPassed ? 'pass-text' : 'fail-text'}>{isPassed ? 'PASSED' : 'FAILED'}</span></p>
 //                 <p><strong>Total Reward Points:</strong> {rewardPoints}</p>
 //               </div>
-//               <div className="questions-review">
-//                 {quiz.map((q, index) => (
-//                   <div key={index} className="question-review-item">
-//                     <div className="question-review-header">
-//                       <span className="question-number">Question {index + 1}:</span>
-//                       <span className={`answer-status ${userAnswers[index] === q.answer ? 'correct' : 'incorrect'}`}>
-//                         {userAnswers[index] === q.answer ? '✓ Correct' : userAnswers[index] ? '✗ Incorrect' : '⏭️ Skipped'}
-//                       </span>
-//                     </div>
-//                     <p className="review-question">{q.question}</p>
-//                     {q.hint && (
-//                       <div className="review-hint">
-//                         <strong>Hint:</strong> {q.hint}
-//                       </div>
-//                     )}
-//                     <div className="review-options">
-//                       {Object.entries(q.options).map(([label, option]) => (
-//                         <div
-//                           key={label}
-//                           className={`review-option ${
-//                             label === q.answer ? 'correct-answer' :
-//                             label === userAnswers[index] && label !== q.answer ? 'user-incorrect' : ''
-//                           }`}
-//                         >
-//                           <span className="option-label">{label}:</span>
-//                           <span className="option-text">{option}</span>
-//                           {label === q.answer && <span className="correct-mark"> ✓ Correct Answer</span>}
-//                           {label === userAnswers[index] && label !== q.answer && <span className="incorrect-mark"> ✗ Your Answer</span>}
+             
+//               {explanationsLoading ? (
+//                 <div className="explanations-loading">
+//                   <div className="loading-spinner"></div>
+//                   <p>Generating AI-powered explanations...</p>
+//                   <p className="loading-subtext">This will help you understand why answers are correct</p>
+//                 </div>
+//               ) : (
+//                 <div className="questions-review">
+//                   {quiz.map((q, index) => {
+//                     const explanation = explanations.find(exp => exp.question_index === index);
+//                     const userAnswerText = userAnswers[index] ? q.options[userAnswers[index]] : 'Not attempted';
+//                     const correctAnswerText = q.options[q.answer];
+                   
+//                     return (
+//                       <div key={index} className="question-review-item">
+//                         <div className="question-review-header">
+//                           <span className="question-number">Question {index + 1}:</span>
+//                           <span className={`answer-status ${userAnswers[index] === q.answer ? 'correct' : 'incorrect'}`}>
+//                             {userAnswers[index] === q.answer ? '✓ Correct' : userAnswers[index] ? '✗ Incorrect' : '⏭️ Skipped'}
+//                           </span>
 //                         </div>
-//                       ))}
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
+//                         <p className="review-question">{q.question}</p>
+                       
+//                         {/* Explanation Section */}
+//                         <div className="explanation-section">
+//                           <div className="explanation-header">
+//                             <strong>📝 AI Explanation:</strong>
+//                           </div>
+//                           <div className="explanation-text">
+//                             {explanation ? (
+//                               <div>
+//                                 {explanation.explanation.split('\n').map((line, i) => (
+//                                   <p key={i} className="explanation-line">{line}</p>
+//                                 ))}
+//                               </div>
+//                             ) : (
+//                               <div className="fallback-explanation">
+//                                 <p><strong>Correct Answer:</strong> {correctAnswerText}</p>
+//                                 <p><strong>Your Answer:</strong> {userAnswerText}</p>
+//                                 <p className="fallback-text">
+//                                   Detailed explanation is being generated. This will help you understand why the correct answer is right and the concepts behind this question.
+//                                 </p>
+//                               </div>
+//                             )}
+//                           </div>
+//                         </div>
+                       
+//                         <div className="review-options">
+//                           {Object.entries(q.options).map(([label, option]) => (
+//                             <div
+//                               key={label}
+//                               className={`review-option ${
+//                                 label === q.answer ? 'correct-answer' :
+//                                 label === userAnswers[index] && label !== q.answer ? 'user-incorrect' : ''
+//                               }`}
+//                             >
+//                               <span className="option-label">{label}:</span>
+//                               <span className="option-text">{option}</span>
+//                               {label === q.answer && <span className="correct-mark"> ✓ Correct Answer</span>}
+//                               {label === userAnswers[index] && label !== q.answer && <span className="incorrect-mark"> ✗ Your Answer</span>}
+//                             </div>
+//                           ))}
+//                         </div>
+//                       </div>
+//                     );
+//                   })}
+//                 </div>
+//               )}
 //             </div>
 //             <div className="popup-actions">
 //               <button className="popup-close-btn" onClick={toggleReviewPopup}>
@@ -1296,11 +1483,6 @@
 // }
 
 // export default MockTest;
-
-
-
-
-
 
 
 
@@ -1357,87 +1539,63 @@ function MockTest() {
   const subjectIcons = ["📖", "🧮", "🔭", "🧪", "🌍", "📜", "💻", "🎨"];
   const chapterIcons = ["📝", "🔍", "💡", "⚡", "🌟", "🎯", "📊", "🔬"];
 
-  // Image Share Function
-  const shareAsImage = () => {
+  // MARK: ADDED - Function to add reward points with history tracking
+  const addRewardPointsWithHistory = (points, reason, source = 'system') => {
+    const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
+    const newPoints = currentPoints + points;
+    
+    // Update points in localStorage
+    localStorage.setItem('rewardPoints', newPoints.toString());
+    setRewardPoints(newPoints);
+    
+    // Add to history
+    const historyEntry = {
+      id: `reward_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      points: points,
+      totalPoints: newPoints,
+      reason: reason,
+      source: source,
+      timestamp: new Date().toISOString()
+    };
+    
+    const existingHistory = JSON.parse(localStorage.getItem('rewardsHistory') || '[]');
+    const updatedHistory = [historyEntry, ...existingHistory];
+    localStorage.setItem('rewardsHistory', JSON.stringify(updatedHistory));
+    
+    // Dispatch event to update other components
+    window.dispatchEvent(new CustomEvent('rewardPointsUpdated', { 
+      detail: { rewardPoints: newPoints } 
+    }));
+    
+    // Also dispatch storage event for cross-tab synchronization
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'rewardPoints',
+      newValue: newPoints.toString(),
+      oldValue: currentPoints.toString()
+    }));
+    
+    return historyEntry;
+  };
+
+  // WhatsApp Share Function - Direct to WhatsApp app or web
+  const shareViaWhatsApp = () => {
     const percentage = Math.round((score / quiz.length) * 100);
     const status = isPassed ? 'passed' : 'failed';
     const subjectName = t(`subjects.${selectedSubject.toLowerCase()}`);
     const className = t(`classes.${selectedClass}`);
     
-    // Create a canvas element to generate the image
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    const shareText = `🎯 I just ${status} my ${className} ${subjectName} mock test on QuizApp!\n\n` +
+                     `📊 Score: ${score}/${quiz.length} (${percentage}%)\n` +
+                     `📚 Chapter: ${selectedChapter}\n` +
+                     `🌐 Language: ${selectedLanguage}\n` +
+                     `${isPassed ? '🎉 Congratulations to me!' : '💪 I will try again!'}\n\n` +
+                     `Try the quiz yourself and test your knowledge!`;
     
-    // Set canvas dimensions
-    canvas.width = 800;
-    canvas.height = 600;
+    // Create WhatsApp share URL that opens app directly or falls back to web
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
     
-    // Background gradient
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#667eea');
-    gradient.addColorStop(1, '#764ba2');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Add header
-    ctx.fillStyle = 'white';
-    ctx.font = 'bold 40px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('🎯 QuizApp Results', canvas.width / 2, 80);
-    
-    // Add result status
-    ctx.font = 'bold 32px Arial';
-    ctx.fillText(isPassed ? 'Congratulations! You Passed!' : 'Quiz Completed', canvas.width / 2, 140);
-    
-    // Add score circle
-    ctx.beginPath();
-    ctx.arc(canvas.width / 2, 250, 80, 0, 2 * Math.PI);
-    ctx.fillStyle = isPassed ? '#4CAF50' : '#f44336';
-    ctx.fill();
-    
-    ctx.fillStyle = 'white';
-    ctx.font = 'bold 36px Arial';
-    ctx.fillText(`${score}/${quiz.length}`, canvas.width / 2 - 20, 255);
-    
-    ctx.font = '20px Arial';
-    ctx.fillText(`${percentage}%`, canvas.width / 2 - 15, 285);
-    
-    // Add details
-    ctx.font = '24px Arial';
-    ctx.fillText(`Class: ${className}`, canvas.width / 2, 350);
-    ctx.fillText(`Subject: ${subjectName}`, canvas.width / 2, 390);
-    ctx.fillText(`Chapter: ${selectedChapter}`, canvas.width / 2, 430);
-    ctx.fillText(`Language: ${selectedLanguage}`, canvas.width / 2, 470);
-    
-    // Add status
-    ctx.font = 'bold 28px Arial';
-    ctx.fillStyle = isPassed ? '#4CAF50' : '#f44336';
-    ctx.fillText(isPassed ? 'PASSED 🎉' : 'TRY AGAIN 💪', canvas.width / 2, 520);
-    
-    // Convert canvas to image and share
-    canvas.toBlob((blob) => {
-      const file = new File([blob], 'quiz-results.png', { type: 'image/png' });
-      
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-        // Use native share API if available
-        navigator.share({
-          files: [file],
-          title: 'My Quiz Results',
-          text: `I scored ${score}/${quiz.length} (${percentage}%) in ${subjectName} quiz!`
-        });
-      } else {
-        // Fallback to WhatsApp sharing with text
-        const shareText = `🎯 I just ${status} my ${className} ${subjectName} mock test on QuizApp!\n\n` +
-                         `📊 Score: ${score}/${quiz.length} (${percentage}%)\n` +
-                         `📚 Chapter: ${selectedChapter}\n` +
-                         `🌐 Language: ${selectedLanguage}\n` +
-                         `${isPassed ? '🎉 Congratulations to me!' : '💪 I will try again!'}\n\n` +
-                         `Try the quiz yourself and test your knowledge!`;
-        
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-        window.open(whatsappUrl, '_blank');
-      }
-    }, 'image/png');
+    // Open WhatsApp - will open app if installed, otherwise WhatsApp web
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   // Load reward points from localStorage
@@ -1693,9 +1851,13 @@ function MockTest() {
       totalPoints: pointsEarned
     });
    
+    // MARK: UPDATED - Use centralized function to add points with history
     if (pointsEarned > 0) {
-      const newTotalPoints = rewardPoints + pointsEarned;
-      updateRewardPoints(newTotalPoints);
+      addRewardPointsWithHistory(
+        pointsEarned, 
+        `Mock test completed: ${score}/${quiz.length} correct answers (${selectedClass} ${selectedSubject})`, 
+        'mock_test_completion'
+      );
     }
 
     // Update mock test results in context
@@ -1722,21 +1884,14 @@ function MockTest() {
       if (currentQuestion.hint) {
         setCurrentHint(currentQuestion.hint);
         setShowHint(true);
-        // Deduct 5 points for using hint - FIXED: Immediate persistence
-        const newPoints = Math.max(0, rewardPoints - 5);
-        console.log('Deducting points for hint:', { prev: rewardPoints, newPoints });
-       
-        // Update both state and localStorage immediately
-        updateRewardPoints(newPoints);
+        // MARK: UPDATED - Use centralized function to deduct points with history
+        addRewardPointsWithHistory(-5, "Hint used in mock test", 'mock_test_hint');
       } else {
         // Fallback: If no hint in data, show default message
         setCurrentHint('No hint available for this question. Try to think about the key concepts related to the topic.');
         setShowHint(true);
-        const newPoints = Math.max(0, rewardPoints - 5);
-        console.log('Deducting points for hint (fallback):', { prev: rewardPoints, newPoints });
-       
-        // Update both state and localStorage immediately
-        updateRewardPoints(newPoints);
+        // MARK: UPDATED - Use centralized function to deduct points with history
+        addRewardPointsWithHistory(-5, "Hint used in mock test", 'mock_test_hint');
       }
     } catch (error) {
       console.error('Error getting hint:', error);
@@ -2522,12 +2677,12 @@ function MockTest() {
                   <span className="score">{score}</span>
                   <span className="total">/{quiz.length}</span>
                 </div>
-                {/* Share Button placed beside the score */}
+                {/* WhatsApp Share Button placed beside the score */}
                 <button 
                   className="share-btn whatsapp-share"
-                  onClick={shareAsImage}
+                  onClick={shareViaWhatsApp}
                 >
-                  📤 Share Result
+                  💬 Share via WhatsApp
                 </button>
               </div>
               <p>{Math.round((score / quiz.length) * 100)}% Correct</p>
