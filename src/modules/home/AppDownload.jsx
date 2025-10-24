@@ -156,8 +156,6 @@ import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { motion, useAnimation } from 'framer-motion';
 import { FaStar } from 'react-icons/fa';
-// import { RiFlutterFill } from 'react-icons/ri';
-// import { SiPwa } from 'react-icons/si';
 
 const NAVBAR_HEIGHT = 60;
 
@@ -170,16 +168,34 @@ function AppDownload() {
  
   const controls = useAnimation();
 
+  // FIXED: Wrap the animation in useEffect and use proper async handling
   useEffect(() => {
-    (async () => {
-      while (true) {
+    let isMounted = true;
+
+    const startAnimation = async () => {
+      if (isMounted) {
         await controls.start({
           rotate: [0, 5, -5, 0],
           y: [0, -10, 0],
           transition: { duration: 6, ease: 'easeInOut' }
         });
       }
-    })();
+    };
+
+    // Start the animation once when component mounts
+    startAnimation();
+
+    // Set up interval for continuous animation
+    const interval = setInterval(() => {
+      if (isMounted) {
+        startAnimation();
+      }
+    }, 6000); // Repeat every 6 seconds
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, [controls]);
 
   const openPlayStore = () => window.open(`https://play.google.com/store/apps/details?id=com.example.android`, '_blank');

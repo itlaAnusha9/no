@@ -494,7 +494,8 @@ import {
   FaEye, 
   FaEyeSlash, 
   FaChild,
-  FaCoins 
+  FaCoins,
+  FaUserCog
 } from 'react-icons/fa';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { IoMdSchool } from 'react-icons/io';
@@ -503,16 +504,18 @@ const LoginPage = () => {
   const [activeTab, setActiveTab] = useState('student');
   const [formData, setFormData] = useState({
     student: { username: '', password: '' },
-    parent: { username: '', password: '', childEmail: '' }
+    parent: { username: '', password: '', childEmail: '' },
+    teacher: { username: '', password: '' }
   });
   const [errors, setErrors] = useState({
     student: { username: '', password: '' },
-    parent: { username: '', password: '', childEmail: '' }
+    parent: { username: '', password: '', childEmail: '' },
+    teacher: { username: '', password: '' }
   });
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState({ student: false, parent: false });
+  const [showPassword, setShowPassword] = useState({ student: false, parent: false, teacher: false });
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotError, setForgotError] = useState('');
@@ -520,89 +523,52 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  // MARK: ADDED - Add reward points with history tracking and duplicate prevention
-  // const addRewardPointsWithHistory = (points, reason, source = 'system') => {
-  //   const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
-  //   const newPoints = currentPoints + points;
-    
-  //   // Update points in localStorage
-  //   localStorage.setItem('rewardPoints', newPoints.toString());
-    
-  //   // Create history entry with unique ID
-  //   const historyEntry = {
-  //     id: `reward_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-  //     points: points,
-  //     totalPoints: newPoints,
-  //     reason: reason,
-  //     source: source,
-  //     timestamp: new Date().toISOString()
-  //   };
-    
-  //   const existingHistory = JSON.parse(localStorage.getItem('rewardsHistory') || '[]');
-    
-  //   // Check for duplicates before adding
-  //   const isDuplicate = existingHistory.some(item => 
-  //     item.points === points && 
-  //     item.reason === reason && 
-  //     Math.abs(new Date(item.timestamp) - new Date(historyEntry.timestamp)) < 5000 // 5 second window
-  //   );
-    
-  //   if (!isDuplicate) {
-  //     const updatedHistory = [historyEntry, ...existingHistory];
-  //     localStorage.setItem('rewardsHistory', JSON.stringify(updatedHistory));
-  //   }
-    
-  //   return historyEntry;
-  // };
+  // MARK: FIXED - Add reward points with history tracking, cleanup, and duplicate prevention
+  const addRewardPointsWithHistory = (points, reason, source = 'system') => {
+    const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
+    const newPoints = currentPoints + points;
 
-// MARK: FIXED - Add reward points with history tracking, cleanup, and duplicate prevention
-const addRewardPointsWithHistory = (points, reason, source = 'system') => {
-  const currentPoints = parseInt(localStorage.getItem('rewardPoints') || '0');
-  const newPoints = currentPoints + points;
+    // Update total points
+    localStorage.setItem('rewardPoints', newPoints.toString());
 
-  // Update total points
-  localStorage.setItem('rewardPoints', newPoints.toString());
+    // Create new history entry
+    const historyEntry = {
+      id: `reward_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      points: points,
+      totalPoints: newPoints,
+      reason: reason,
+      source: source,
+      timestamp: new Date().toISOString()
+    };
 
-  // Create new history entry
-  const historyEntry = {
-    id: `reward_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-    points: points,
-    totalPoints: newPoints,
-    reason: reason,
-    source: source,
-    timestamp: new Date().toISOString()
-  };
+    // Get existing history
+    let existingHistory = JSON.parse(localStorage.getItem('rewardsHistory') || '[]');
 
-  // Get existing history
-  let existingHistory = JSON.parse(localStorage.getItem('rewardsHistory') || '[]');
+    // Clean up any incorrect +50 "Daily login reward" entries
+    existingHistory = existingHistory.filter(
+      item => !(item.reason === 'Daily login reward' && item.points === 50)
+    );
 
-  // --- 🧹 Clean up any incorrect +50 "Daily login reward" entries ---
-  existingHistory = existingHistory.filter(
-    item => !(item.reason === 'Daily login reward' && item.points === 50)
-  );
-
-  // --- ✅ Prevent duplicates for today's reward ---
-  if (reason === 'Daily login reward') {
-    const today = new Date().toISOString().split('T')[0];
-    const hasTodayReward = existingHistory.some(item => {
-      const itemDate = new Date(item.timestamp).toISOString().split('T')[0];
-      return item.reason === 'Daily login reward' && itemDate === today;
-    });
-    if (hasTodayReward) {
-      // Already rewarded today, skip
-      localStorage.setItem('rewardsHistory', JSON.stringify(existingHistory));
-      return null;
+    // Prevent duplicates for today's reward
+    if (reason === 'Daily login reward') {
+      const today = new Date().toISOString().split('T')[0];
+      const hasTodayReward = existingHistory.some(item => {
+        const itemDate = new Date(item.timestamp).toISOString().split('T')[0];
+        return item.reason === 'Daily login reward' && itemDate === today;
+      });
+      if (hasTodayReward) {
+        // Already rewarded today, skip
+        localStorage.setItem('rewardsHistory', JSON.stringify(existingHistory));
+        return null;
+      }
     }
-  }
 
-  // Add new entry at top
-  const updatedHistory = [historyEntry, ...existingHistory];
-  localStorage.setItem('rewardsHistory', JSON.stringify(updatedHistory));
+    // Add new entry at top
+    const updatedHistory = [historyEntry, ...existingHistory];
+    localStorage.setItem('rewardsHistory', JSON.stringify(updatedHistory));
 
-  return historyEntry;
-};
-
-
+    return historyEntry;
+  };
 
   // Input change handler
   const handleChange = (e) => {
@@ -672,16 +638,23 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Dummy login validation
+    // Dummy login validation for all roles
+    const validCredentials = {
+      student: { username: 'student123', password: 'studentpass' },
+      parent: { username: 'parent456', password: 'parentpass' },
+      teacher: { username: 'teacher789', password: 'teacherpass' }
+    };
+
     if (
-      (activeTab === 'student' && current.username === 'student123' && current.password === 'studentpass') ||
-      (activeTab === 'parent' && current.username === 'parent456' && current.password === 'parentpass')
+      (activeTab === 'student' && current.username === validCredentials.student.username && current.password === validCredentials.student.password) ||
+      (activeTab === 'parent' && current.username === validCredentials.parent.username && current.password === validCredentials.parent.password) ||
+      (activeTab === 'teacher' && current.username === validCredentials.teacher.username && current.password === validCredentials.teacher.password)
     ) {
       localStorage.setItem('userRole', activeTab);
       localStorage.setItem('userToken', 'dummy-token');
       if (activeTab === 'parent') localStorage.setItem('childEmail', current.childEmail);
 
-      // --- Daily Reward Points Logic (Students Only) ---
+      // Daily Reward Points Logic (Students Only)
       if (activeTab === 'student') {
         const lastRewardDate = localStorage.getItem('student_lastRewardDate');
         const today = new Date().toISOString().split('T')[0];
@@ -698,10 +671,11 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
         } else {
           setToastMsg(`Student login successful!`);
         }
+      } else if (activeTab === 'teacher') {
+        setToastMsg(`Teacher login successful!`);
       } else {
         setToastMsg(`Parent login successful!`);
       }
-      // --- End Daily Reward Points Logic ---
 
       setShowToast(true);
       setIsLoading(false);
@@ -711,8 +685,13 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
 
       // Wait for animation to complete before navigation
       setTimeout(() => {
-        navigate(activeTab === 'student' ? '/student/dashboard' : '/parent/dashboard');
-      }, 2500);
+        const dashboardRoutes = {
+          student: '/student/dashboard',
+          parent: '/parent/dashboard',
+          teacher: '/teacher/dashboard'
+        };
+        navigate(dashboardRoutes[activeTab]);
+      }, activeTab === 'student' ? 2500 : 1500);
 
     } else {
       setErrors(prev => ({
@@ -741,9 +720,21 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
     setForgotEmail('');
   };
 
+  // Get icon and title based on active tab
+  const getTabConfig = () => {
+    const config = {
+      student: { icon: FaUserGraduate, title: 'Student Portal', subtitle: 'Your gateway to knowledge' },
+      parent: { icon: FaUserTie, title: 'Parent Portal', subtitle: "Track your child's progress" },
+      teacher: { icon: FaChalkboardTeacher, title: 'Teacher Portal', subtitle: 'Manage your classroom' }
+    };
+    return config[activeTab];
+  };
+
   // Framer motion variants
   const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
   const itemVariants = { hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } } };
+
+  const { icon: ActiveIcon, title, subtitle } = getTabConfig();
 
   return (
     <div className="min-vh-100 d-flex align-items-center" style={{ background: 'linear-gradient(to right, #2D5D7B, #A62D69)', position: 'relative', overflow: 'hidden' }}>
@@ -796,7 +787,7 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
         <IoMdSchool />
       </motion.div>
       <motion.div initial={{ x: -100, y: 100 }} animate={{ x: 0, y: 0 }} transition={{ duration: 1, type: 'spring', delay: 0.4 }} style={{ position: 'absolute', bottom: '10%', left: '10%', fontSize: '3.5rem', color: 'rgba(255,255,255,0.2)' }}>
-        <FaChalkboardTeacher />
+        <FaUserCog />
       </motion.div>
 
       {/* Toast */}
@@ -830,7 +821,7 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
       {/* Main Card */}
       <motion.div initial="hidden" animate="visible" variants={containerVariants} className="container">
         <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-6">
+          <div className="col-md-9 col-lg-7">
             <motion.div variants={itemVariants} className="card shadow-lg border-0 overflow-hidden" style={{ borderRadius: '20px', backdropFilter: 'blur(10px)', backgroundColor: 'rgba(255,255,255,0.9)' }} whileHover={{ scale: 1.02 }}>
               <div className="card-body p-0">
                 <div className="row g-0">
@@ -841,14 +832,10 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
                     <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }} 
                       style={{ textAlign: 'center', color: 'white' }}>
                       <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>
-                        {activeTab === 'student' ? <FaUserGraduate /> : <FaUserTie />}
+                        <ActiveIcon />
                       </div>
-                      <h4 className="fw-bold mb-0">
-                        {activeTab === 'student' ? 'Student Portal' : 'Parent Portal'}
-                      </h4>
-                      <p className="mb-0 text-white">
-                        {activeTab === 'student' ? 'Your gateway to knowledge' : "Track your child's progress"}
-                      </p>
+                      <h4 className="fw-bold mb-0">{title}</h4>
+                      <p className="mb-0 text-white">{subtitle}</p>
                     </motion.div>
 
                     {/* Reward Points Info */}
@@ -890,12 +877,15 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
                       </motion.div>
 
                       {/* Tabs */}
-                      <div className="btn-group w-100 shadow-sm mb-4">
-                        <button className={`btn ${activeTab === 'student' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setActiveTab('student')}>
+                      <div className="btn-group w-100 shadow-sm mb-4" style={{ flexWrap: 'nowrap' }}>
+                        <button className={`btn ${activeTab === 'student' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setActiveTab('student')} style={{ flex: 1, whiteSpace: 'nowrap' }}>
                           <FaUserGraduate className="me-2" /> Student
                         </button>
-                        <button className={`btn ${activeTab === 'parent' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setActiveTab('parent')}>
+                        <button className={`btn ${activeTab === 'parent' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setActiveTab('parent')} style={{ flex: 1, whiteSpace: 'nowrap' }}>
                           <FaUserTie className="me-2" /> Parent
+                        </button>
+                        <button className={`btn ${activeTab === 'teacher' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setActiveTab('teacher')} style={{ flex: 1, whiteSpace: 'nowrap' }}>
+                          <FaChalkboardTeacher className="me-2" /> Teacher
                         </button>
                       </div>
 
@@ -906,7 +896,11 @@ const addRewardPointsWithHistory = (points, reason, source = 'system') => {
                         <div className="mb-3">
                           <label className="form-label fw-medium">Username</label>
                           <div className="input-group">
-                            <span className="input-group-text"><FaUserGraduate /></span>
+                            <span className="input-group-text">
+                              {activeTab === 'student' && <FaUserGraduate />}
+                              {activeTab === 'parent' && <FaUserTie />}
+                              {activeTab === 'teacher' && <FaChalkboardTeacher />}
+                            </span>
                             <input type="text" name="username" className="form-control" value={formData[activeTab].username} onChange={handleChange} placeholder="Enter username" />
                           </div>
                           {errors[activeTab].username && <div className="invalid-feedback d-block">{errors[activeTab].username}</div>}

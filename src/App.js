@@ -331,7 +331,6 @@
 
 
 
-////old working
 import { Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 import React from 'react';
 import { QuizProvider, useQuiz } from './modules/student/QuizContext';
@@ -372,7 +371,7 @@ import Recordings from './modules/student/Recordings';
 import QuickPractice from './modules/student/QuickPractice';
 import MockTest from './modules/student/MockTest';
 import UserDetailsPage from './modules/student/UserDetailsPage';
-import StudyRoom from './modules/student/StudyRoom'; // New import for StudyRoom
+import StudyRoom from './modules/student/StudyRoom';
  
 // Practice & Mock Test Modules
 import PracticeSubjectPage from './modules/student/PracticeSubjectPage';
@@ -393,6 +392,10 @@ import HomeWork from './modules/parent/HomeWork';
 import MockTestReports from './modules/parent/MockTestReports';
 import Progress from './modules/parent/Progress';
 import StudyPlanner from './modules/parent/StudyPlanner';
+ 
+// Teacher Modules - ADD THESE IMPORTS
+import TeacherDashboard from './modules/teacher/Dashboard';
+import TeacherSidebar from './modules/teacher/Sidebar';
  
 import './modules/parent/styles.css';
  
@@ -444,6 +447,9 @@ function App() {
   // Parent routes detection
   const isParentPage = location.pathname.startsWith('/parent');
  
+  // Teacher routes detection - ADD THIS
+  const isTeacherPage = location.pathname.startsWith('/teacher');
+ 
   // Hide student navbar only on Quick Practice, Profile, and User Details pages
   const hideStudentNavbar = [
     '/quick-practice',
@@ -462,10 +468,13 @@ function App() {
     <QuizProvider>
       <div className="app-container">
         {/* Home Navbar */}
-        {!hideNavbarFooter && !isStudentPage && !isParentPage && <Navbar />}
+        {!hideNavbarFooter && !isStudentPage && !isParentPage && !isTeacherPage && <Navbar />}
  
         {/* Student Navbar */}
         {isStudentPage && !hideStudentNavbar && <Navbarrr />}
+ 
+        {/* Teacher Sidebar - ADD THIS */}
+        {isTeacherPage && <TeacherSidebar />}
  
         <Routes>
           {/* Public Routes */}
@@ -581,8 +590,6 @@ function App() {
             </ProtectedRoute>
           } />
  
-          {/* Removed Mentorship and Event Registration Routes */}
- 
           <Route path="/learn/quizzes" element={
             <ProtectedRoute>
               <RoleRoute requiredRole="student"><Quizzes /></RoleRoute>
@@ -650,12 +657,46 @@ function App() {
             </ProtectedRoute>
           } />
  
+          {/* Teacher Routes - ADD THESE */}
+          <Route path="/teacher/dashboard" element={
+            <ProtectedRoute>
+              <RoleRoute requiredRole="teacher">
+                <div style={{ marginLeft: '300px', padding: '20px' }}>
+                  <TeacherDashboard />
+                </div>
+              </RoleRoute>
+            </ProtectedRoute>
+          } />
+ 
+          {/* Additional Teacher Routes can be added here */}
+          <Route path="/teacher/attendance" element={
+            <ProtectedRoute>
+              <RoleRoute requiredRole="teacher">
+                <div style={{ marginLeft: '300px', padding: '20px' }}>
+                  <h1>Teacher Attendance Management</h1>
+                  <p>This is where teachers can manage student attendance.</p>
+                </div>
+              </RoleRoute>
+            </ProtectedRoute>
+          } />
+ 
+          <Route path="/teacher/grades" element={
+            <ProtectedRoute>
+              <RoleRoute requiredRole="teacher">
+                <div style={{ marginLeft: '300px', padding: '20px' }}>
+                  <h1>Teacher Grade Management</h1>
+                  <p>This is where teachers can manage student grades.</p>
+                </div>
+              </RoleRoute>
+            </ProtectedRoute>
+          } />
+ 
           {/* Catch-All */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
  
         {/* Footer */}
-        {!hideNavbarFooter && !isStudentPage && !isParentPage && <Footer />}
+        {!hideNavbarFooter && !isStudentPage && !isParentPage && !isTeacherPage && <Footer />}
  
         {/* Student Chatbox */}
         {isStudentPage && !hideStudentNavbar && !isMockTestPage && <div className="student-chatbox-container"><Chatbox /></div>}
@@ -665,7 +706,6 @@ function App() {
 }
  
 export default App;
- 
 
 
 
